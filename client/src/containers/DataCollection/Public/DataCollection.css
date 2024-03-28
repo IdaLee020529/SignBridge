@@ -1,0 +1,62 @@
+.dataForm-container {
+    position: relative;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, 0);
+    width: 80%;
+    max-width: 100%;
+    padding: 30px;
+    margin: 20px;
+    border-radius: 10px;
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.5);
+}
+
+.dataForm-container h1 {
+    display: block;
+    margin-bottom: 10px;
+}
+
+.button-container {
+    display: flex;
+    justify-content: space-evenly;
+    margin-top: 30px;
+}
+
+
+.button-container Button {
+    display: relative;
+    width: 30%;
+    padding: 10px;
+    background-color: #007bff;
+    border: none;
+    border-radius: 5px;
+    color: #fff;
+    font-size: 16px;
+    cursor: pointer;
+}
+
+.video-container {
+    margin-top: 10px;
+}
+
+/* Responsive layout */
+@media (min-width: 768px) {
+    .container {
+        max-width: 768px;
+        /* Set max-width for medium screens */
+    }
+}
+
+@media (min-width: 992px) {
+    .container {
+        max-width: 992px;
+        /* Set max-width for large screens */
+    }
+}
+
+@media (min-width: 1200px) {
+    .container {
+        max-width: 1200px;
+        /* Set max-width for extra large screens */
+    }
+}
