@@ -9,6 +9,7 @@ import Education from "./containers/Education/Education";
 import DataCollection from "./containers/DataCollection/DataCollection";
 import Feedback from "./containers/Feedback/Feedback";
 import Faq from "./containers/Faq/Faq";
+import Notification from "./containers/Notification/Notification";
 import Login from "./containers/Login/Login";
 import SignUp from "./containers/SignUp/SignUp";
 import { useEffect } from "react";
@@ -39,6 +40,7 @@ function App() {
           <Route path="/dataset-collection" element={<DataCollection />} />
           <Route path="/feedback" element={<Feedback />} />
           <Route path="/faq" element={<Faq />} />
+          <Route path="/notifications" element={<Notification />} />
           <Route path="/login" element={<Login />} />
           <Route path="/sign-up" element={<SignUp />} />
         </Routes>

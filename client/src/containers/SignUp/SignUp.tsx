@@ -13,18 +13,9 @@ const clientId =
   "52594958094-08qvrugskhjjv34j4h0oi4m2ognjg830.apps.googleusercontent.com";
 
 function SignUp() {
-  const navigate = useNavigate();
+  const navigate = useNavigate();  // For the redirection
 
-  useEffect(() => {
-    function initGapi() {
-      gapi.client.init({
-        clientId: clientId,
-        scope: "email profile",
-      });
-    }
-    gapi.load("client:auth2", initGapi);
-  });
-
+  // ---------- Define the variables ----------
   const [username, setUsername] = useState("");
   const [usernameError, setUsernameError] = useState("");
   const handleUsernameChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -39,17 +30,28 @@ function SignUp() {
 
   const [password, setPassword] = useState("");
   const [passwordError, setPasswordError] = useState("");
+  const [showPassword, setShowPassword] = useState(false);
   const handlePasswordChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setPassword(e.target.value);
   };
 
   const [confirmPassword, setconfirmPassword] = useState("");
   const [confirmPasswordError, setConfirmPasswordError] = useState("");
+  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const handleConfirmPasswordChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setconfirmPassword(e.target.value);
   };
 
-  // validations
+    // ---------- Toggle password visibility ----------
+    const handleTogglePassword = () => {
+      setShowPassword(!showPassword); // Toggle password visibility
+    };
+
+    const handleToggleConfirmPassword = () => {
+      setShowConfirmPassword(!showConfirmPassword); // Toggle password visibility
+    }
+
+  // ---------- Validations ----------
   const validateUsername = () => {
     if (!username.trim()) {
       setUsernameError("Username is required");
@@ -98,47 +100,59 @@ function SignUp() {
     return true;
   };
 
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+  // ---------- Handle form submission ----------
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    // Validate form fields
+
     const isUsernameValid = validateUsername();
     const isEmailValid = validateEmail();
     const isPasswordValid = validatePassword();
     const isConfirmPasswordValid = validateConfirmPassword();
 
-    // Submit form if all fields are valid
     if (isUsernameValid && isEmailValid && isPasswordValid && isConfirmPasswordValid) {
-      console.log("Form submitted");
-      // Proceed with form submission
-    } else if (!isUsernameValid || !isEmailValid || !isPasswordValid || !isConfirmPasswordValid){
+      const data = {
+        username,
+        email,
+        password
+      };
+
+      try {
+        const registerUser = await axios.post("http://localhost:3000/users-sign-up-auth", data);
+        navigate("/login");
+      } catch (error: any) {
+        alert(error.response.data.error);
+        console.error("Error registering user:", error);
+      }
+
+    } else {
       let errorMessage = '';
       if (!isUsernameValid) errorMessage += `- ${usernameError}\n`;
       if (!isEmailValid) errorMessage += `- ${emailError}\n`;
       if (!isPasswordValid) errorMessage += `- ${passwordError}\n`;
       if (!isConfirmPasswordValid) errorMessage += `- ${confirmPasswordError}\n`;
 
-      // Show alert with error message
       alert("Form validation failed:\n" + errorMessage);
     }
   };
 
-  const onSuccess = (res: GoogleCredentialResponse) => {
-    console.log("Sign Up Success: currentUser:", res);
+  // ---------- Initialize the google client ----------
+  useEffect(() => {
+    function initGapi() {
+      gapi.client.init({
+        clientId: clientId,
+        scope: "email profile",
+      });
+    }
+    gapi.load("client:auth2", initGapi);
+  });
 
-    const decoded = jwtDecode(res.credential as string);
-    console.log(decoded);
-    
-  };
-
-  const onFailure = () => {
-    console.log("Sign Up failed");
-  };
-
-  // Used for the google sign up button
+  // ---------- Used for the google sign up button ----------
   const login = useGoogleLogin({
     onSuccess: async (credentialResponse) => {
-      console.log("Sign Up Success: currentUser:", credentialResponse);
       try {
+        // save the token in the cookies with name "token"
+        document.cookie = `token=${credentialResponse.access_token}`;
+
         const res = await axios.get(
           "https://www.googleapis.com/oauth2/v3/userinfo",
           {
@@ -147,7 +161,11 @@ function SignUp() {
             },
           }
         );
-        console.log(res);
+
+        // save the name into the cookies
+        document.cookie = `name=${res.data.name}`;
+        document.cookie = `email=${res.data.email}`;
+        document.cookie = `picture=${res.data.picture}`;
 
         const registerUser = await axios.post("http://localhost:3000/users-google-auth", res.data);
         console.log(registerUser);
@@ -158,7 +176,7 @@ function SignUp() {
       }
     },
     onError: () => {
-      console.log("Login failed");
+      console.log("Signup failed");
     },
   });
 
@@ -181,15 +199,23 @@ function SignUp() {
           </div>
 
           <div className={`sign-up-form-group ${passwordError ? 'error' : ''}`}>
-            <input type="password" placeholder=" " value={password} onChange={handlePasswordChange} onBlur={validatePassword} />
+            <input type={showPassword ? "text" : "password"} placeholder=" " value={password} onChange={handlePasswordChange} onBlur={validatePassword} />
             <label htmlFor="inp" className="sign-up-form-label">Password</label>
             {passwordError && <div className="error-message">{passwordError}</div>}
+
+            <button type="button" className="password-toggle" onClick={handleTogglePassword}>
+              {showPassword ? <img src="./images/password-shown.png" alt="show-password" className="eye-icon" /> : <img src="./images/password-hidden.png" alt="hide-password" className="eye-icon" />}
+            </button>
           </div>
 
           <div className={`sign-up-form-group ${confirmPasswordError ? 'error' : ''}`}>
-            <input type="password" placeholder=" " value={confirmPassword} onChange={handleConfirmPasswordChange} onBlur={validateConfirmPassword}/>
+            <input type={showConfirmPassword ? "text" : "password"} placeholder=" " value={confirmPassword} onChange={handleConfirmPasswordChange} onBlur={validateConfirmPassword}/>
             <label htmlFor="inp" className="sign-up-form-label">Confirm Password</label>
             {confirmPasswordError && <div className="error-message">{confirmPasswordError}</div>}
+
+            <button type="button" className="password-toggle" onClick={handleToggleConfirmPassword}>
+              {showConfirmPassword ? <img src="./images/password-shown.png" alt="show-password" className="eye-icon" /> : <img src="./images/password-hidden.png" alt="hide-password" className="eye-icon" />}
+            </button>
           </div>
 
           <button className="sign-up-btn" type="submit">Sign Up</button>

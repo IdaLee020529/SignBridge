@@ -1,11 +1,36 @@
-import React from 'react';
-import './Footer.css';
-import { Button } from '../../components/Button/Button';
+import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
+import './Footer.css';
 
 function Footer() {
+  const [footerColor, setFooterColor] = useState('#1C2E4A');
+
+  // Function to check if user is logged in based on session storage
+  const isUserLoggedIn = () => {
+    return document.cookie.split("; ").some((row) => row.startsWith("token="));
+  };
+
+  isUserLoggedIn();
+
+  useEffect(() => {
+    const roleAccess = document.cookie
+      .split("; ")
+      .find((row) => row.startsWith("role_access="))
+      ?.split("=")[1];
+    if (roleAccess === "admin") {
+      setFooterColor('#FCC003');
+    } else if (roleAccess === "signexpert") {
+      setFooterColor('#5E6AC6');
+    } else {
+      setFooterColor('#1C2E4A');
+    }
+
+    console.log(roleAccess);
+  });
+
   return (
-    <div className='footer-container'>
+    <>
+    <div className='footer-container' style={{background: footerColor}}>
       <div className='footer-links'>
         <div className='footer-link-wrapper'>
           <div className='footer-link-items'>
@@ -94,6 +119,7 @@ function Footer() {
         </div>
       </section>
     </div>
+    </>
   );
 }
 
