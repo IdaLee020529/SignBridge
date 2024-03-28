@@ -6,7 +6,7 @@ import Home from "./containers/Home/Home";
 import Library from "./containers/Library/Library";
 import Communication from "./containers/Communication/Communication";
 import Education from "./containers/Education/Education";
-import DataCollection from "./containers/DataCollection/DataCollection";
+import DataCollection from "./containers/DataCollection/Public/DataCollection";
 import Feedback from "./containers/Feedback/Feedback";
 import Faq from "./containers/Faq/Faq";
 import Notification from "./containers/Notification/Notification";
