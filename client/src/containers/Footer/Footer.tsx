@@ -1,9 +1,10 @@
 import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
+import { useTheme } from '../../store/theme';
 import './Footer.css';
 
 function Footer() {
-  const [footerColor, setFooterColor] = useState('#1C2E4A');
+  const { color } = useTheme();
 
   // Function to check if user is logged in based on session storage
   const isUserLoggedIn = () => {
@@ -12,25 +13,9 @@ function Footer() {
 
   isUserLoggedIn();
 
-  useEffect(() => {
-    const roleAccess = document.cookie
-      .split("; ")
-      .find((row) => row.startsWith("role_access="))
-      ?.split("=")[1];
-    if (roleAccess === "admin") {
-      setFooterColor('#FCC003');
-    } else if (roleAccess === "signexpert") {
-      setFooterColor('#5E6AC6');
-    } else {
-      setFooterColor('#1C2E4A');
-    }
-
-    console.log(roleAccess);
-  });
-
   return (
     <>
-    <div className='footer-container' style={{background: footerColor}}>
+    <div className='footer-container' style={{background: color}}>
       <div className='footer-links'>
         <div className='footer-link-wrapper'>
           <div className='footer-link-items'>

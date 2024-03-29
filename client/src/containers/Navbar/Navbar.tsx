@@ -1,6 +1,8 @@
 import { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { Button } from "../../components/Button/Button";
+import { useTheme } from "../../store/theme";
+import axios from "axios";
 import "./Navbar.css";
 
 function Navbar() {
@@ -9,8 +11,7 @@ function Navbar() {
   const [button, setButton] = useState(true);
   const [name, setName] = useState('');
   const [picture, setPicture] = useState('');
-  const [logo, setLogo] = useState('/images/PUBLIC_LOGO.jpg');
-  const [navbarColor, setNavbarColor] = useState('#1C2E4A');
+  const { color, updateColors } = useTheme();
 
   // Function to set user authentication status in session storage when user logs in
   const setUserLoggedIn = () => {
@@ -32,6 +33,11 @@ function Navbar() {
     document.cookie = "token=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
     document.cookie = "picture=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
     document.cookie = "role_access=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
+
+    // change the color back to the default color
+    localStorage.setItem('color', '#1C2E4A');
+    updateColors("#1C2E4A");
+
     navigate("/login");
   };
 
@@ -59,25 +65,6 @@ function Navbar() {
     }
   }); 
 
-  useEffect(() => {
-    const roleAccess = document.cookie
-      .split("; ")
-      .find((row) => row.startsWith("role_access="))
-      ?.split("=")[1];
-    if (roleAccess === "admin") {
-      setNavbarColor('#FCC003');
-      setLogo('/images/ADMIN_LOGO.jpg');
-    } else if (roleAccess === "signexpert") {
-      setNavbarColor('#71839F');
-      setLogo('/images/SIGN_EXPERT_LOGO.jpg');
-    } else {
-      setNavbarColor('#1C2E4A');
-      setLogo('/images/PUBLIC_LOGO.jpg');
-    }
-    console.log("navRole Access:", roleAccess); // Check roleAccess value
-    console.log("navCookies:", document.cookie);
-  });
-
   // ---------- Function to show login button on small screens ---------- 
   const showButton = () => {
     if (window.innerWidth <= 1100) {
@@ -96,12 +83,12 @@ function Navbar() {
 
   return (
     <>
-      <nav className="navbar" style={{background: navbarColor}}>
+      <nav className="navbar" style={{background: color}}>
         <div className="navbar-container">
           {/* ---------- Webiste's logo ---------- */}
           <Link to="/" className="navbar-logo" onClick={closeMobileMenu}>
             <img
-              src= {logo}
+              src= "./images/PUBLIC_LOGO.png"
               alt="Logo"
               className="navbar-logo-image"
             />
