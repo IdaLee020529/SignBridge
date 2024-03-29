@@ -3,10 +3,12 @@ import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { GoogleLogin, useGoogleLogin } from "@react-oauth/google";
 import { gapi } from "gapi-script";
+import { useTheme } from "../../store/theme";
+import axios from "axios";
+
 // used to decode the credentials from the google token
 import { jwtDecode } from "jwt-decode";
 import type { GoogleCredentialResponse } from "@react-oauth/google";
-import axios from "axios";
 
 const clientId =
   "52594958094-08qvrugskhjjv34j4h0oi4m2ognjg830.apps.googleusercontent.com";
@@ -18,6 +20,8 @@ function Login() {
   // axios.defaults.withCredentials = true;  // For the session and cookies
 
   // ---------- Define the variables ----------
+  const { color, updateColors } = useTheme();
+
   const [email, setEmail] = useState("");
   const [emailError, setEmailError] = useState("");
   const handleEmailChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -88,6 +92,17 @@ function Login() {
         // save the picture into the cookies
         document.cookie = `picture=${loginUser.data.picture}`;
         document.cookie = `role_access=${loginUser.data.role_access}`;
+
+        if (loginUser.data.role_access === "admin") {
+          localStorage.setItem('color', '#FCC003');
+          updateColors("#FCC003");
+        } else if (loginUser.data.role_access === "signexpert") {
+          localStorage.setItem('color', '#5E6AC6');
+          updateColors("#5E6AC6");
+        } else {
+          localStorage.setItem('color', '#1C2E4A');
+          updateColors("#1C2E4A");
+        }
 
         navigate("/");
       } catch (error: any) {
