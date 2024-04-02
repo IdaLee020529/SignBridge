@@ -5,17 +5,19 @@ import { GoogleLogin, useGoogleLogin } from "@react-oauth/google";
 import { gapi } from "gapi-script";
 import { useTheme } from "../../store/theme";
 import axios from "axios";
+import { GOOGLE, COLOR_ROLE_ACCESS } from "../../constants/account.constant";
 
 // used to decode the credentials from the google token
 import { jwtDecode } from "jwt-decode";
 import type { GoogleCredentialResponse } from "@react-oauth/google";
+import { LoginUser } from "../../services/account.service";
 
 const clientId =
   "52594958094-08qvrugskhjjv34j4h0oi4m2ognjg830.apps.googleusercontent.com";
 
 function Login() {
-  const navigate = useNavigate();  // For the redirection
-  
+  const navigate = useNavigate(); // For the redirection
+
   // this code will cause the login to fail
   // axios.defaults.withCredentials = true;  // For the session and cookies
 
@@ -55,7 +57,7 @@ function Login() {
     setEmailError("");
     return true;
   };
-  
+
   const validatePassword = () => {
     if (!password.trim()) {
       setPasswordError("Password is required");
@@ -77,11 +79,15 @@ function Login() {
     if (isEmailValid && isPasswordValid) {
       const data = {
         email,
-        password
+        password,
       };
 
       try {
-        const loginUser = await axios.post("http://localhost:3000/users-login-auth", data);
+        const loginUser = await axios.post(
+          "http://localhost:3000/users-login-auth",
+          data
+        );
+        // const loginUser = await LoginUser(data);
 
         // save the token in the cookies with name "token"
         document.cookie = `token=${loginUser.data.token}`;
@@ -94,13 +100,16 @@ function Login() {
         document.cookie = `role_access=${loginUser.data.role_access}`;
 
         if (loginUser.data.role_access === "admin") {
-          localStorage.setItem('color', '#FCC003');
+          localStorage.setItem("color", "#FCC003");
+          // localStorage.setItem("color", COLOR_ROLE_ACCESS.admin.color);
           updateColors("#FCC003");
         } else if (loginUser.data.role_access === "signexpert") {
-          localStorage.setItem('color', '#5E6AC6');
+          localStorage.setItem("color", "#5E6AC6");
+          // localStorage.setItem("color", COLOR_ROLE_ACCESS.signexpert.color);
           updateColors("#5E6AC6");
         } else {
-          localStorage.setItem('color', '#1C2E4A');
+          localStorage.setItem("color", "#1C2E4A");
+          // localStorage.setItem("color", COLOR_ROLE_ACCESS.public.color);
           updateColors("#1C2E4A");
         }
 
@@ -109,16 +118,14 @@ function Login() {
         alert(error.response.data.error);
         console.error("Error registering user:", error);
       }
-
     } else {
-      let errorMessage = '';
+      let errorMessage = "";
       if (!isEmailValid) errorMessage += `- ${emailError}\n`;
       if (!isPasswordValid) errorMessage += `- ${passwordError}\n`;
-      
+
       alert("Form validation failed:\n" + errorMessage);
     }
   };
-
 
   // ---------- Google Login ----------
   useEffect(() => {
@@ -168,20 +175,55 @@ function Login() {
       <h1>Login</h1>
       <div className="login-form">
         <form onSubmit={handleSubmit}>
-
-        <div className={`login-form-group ${emailError ? 'error' : ''}`}>
-            <input type="email" placeholder=" " value={email} onChange={handleEmailChange} onBlur={validateEmail} />
-            <label htmlFor="inp" className="login-form-label">Email</label>
-            {emailError && <div className="login-error-message">{emailError}</div>}
+          <div className={`login-form-group ${emailError ? "error" : ""}`}>
+            <input
+              type="email"
+              placeholder=" "
+              value={email}
+              onChange={handleEmailChange}
+              onBlur={validateEmail}
+            />
+            <label htmlFor="inp" className="login-form-label">
+              Email
+            </label>
+            {emailError && (
+              <div className="login-error-message">{emailError}</div>
+            )}
           </div>
 
-          <div className={`login-form-group ${passwordError ? 'error' : ''}`}>
-            <input type={showPassword ? "text" : "password"} placeholder=" " value={password} onChange={handlePasswordChange} onBlur={validatePassword} />
-            <label htmlFor="inp" className="login-form-label">Password</label>
-            {passwordError && <div className="error-message">{passwordError}</div>}
+          <div className={`login-form-group ${passwordError ? "error" : ""}`}>
+            <input
+              type={showPassword ? "text" : "password"}
+              placeholder=" "
+              value={password}
+              onChange={handlePasswordChange}
+              onBlur={validatePassword}
+            />
+            <label htmlFor="inp" className="login-form-label">
+              Password
+            </label>
+            {passwordError && (
+              <div className="error-message">{passwordError}</div>
+            )}
 
-            <button type="button" className="password-toggle" onClick={handleTogglePassword}>
-              {showPassword ? <img src="./images/password-shown.png" alt="show-password" className="eye-icon" /> : <img src="./images/password-hidden.png" alt="hide-password" className="eye-icon" />}
+            <button
+              type="button"
+              className="password-toggle"
+              onClick={handleTogglePassword}
+            >
+              {showPassword ? (
+                <img
+                  src="./images/password-shown.png"
+                  alt="show-password"
+                  className="eye-icon"
+                />
+              ) : (
+                <img
+                  src="./images/password-hidden.png"
+                  alt="hide-password"
+                  className="eye-icon"
+                />
+              )}
             </button>
           </div>
 
@@ -191,15 +233,22 @@ function Login() {
 
           <div>or</div>
 
-          <button className="google-login-btn" type="button" onClick={() => login()} >
-            <img src="/images/google-logo.png" alt="Google Logo" className="google-logo" />
+          <button
+            className="google-login-btn"
+            type="button"
+            onClick={() => login()}
+          >
+            <img
+              src="/images/google-logo.png"
+              alt="Google Logo"
+              className="google-logo"
+            />
             Login with Google
           </button>
 
           <div className="sign-up">
             <div>Don't have an account?</div> <a href="/sign-up">Sign Up</a>
           </div>
-
         </form>
       </div>
     </div>
