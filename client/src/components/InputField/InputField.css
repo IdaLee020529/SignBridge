@@ -12,13 +12,13 @@
     border: 1px solid #666;
     border-radius: 5px;
     position: relative;
-    font-size: 15px;
+    font-size: 17px;
 }
 
 .form-group .input-label {
     position: absolute;
     top: 50%;
-    left: 10px;
+    left: 1.5%;
     transform: translateY(-50%);
     font-size: 20px;
     color: #666;
@@ -28,15 +28,14 @@
     pointer-events: none;
 }
 
-.form-control:focus+.input-label
-
-/* .form-control:not(:placeholder-shown)+.input-label,
-.form-control:not(:placeholder-shown):focus+.input-label { */
-    {
+.form-group input:focus+.input-label,
+.form-group input:not(:placeholder-shown)+.input-label {
     top: -10px;
     font-size: 20px;
+    left: 0.5%;
     color: #000;
 }
+
 
 .form-group input:focus {
     border: #000 2px solid;

@@ -3,7 +3,7 @@
     top: 50%;
     left: 50%;
     transform: translate(-50%, 0);
-    width: 80%;
+    width: 70%;
     max-width: 100%;
     padding: 30px;
     margin: 20px;
@@ -23,17 +23,16 @@
 }
 
 
-.button-container Button {
+/* .button-container Button {
     display: relative;
     width: 30%;
     padding: 10px;
-    background-color: #007bff;
     border: none;
     border-radius: 5px;
     color: #fff;
     font-size: 16px;
     cursor: pointer;
-}
+} */
 
 .video-container {
     margin-top: 10px;
