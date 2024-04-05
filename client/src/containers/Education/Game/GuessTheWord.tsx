@@ -2,8 +2,8 @@ import React, { useState, useRef, useEffect } from "react";
 import RulesPopup from "../../../components/RulesPopup/RulesPopup";
 import InnerSetting from "../../../components/InnerSetting/InnerSetting";
 import "./GuessTheWord.css";
-import backgroundMusic from "../../../../public/music/gameMusic2.mp3";
-import buttonClickedSound from "../../../../public/music/btnClicked.wav";
+import backgroundMusic from "/music/gameMusic2.mp3";
+import buttonClickedSound from "/music/btnClicked.wav";
 
 interface Question {
   level: number;

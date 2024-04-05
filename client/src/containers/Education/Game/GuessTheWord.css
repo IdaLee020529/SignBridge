@@ -1,5 +1,5 @@
 .guess-the-word-layout {
-	background-image: url("public/images/background.jpg");
+	background-image: url("/images/background.jpg");
 	background-repeat: no-repeat;
 	background-position: 0 70%;
 	background-size: cover;

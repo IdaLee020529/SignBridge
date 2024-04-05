@@ -1,7 +1,7 @@
 @import url("https://fonts.googleapis.com/css2?family=Russo+One&display=swap");
 
 .education-layout {
-	background-image: url("public/images/background.jpg");
+	background-image: url("/images/background.jpg");
 	background-repeat: no-repeat;
 	background-position: 0 70%;
 	background-size: cover;
@@ -21,7 +21,7 @@
 	padding: 20px;
 	border: 1px solid #ccc;
 	border-radius: 30px;
-	background-image: url("public/images/gameWood.jpg");
+	background-image: url("/images/gameWood.jpg");
 	background-size: cover;
 	background-position: center;
 	box-shadow: 0 0 20px #000;
