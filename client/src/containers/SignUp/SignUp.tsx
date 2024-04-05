@@ -1,12 +1,10 @@
 import "./SignUp.css";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { GoogleLogin, useGoogleLogin } from "@react-oauth/google";
+import { useGoogleLogin } from "@react-oauth/google";
 import { useEffect } from "react";
 import { gapi } from "gapi-script";
 // used to decode the credentials from the google token
-import { jwtDecode } from "jwt-decode";
-import type { GoogleCredentialResponse } from "@react-oauth/google";
 import axios from "axios";
 
 const clientId =
@@ -117,7 +115,7 @@ function SignUp() {
       };
 
       try {
-        const registerUser = await axios.post("http://localhost:3000/users-sign-up-auth", data);
+        await axios.post("http://localhost:3000/users-sign-up-auth", data);
         navigate("/login");
       } catch (error: any) {
         alert(error.response.data.error);

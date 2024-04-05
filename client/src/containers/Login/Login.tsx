@@ -1,7 +1,7 @@
 import "./Login.css";
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import { GoogleLogin, useGoogleLogin } from "@react-oauth/google";
+import { useGoogleLogin } from "@react-oauth/google";
 import { gapi } from "gapi-script";
 import { useTheme } from "../../store/theme";
 import axios from "axios";
@@ -22,7 +22,7 @@ function Login() {
   // axios.defaults.withCredentials = true;  // For the session and cookies
 
   // ---------- Define the variables ----------
-  const { color, updateColors } = useTheme();
+  const { updateColors } = useTheme();
 
   const [email, setEmail] = useState("");
   const [emailError, setEmailError] = useState("");
