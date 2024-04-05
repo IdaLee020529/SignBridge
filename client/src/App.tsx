@@ -1,5 +1,5 @@
 import "./App.css";
-import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
+import { BrowserRouter as Router, Route, Routes, useLocation } from "react-router-dom";
 import Home from "./containers/Home/Home";
 import Library from "./containers/Library/Library";
 import Communication from "./containers/Communication/Communication";
@@ -17,23 +17,35 @@ import { gapi } from "gapi-script";
 import HomeLayout from "./HomeLayout";
 import ForgotResetPasswordLayout from "./ForgotResetPasswordLayout";
 import { Toaster } from "react-hot-toast";
+import GuessTheWord from "./containers/Education/Game/GuessTheWord";
+import DoTheSign from "./containers/Education/Game/DoTheSign";
 
 function App() {
-  const clientId =
-    "52594958094-08qvrugskhjjv34j4h0oi4m2ognjg830.apps.googleusercontent.com";
+	const clientId = "52594958094-08qvrugskhjjv34j4h0oi4m2ognjg830.apps.googleusercontent.com";
+	const location = useLocation();
 
-  useEffect(() => {
-    function initGapi() {
-      gapi.client.init({
-        clientId: clientId,
-        scope: "email profile",
-      });
-    }
-    gapi.load("client:auth2", initGapi);
-  });
+	useEffect(() => {
+		function initGapi() {
+			gapi.client.init({
+				clientId: clientId,
+				scope: "email profile",
+			});
+		}
+		gapi.load("client:auth2", initGapi);
+	});
 
-  return (
-    <>
+	useEffect(() => {
+		if (location.pathname !== "/education" && location.pathname !== "/guess-the-word" && location.pathname !== "/do-the-sign") {
+			console.log("App.tsx: useEffect: window.window.location.pathname !== /education, /guess-the-word, /do-the-sign");
+			const localVolumeValue = localStorage.getItem("volumeValue");
+			if (localVolumeValue) {
+				localStorage.setItem("volumeValue", "100");
+			}
+		}
+	}, [location.pathname]);
+
+	return (
+		<>
       <Toaster />
       <Router>
         <Routes>
@@ -48,6 +60,8 @@ function App() {
             <Route path="/notifications" element={<Notification />} />
             <Route path="/login" element={<Login />} />
             <Route path="/sign-up" element={<SignUp />} />
+			<Route path="/guess-the-word" element={<GuessTheWord />} />
+			<Route path="/do-the-sign" element={<DoTheSign />} />
           </Route>
           <Route element={<ForgotResetPasswordLayout />}>
             <Route path="/forgot-password" element={<ForgotPassword />} />
@@ -56,7 +70,7 @@ function App() {
         </Routes>
       </Router>
     </>
-  );
+	);
 }
 
 export default App;

@@ -32,11 +32,9 @@ export default function HomepageSection() {
   }, [currentSlide]);
 
   // Function to check if user is logged in based on session storage
-  const isUserLoggedIn = () => {
-    return document.cookie.split("; ").some((row) => row.startsWith("token="));
-  };
-
-  const isLoggedIn = isUserLoggedIn();
+  // const isUserLoggedIn = () => {
+  //   return document.cookie.split("; ").some((row) => row.startsWith("token="));
+  // };
 
   useEffect(() => {
     const roleAccess = document.cookie

@@ -4,11 +4,11 @@ import { useNavigate } from "react-router-dom";
 import { useGoogleLogin } from "@react-oauth/google";
 import { gapi } from "gapi-script";
 import { useTheme } from "../../store/theme";
-import { COLOR_ROLE_ACCESS } from "../../constants/account.constants";
-import { LoginUser, FetchGoogleData, SignUpLoginUserGoogle } from "../../services/account.service";
-import LoginInput from "../../components/LoginInput/LoginInput";
-import toast from 'react-hot-toast';
-import Cookies from 'js-cookie';
+import axios from "axios";
+
+// used to decode the credentials from the google token
+import { jwtDecode } from "jwt-decode";
+import type { GoogleCredentialResponse } from "@react-oauth/google";
 
 const clientId =
   "52594958094-08qvrugskhjjv34j4h0oi4m2ognjg830.apps.googleusercontent.com";
@@ -16,17 +16,11 @@ const clientId =
 function Login() {
   const navigate = useNavigate();  // For the redirection
   
-  // Detect cookies, if yes, redirect user to homepage
-  useEffect(() => {
-    const token = Cookies.get("token");
-    if (token) {
-      navigate("/");
-    }
-  }, [navigate]);
-  
+  // this code will cause the login to fail
+  // axios.defaults.withCredentials = true;  // For the session and cookies
 
   // ---------- Define the variables ----------
-  const { color, updateColors } = useTheme();
+  const { updateColors } = useTheme();
 
   const [email, setEmail] = useState("");
   const [emailError, setEmailError] = useState("");
@@ -64,19 +58,16 @@ function Login() {
 		return error;
   };
   
-  const validatePassword = (value: string) => {
-    let error = "";
-		if (!value.trim()) {
-			error = "Password is required";
-			setPasswordError("Password is required");
-			return error;
-		} else if (password.length < 5) {
-			error = "Password must be at least 6 characters long";
-			setPasswordError("Password must be at least 6 characters long");
-			return error;
-		}
-		setPasswordError("");
-		return error;
+  const validatePassword = () => {
+    if (!password.trim()) {
+      setPasswordError("Password is required");
+      return false;
+    } else if (password.length < 6) {
+      setPasswordError("Password must be at least 6 characters long");
+      return false;
+    }
+    setPasswordError("");
+    return true;
   };
 
   // ---------- Handle form submission ----------
@@ -96,34 +87,38 @@ function Login() {
       };
 
       try {
-        const loginUserResponse = await LoginUser(data);
-        const loginUser = loginUserResponse.data; 
-      
+        const loginUser = await axios.post("http://localhost:3000/users-login-auth", data);
+
         // save the token in the cookies with name "token"
         document.cookie = `token=${loginUser.token}`;
         document.cookie = `name=${loginUser.username}`;
         document.cookie = `email=${data.email}`;
-        document.cookie = `picture=${loginUser.picture}`;
-        document.cookie = `role_access=${loginUser.role_access}`;
-      
-        if (loginUser.role_access === "admin") { 
-          localStorage.setItem('color', COLOR_ROLE_ACCESS.admin.color);
-          updateColors(COLOR_ROLE_ACCESS.admin.color);
-        } else if (loginUser.role_access === "signexpert") {
-          localStorage.setItem('color', COLOR_ROLE_ACCESS.signexpert.color);
-          updateColors(COLOR_ROLE_ACCESS.signexpert.color);
+        // save the picture into the cookies
+        document.cookie = `picture=${loginUser.data.picture}`;
+        document.cookie = `role_access=${loginUser.data.role_access}`;
+
+        if (loginUser.data.role_access === "admin") {
+          localStorage.setItem('color', '#FCC003');
+          updateColors("#FCC003");
+        } else if (loginUser.data.role_access === "signexpert") {
+          localStorage.setItem('color', '#5E6AC6');
+          updateColors("#5E6AC6");
         } else {
-          localStorage.setItem('color', COLOR_ROLE_ACCESS.public.color);
-          updateColors(COLOR_ROLE_ACCESS.public.color);
+          localStorage.setItem('color', '#1C2E4A');
+          updateColors("#1C2E4A");
         }
         navigate("/");
       } catch (error: any) {
         toast.error(error.response.data.error);
         console.error("Error Login user:", error);
       }
+
+    } else {
+      let errorMessage = '';
+      if (!isEmailValid) errorMessage += `- ${emailError}\n`;
+      if (!isPasswordValid) errorMessage += `- ${passwordError}\n`;
       
-    } else {      
-      toast.error("Form validation failed:\n" + errorMessage);
+      alert("Form validation failed:\n" + errorMessage);
     }
   };
 
@@ -169,28 +164,20 @@ function Login() {
       <div className="login-form">
         <form onSubmit={handleSubmit}>
 
-          <LoginInput
-            type="email"
-            placeholder=" "
-            value={email}
-            onChange={handleEmailChange}
-            error={emailError}
-            label="Email"
-          />
+        <div className={`login-form-group ${emailError ? 'error' : ''}`}>
+            <input type="email" placeholder=" " value={email} onChange={handleEmailChange} onBlur={validateEmail} />
+            <label htmlFor="inp" className="login-form-label">Email</label>
+            {emailError && <div className="login-error-message">{emailError}</div>}
+          </div>
 
-          <LoginInput
-            type={showPassword ? "text" : "password"}
-            placeholder=" "
-            value={password}
-            onChange={handlePasswordChange}
-            error={passwordError}
-            label="Password"
-            showPassword={showPassword}
-            handleTogglePassword={handleTogglePassword}
-          />
+          <div className={`login-form-group ${passwordError ? 'error' : ''}`}>
+            <input type={showPassword ? "text" : "password"} placeholder=" " value={password} onChange={handlePasswordChange} onBlur={validatePassword} />
+            <label htmlFor="inp" className="login-form-label">Password</label>
+            {passwordError && <div className="error-message">{passwordError}</div>}
 
-          <div className="forgot-pwd-container">
-            <a href="/forgot-password" className="forgot-password">Forgot Password?</a>
+            <button type="button" className="password-toggle" onClick={handleTogglePassword}>
+              {showPassword ? <img src="./images/password-shown.png" alt="show-password" className="eye-icon" /> : <img src="./images/password-hidden.png" alt="hide-password" className="eye-icon" />}
+            </button>
           </div>
 
           <button className="login-btn" type="submit">
@@ -199,15 +186,22 @@ function Login() {
 
           <div>or</div>
 
-          <button className="google-login-btn" type="button" onClick={() => login()} >
-            <img src="/images/google-logo.png" alt="Google Logo" className="google-logo" />
+          <button
+            className="google-login-btn"
+            type="button"
+            onClick={() => login()}
+          >
+            <img
+              src="/images/google-logo.png"
+              alt="Google Logo"
+              className="google-logo"
+            />
             Login with Google
           </button>
 
           <div className="sign-up">
             <div>Don't have an account?</div> <a href="/sign-up">Sign Up</a>
           </div>
-
         </form>
       </div>
     </div>

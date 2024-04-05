@@ -2,22 +2,21 @@ import { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { Button } from "../../components/Button/Button";
 import { useTheme } from "../../store/theme";
-import axios from "axios";
 import "./Navbar.css";
 import Cookies from "js-cookie";
 
 function Navbar() {
-	const navigate = useNavigate();
-	const [click, setClick] = useState(false);
-	const [button, setButton] = useState(true);
-	const [name, setName] = useState("");
-	const [picture, setPicture] = useState("");
-	const { color, updateColors } = useTheme();
+  const navigate = useNavigate();
+  const [click, setClick] = useState(false);
+  const [button, setButton] = useState(true);
+  const [name, setName] = useState('');
+  const [picture, setPicture] = useState('');
+  const { color, updateColors } = useTheme();
 
-	// Function to set user authentication status in session storage when user logs in
-	const setUserLoggedIn = () => {
-		sessionStorage.setItem("isLoggedIn", "true");
-	};
+  // Function to set user authentication status in session storage when user logs in
+  const setUserLoggedIn = () => {
+    sessionStorage.setItem("isLoggedIn", "true");
+  };
 
 	// Function to check if user is logged in based on session storage
 	const isUserLoggedIn = () => {

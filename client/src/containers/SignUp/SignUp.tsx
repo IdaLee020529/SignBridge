@@ -4,10 +4,10 @@ import { useNavigate } from "react-router-dom";
 import { useGoogleLogin } from "@react-oauth/google";
 import { useEffect } from "react";
 import { gapi } from "gapi-script";
-import LoginInput from "../../components/LoginInput/LoginInput";
-import { SignUpUser, FetchGoogleData, SignUpLoginUserGoogle } from "../../services/account.service";
-import toast from "react-hot-toast";
-import Cookies from "js-cookie";
+// used to decode the credentials from the google token
+import { jwtDecode } from "jwt-decode";
+import type { GoogleCredentialResponse } from "@react-oauth/google";
+import axios from "axios";
 
 const clientId = "52594958094-08qvrugskhjjv34j4h0oi4m2ognjg830.apps.googleusercontent.com";
 
@@ -146,22 +146,24 @@ function SignUp() {
 			};
 			setLoading(true);
 
-			try {
-				await SignUpUser(data);
-				console.log("success");
-				toast.success("Verification email sent. Please check your inbox to complete registration.");
+      try {
+        const registerUser = await axios.post("http://localhost:3000/users-sign-up-auth", data);
+        navigate("/login");
+      } catch (error: any) {
+        alert(error.response.data.error);
+        console.error("Error registering user:", error);
+      }
 
-				navigate("/login");
-			} catch (error: any) {
-				console.log("Error registering user:", error);
-				toast.error(error.code);
-			} finally {
-				setLoading(false);
-			}
-		} else {
-			toast.error("Form validation failed:\n" + errorMessage);
-		}
-	};
+    } else {
+      let errorMessage = '';
+      if (!isUsernameValid) errorMessage += `- ${usernameError}\n`;
+      if (!isEmailValid) errorMessage += `- ${emailError}\n`;
+      if (!isPasswordValid) errorMessage += `- ${passwordError}\n`;
+      if (!isConfirmPasswordValid) errorMessage += `- ${confirmPasswordError}\n`;
+
+      alert("Form validation failed:\n" + errorMessage);
+    }
+  };
 
 	// ---------- Initialize the google client ----------
 	useEffect(() => {

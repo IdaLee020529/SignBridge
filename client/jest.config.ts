@@ -6,11 +6,13 @@ const config: Config.InitialOptions = {
   collectCoverage: true,
   coveragePathIgnorePatterns: ["node_modules", "coverage"],
   collectCoverageFrom: [
-    "!./src/**/*.{ts,tsx,js,jsx}", // Include all TypeScript/TSX files under src
+    "./src/**/*.{ts,tsx,js,jsx}", // Include all TypeScript/TSX files under src
     "!./src/tests/**", // Exclude test files
     "!**/node_modules/**", // Exclude files in node_modules,
     "!*.json",
     "!*.{ts,tsx}",
+    "!./src/services/**",
+    "!./src/constants/**",
   ],
   testResultsProcessor: "jest-junit",
   testEnvironment: "jest-environment-jsdom",
