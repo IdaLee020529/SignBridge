@@ -21,9 +21,9 @@ export default function HomepageSection() {
   };
 
   // Function to handle previous slide
-  const prevSlide = () => {
-    setCurrentSlide(currentSlide === 0 ? slides.length - 1 : currentSlide - 1);
-  };
+  // const prevSlide = () => {
+  //   setCurrentSlide(currentSlide === 0 ? slides.length - 1 : currentSlide - 1);
+  // };
 
   // Automatically move to the next slide
   useEffect(() => {
@@ -32,11 +32,9 @@ export default function HomepageSection() {
   }, [currentSlide]);
 
   // Function to check if user is logged in based on session storage
-  const isUserLoggedIn = () => {
-    return document.cookie.split("; ").some((row) => row.startsWith("token="));
-  };
-
-  const isLoggedIn = isUserLoggedIn();
+  // const isUserLoggedIn = () => {
+  //   return document.cookie.split("; ").some((row) => row.startsWith("token="));
+  // };
 
   useEffect(() => {
     const roleAccess = document.cookie
