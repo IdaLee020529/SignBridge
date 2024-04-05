@@ -1,4 +1,5 @@
 import { create } from 'zustand';
+import { COLOR_ROLE_ACCESS } from '../constants/account.constants';
 
 interface ThemeState {
   color: string;
@@ -14,6 +15,6 @@ if (data !== null) {
 }
 
 export const useTheme = create<ThemeState>((set) => ({
-  color: data ?? '#1C2E4A',
+  color: data ?? COLOR_ROLE_ACCESS.public.color,
   updateColors: (newColors) => set({ color: newColors }),
 }));

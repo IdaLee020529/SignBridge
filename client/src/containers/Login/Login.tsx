@@ -4,22 +4,26 @@ import { useNavigate } from "react-router-dom";
 import { useGoogleLogin } from "@react-oauth/google";
 import { gapi } from "gapi-script";
 import { useTheme } from "../../store/theme";
-import axios from "axios";
-import { GOOGLE, COLOR_ROLE_ACCESS } from "../../constants/account.constant";
-
-// used to decode the credentials from the google token
-import { jwtDecode } from "jwt-decode";
-import type { GoogleCredentialResponse } from "@react-oauth/google";
-import { LoginUser } from "../../services/account.service";
+import { COLOR_ROLE_ACCESS } from "../../constants/account.constants";
+import { LoginUser, FetchGoogleData, SignUpLoginUserGoogle } from "../../services/account.service";
+import LoginInput from "../../components/LoginInput/LoginInput";
+import toast from 'react-hot-toast';
+import Cookies from 'js-cookie';
 
 const clientId =
   "52594958094-08qvrugskhjjv34j4h0oi4m2ognjg830.apps.googleusercontent.com";
 
 function Login() {
-  const navigate = useNavigate(); // For the redirection
-
-  // this code will cause the login to fail
-  // axios.defaults.withCredentials = true;  // For the session and cookies
+  const navigate = useNavigate();  // For the redirection
+  
+  // Detect cookies, if yes, redirect user to homepage
+  useEffect(() => {
+    const token = Cookies.get("token");
+    if (token) {
+      navigate("/");
+    }
+  }, [navigate]);
+  
 
   // ---------- Define the variables ----------
   const { updateColors } = useTheme();
@@ -28,6 +32,7 @@ function Login() {
   const [emailError, setEmailError] = useState("");
   const handleEmailChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setEmail(e.target.value);
+    validateEmail(e.target.value);
   };
 
   const [password, setPassword] = useState("");
@@ -35,6 +40,7 @@ function Login() {
   const [showPassword, setShowPassword] = useState(false);
   const handlePasswordChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setPassword(e.target.value);
+    validatePassword(e.target.value);
   };
 
   // ---------- Toggle password visibility ----------
@@ -43,87 +49,81 @@ function Login() {
   };
 
   // ---------- Validations ----------
-  const validateEmail = () => {
-    // You can use a regular expression to validate email format
-    // Here's a simple example, you can use a more comprehensive one
-    const emailRegex = /\S+@\S+\.\S+/;
-    if (!email.trim()) {
-      setEmailError("Email is required");
-      return false;
-    } else if (!emailRegex.test(email)) {
-      setEmailError("Invalid email format");
-      return false;
-    }
-    setEmailError("");
-    return true;
+  const validateEmail = (value: string) => {
+    let error = "";
+		const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+		if (!value.trim()) {
+			error = "Email is required";
+			setEmailError("Email is required");
+			return error;
+		} else if (!emailRegex.test(value)) {
+			setEmailError("Invalid email format");
+			return error;
+		}
+		setEmailError("");
+		return error;
   };
-
-  const validatePassword = () => {
-    if (!password.trim()) {
-      setPasswordError("Password is required");
-      return false;
-    } else if (password.length < 6) {
-      setPasswordError("Password must be at least 6 characters long");
-      return false;
-    }
-    setPasswordError("");
-    return true;
+  
+  const validatePassword = (value: string) => {
+    let error = "";
+		if (!value.trim()) {
+			error = "Password is required";
+			setPasswordError("Password is required");
+			return error;
+		} else if (password.length < 5) {
+			error = "Password must be at least 6 characters long";
+			setPasswordError("Password must be at least 6 characters long");
+			return error;
+		}
+		setPasswordError("");
+		return error;
   };
 
   // ---------- Handle form submission ----------
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    const isEmailValid = validateEmail();
-    const isPasswordValid = validatePassword();
+    const emailErrors = validateEmail(email);
+		const passwordErrors = validatePassword(password);
 
-    if (isEmailValid && isPasswordValid) {
+    let errorMessage = "";
+    if (emailErrors.length > 0) errorMessage += `- ${emailErrors}\n`;
+		if (passwordErrors.length > 0) errorMessage += `- ${passwordErrors}\n`;
+
+    if (emailErrors.length === 0 && passwordErrors.length === 0) {
       const data = {
         email,
         password,
       };
 
       try {
-        const loginUser = await axios.post(
-          "http://localhost:3000/users-login-auth",
-          data
-        );
-        // const loginUser = await LoginUser(data);
-
+        const loginUserResponse = await LoginUser(data);
+        const loginUser = loginUserResponse.data; 
+      
         // save the token in the cookies with name "token"
-        document.cookie = `token=${loginUser.data.token}`;
-        // save the name into the cookies
-        document.cookie = `name=${loginUser.data.username}`;
-        // save the email into the cookies
+        document.cookie = `token=${loginUser.token}`;
+        document.cookie = `name=${loginUser.username}`;
         document.cookie = `email=${data.email}`;
-        // save the picture into the cookies
-        document.cookie = `picture=${loginUser.data.picture}`;
-        document.cookie = `role_access=${loginUser.data.role_access}`;
-
-        if (loginUser.data.role_access === "admin") {
-          localStorage.setItem("color", "#FCC003");
-          // localStorage.setItem("color", COLOR_ROLE_ACCESS.admin.color);
-          updateColors("#FCC003");
-        } else if (loginUser.data.role_access === "signexpert") {
-          localStorage.setItem("color", "#5E6AC6");
-          // localStorage.setItem("color", COLOR_ROLE_ACCESS.signexpert.color);
-          updateColors("#5E6AC6");
+        document.cookie = `picture=${loginUser.picture}`;
+        document.cookie = `role_access=${loginUser.role_access}`;
+      
+        if (loginUser.role_access === "admin") { 
+          localStorage.setItem('color', COLOR_ROLE_ACCESS.admin.color);
+          updateColors(COLOR_ROLE_ACCESS.admin.color);
+        } else if (loginUser.role_access === "signexpert") {
+          localStorage.setItem('color', COLOR_ROLE_ACCESS.signexpert.color);
+          updateColors(COLOR_ROLE_ACCESS.signexpert.color);
         } else {
-          localStorage.setItem("color", "#1C2E4A");
-          // localStorage.setItem("color", COLOR_ROLE_ACCESS.public.color);
-          updateColors("#1C2E4A");
+          localStorage.setItem('color', COLOR_ROLE_ACCESS.public.color);
+          updateColors(COLOR_ROLE_ACCESS.public.color);
         }
-
         navigate("/");
       } catch (error: any) {
-        alert(error.response.data.error);
-        console.error("Error registering user:", error);
+        toast.error(error.response.data.error);
+        console.error("Error Login user:", error);
       }
-    } else {
-      let errorMessage = "";
-      if (!isEmailValid) errorMessage += `- ${emailError}\n`;
-      if (!isPasswordValid) errorMessage += `- ${passwordError}\n`;
-
-      alert("Form validation failed:\n" + errorMessage);
+      
+    } else {      
+      toast.error("Form validation failed:\n" + errorMessage);
     }
   };
 
@@ -144,22 +144,15 @@ function Login() {
         // save the token in the cookies with name "token"
         document.cookie = `token=${credentialResponse.access_token}`;
 
-        const res = await axios.get(
-          "https://www.googleapis.com/oauth2/v3/userinfo",
-          {
-            headers: {
-              Authorization: `Bearer ${credentialResponse.access_token}`,
-            },
-          }
-        );
+        const res = await FetchGoogleData(credentialResponse.access_token);
 
         // save the name into the cookies
-        document.cookie = `name=${res.data.name}`;
-        document.cookie = `email=${res.data.email}`;
-        document.cookie = `picture=${res.data.picture}`;
-        document.cookie = `role_access=${res.data.role_access}`;
-
-        console.log(res);
+        Cookies.set('name', res.data.name);
+        Cookies.set('email', res.data.email);
+        Cookies.set('picture', res.data.picture);
+        Cookies.set('role_access', res.data.role_access);
+        
+        SignUpLoginUserGoogle(res.data);
         navigate("/");
       } catch (e) {
         console.error(e);
@@ -175,56 +168,29 @@ function Login() {
       <h1>Login</h1>
       <div className="login-form">
         <form onSubmit={handleSubmit}>
-          <div className={`login-form-group ${emailError ? "error" : ""}`}>
-            <input
-              type="email"
-              placeholder=" "
-              value={email}
-              onChange={handleEmailChange}
-              onBlur={validateEmail}
-            />
-            <label htmlFor="inp" className="login-form-label">
-              Email
-            </label>
-            {emailError && (
-              <div className="login-error-message">{emailError}</div>
-            )}
-          </div>
 
-          <div className={`login-form-group ${passwordError ? "error" : ""}`}>
-            <input
-              type={showPassword ? "text" : "password"}
-              placeholder=" "
-              value={password}
-              onChange={handlePasswordChange}
-              onBlur={validatePassword}
-            />
-            <label htmlFor="inp" className="login-form-label">
-              Password
-            </label>
-            {passwordError && (
-              <div className="error-message">{passwordError}</div>
-            )}
+          <LoginInput
+            type="email"
+            placeholder=" "
+            value={email}
+            onChange={handleEmailChange}
+            error={emailError}
+            label="Email"
+          />
 
-            <button
-              type="button"
-              className="password-toggle"
-              onClick={handleTogglePassword}
-            >
-              {showPassword ? (
-                <img
-                  src="./images/password-shown.png"
-                  alt="show-password"
-                  className="eye-icon"
-                />
-              ) : (
-                <img
-                  src="./images/password-hidden.png"
-                  alt="hide-password"
-                  className="eye-icon"
-                />
-              )}
-            </button>
+          <LoginInput
+            type={showPassword ? "text" : "password"}
+            placeholder=" "
+            value={password}
+            onChange={handlePasswordChange}
+            error={passwordError}
+            label="Password"
+            showPassword={showPassword}
+            handleTogglePassword={handleTogglePassword}
+          />
+
+          <div className="forgot-pwd-container">
+            <a href="/forgot-password" className="forgot-password">Forgot Password?</a>
           </div>
 
           <button className="login-btn" type="submit">

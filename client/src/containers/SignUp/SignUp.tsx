@@ -4,235 +4,263 @@ import { useNavigate } from "react-router-dom";
 import { useGoogleLogin } from "@react-oauth/google";
 import { useEffect } from "react";
 import { gapi } from "gapi-script";
-// used to decode the credentials from the google token
-import axios from "axios";
+import LoginInput from "../../components/LoginInput/LoginInput";
+import { SignUpUser, FetchGoogleData, SignUpLoginUserGoogle } from "../../services/account.service";
+import toast from "react-hot-toast";
+import Cookies from "js-cookie";
 
-const clientId =
-  "52594958094-08qvrugskhjjv34j4h0oi4m2ognjg830.apps.googleusercontent.com";
+const clientId = "52594958094-08qvrugskhjjv34j4h0oi4m2ognjg830.apps.googleusercontent.com";
 
 function SignUp() {
-  const navigate = useNavigate();  // For the redirection
+	const navigate = useNavigate(); // For the redirection
 
-  // ---------- Define the variables ----------
-  const [username, setUsername] = useState("");
-  const [usernameError, setUsernameError] = useState("");
-  const handleUsernameChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setUsername(e.target.value);
-  };
+	// ---------- Define the variables ----------
+	const [username, setUsername] = useState("");
+	const [usernameError, setUsernameError] = useState("");
+	const handleUsernameChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+		setUsername(e.target.value);
+		validateUsername(e.target.value);
+	};
 
-  const [email, setEmail] = useState("");
-  const [emailError, setEmailError] = useState("");
-  const handleEmailChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setEmail(e.target.value);
-  };
+	const [email, setEmail] = useState("");
+	const [emailError, setEmailError] = useState("");
+	const handleEmailChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+		setEmail(e.target.value);
+		validateEmail(e.target.value);
+	};
 
-  const [password, setPassword] = useState("");
-  const [passwordError, setPasswordError] = useState("");
-  const [showPassword, setShowPassword] = useState(false);
-  const handlePasswordChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setPassword(e.target.value);
-  };
+	const [password, setPassword] = useState("");
+	const [passwordError, setPasswordError] = useState("");
+	const [showPassword, setShowPassword] = useState(false);
+	const handlePasswordChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+		setPassword(e.target.value);
+		validatePassword(e.target.value);
+	};
 
-  const [confirmPassword, setconfirmPassword] = useState("");
-  const [confirmPasswordError, setConfirmPasswordError] = useState("");
-  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
-  const handleConfirmPasswordChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setconfirmPassword(e.target.value);
-  };
+	const [confirmPassword, setconfirmPassword] = useState("");
+	const [confirmPasswordError, setConfirmPasswordError] = useState("");
+	const [showConfirmPassword, setShowConfirmPassword] = useState(false);
+	const handleConfirmPasswordChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+		setconfirmPassword(e.target.value);
+		validateConfirmPassword(e.target.value);
+	};
 
-    // ---------- Toggle password visibility ----------
-    const handleTogglePassword = () => {
-      setShowPassword(!showPassword); // Toggle password visibility
-    };
+	const [loading, setLoading] = useState(false);
 
-    const handleToggleConfirmPassword = () => {
-      setShowConfirmPassword(!showConfirmPassword); // Toggle password visibility
-    }
+	// ---------- Toggle password visibility ----------
+	const handleTogglePassword = () => {
+		setShowPassword(!showPassword); // Toggle password visibility
+	};
 
-  // ---------- Validations ----------
-  const validateUsername = () => {
-    if (!username.trim()) {
-      setUsernameError("Username is required");
-      return false;
-    }
-    setUsernameError("");
-    return true;
-  };
-  
-  const validateEmail = () => {
-    // You can use a regular expression to validate email format
-    // Here's a simple example, you can use a more comprehensive one
-    const emailRegex = /\S+@\S+\.\S+/;
-    if (!email.trim()) {
-      setEmailError("Email is required");
-      return false;
-    } else if (!emailRegex.test(email)) {
-      setEmailError("Invalid email format");
-      return false;
-    }
-    setEmailError("");
-    return true;
-  };
-  
-  const validatePassword = () => {
-    if (!password.trim()) {
-      setPasswordError("Password is required");
-      return false;
-    } else if (password.length < 6) {
-      setPasswordError("Password must be at least 6 characters long");
-      return false;
-    }
-    setPasswordError("");
-    return true;
-  };
-  
-  const validateConfirmPassword = () => {
-    if (!confirmPassword.trim()) {
-      setConfirmPasswordError("Please confirm your password");
-      return false;
-    } else if (confirmPassword !== password) {
-      setConfirmPasswordError("Confirm password does not match");
-      return false;
-    }
-    setConfirmPasswordError("");
-    return true;
-  };
+	const handleToggleConfirmPassword = () => {
+		setShowConfirmPassword(!showConfirmPassword); // Toggle password visibility
+	};
 
-  // ---------- Handle form submission ----------
-  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
+	// ---------- Validations ----------
+	const validateUsername = (value: string) => {
+		let error = "";
+		if (value.length === 0) {
+			setUsernameError("Username is required");
+			error = "Username is required";
+			return error;
+		}
 
-    const isUsernameValid = validateUsername();
-    const isEmailValid = validateEmail();
-    const isPasswordValid = validatePassword();
-    const isConfirmPasswordValid = validateConfirmPassword();
+		if (!value.trim()) {
+			setUsernameError("Username is required");
+			error = "Username is required";
+			return error;
+		}
 
-    if (isUsernameValid && isEmailValid && isPasswordValid && isConfirmPasswordValid) {
-      const data = {
-        username,
-        email,
-        password
-      };
+		setUsernameError("");
+		return error;
+	};
 
-      try {
-        await axios.post("http://localhost:3000/users-sign-up-auth", data);
-        navigate("/login");
-      } catch (error: any) {
-        alert(error.response.data.error);
-        console.error("Error registering user:", error);
-      }
+	const validateEmail = (value: string) => {
+		let error = "";
+		const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+		if (!value.trim()) {
+			error = "Email is required";
+			setEmailError("Email is required");
+			return error;
+		} else if (!emailRegex.test(value)) {
+			setEmailError("Invalid email format");
+			return error;
+		}
+		setEmailError("");
+		return error;
+	};
 
-    } else {
-      let errorMessage = '';
-      if (!isUsernameValid) errorMessage += `- ${usernameError}\n`;
-      if (!isEmailValid) errorMessage += `- ${emailError}\n`;
-      if (!isPasswordValid) errorMessage += `- ${passwordError}\n`;
-      if (!isConfirmPasswordValid) errorMessage += `- ${confirmPasswordError}\n`;
+	const validatePassword = (value: string) => {
+		let error = "";
+		if (!value.trim()) {
+			error = "Password is required";
+			setPasswordError("Password is required");
+			return error;
+		} else if (password.length < 5) {
+			error = "Password must be at least 6 characters long";
+			setPasswordError("Password must be at least 6 characters long");
+			return error;
+		}
+		setPasswordError("");
+		return error;
+	};
 
-      alert("Form validation failed:\n" + errorMessage);
-    }
-  };
+	const validateConfirmPassword = (value: string) => {
+		let error = "";
+		if (!value.trim()) {
+			error = "Please confirm your password";
+			setConfirmPasswordError("Please confirm your password");
+			return error;
+		} else if (value !== password) {
+			error = "Confirm password does not match";
+			setConfirmPasswordError("Confirm password does not match");
+			return error;
+		}
 
-  // ---------- Initialize the google client ----------
-  useEffect(() => {
-    function initGapi() {
-      gapi.client.init({
-        clientId: clientId,
-        scope: "email profile",
-      });
-    }
-    gapi.load("client:auth2", initGapi);
-  });
+		setConfirmPasswordError("");
+		return error;
+	};
 
-  // ---------- Used for the google sign up button ----------
-  const login = useGoogleLogin({
-    onSuccess: async (credentialResponse) => {
-      try {
-        // save the token in the cookies with name "token"
-        document.cookie = `token=${credentialResponse.access_token}`;
+	// ---------- Handle form submission ----------
+	const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+		e.preventDefault();
 
-        const res = await axios.get(
-          "https://www.googleapis.com/oauth2/v3/userinfo",
-          {
-            headers: {
-              Authorization: `Bearer ${credentialResponse.access_token}`,
-            },
-          }
-        );
+		// Validate all fields and update state with error messages
+		const usernameErrors = validateUsername(username);
+		const emailErrors = validateEmail(email);
+		const passwordErrors = validatePassword(password);
+		const confirmPasswordErrors = validateConfirmPassword(confirmPassword);
 
-        // save the name into the cookies
-        document.cookie = `name=${res.data.name}`;
-        document.cookie = `email=${res.data.email}`;
-        document.cookie = `picture=${res.data.picture}`;
+		// Construct error message for fields that are invalid
+		let errorMessage = "";
+		if (usernameErrors.length > 0) errorMessage += `- ${usernameErrors}\n`;
+		if (emailErrors.length > 0) errorMessage += `- ${emailErrors}\n`;
+		if (passwordErrors.length > 0) errorMessage += `- ${passwordErrors}\n`;
+		if (confirmPasswordErrors.length > 0) errorMessage += `- ${confirmPasswordErrors}\n`;
 
-        const registerUser = await axios.post("http://localhost:3000/users-google-auth", res.data);
-        console.log(registerUser);
-        navigate("/");
+		if (usernameErrors.length === 0 && emailErrors.length === 0 && passwordErrors.length === 0 && confirmPasswordErrors.length === 0) {
+			const data = {
+				username,
+				email,
+				password,
+			};
+			setLoading(true);
 
-      } catch (e) {
-        console.error(e);
-      }
-    },
-    onError: () => {
-      console.log("Signup failed");
-    },
-  });
+			try {
+				await SignUpUser(data);
+				console.log("success");
+				toast.success("Verification email sent. Please check your inbox to complete registration.");
 
-  return (
-    <div className="sign-up-container">
-      <h1>Sign Up</h1>
-      <div className="sign-up-form">
-        <form onSubmit={handleSubmit}>
+				navigate("/login");
+			} catch (error: any) {
+				console.log("Error registering user:", error);
+				toast.error(error.code);
+			} finally {
+				setLoading(false);
+			}
+		} else {
+			toast.error("Form validation failed:\n" + errorMessage);
+		}
+	};
 
-          <div className={`sign-up-form-group ${usernameError ? 'error' : ''}`}>
-            <input type="text" placeholder=" " value={username} onChange={handleUsernameChange} onBlur={validateUsername}/>
-            <label htmlFor="inp" className="sign-up-form-label">Username</label>
-            {usernameError && <div className="error-message">{usernameError}</div>}
-          </div>
+	// ---------- Initialize the google client ----------
+	useEffect(() => {
+		function initGapi() {
+			gapi.client.init({
+				clientId: clientId,
+				scope: "email profile",
+			});
+		}
+		gapi.load("client:auth2", initGapi);
+	});
 
-          <div className={`sign-up-form-group ${emailError ? 'error' : ''}`}>
-            <input type="email" placeholder=" " value={email} onChange={handleEmailChange} onBlur={validateEmail} />
-            <label htmlFor="inp" className="sign-up-form-label">Email</label>
-            {emailError && <div className="error-message">{emailError}</div>}
-          </div>
+	// ---------- Used for the google sign up button ----------
+	const login = useGoogleLogin({
+		onSuccess: async credentialResponse => {
+			try {
+				// save the token in the cookies with name "token"
+				document.cookie = `token=${credentialResponse.access_token}`;
 
-          <div className={`sign-up-form-group ${passwordError ? 'error' : ''}`}>
-            <input type={showPassword ? "text" : "password"} placeholder=" " value={password} onChange={handlePasswordChange} onBlur={validatePassword} />
-            <label htmlFor="inp" className="sign-up-form-label">Password</label>
-            {passwordError && <div className="error-message">{passwordError}</div>}
+				const res = await FetchGoogleData(credentialResponse.access_token);
 
-            <button type="button" className="password-toggle" onClick={handleTogglePassword}>
-              {showPassword ? <img src="./images/password-shown.png" alt="show-password" className="eye-icon" /> : <img src="./images/password-hidden.png" alt="hide-password" className="eye-icon" />}
-            </button>
-          </div>
+				// save the name into the cookies
+				Cookies.set("name", res.data.name);
+				Cookies.set("email", res.data.email);
+				Cookies.set("picture", res.data.picture);
+				Cookies.set("role_access", res.data.role_access);
 
-          <div className={`sign-up-form-group ${confirmPasswordError ? 'error' : ''}`}>
-            <input type={showConfirmPassword ? "text" : "password"} placeholder=" " value={confirmPassword} onChange={handleConfirmPasswordChange} onBlur={validateConfirmPassword}/>
-            <label htmlFor="inp" className="sign-up-form-label">Confirm Password</label>
-            {confirmPasswordError && <div className="error-message">{confirmPasswordError}</div>}
+				SignUpLoginUserGoogle(res.data);
+				navigate("/");
+			} catch (e) {
+				console.error(e);
+			}
+		},
+		onError: () => {
+			toast.error("Signup failed");
+		},
+	});
 
-            <button type="button" className="password-toggle" onClick={handleToggleConfirmPassword}>
-              {showConfirmPassword ? <img src="./images/password-shown.png" alt="show-password" className="eye-icon" /> : <img src="./images/password-hidden.png" alt="hide-password" className="eye-icon" />}
-            </button>
-          </div>
+	return (
+		<div className="sign-up-container">
+			<h1>Sign Up</h1>
+			<div className="sign-up-form">
+				<form onSubmit={handleSubmit}>
+					<div className={`login-form-group ${usernameError ? "error" : ""}`}>
+						<input type="text" placeholder="" value={username} onChange={handleUsernameChange} />
+						<label htmlFor="inp" className="login-form-label">
+							Username
+						</label>
+						{usernameError && <div className="login-error-message">{usernameError}</div>}
+					</div>
 
-          <button className="sign-up-btn" type="submit">Sign Up</button>
+					<LoginInput type="email" placeholder=" " value={email} onChange={handleEmailChange} error={emailError} label="Email" />
 
-          <div>or</div>
+					<LoginInput
+						type={showPassword ? "text" : "password"}
+						placeholder=" "
+						value={password}
+						onChange={handlePasswordChange}
+						error={passwordError}
+						label="Password"
+						showPassword={showPassword}
+						handleTogglePassword={handleTogglePassword}
+					/>
 
-          <button className="google-sign-up-btn" type="button" onClick={() => login()} >
-            <img src="/images/google-logo.png" alt="Google Logo" className="google-logo" />
-            Sign Up with Google
-          </button>
+					<LoginInput
+						type={showConfirmPassword ? "text" : "password"}
+						placeholder=" "
+						value={confirmPassword}
+						onChange={handleConfirmPasswordChange}
+						error={confirmPasswordError}
+						label="Confirm Password"
+						showPassword={showConfirmPassword}
+						handleTogglePassword={handleToggleConfirmPassword}
+					/>
 
-          <div className="login-link">
-            <div>Already have an account?</div> <a href="/login">Login Here</a>
-          </div>
+					<button className="sign-up-btn" type="submit" disabled={loading}>
+						{loading ? (
+							<>
+								<i className="fa fa-spinner fa-spin"></i> Loading
+							</>
+						) : (
+							"Sign Up"
+						)}
+					</button>
 
-        </form>
-      </div>
-    </div>
-  );
+					<div>or</div>
+
+					<button className="google-sign-up-btn" type="button" onClick={() => login()}>
+						<img src="/images/google-logo.png" alt="Google Logo" className="google-logo" />
+						Sign Up with Google
+					</button>
+
+					<div className="login-link">
+						<div>Already have an account?</div> <a href="/login">Login Here</a>
+					</div>
+				</form>
+			</div>
+		</div>
+	);
 }
 
 export default SignUp;

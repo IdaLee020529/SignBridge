@@ -1,6 +1,6 @@
 import React, { useEffect, useRef } from 'react';
 import './RulesPopup.css';
-import buttonClickedSound from '../../../public/music/btnClicked.wav';
+import buttonClickedSound from '/music/btnClicked.wav';
 
 interface RulesPopupProps {
   onClose: () => void;

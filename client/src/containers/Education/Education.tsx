@@ -2,8 +2,8 @@ import { useState, useRef, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import SettingPopup from "../../components/SettingPopup/SettingPopup";
 import "./Education.css";
-import backgroundMusic from "../../../public/music/gameMusic.mp3";
-import buttonClickedSound from "../../../public/music/btnClicked.wav";
+import backgroundMusic from "/music/gameMusic.mp3";
+import buttonClickedSound from "/music/btnClicked.wav";
 
 export default function Education() {
 	const navigate = useNavigate();
