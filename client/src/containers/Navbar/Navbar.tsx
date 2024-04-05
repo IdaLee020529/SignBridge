@@ -116,7 +116,6 @@ function Navbar() {
 								</li>
 							</ul>
 						</li>
-
 						<li className="nav-item">
 							<Link to="/dataset-collection" className="nav-links" onClick={closeMobileMenu}>
 								Dataset Collection

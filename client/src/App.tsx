@@ -1,7 +1,5 @@
 import "./App.css";
 import { BrowserRouter as Router, Route, Routes, useLocation } from "react-router-dom";
-import Navbar from "./containers/Navbar/Navbar";
-import Footer from "./containers/Footer/Footer";
 import Home from "./containers/Home/Home";
 import Library from "./containers/Library/Library";
 import Communication from "./containers/Communication/Communication";
