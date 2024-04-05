@@ -1,7 +1,5 @@
 import "./App.css";
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
-import Navbar from "./containers/Navbar/Navbar";
-import Footer from "./containers/Footer/Footer";
 import Home from "./containers/Home/Home";
 import Library from "./containers/Library/Library";
 import Communication from "./containers/Communication/Communication";
@@ -12,8 +10,13 @@ import Faq from "./containers/Faq/Faq";
 import Notification from "./containers/Notification/Notification";
 import Login from "./containers/Login/Login";
 import SignUp from "./containers/SignUp/SignUp";
+import ForgotPassword from "./containers/Login/ForgotPwd/ForgotPassword";
+import ResetPassword from "./containers/Login/ResetPwd/ResetPassword";
 import { useEffect } from "react";
 import { gapi } from "gapi-script";
+import HomeLayout from "./HomeLayout";
+import ForgotResetPasswordLayout from "./ForgotResetPasswordLayout";
+import { Toaster } from "react-hot-toast";
 
 function App() {
   const clientId =
@@ -28,23 +31,29 @@ function App() {
     }
     gapi.load("client:auth2", initGapi);
   });
+
   return (
     <>
+      <Toaster />
       <Router>
-        <Navbar />
         <Routes>
-          <Route path="/" element={<Home />} />
-          <Route path="/library" element={<Library />} />
-          <Route path="/communication" element={<Communication />} />
-          <Route path="/education" element={<Education />} />
-          <Route path="/dataset-collection" element={<DataCollection />} />
-          <Route path="/feedback" element={<Feedback />} />
-          <Route path="/faq" element={<Faq />} />
-          <Route path="/notifications" element={<Notification />} />
-          <Route path="/login" element={<Login />} />
-          <Route path="/sign-up" element={<SignUp />} />
+          <Route element={<HomeLayout />}>
+            <Route path="/" element={<Home />} />
+            <Route path="/library" element={<Library />} />
+            <Route path="/communication" element={<Communication />} />
+            <Route path="/education" element={<Education />} />
+            <Route path="/dataset-collection" element={<DataCollection />} />
+            <Route path="/feedback" element={<Feedback />} />
+            <Route path="/faq" element={<Faq />} />
+            <Route path="/notifications" element={<Notification />} />
+            <Route path="/login" element={<Login />} />
+            <Route path="/sign-up" element={<SignUp />} />
+          </Route>
+          <Route element={<ForgotResetPasswordLayout />}>
+            <Route path="/forgot-password" element={<ForgotPassword />} />
+            <Route path="/reset-password" element={<ResetPassword />} />
+          </Route>
         </Routes>
-        <Footer />
       </Router>
     </>
   );

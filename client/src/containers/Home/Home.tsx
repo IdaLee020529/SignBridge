@@ -21,9 +21,9 @@ export default function HomepageSection() {
   };
 
   // Function to handle previous slide
-  const prevSlide = () => {
-    setCurrentSlide(currentSlide === 0 ? slides.length - 1 : currentSlide - 1);
-  };
+  // const prevSlide = () => {
+  //   setCurrentSlide(currentSlide === 0 ? slides.length - 1 : currentSlide - 1);
+  // };
 
   // Automatically move to the next slide
   useEffect(() => {
