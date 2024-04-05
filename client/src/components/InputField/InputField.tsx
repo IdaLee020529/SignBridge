@@ -1,4 +1,4 @@
-import React, { CSSProperties, ChangeEvent, useState } from "react";
+import React, { CSSProperties, ChangeEvent } from "react";
 import "./InputField.css";
 
 interface InputFieldProps {
@@ -20,11 +20,11 @@ const InputField: React.FC<InputFieldProps> = ({
   onChange,
   style = {},
 }) => {
-  const [labelClicked, setLabelClicked] = useState(false);
+  // const [labelClicked, setLabelClicked] = useState(false);
 
-  const handleLabelClick = () => {
-    setLabelClicked(true);
-  };
+  // const handleLabelClick = () => {
+  //   setLabelClicked(true);
+  // };
   return (
     <div className="form-group">
       <input

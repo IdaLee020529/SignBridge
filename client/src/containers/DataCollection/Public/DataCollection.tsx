@@ -1,10 +1,9 @@
 // Form.tsx
-import React, { FormEvent, useState } from "react";
+import React, { useState } from "react";
 import InputField from "../../../components/InputField/InputField";
 import VideoInput from "../../../components/VideoInput/VideoInput";
 import { Button } from "../../../components/Button/Button";
 import "./DataCollection.css";
-import axios from "axios";
 
 const Form: React.FC = () => {
   const [formData, setFormData] = useState({
@@ -14,23 +13,24 @@ const Form: React.FC = () => {
     text: "",
     video: "", // Assuming there's a state for video input as well
   });
-  const handleSubmit = async (e: FormEvent<HTMLFormElement>): Promise<void> => {
-    e.preventDefault();
-    try {
-      const response = await axios.post("/api/submitForm", formData);
-      console.log("Form submitted successfully:", response.data);
-    } catch (error) {
-      console.error("Error submitting form:", error);
-    }
-    console.log(formData);
-    setFormData({
-      name: "",
-      email: "",
-      phone: "",
-      text: "",
-      video: "", // Reset the video state as well if applicable
-    });
-  };
+
+  // const handleSubmit = async (e: FormEvent<HTMLFormElement>): Promise<void> => {
+  //   e.preventDefault();
+  //   try {
+  //     const response = await axios.post("/api/submitForm", formData);
+  //     console.log("Form submitted successfully:", response.data);
+  //   } catch (error) {
+  //     console.error("Error submitting form:", error);
+  //   }
+  //   console.log(formData);
+  //   setFormData({
+  //     name: "",
+  //     email: "",
+  //     phone: "",
+  //     text: "",
+  //     video: "", // Reset the video state as well if applicable
+  //   });
+  // };
 
   const handleReset = () => {
     setFormData({
