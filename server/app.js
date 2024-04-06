@@ -38,56 +38,62 @@ app.use(session({
   },
 }));
 
+// -------------------Newly Added Working According to Folder Structure----------------------------------------
+const userRoutes = require("./routes/UserRoutes")
+app.use(userRoutes);
+
+// ------------------------------------------------------------------------------------------------------------
+
 // ---------- For the preset accounts (Sign Expert, Admin) ----------
-async function insertPresetAccounts() {
-  try {
-    await client.connect();
-    console.log("Connected to MongoDB");
-    
-    const collection = database.collection("users");
+// async function insertPresetAccounts() {
+//   try {
+//     await client.connect();
+//     console.log("Connected to MongoDB");
 
-    // Check if preset accounts already exist
-    const existingAccounts = await collection
-      .find({ $or: [{ username: "admin" }, { username: "signexpert" }] })
-      .toArray();
-    if (existingAccounts.length === 0) {
-      // Define preset account data
-      const presetAccounts = [
-        {
-          username: "admin",
-          email: "admin@gmail.com",
-          password: "123456",
-          picture: "./images/profile-img.png",
-          acc_type: "traditional",
-          role_access: "admin",
-        },
-        {
-          username: "signexpert",
-          email: "signexpert@gmail.com",
-          password: "123456",
-          picture: "./images/profile-img.png",
-          acc_type: "traditional",
-          role_access: "signexpert",
-        },
-      ];
+//     const collection = database.collection("users");
 
-      // Insert preset accounts into the collection
-      const result = await collection.insertMany(presetAccounts);
-      console.log(`${result.insertedCount} preset accounts inserted`);
-    } else {
-      console.log("Preset accounts already exist");
-    }
-  } catch (error) {
-    console.error("Error inserting preset accounts:", error);
-  }
-}
+//     // Check if preset accounts already exist
+//     const existingAccounts = await collection
+//       .find({ $or: [{ username: "admin" }, { username: "signexpert" }] })
+//       .toArray();
+//     if (existingAccounts.length === 0) {
+//       // Define preset account data
+//       const presetAccounts = [
+//         {
+//           username: "admin",
+//           email: "admin@gmail.com",
+//           password: "123456",
+//           picture: "./images/profile-img.png",
+//           acc_type: "traditional",
+//           role_access: "admin",
+//         },
+//         {
+//           username: "signexpert",
+//           email: "signexpert@gmail.com",
+//           password: "123456",
+//           picture: "./images/profile-img.png",
+//           acc_type: "traditional",
+//           role_access: "signexpert",
+//         },
+//       ];
 
-insertPresetAccounts().catch(console.error);
+//       // Insert preset accounts into the collection
+//       const result = await collection.insertMany(presetAccounts);
+//       console.log(`${result.insertedCount} preset accounts inserted`);
+//     } else {
+//       console.log("Preset accounts already exist");
+//     }
+//   } catch (error) {
+//     console.error("Error inserting preset accounts:", error);
+//   }
+// }
+
+// insertPresetAccounts().catch(console.error);
 
 // ---------- For the sign up (Google Auth) ----------
 app.post("/users-google-auth", async (req, res) => {
   try {
-    
+
     const collection = database.collection("users");
     const existingUser = await collection.findOne({ email: req.body.email });
 
@@ -123,7 +129,7 @@ app.post("/users-sign-up-auth", async (req, res) => {
       return res.status(400).json({ error: "Email already exists" });
     }
 
-    const token = jwt.sign({ email: req.body.email }, process.env.JWT_SECRET, {expiresIn: "1h", }); // Generate verification token
+    const token = jwt.sign({ email: req.body.email }, process.env.JWT_SECRET, { expiresIn: "1h", }); // Generate verification token
 
     const mailOption = {
       email: req.body.email,
@@ -161,8 +167,8 @@ app.post("/users-sign-up-auth", async (req, res) => {
 app.get("/verify-email", async (req, res) => {
   try {
     const token = req.query.token;
-    const decoded = jwt.verify(token, process.env.JWT_SECRET); 
-    
+    const decoded = jwt.verify(token, process.env.JWT_SECRET);
+
     const collection = database.collection("users");
     const user = await collection.findOneAndUpdate(
       { email: decoded.email },
@@ -283,6 +289,18 @@ app.get("/", (req, res) => {
     res.json({ valid: false });
   }
 });
+
+// app.get("/users", async (req, res) => {
+//   try {
+//     const collection = database.collection("users");
+//     const users = await collection.find().toArray(); // Find all users and convert to array
+
+//     return res.json(users); // Send the array of user objects as a JSON response
+//   } catch (error) {
+//     console.error("Error fetching users:", error);
+//     res.status(500).json({ error: "Internal Server Error" });
+//   }
+// });
 
 app.listen(port, () => {
   console.log(`Server started at http://localhost:${port}`);

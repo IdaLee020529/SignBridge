@@ -1,17 +1,17 @@
-import { create } from 'zustand';
-import { COLOR_ROLE_ACCESS } from '../constants/account.constants';
+import { create } from "zustand";
+import { COLOR_ROLE_ACCESS } from "../constants/account.constant";
 
 interface ThemeState {
   color: string;
   updateColors: (newColors: string) => void;
 }
 
-var data = localStorage.getItem('color');
+var data = localStorage.getItem("color");
 
 if (data !== null) {
-    console.log("Data found in localStorage:", data);
+  console.log("Data found in localStorage:", data);
 } else {
-    console.log("No data found in localStorage");
+  console.log("No data found in localStorage");
 }
 
 export const useTheme = create<ThemeState>((set) => ({
