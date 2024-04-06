@@ -92,16 +92,16 @@ const Form: React.FC = () => {
               <Button
                 type="button"
                 onClick={handleReset}
-                buttonStyle="btn--primary"
-                buttonSize="btn--medium"
+                buttonStyle="btn--reset"
+                buttonSize="btn--large"
               >
                 Reset
               </Button>
               <Button
                 type="button"
                 onClick={() => {}}
-                buttonStyle="btn--primary"
-                buttonSize="btn--medium"
+                buttonStyle="btn--submit"
+                buttonSize="btn--large"
               >
                 Submit
               </Button>

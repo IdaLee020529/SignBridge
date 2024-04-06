@@ -4,6 +4,7 @@ import "./InputField.css";
 interface InputFieldProps {
   label: string;
   name: string;
+  placeholder?: string;
   type?: string;
   value: string;
   onChange: (e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => void;
@@ -13,6 +14,7 @@ interface InputFieldProps {
 const InputField: React.FC<InputFieldProps> = ({
   label,
   name,
+  placeholder = " ",
   type = "text",
   value = "",
   onChange,
@@ -27,6 +29,7 @@ const InputField: React.FC<InputFieldProps> = ({
     <div className="form-group">
       <input
         className="form-control"
+        placeholder=" "
         type={type}
         name={name}
         value={value}

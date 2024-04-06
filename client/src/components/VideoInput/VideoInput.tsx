@@ -3,7 +3,6 @@ import { Upload, Button, message } from "antd";
 import { UploadOutlined } from "@ant-design/icons";
 
 const VideoInput: React.FC = () => {
-  // Function to handle file changes
   const handleChange = (info: any) => {
     if (info.file.status !== "uploading") {
       console.log(info.file, info.fileList);
@@ -20,8 +19,8 @@ const VideoInput: React.FC = () => {
       name="video"
       action="/upload/video"
       onChange={handleChange}
-      maxCount={1} // Limiting to upload only 1 file
-      accept=".mp4" // Accept only video files
+      maxCount={1}
+      accept=".mp4"
     >
       <Button style={{ fontSize: 15 }} icon={<UploadOutlined />}>
         Upload a Video
