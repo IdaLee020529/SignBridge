@@ -1,5 +1,13 @@
 {
   "dependencies": {
     "gsap": "^3.12.5"
+  },
+  "devDependencies": {
+    "concurrently": "^8.2.2"
+  },
+  "scripts": {
+    "start": "concurrently \"npm run start:frontend\" \"npm run start:backend\"",
+    "start:frontend": "cd client && npm run dev",
+    "start:backend": "cd server && node app"
   }
 }

@@ -1,19 +1,36 @@
+.dataForm-bg {
+    background-color: #d8f9ff;
+    padding: 40px;
+    display: flex;
+    align-items: flex-start;
+}
+
+.dataForm-bg .background-image {
+    width: 25%;
+    height: auto;
+    max-height: 300px;
+    object-fit: cover;
+    left: 30%;
+    transform: translate(50%, 0);
+}
+
 .dataForm-container {
     position: relative;
     top: 50%;
     left: 50%;
     transform: translate(-50%, 0);
-    width: 70%;
+    width: 40%;
     max-width: 100%;
     padding: 30px;
-    margin: 20px;
     border-radius: 10px;
-    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.5);
+    box-shadow: -5px 3px 10px rgba(0, 0, 0, 0.4);
+    background-color: white;
+    text-align: center;
 }
 
 .dataForm-container h1 {
     display: block;
-    margin-bottom: 10px;
+    margin: 0 auto;
 }
 
 .button-container {
@@ -22,40 +39,66 @@
     margin-top: 30px;
 }
 
-
-/* .button-container Button {
-    display: relative;
-    width: 30%;
-    padding: 10px;
-    border: none;
-    border-radius: 5px;
-    color: #fff;
-    font-size: 16px;
-    cursor: pointer;
-} */
-
 .video-container {
-    margin-top: 10px;
+    margin-top: 30px;
 }
 
-/* Responsive layout */
-@media (min-width: 768px) {
-    .container {
-        max-width: 768px;
-        /* Set max-width for medium screens */
+@media (max-width: 768px) {
+    .dataForm-bg {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .dataForm-bg .background-image {
+        width: 60%;
+        height: auto;
+        margin-bottom: 20px;
+        max-height: 300px;
+        object-fit: contain;
+        transform: translate(10%, 0);
+    }
+
+    .dataForm-container {
+        position: static;
+        transform: none;
+        width: 100%;
+        padding: 20px;
+    }
+}
+
+@media (max-width: 576px) {
+    .dataForm-container {
+        font-size: 0.8rem;
+    }
+
+    .InputField label,
+    .InputField input {
+        font-size: 0.8rem;
+    }
+}
+
+@media (min-width: 768px) and (max-width: 992px) {
+    .dataForm-container {
+        width: 55%;
+    }
+
+    .dataForm-bg .background-image {
+        height: auto;
+        max-height: 250px;
+        /* Adjusted max-height */
+        object-fit: contain;
     }
 }
 
 @media (min-width: 992px) {
-    .container {
-        max-width: 992px;
-        /* Set max-width for large screens */
+    .dataForm-container {
+        width: 40%;
     }
-}
 
-@media (min-width: 1200px) {
-    .container {
-        max-width: 1200px;
-        /* Set max-width for extra large screens */
+    .dataForm-bg .background-image {
+        height: auto;
+        max-height: 40%;
+        /* Adjusted max-height */
+        object-fit: contain;
     }
 }

@@ -8,5 +8,5 @@
 .page-container {
   position: relative;
   min-height: 50vh;
-  padding-bottom: 10px;
+  /* padding-bottom: 10px; */
 }

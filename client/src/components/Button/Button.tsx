@@ -1,7 +1,14 @@
 import React from "react";
 import "./Button.css";
 
-const STYLES = ["btn--primary", "btn--outline"];
+const STYLES = [
+  "btn--primary",
+  "btn--outline",
+  "btn--reset",
+  "btn--submit",
+  "btn--send",
+  "btn--accept",
+];
 const SIZES = ["btn--medium", "btn--large"];
 
 export const Button = ({
@@ -11,13 +18,15 @@ export const Button = ({
   buttonStyle,
   buttonSize,
 }: {
-  children: React.ReactNode,
-  type: string,
-  onClick: () => void,
-  buttonStyle: string,
-  buttonSize: string,
+  children: React.ReactNode;
+  type: string;
+  onClick: () => void;
+  buttonStyle: string;
+  buttonSize: string;
 }) => {
-  const checkButtonStyle = STYLES.includes(buttonStyle) ? buttonStyle : STYLES[0];
+  const checkButtonStyle = STYLES.includes(buttonStyle)
+    ? buttonStyle
+    : STYLES[0];
   const checkButtonSize = SIZES.includes(buttonSize) ? buttonSize : SIZES[0];
 
   return (

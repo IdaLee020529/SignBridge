@@ -3,24 +3,26 @@
     position: relative;
 }
 
-.form-group input {
+.form-group input,
+.form-group textarea {
     width: 100%;
     height: 50px;
     outline: 0;
     padding: 0.5rem 0;
     padding: 10px;
-    border: 1px solid #666;
-    border-radius: 5px;
+    border: 0px solid #000000;
+    border-radius: 4px;
     position: relative;
     font-size: 17px;
+    background-color: rgb(231, 231, 231);
 }
 
 .form-group .input-label {
     position: absolute;
     top: 50%;
-    left: 1.5%;
+    left: 2%;
     transform: translateY(-50%);
-    font-size: 20px;
+    font-size: 18px;
     color: #666;
     transition: 0.2s all;
     text-align: left;
@@ -28,27 +30,60 @@
     pointer-events: none;
 }
 
+.input-label.multiple_label {
+    transform: translateY(-160%);
+}
+
 .form-group input:focus+.input-label,
 .form-group input:not(:placeholder-shown)+.input-label {
-    top: -10px;
+    top: -15px;
     font-size: 20px;
     left: 0.5%;
     color: #000;
 }
 
-
-.form-group input:focus {
-    border: #000 2px solid;
+.form-group textarea:focus~.input-label,
+.form-group textarea:not(:placeholder-shown)~.input-label {
+    top: 10px;
+    font-size: 20px;
+    left: 0.5%;
+    color: #000;
 }
 
+.form-group input:not(:placeholder-shown),
+.form-group textarea:not(:placeholder-shown) {
+    background-color: white;
+    border: 1px solid #000;
+}
+
+
+.form-group input:focus,
+.form-group textarea:focus {
+    border: #000 2px solid;
+    background-color: white;
+}
+
+.form-group textarea {
+    height: auto;
+    min-height: 100px;
+    resize: none;
+    overflow: hidden;
+}
+
+
+
 @media screen and (max-width: 768px) {
-    .form-group input {
+
+    .form-group input,
+    .form-group textarea {
         padding: 8px;
     }
 }
 
 @media screen and (max-width: 480px) {
-    .form-group input {
+
+    .form-group input,
+    .form-group textarea {
         padding: 6px;
     }
 }
