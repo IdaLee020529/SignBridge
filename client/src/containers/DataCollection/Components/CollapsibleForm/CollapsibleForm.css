@@ -1,0 +1,175 @@
+.collapsible-content {
+    position: relative;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, 0);
+    width: 60%;
+    max-width: 100%;
+    margin-top: 20px;
+    margin-bottom: 20px;
+    border-radius: 10px;
+    box-shadow: 2px 3px 10px rgba(0, 0, 0, 0.5);
+    padding-bottom: 30px;
+    transition: background-color 0.3s;
+    transition: width 0.05s;
+    background-color: white;
+}
+
+
+.collapsible-content-header {
+    cursor: pointer;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    height: 100%;
+    padding: 30px 30px 0 30px;
+
+}
+
+.collapsible-content.not-opened {
+    cursor: pointer;
+}
+
+.collapsible-content.not-opened:hover {
+    width: 65%;
+    background-color: rgb(224, 224, 224);
+}
+
+.collapsible-content.opened {
+    width: 65%;
+    border: 1px solid #a3a3a3;
+}
+
+.header-content {
+    display: flex;
+    align-items: center;
+    /* Align items vertically */
+    flex-grow: 1;
+
+}
+
+.number {
+    width: 20%;
+}
+
+.dateTime {
+    width: 35%;
+}
+
+.status {
+    width: 40%;
+}
+
+.header-content h2 {
+    margin: 0;
+    font-family: 'Trebuchet MS';
+    font-size: 25px;
+    /* Remove margin from h2 elements */
+}
+
+.expand-icon {
+    margin-left: 10px;
+    /* Adjust spacing as needed */
+}
+
+.collapsible-content-background {
+    background-color: rgb(231, 231, 231);
+    border-radius: 10px;
+    margin: 0 30px;
+    margin-top: 10px;
+    padding: 10px;
+    box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.5);
+
+}
+
+.collapsible-content-details {
+    min-height: 35vh;
+    margin-top: 10px;
+    display: flex;
+    justify-content: space-evenly;
+}
+
+.personal-details,
+.sentence-details {
+    flex: 1;
+    margin: 0 10px;
+}
+
+.personal-details-content,
+.sentence-details-content {
+    margin-top: 30px;
+    margin-left: 10px;
+}
+
+.personal-details h2,
+.sentence-details h2 {
+    display: inline-block;
+    border-radius: 5px;
+    padding: 10px;
+    margin: 0;
+    background-color: #ff7777;
+    color: #0c0c0c;
+    box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.5);
+}
+
+.personal-details p {
+    margin: 15px 0;
+}
+
+.personal-details strong,
+.sentence-details-content strong,
+.collapsible-content-footer strong {
+    margin-right: 5px;
+    font-weight: bold;
+    font-size: 25px;
+    font-family: 'Segoe UI'
+}
+
+.personal-details span,
+.sentence-details-content span {
+    font-weight: normal;
+    font-size: 20px;
+    padding: 5px 10px;
+}
+
+.collapsible-content-footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    /* Align items at the start of the cross axis */
+    height: 100%;
+}
+
+.collapsible-content-footer .content-left {
+    flex-grow: 1;
+    margin-left: 15px;
+
+}
+
+.collapsible-content-footer .buttons-right {
+    margin-right: 10px;
+    right: 0;
+    bottom: 0
+}
+
+@media screen and (max-width: 768px) {
+    .collapsible-content {
+        width: 90%;
+    }
+
+    .header-content {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .number,
+    .dateTime,
+    .status {
+        width: 100%;
+        margin-bottom: 10px;
+    }
+
+    .status {
+        margin-bottom: 20px;
+    }
+}
