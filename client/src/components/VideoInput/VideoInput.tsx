@@ -1,10 +1,24 @@
-import React, { useState } from "react";
-import { Upload, Button, message } from "antd";
-import { UploadOutlined } from "@ant-design/icons";
+// VideoInput.tsx
+import React, { useState, useEffect } from "react";
+import { Upload, Button, message, Space } from "antd";
+import { UploadOutlined, CloseOutlined } from "@ant-design/icons";
 import "./VideoInput.css";
 
-const VideoInput: React.FC = () => {
+interface VideoInputProps {
+  reset: boolean;
+  onReset: () => void;
+}
+
+const VideoInput: React.FC<VideoInputProps> = ({ reset, onReset }) => {
   const [uploadedVideo, setUploadedVideo] = useState<string | null>(null);
+  const [uploading, setUploading] = useState<boolean>(false);
+
+  useEffect(() => {
+    if (reset) {
+      setUploadedVideo(null);
+      onReset(); // Notify parent component that the reset is completed
+    }
+  }, [reset, onReset]);
 
   const handleChange = (info: any) => {
     if (info.file.status !== "uploading") {
@@ -19,6 +33,10 @@ const VideoInput: React.FC = () => {
     }
   };
 
+  const handleRemove = () => {
+    setUploadedVideo(null);
+  };
+
   return (
     <div className="videoinput-class">
       <Upload
@@ -27,11 +45,33 @@ const VideoInput: React.FC = () => {
         onChange={handleChange}
         maxCount={1}
         accept=".mp4"
+        showUploadList={false}
+        beforeUpload={() => {
+          setUploading(true);
+          return true;
+        }}
+        customRequest={({ file, onSuccess, onError }) => {
+          setTimeout(() => {
+            onSuccess?.("ok");
+            setUploading(false);
+          }, 1000);
+        }}
       >
-        <Button icon={<UploadOutlined />} size="large">
-          Choose a Video
+        <Button icon={<UploadOutlined />} size="large" loading={uploading}>
+          {uploading ? "Uploading" : "Choose a Video"}
         </Button>
       </Upload>
+      {uploadedVideo && (
+        <Space>
+          <p>
+            <span className="uploaded-text">Uploaded Video:</span>{" "}
+            <span>{uploadedVideo}</span>
+          </p>
+          <span onClick={handleRemove} className="close-outline-button">
+            <CloseOutlined />
+          </span>
+        </Space>
+      )}
     </div>
   );
 };
