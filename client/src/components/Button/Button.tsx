@@ -20,7 +20,7 @@ export const Button = ({
 }: {
   children: React.ReactNode;
   type: string;
-  onClick: () => void;
+  onClick?: () => void;
   buttonStyle: string;
   buttonSize: string;
 }) => {

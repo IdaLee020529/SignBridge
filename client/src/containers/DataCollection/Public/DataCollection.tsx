@@ -4,46 +4,27 @@ import InputField from "../../../components/InputField/InputField";
 import VideoInput from "../../../components/VideoInput/VideoInput";
 import { Button } from "../../../components/Button/Button";
 import "./DataCollection.css";
-import axios from "axios";
 import image from "/images/avatar-hi.png";
-// import PopupModal from "../../../components/PopupModal/PopupModal";
+import PopupModal from "../../../components/PopupModal/PopupModal";
 
-const Form: React.FC = () => {
+const DataCollection: React.FC = () => {
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const handleOpenModal = () => {
+    setIsModalOpen(true);
+  };
+
+  const handleCloseModal = () => {
+    setIsModalOpen(false);
+  };
+
   const [formData, setFormData] = useState({
     name: "",
     email: "",
     phone: "",
     text: "",
-    video: "", // Assuming there's a state for video input as well
   });
-  const [isOpen, setIsOpen] = useState(false);
-  const handleOpenModal = () => {
-    setIsOpen(true);
-  };
 
-  const handleCloseModal = () => {
-    setIsOpen(false);
-  };
-  const handleSubmit = async (
-    e: React.FormEvent<HTMLFormElement>
-  ): Promise<void> => {
-    // e.preventDefault();
-    // try {
-    //   const response = await axios.post("/api/submitForm", formData);
-    //   console.log("Form submitted successfully:", response.data);
-    // } catch (error) {
-    //   console.error("Error submitting form:", error);
-    // }
-    // console.log(formData);
-    // setFormData({
-    //   name: "",
-    //   email: "",
-    //   phone: "",
-    //   text: "",
-    //   video: "", // Reset the video state as well if applicable
-    // });
-    handleOpenModal();
-  };
+  const [resetVideo, setResetVideo] = useState(false);
 
   const handleReset = () => {
     setFormData({
@@ -51,8 +32,20 @@ const Form: React.FC = () => {
       email: "",
       phone: "",
       text: "",
-      video: "", // Reset the video state as well if applicable
     });
+    setResetVideo(true); // Set resetVideo to true to trigger video input reset
+  };
+
+  const handleVideoReset = () => {
+    setResetVideo(false); // Reset resetVideo state
+  };
+
+  const handleSubmit = async (
+    e: React.FormEvent<HTMLFormElement>
+  ): Promise<void> => {
+    e.preventDefault(); // Prevent default form submission behavior
+    handleReset();
+    await handleOpenModal();
   };
 
   const handleChange = (
@@ -64,6 +57,7 @@ const Form: React.FC = () => {
       [name]: value,
     }));
   };
+
   return (
     <div className="dataForm-bg">
       <img src={image} alt="" className="background-image" />
@@ -102,7 +96,7 @@ const Form: React.FC = () => {
                 multipleLines={true}
               />
               <div className="video-container">
-                <VideoInput />
+                <VideoInput reset={resetVideo} onReset={handleVideoReset} />
               </div>
               <div className="button-container">
                 <Button
@@ -114,8 +108,7 @@ const Form: React.FC = () => {
                   Reset
                 </Button>
                 <Button
-                  type="button"
-                  onClick={() => {}}
+                  type="submit"
                   buttonStyle="btn--submit"
                   buttonSize="btn--large"
                 >
@@ -127,10 +120,10 @@ const Form: React.FC = () => {
         </div>
       </div>
       <div>
-        {/* <PopupModal isOpen={isOpen} onClose={handleCloseModal} /> */}
+        <PopupModal isOpen={isModalOpen} onClose={handleCloseModal} />
       </div>
     </div>
   );
 };
 
-export default Form;
+export default DataCollection;
