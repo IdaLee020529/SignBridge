@@ -302,6 +302,8 @@ app.get("/", (req, res) => {
 //   }
 // });
 
-app.listen(port, () => {
+const UserController = require("./controllers/UserController")
+  app.listen(port, () => {
   console.log(`Server started at http://localhost:${port}`);
+  UserController.insertPresetAccounts();
 });
