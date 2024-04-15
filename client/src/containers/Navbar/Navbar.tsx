@@ -20,7 +20,8 @@ function Navbar() {
 
 	// Function to check if user is logged in based on session storage
 	const isUserLoggedIn = () => {
-		return document.cookie.split("; ").some(row => row.startsWith("token="));
+		console.log("Is user login:", Cookies.get("token"));
+		return Cookies.get("token") ? true : false;
 	};
 
 	const isLoggedIn = isUserLoggedIn();
