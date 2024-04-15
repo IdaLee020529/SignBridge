@@ -1,0 +1,111 @@
+body {
+    width: 100vw;
+    height: 100vh;
+  }
+  
+#root {
+    width: 100%;
+    height: 100%;
+  }
+  
+    /* Basic styling for the container */
+    #container {
+        margin-top: 100px;
+        width: 650px;
+        padding: 20px;
+        border: 1px solid #ccc;
+        border-radius: 10px;
+        background-color: #f9f9f9;
+      }
+  
+      /* Styling for labels and input fields */
+      label {
+        display: block;
+        margin-bottom: 10px;
+      }
+  
+      input[type="text"] {
+        width: 100%;
+        padding: 5px;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+      }
+  
+      /* Styling for buttons */
+      button {
+        padding: 5px 10px;
+        background-color: #0074d9;
+        color: #fff;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+      }
+  
+      /* Additional styling for specific elements */
+      #controls {
+        margin-bottom: 20px;
+      }
+  
+      #sigml {
+        margin-bottom: 20px;
+      }
+
+  
+      #root {
+        flex: 1;
+      }
+  
+      .container-wrapper{
+        padding: 50px 50px 0px 50px;
+        display: flex;
+        margin-left: 10%; /* Add spacing between the elements */
+        width: 75vw;
+        height: 90vh;
+      }
+
+      .canvas-wrapper{
+        width: 50%;
+        height: 80vh;
+        background-color: rgb(244, 244, 244);
+        box-shadow: black 0px 0px 10px 0px;
+        border-radius: 5px;
+      }
+
+      .content-wrapper{
+        margin-left: 2vw;
+        padding:25px;
+        height: 80vh;
+        width: 100%;
+        border: 3px solid rgb(244, 244, 244);
+        box-shadow: black 0px 0px 10px 0px;
+        border-radius: 5px;
+      }
+
+      .container-wrapper {
+        position: relative; /* Ensure positioning context for absolute positioning */
+      }
+      
+      .menu {
+        position: absolute;
+        top: 1vh;
+        left: 50%;
+        transform: translateX(-50%);
+        z-index: 1; /* Ensure it's above other elements */
+      }
+
+      .menu select{
+        width: 68vw;
+        padding: 5px;
+        text-align: center;
+        background-color: rgb(244, 244, 244);
+        border: 2px solid #979595;
+        border-radius: 5px;
+      }
+      
+      .canvas-wrapper {
+        /* Your existing styles for the canvas wrapper */
+      }
+      
+      .content-wrapper {
+        /* Your existing styles for the content wrapper */
+      }
