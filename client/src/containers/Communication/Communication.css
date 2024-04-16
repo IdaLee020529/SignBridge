@@ -1,0 +1,56 @@
+
+
+  
+      /* Additional styling for specific elements */
+      #controls {
+        margin-bottom: 20px;
+      }
+  
+      #sigml {
+        margin-bottom: 20px;
+      }
+  
+      .container-wrapper{
+        position: relative;
+        padding: 50px 50px 0px 50px;
+        display: flex;
+        margin-left: 12.5%; /* Add spacing between the elements */
+        width: 75vw;
+        height: 90vh;
+      }
+
+      .canvas-wrapper{
+        width: 50%;
+        height: 80vh;
+        background-color: rgb(244, 244, 244);
+        box-shadow: black 0px 0px 10px 0px;
+        border-radius: 5px;
+      }
+
+      .content-wrapper{
+        margin-left: 2vw;
+        padding:25px;
+        height: 80vh;
+        width: 100%;
+        border: 3px solid rgb(244, 244, 244);
+        box-shadow: black 0px 0px 10px 0px;
+        border-radius: 5px;
+      }
+
+      .menu {
+        position: absolute;
+        top: 1vh;
+        left: 50%;
+        transform: translateX(-50%);
+        z-index: 1; /* Ensure it's above other elements */
+      }
+
+      .menu select{
+        width: 68vw;
+        padding: 5px;
+        text-align: center;
+        background-color: rgb(244, 244, 244);
+        border: 2px solid #979595;
+        border-radius: 5px;
+      }
+    

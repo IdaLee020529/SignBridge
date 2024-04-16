@@ -24,18 +24,6 @@ const InputField: React.FC<InputFieldProps> = ({
 }) => {
   const [error, setError] = useState<string | null>(null);
 
-  const handleValidation = () => {
-    if (name === "email") {
-      const isValidEmail = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value);
-      if (!isValidEmail) {
-        setError("Please enter a valid email address");
-        return false;
-      }
-    }
-    // Add more validation checks for other fields if needed
-    return true;
-  };
-
   const handleChange = (
     e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
   ) => {

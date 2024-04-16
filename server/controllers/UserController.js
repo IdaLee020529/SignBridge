@@ -14,13 +14,16 @@ const UserController = {
         }
     },
     async insertPresetAccounts(req, res) {
-
         try {
             await UserService.insertPresetAccounts();
-            res.status(200).json({ message: "Preset accounts inserted successfully" });
+            if (res) {
+                res.status(200).json({ message: "Preset accounts inserted successfully" });
+            }
         } catch (error) {
             console.error("Error inserting preset accounts:", error);
-            res.status(500).json({ error: "Internal Server Error" });
+            if (res) {
+                res.status(500).json({ error: "Internal Server Error" });
+            }
         }
     }, async GetAllUsers(req, res) {
         try {
