@@ -1,6 +1,10 @@
 
 
   
+      
+      .communication-body{
+        background-image: linear-gradient(to top, #cfd9df 0%, #e2ebf0 100%);
+      }
       /* Additional styling for specific elements */
       #controls {
         margin-bottom: 20px;
@@ -22,9 +26,11 @@
       .canvas-wrapper{
         width: 50%;
         height: 80vh;
-        background-color: rgb(244, 244, 244);
-        box-shadow: black 0px 0px 10px 0px;
-        border-radius: 5px;
+        background-color: white;
+        box-shadow: black 0px 0px 8px 0px;
+        border-radius: 8px;
+        border-bottom: 3px solid rgba(69, 49, 36, 0.5);
+        border-top: 3px solid rgba(255, 255, 255, .3);
       }
 
       .content-wrapper{
@@ -32,8 +38,9 @@
         padding:25px;
         height: 80vh;
         width: 100%;
+        background-color: white;
         border: 3px solid rgb(244, 244, 244);
-        box-shadow: black 0px 0px 10px 0px;
+        box-shadow: black 0px 0px 8px 0px;
         border-radius: 5px;
       }
 
@@ -46,11 +53,37 @@
       }
 
       .menu select{
+        background: linear-gradient(to bottom, #323232 0%, #3F3F3F 40%, #1C1C1C 150%), linear-gradient(to top, rgba(255,255,255,0.40) 0%, rgba(0,0,0,0.25) 200%);
+ background-blend-mode: multiply;
         width: 68vw;
         padding: 5px;
         text-align: center;
-        background-color: rgb(244, 244, 244);
-        border: 2px solid #979595;
         border-radius: 5px;
+        box-shadow: #B7C1CA 0px 0px 8px 0px;
+        color: white;
+      }
+
+      .sidebar-btns{
+        margin-top: 60vh;
+      }
+      .sidebar-btns button {
+        background-image: linear-gradient(to top, #accbee 0%, #e7f0fd 100%);
+        display: inline-block;
+        width: 50px;
+        height: 50px;
+        margin-top: 2vh;
+        margin-left: -4vw;
+        border-radius: 8px;
+        border-bottom: 3px solid rgba(69, 49, 36, 0.5);
+        border-top: 3px solid rgba(255, 255, 255, .3);
+      }
+      
+      .sidebar-btns button:hover {
+        box-shadow: 2px 2px 0 #000000, 4px 2px 1px 1px rgba(0, 0, 0, .3);
+      }
+      
+      .sidebar-btns img{
+        width: 45px;
+        height: 45px;
       }
     
