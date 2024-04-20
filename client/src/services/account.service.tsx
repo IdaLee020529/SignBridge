@@ -5,7 +5,7 @@ import { GOOGLE } from "../constants/account.constant";
 export const SignUpUser = async (data: any) => {
   try {
     const registerUser = await axios.post(
-      "http://localhost:3000/users-sign-up-auth",
+      "http://localhost:3000/users/signup",
       data
     );
     return registerUser;
@@ -17,7 +17,7 @@ export const SignUpUser = async (data: any) => {
 export const SignUpLoginUserGoogle = async (data: any) => {
   try {
     const loginUser = await axios.post(
-      "http://localhost:3000/users-google-auth",
+      "http://localhost:3000/users/google/signup",
       data
     );
     return loginUser;
@@ -43,7 +43,7 @@ export const FetchGoogleData = async (token: string) => {
 export const LoginUser = async (data: any) => {
   try {
     const loginUser = await axios.post(
-      "http://localhost:3000/users-login-auth",
+      "http://localhost:3000/users/login",
       data
     );
     return loginUser;
@@ -52,11 +52,25 @@ export const LoginUser = async (data: any) => {
   }
 };
 
+
+export const LogoutUser = async (data: any) => {
+  try {
+    const logoutUser = await axios.post(
+      "http://localhost:3000/users/logout",
+      data
+    );
+    return logoutUser;
+  } catch (err) {
+    throw err;
+  }
+}
+
+
 // ---------- Forgot Password ----------
 export const UserForgotPassword = async (data: any) => {
   try {
     const response = await axios.post(
-      "http://localhost:3000/forgot-password",
+      "http://localhost:3000/users/forget-password",
       data
     );
     return response;
@@ -69,7 +83,7 @@ export const UserForgotPassword = async (data: any) => {
 export const UserResetPassword = async (data: any) => {
   try {
     const response = await axios.post(
-      "http://localhost:3000/reset-password",
+      "http://localhost:3000/users/reset-password",
       data
     );
     return response;
