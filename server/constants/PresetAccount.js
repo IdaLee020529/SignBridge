@@ -6,6 +6,7 @@ const PRESET_ACCOUNTS = [
         picture: "./images/profile-img.png",
         acc_type: "traditional",
         role_access: "admin",
+        email_verified: true,
     },
     {
         username: "signexpert",
@@ -14,6 +15,7 @@ const PRESET_ACCOUNTS = [
         picture: "./images/profile-img.png",
         acc_type: "traditional",
         role_access: "signexpert",
+        email_verified: true,
     },
 ];
 

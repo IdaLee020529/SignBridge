@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import LoginInput from "../../../components/LoginInput/LoginInput";
 import { UserForgotPassword } from "../../../services/account.service";
+import './ForgotPassword.css'
 import toast from "react-hot-toast";
 import Cookies from 'js-cookie';
 
