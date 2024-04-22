@@ -1,4 +1,4 @@
-import React, { useState, ChangeEvent } from "react";
+import React, { ChangeEvent } from "react";
 import "./InputField.css";
 
 interface InputFieldProps {
@@ -8,8 +8,8 @@ interface InputFieldProps {
   type?: string;
   value: string;
   onChange: (e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => void;
-  style?: React.CSSProperties;
   multipleLines?: boolean;
+  error: string;
 }
 
 const InputField: React.FC<InputFieldProps> = ({
@@ -19,17 +19,19 @@ const InputField: React.FC<InputFieldProps> = ({
   type = "text",
   value = "",
   onChange,
-  style = {},
+  error,
   multipleLines = false,
 }) => {
-  const [error, setError] = useState<string | null>(null);
+  // const [error, setError] = useState<string | undefined>(undefined);
 
-  const handleChange = (
-    e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
-  ) => {
-    onChange(e);
-    setError(null); // Clear error message on change
-  };
+  // const handleChange = (
+  //   e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+  // ) => {
+  //   const { value } = e.target;
+  //   const validationError = validate ? validate(value) : undefined;
+  //   setError(validationError);
+  //   onChange(e);
+  // };
 
   const inputElement = multipleLines ? (
     <textarea
@@ -37,8 +39,7 @@ const InputField: React.FC<InputFieldProps> = ({
       placeholder={placeholder}
       name={name}
       value={value}
-      onChange={handleChange}
-      style={style}
+      onChange={onChange}
     />
   ) : (
     <input
@@ -47,18 +48,17 @@ const InputField: React.FC<InputFieldProps> = ({
       type={type}
       name={name}
       value={value}
-      onChange={handleChange}
-      style={style}
+      onChange={onChange}
     />
   );
 
   return (
-    <div className="form-group">
+    <div className={`form-group ${error ? "is-invalid" : ""}`}>
       {inputElement}
       <label className={`input-label ${multipleLines ? "multiple_label" : ""}`}>
         {label}:
       </label>
-      {error && <div className="invalid-feedback">{error}</div>}
+      <div className={`form-error ${error ? "is-invalid" : ""}`}>{error}</div>
     </div>
   );
 };

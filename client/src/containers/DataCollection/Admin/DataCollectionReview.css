@@ -1,0 +1,83 @@
+.dataCollection-bg {
+    height: auto
+        /* Add overflow property to contain child margins */
+}
+
+.filter-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 20px;
+}
+
+
+
+/* 
+.filter-label {
+    font-size: 25px;
+}
+
+.filter-select {
+    padding: 5px;
+    border-radius: 5px;
+    border: 2px solid #1d1d1d;
+    background-color: #f3f3f3;
+    cursor: pointer;
+    color: rgb(37, 37, 37);
+}
+
+.filter-select option {
+    color: #333;
+    padding: 8px 12px;
+}
+
+.filter-select option:hover {
+    background-color: #f0f0f0;
+}
+
+#status-filter,
+#sort-order {
+    font-size: 20px;
+    margin: 20px;
+} */
+
+
+
+/* 
+.horizontal-filters {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+}
+
+.filter-group {
+    margin-right: 20px;
+}
+
+.filter-label {
+    margin-right: 10px;
+}
+
+.filter-buttons {
+    display: flex;
+    gap: 10px;
+}
+
+.filter-buttons button {
+    padding: 8px 12px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    background-color: #f8f8f8;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.filter-buttons button:hover {
+    background-color: #eaeaea;
+}
+
+.filter-buttons button.active {
+    background-color: #007bff;
+    color: #fff;
+    border-color: #007bff;
+} */
