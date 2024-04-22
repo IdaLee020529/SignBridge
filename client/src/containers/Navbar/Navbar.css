@@ -44,6 +44,7 @@
 
 .nav-item {
   height: 80px;
+  position: relative;
 }
 
 .nav-item:hover .dropdown-menu {
@@ -94,6 +95,7 @@
   background-color: #242222;
   box-shadow: 0 8px 16px 0 rgba(0, 0, 0, 0.2);
   z-index: 1;
+  width: 150%;
 }
 
 .dropdown:hover .dropdown-menu {
@@ -115,6 +117,38 @@
 }
 
 .dropdown-menu li a:hover {
+  background-color: #111;
+}
+
+/* For Dataset Collection */
+.dropdown-menu2 {
+  display: none;
+  position: absolute;
+  background-color: #242222;
+  box-shadow: 0 8px 16px 0 rgba(0, 0, 0, 0.2);
+  z-index: 1;
+  width: 130%;
+}
+
+.dropdown:hover .dropdown-menu2 {
+  display: block;
+  position: flex;
+  margin-left: -30px;
+}
+
+.dropdown-menu2 li {
+  display: block;
+  list-style: none;
+}
+
+.dropdown-menu2 li a {
+  color: #fff;
+  padding: 12px 16px;
+  text-decoration: none;
+  display: block;
+}
+
+.dropdown-menu2 li a:hover {
   background-color: #111;
 }
 
@@ -236,7 +270,7 @@
     font-size: 1.2rem; /* Adjust the size as needed */
   }
 
-  .dropdown-menu {
+  .dropdown-menu, .dropdown-menu2 {
     display: none;
     position: flex;
     background-color: #605e5e;
@@ -245,7 +279,7 @@
     width: 100%;
   }
 
-  .dropdown:hover .dropdown-menu {
+  .dropdown:hover .dropdown-menu, .dropdown:hover .dropdown-menu2{
     display: block;
     position: flex;
     margin: auto 0;

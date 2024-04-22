@@ -30,12 +30,22 @@ function Communication() {
   };
 
   return (
+    <div className="communication-body">
     <div className="container-wrapper">
       <div className="menu">
         <select>
           <option value="option1">SLP (Sign Language Production)</option>
           <option value="option2">SLR (Sign Language Recognition)</option>
         </select>
+      </div>
+      <div className="sidebar-btns">
+            <div className="hand-viewbtn">
+          <button><img src="./images/handview.png" alt="Logo" className="handviewbtn" /></button>
+        </div>
+        <div className="reset-viewbtn">
+          <button><img src="./images/resetview.png" alt="Logo" className="resetviewbtn" /></button>
+        </div>
+
       </div>
       <div className="canvas-wrapper">
         <Canvas camera={{ position: [1, 55, 225], fov: 45 }} shadows>
@@ -74,6 +84,7 @@ function Communication() {
           </form>
         </div>
       </div>
+    </div>
     </div>
   );
 }

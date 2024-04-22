@@ -91,10 +91,10 @@ const ResetPassword: React.FC = () => {
                 console.log(response);
                 toast.success(response.data.message); // Notify user about the password reset
 
-                if (response.data.status === 200) {
+                if (response.status === 200) {
                     navigate("/login");
                 }
-
+                
             } catch (error: any) { 
                 toast.error(error.code);
             }
