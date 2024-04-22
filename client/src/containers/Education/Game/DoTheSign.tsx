@@ -1,10 +1,10 @@
 import React, { useState, useRef, useEffect } from "react";
 import RulesPopup from "../../../components/RulesPopup/RulesPopup";
 import InnerSetting from "../../../components/InnerSetting/InnerSetting";
+import VideoRecorder from "../../../components/RecordVideo/VideoRecorder";
 import "./DoTheSign.css";
 import backgroundMusic from "/music/gameMusic2.mp3";
 import buttonClickedSound from "/music/btnClicked.wav";
-// import Webcam from "react-webcam";
 
 // Function to play button clicked sound
 const playButtonClickedSound = () => {
@@ -24,6 +24,42 @@ const updateBackgroundMusicVolume = (volume: number) => {
 const DoTheSign: React.FC = () => {
   const [isInnerSettingOpen, setIsInnerSettingOpen] = useState(false);
   const [showRules, setShowRules] = useState(false);
+  const [recordingStarted, setRecordingStarted] = useState(false); // State to track if recording has started
+  const [countdown, setCountdown] = useState(20);
+  const timerRef = useRef<NodeJS.Timeout | null>(null);
+
+  // Function to start countdown timer
+  const startCountdown = () => {
+    recordingStarted;
+    setRecordingStarted(true); // Set recording started flag
+    timerRef.current = setInterval(() => {
+      setCountdown((prevCountdown) => {
+        if (prevCountdown === 0) {
+          clearInterval(timerRef.current!); // Clear timer when countdown reaches 0
+          return 20; // Reset countdown value
+        } else {
+          return prevCountdown - 1; // Decrement countdown
+        }
+      });
+    }, 1000);
+  };
+
+  // Function to stop countdown timer
+  const stopCountdown = () => {
+    setRecordingStarted(false); // Set recording started flag to false
+    if (timerRef.current) {
+      clearInterval(timerRef.current); // Clear the timer interval
+    }
+  };
+
+  // Function to format time as MM:SS
+  const formatTime = (time: number) => {
+    const minutes = Math.floor(time / 60);
+    const seconds = time % 60;
+    return `${minutes.toString().padStart(2, "0")}:${seconds
+      .toString()
+      .padStart(2, "0")}`;
+  };
 
   const audioRef = useRef<HTMLAudioElement>(null);
   const updateBackgroundMusicVolume = (volume: number) => {
@@ -67,7 +103,7 @@ const DoTheSign: React.FC = () => {
           </button>
           <h1 className="level-title">Level</h1>
           <h2 className="score-title">Score: </h2>
-          <h3 className="timer-title">00:00</h3>
+          <h3 className="timer-title">{formatTime(countdown)}</h3>
           <button
             className="shared-btn setting-btn3"
             type="button"
@@ -76,7 +112,12 @@ const DoTheSign: React.FC = () => {
               setIsInnerSettingOpen(true);
             }}
           >
-            <img src="./images/setting.png" alt="Setting" width="30" height="30"/>
+            <img
+              src="./images/setting.png"
+              alt="Setting"
+              width="30"
+              height="30"
+            />
           </button>
           {showRules && (
             <RulesPopup
@@ -95,7 +136,9 @@ const DoTheSign: React.FC = () => {
           )}
           <div className="box-container">
             <div className="left-box">Badan</div>
-            <div className="right-box"></div>
+            <div className="right-box">
+              <VideoRecorder onStartRecording={startCountdown} onStopRecording={stopCountdown} />
+            </div>
           </div>
         </div>
       </div>

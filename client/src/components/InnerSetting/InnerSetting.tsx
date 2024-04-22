@@ -1,6 +1,6 @@
 import React, { useEffect, useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import buttonClickedSound from "../../../public/music//btnClicked.wav";
+import buttonClickedSound from "/music/btnClicked.wav";
 import noUiSlider from "nouislider";
 import wNumb from "wnumb";
 import "nouislider/dist/nouislider.css";
