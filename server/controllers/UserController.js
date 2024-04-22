@@ -65,16 +65,17 @@ const UserController = {
         try {
             const { email, password } = req.body;
             const user = await UserService.LoginUser({email, password});
-
-            if (user.email_verified === false) {
-                return res.status(403).json({ error: "Email not verified" });
-            }
-
-            if (user.password !== req.body.password || user.email !== req.body.email) {
-                return res.status(401).json({ error: "Incorrect email or password" });
-            }
-
+          
             if (user) {
+
+                if (user.password !== req.body.password || user.email !== req.body.email) {
+                    return res.status(401).json({ error: "Incorrect email or password" });
+                }
+    
+                if (user.email_verified === false) {
+                    return res.status(403).json({ error: "Email not verified" });
+                }
+
                 const token = jwt.sign({ email: user.email }, process.env.JWT_SECRET, {
                     expiresIn: "7d",
                 });

@@ -42,7 +42,7 @@ export default function HomepageSection() {
       .find((row) => row.startsWith("role_access="))
       ?.split("=")[1];
     if (roleAccess === "admin") {
-      setprimaryColor('#FCC003');
+      setprimaryColor('#ECB111');
       setsecondaryColor('#FFF1C5');
     } else if (roleAccess === "signexpert") {
       setprimaryColor('#71839F');
