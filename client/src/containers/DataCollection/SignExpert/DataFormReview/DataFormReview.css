@@ -1,0 +1,11 @@
+.dataCollection-bg {
+    height: auto
+        /* Add overflow property to contain child margins */
+}
+
+.filter-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 20px;
+}
