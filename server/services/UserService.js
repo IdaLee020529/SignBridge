@@ -56,6 +56,8 @@ const UserService = {
                 return existingUser;
             }
 
+            userData.acc_type = "google";   
+            userData.role_access = "public";
             // Get the count of existing users to determine the next id
             const count = await collection.countDocuments();
             userData.user_id = count + 1; // Increment count to start from 1
@@ -97,6 +99,7 @@ const UserService = {
             const collection = database.collection(DATABASE_COLLECTIONS.USERS);
             const user = await collection.findOne({
                 email: userData.email,
+                password: userData.password
             });
 
             client.close();

@@ -4,7 +4,7 @@ export const GOOGLE = {
 
 export const COLOR_ROLE_ACCESS = {
   admin: {
-    color: "#FCC003",
+    color: "#ECB111",
   },
   signexpert: {
     color: "#5E6AC6",
