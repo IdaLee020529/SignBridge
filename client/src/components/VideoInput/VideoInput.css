@@ -4,13 +4,12 @@
 }
 
 .videoinput-class .ant-btn {
-    font-size: 18px;
-    height: 50px;
+    font-size: 15px;
+    height: 40px;
     background-color: #e0ebeb;
     box-shadow: 3px 3px 10px rgba(0, 0, 0, 0.2);
     border: 0px solid #000;
     transition: background-color 0.3s, color 0.3s;
-    /* Adding transition for smoother hover effect */
 }
 
 .videoinput-class .ant-btn:hover {
@@ -32,7 +31,7 @@
 
 .videoinput-class .uploaded-text {
     color: red;
-    font-size: 18px;
+    font-size: 14px;
 }
 
 .videoinput-class .ant-space span:hover svg path {

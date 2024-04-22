@@ -8,9 +8,11 @@
     align-items: center;
     justify-content: center;
     margin-bottom: 20px;
-    /* Add margin-bottom to separate from the next content */
 }
 
+
+
+/* 
 .filter-label {
     font-size: 25px;
 }
@@ -37,12 +39,12 @@
 #sort-order {
     font-size: 20px;
     margin: 20px;
-}
+} */
 
 
 
-
-/* .horizontal-filters {
+/* 
+.horizontal-filters {
     display: flex;
     flex-wrap: wrap;
     gap: 20px;

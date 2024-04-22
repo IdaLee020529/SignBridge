@@ -2,29 +2,32 @@ import React, { useState } from "react";
 import "./CollapsibleForm.css";
 import { Button } from "../../../../components/Button/Button";
 import VideoInput from "../../../../components/VideoInput/VideoInput";
+import { Descriptions } from "antd";
 
-interface CollapsibleContentProps {
+interface CollapsibleFormProps {
   number: string;
   dateTime: string;
   status: string;
   name: string;
   email: string;
-  phoneNumber: string;
+  // phoneNumber: string;
   text: string;
   videoLink: string;
-  avatar: string;
+  avatarLink: string;
+  user?: string;
 }
 
-const CollapsibleForm: React.FC<CollapsibleContentProps> = ({
+const CollapsibleForm: React.FC<CollapsibleFormProps> = ({
   number,
   dateTime,
   status,
   name,
   email,
-  phoneNumber,
+  // phoneNumber,
   text,
   videoLink,
-  avatar,
+  avatarLink,
+  user,
 }) => {
   const [isOpen, setIsOpen] = useState<boolean>(false);
 
@@ -40,15 +43,49 @@ const CollapsibleForm: React.FC<CollapsibleContentProps> = ({
     }
   };
 
+  const personal_details = [
+    {
+      key: "1",
+      label: "Name",
+      children: <span className="personal-details-info">{name}</span>,
+    },
+    {
+      key: "2",
+      label: "Email",
+      children: <span className="personal-details-info">{email}</span>,
+    },
+    // {
+    //   key: "3",
+    //   label: "Phone Number",
+    //   children: <span className="personal-details-info">{phoneNumber}</span>,
+    // },
+  ];
+
+  const video_details = [
+    {
+      key: "1",
+      label: "Demonstration Video",
+      children: <span className="video-details-info">{videoLink}</span>,
+    },
+    {
+      key: "1",
+      label: "Avatar Video",
+      children: <span className="video-details-info">{avatarLink}</span>,
+    },
+  ];
+
   return (
     <div
       className={`collapsible-content ${isOpen ? "opened" : "not-opened"}`}
       onClick={closeForm}
     >
-      <div className="collapsible-content-header" onClick={toggleOpen}>
+      <div
+        className={`collapsible-content-header ${user}`}
+        onClick={toggleOpen}
+      >
         <div className="header-content">
           <h2 className="number">No: {number}</h2>
-          <h2 className="dateTime">DateTime: {dateTime}</h2>
+          <h2 className="dateTime">Date & Time: {dateTime}</h2>
           <h2 className="status">Status: {status}</h2>
         </div>
         <div className="expand-icon">
@@ -58,45 +95,34 @@ const CollapsibleForm: React.FC<CollapsibleContentProps> = ({
       {isOpen && (
         <div className="collapsible-content-background">
           <div className="collapsible-content-details">
-            <div className="personal-details">
-              <h2>Personal Details</h2>
-              <div className="personal-details-content">
-                <p>
-                  <strong>Name:</strong> <span>{name}</span>
-                </p>
-                <p>
-                  <strong>Email:</strong> <span>{email}</span>
-                </p>
-                <p>
-                  <strong>Phone Number:</strong> <span>{phoneNumber}</span>
-                </p>
+            <div className={`personal-details ${user}`}>
+              <h2>PERSONAL DETAILS</h2>
+              <div className="row">
+                <div className="col-md-6">
+                  <Descriptions items={personal_details} bordered column={1} />
+                </div>
               </div>
             </div>
-            <div className="separator"></div>
             <div className="sentence-details">
-              <h2>Text/Sentence</h2>
+              <h2>TEXT/ SENTENCE</h2>
               <div className="sentence-details-content">
-                <strong>1.</strong> <span>{text}</span>
+                <p>{text}</p>
               </div>
             </div>
           </div>
           <div className="collapsible-content-footer">
-            <div className="content-left">
-              <div>
-                <strong>Demonstration Video: </strong>
-                <a href={videoLink} download>
-                  {text}.mp4
-                </a>
-              </div>
-
-              {status === "In Progress" && (
-                <div>
-                  <strong>Avatar Video: </strong>
-                  <span></span>
+            <div className={`content-left ${user}`}>
+              <h2>VIDEO DETAILS</h2>
+              <div className="row">
+                <div className="col-md-6">
+                  <Descriptions
+                    items={video_details}
+                    bordered
+                    layout="vertical"
+                  />
                 </div>
-              )}
+              </div>
             </div>
-
             <div className="buttons-right">
               {status === "New" && (
                 <div className="button-container">
@@ -112,7 +138,6 @@ const CollapsibleForm: React.FC<CollapsibleContentProps> = ({
                   </Button>
                 </div>
               )}
-
               {status === "In Progress" && (
                 <div className="button-container">
                   <Button
@@ -125,7 +150,6 @@ const CollapsibleForm: React.FC<CollapsibleContentProps> = ({
                   </Button>
                 </div>
               )}
-
               {status === "Rejected" && (
                 <div className="button-container">
                   <Button

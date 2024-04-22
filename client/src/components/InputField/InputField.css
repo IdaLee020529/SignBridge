@@ -1,6 +1,7 @@
 .form-group {
-    margin-top: 50px;
+    margin-bottom: 50px;
     position: relative;
+    max-height: 33%;
 }
 
 .form-group input,
@@ -31,13 +32,13 @@
 }
 
 .input-label.multiple_label {
-    transform: translateY(-160%);
+    transform: translateY(-180%);
 }
 
 .form-group input:focus+.input-label,
 .form-group input:not(:placeholder-shown)+.input-label {
     top: -15px;
-    font-size: 20px;
+    font-size: 18px;
     left: 0.5%;
     color: #000;
 }
@@ -45,7 +46,7 @@
 .form-group textarea:focus~.input-label,
 .form-group textarea:not(:placeholder-shown)~.input-label {
     top: 10px;
-    font-size: 20px;
+    font-size: 18px;
     left: 0.5%;
     color: #000;
 }
@@ -70,7 +71,37 @@
     overflow: hidden;
 }
 
+/* .form-control.is-invalid {
+    border-color: red !important;
+}
 
+.form-group .invalid-feedback {
+    color: red;
+    font-size: 15px;
+    margin-left: 10px;
+    text-align: left;
+}
+
+.form-group.is-invalid input:focus+.input-label,
+.form-group.is-invalid input:placeholder-shown+.input-label {
+    margin-top: -10px;
+} */
+
+.form-group .form-error {
+    opacity: 0;
+    position: absolute;
+    transition: opacity 0.3s ease-in-out;
+    margin-left: 5px;
+    color: red;
+}
+
+.form-group .form-error.is-invalid {
+    opacity: 1;
+}
+
+.form-control.is-invalid {
+    border-color: red !important;
+}
 
 @media screen and (max-width: 768px) {
 

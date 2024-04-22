@@ -1,7 +1,7 @@
 // Communication.jsx
 import "./Communication.css";
 import React, { useState } from "react";
-import { Canvas } from "@react-three/fiber";
+import { Canvas } from "@react-three/fiber/dist/react-three-fiber.cjs";
 import { CharacterAnimationsProvider } from "../../components/SLP/CharacterAnimations";
 import Experience from "../../components/SLP/Experience";
 import Man from "../../components/AvatarModels/Man";
@@ -31,60 +31,81 @@ function Communication() {
 
   return (
     <div className="communication-body">
-    <div className="container-wrapper">
-      <div className="menu">
-        <select>
-          <option value="option1">SLP (Sign Language Production)</option>
-          <option value="option2">SLR (Sign Language Recognition)</option>
-        </select>
-      </div>
-      <div className="sidebar-btns">
-            <div className="hand-viewbtn">
-          <button><img src="./images/handview.png" alt="Logo" className="handviewbtn" /></button>
+      <div className="container-wrapper">
+        <div className="menu">
+          <select>
+            <option value="option1">SLP (Sign Language Production)</option>
+            <option value="option2">SLR (Sign Language Recognition)</option>
+          </select>
         </div>
-        <div className="reset-viewbtn">
-          <button><img src="./images/resetview.png" alt="Logo" className="resetviewbtn" /></button>
-        </div>
-
-      </div>
-      <div className="canvas-wrapper">
-        <Canvas camera={{ position: [1, 55, 225], fov: 45 }} shadows>
-          {/* Your 3D scene components */}
-          <directionalLight intensity={1} color="white" position={[10, 10, 10]} />
-          <CharacterAnimationsProvider>
-            <Experience />
-            <Man animationKeyword={inputText} speed={speed} />
-          </CharacterAnimationsProvider>
-        </Canvas>
-      </div>
-      <div className="content-wrapper">
-        <div className="controls">
-          <label htmlFor="avatarSelect">Avatar: Manuel</label>
-        </div>
-        <div className="speed-control">
-          <label htmlFor="speedControl">Speed:</label>
-          <input type="text" id="speedControl" name="speedControl" value={speed} disabled />
-          <div className="buttons">
-            <button onClick={handleMinus}>-</button>
-            <button onClick={handlePlus}>+</button>
-            <button onClick={handleReset}>Reset</button>
+        <div className="sidebar-btns">
+          <div className="hand-viewbtn">
+            <button>
+              <img
+                src="./images/handview.png"
+                alt="Logo"
+                className="handviewbtn"
+              />
+            </button>
+          </div>
+          <div className="reset-viewbtn">
+            <button>
+              <img
+                src="./images/resetview.png"
+                alt="Logo"
+                className="resetviewbtn"
+              />
+            </button>
           </div>
         </div>
-        <div className="sigml">
-          <form onSubmit={handleSubmit}>
-            <label htmlFor="sigmlUrl">TextBox:</label>
+        <div className="canvas-wrapper">
+          <Canvas camera={{ position: [1, 55, 225], fov: 45 }} shadows>
+            {/* Your 3D scene components */}
+            <directionalLight
+              intensity={1}
+              color="white"
+              position={[10, 10, 10]}
+            />
+            <CharacterAnimationsProvider>
+              <Experience />
+              <Man animationKeyword={inputText} speed={speed} />
+            </CharacterAnimationsProvider>
+          </Canvas>
+        </div>
+        <div className="content-wrapper">
+          <div className="controls">
+            <label htmlFor="avatarSelect">Avatar: Manuel</label>
+          </div>
+          <div className="speed-control">
+            <label htmlFor="speedControl">Speed:</label>
             <input
               type="text"
-              id="sigmlUrl"
-              name="sigmlUrl"
-              placeholder="Enter text here"
-              spellCheck = "true"
+              id="speedControl"
+              name="speedControl"
+              value={speed}
+              disabled
             />
-            <button type="submit">Submit</button>
-          </form>
+            <div className="buttons">
+              <button onClick={handleMinus}>-</button>
+              <button onClick={handlePlus}>+</button>
+              <button onClick={handleReset}>Reset</button>
+            </div>
+          </div>
+          <div className="sigml">
+            <form onSubmit={handleSubmit}>
+              <label htmlFor="sigmlUrl">TextBox:</label>
+              <input
+                type="text"
+                id="sigmlUrl"
+                name="sigmlUrl"
+                placeholder="Enter text here"
+                spellCheck="true"
+              />
+              <button type="submit">Submit</button>
+            </form>
+          </div>
         </div>
       </div>
-    </div>
     </div>
   );
 }
