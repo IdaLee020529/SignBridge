@@ -75,7 +75,7 @@ const Man = ({props, animationKeyword, speed}) => {
   }, [animationQueue, actions, currentAnimationIndex]);
 
   return (
-    <group ref={group} {...props} position={[5, -110, 0]} dispose={null}>
+    <group ref={group} {...props} position={[7.5, -105, 0]} dispose={null}>
       <group name="Scene">
         <group name="Armature001" rotation={[1.829, 0, 0]}>
           <primitive object={nodes.root} />
