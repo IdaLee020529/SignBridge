@@ -42,11 +42,11 @@ export default function HomepageSection() {
       .find((row) => row.startsWith("role_access="))
       ?.split("=")[1];
     if (roleAccess === "admin") {
-      setprimaryColor('#ECB111');
-      setsecondaryColor('#FFF1C5');
+      setprimaryColor('#FFFFFF');
+      setsecondaryColor('#A4825E');
     } else if (roleAccess === "signexpert") {
-      setprimaryColor('#71839F');
-      setsecondaryColor('#E7F0FD');
+      setprimaryColor('#FFFFFF');
+      setsecondaryColor('#C6C6C6');
     } else {
       setprimaryColor('#77828F');
       setsecondaryColor('#D3DEE8');

@@ -19,6 +19,7 @@ import ForgotResetPasswordLayout from "./ForgotResetPasswordLayout";
 import { Toaster } from "react-hot-toast";
 import GuessTheWord from "./containers/Education/Game/GuessTheWord";
 import DoTheSign from "./containers/Education/Game/DoTheSign";
+import DataCollectionReview from "./containers/DataCollection/Admin/DataCollectionReview";
 
 function App() {
 	const clientId = "52594958094-08qvrugskhjjv34j4h0oi4m2ognjg830.apps.googleusercontent.com";
@@ -53,7 +54,7 @@ return (
             <Route path="/library" element={<Library />} />
             <Route path="/communication" element={<Communication />} />
             <Route path="/education" element={<Education />} />
-            <Route path="/dataset-collection" element={<DataCollection />} />
+            <Route path="/dataset-collection" element={<DataCollectionReview />} />
             <Route path="/feedback" element={<Feedback />} />
             <Route path="/faq" element={<Faq />} />
             <Route path="/notifications" element={<Notification />} />
