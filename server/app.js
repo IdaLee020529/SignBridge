@@ -40,6 +40,9 @@ app.use(session({
 const userRoutes = require("./routes/UserRoutes")
 app.use(userRoutes);
 
+const feedbackRoutes = require("./routes/FeedbackRoutes")
+app.use(feedbackRoutes);
+
 // ------------------------------------------------------------------------------------------------------------
 const UserController = require("./controllers/UserController")
   app.listen(port, () => {
