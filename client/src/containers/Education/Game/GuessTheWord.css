@@ -136,7 +136,7 @@
     justify-content: center; /* Center content horizontally in case of inline or inline-block elements inside */
     align-items: center; /* Center content vertically */
     height: 100px; /* Or whatever height you prefer, adjust accordingly */
-	margin: 12% 0;
+	margin: 14% 0;
 }
 
 .answer-option {

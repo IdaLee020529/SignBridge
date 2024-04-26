@@ -1,6 +1,6 @@
 import React, { useState, useRef, useEffect } from "react";
-import RulesPopup from "../../../components/RulesPopup/RulesPopup";
-import InnerSetting from "../../../components/InnerSetting/InnerSetting";
+import RulesPopup from "../components/RulesPopup/RulesPopup";
+import InnerSetting from "../components/InnerSetting/InnerSetting";
 import "./GuessTheWord.css";
 import backgroundMusic from "/music/gameMusic2.mp3";
 import buttonClickedSound from "/music/btnClicked.wav";

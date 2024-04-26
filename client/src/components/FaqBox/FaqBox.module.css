@@ -18,7 +18,7 @@
 }
 
 .AccordionItem:first-child {
-  margin-top: 0; 
+  margin-top: -400px; 
 }
 
 .AccordionItem:last-child {

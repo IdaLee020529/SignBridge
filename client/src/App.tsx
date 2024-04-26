@@ -19,9 +19,10 @@ import ForgotResetPasswordLayout from "./ForgotResetPasswordLayout";
 import { Toaster } from "react-hot-toast";
 import GuessTheWord from "./containers/Education/Game/GuessTheWord";
 import DoTheSign from "./containers/Education/Game/DoTheSign";
-import DataCollectionReview from "./containers/DataCollection/Admin/DataCollectionReview";
+// import DataCollectionReview from "./containers/DataCollection/Admin/DataCollectionReview";
 import FeedbackAdmin from "./containers/Feedback/Admin/FeedbackAdmin";
 import FeedbackSuccess from "./containers/Feedback/FeedbackSuccess";
+import FaqAdmin from "./containers/Faq/Admin/FaqAdmin";
 
 function App() {
 	const clientId = "52594958094-08qvrugskhjjv34j4h0oi4m2ognjg830.apps.googleusercontent.com";
@@ -57,6 +58,26 @@ function App() {
     }
   }, [location.pathname]);
 
+  const [faqComponent, setFaqComponent] = useState<React.ReactNode>(<Faq />);
+  useEffect(() => {
+    const roleAccess = document.cookie
+        .split("; ")
+        .find((row) => row.startsWith("role_access="))
+        ?.split("=")[1];
+
+    switch (roleAccess) {
+      case "admin":
+        setFaqComponent(<FaqAdmin />);
+        break;
+      case "signexpert":
+        setFaqComponent(<Faq />); 
+        break;
+      default:
+        setFaqComponent(<Faq />);
+        break;
+    }
+  }, [location.pathname]);
+
   useEffect(() => {
 	if (location.pathname !== "/education" && location.pathname !== "/guess-the-word" && location.pathname !== "/do-the-sign") {
 		console.log("App.tsx: useEffect: window.window.location.pathname !== /education, /guess-the-word, /do-the-sign");
@@ -78,7 +99,7 @@ return (
             <Route path="/education" element={<Education />} />
             <Route path="/dataset-collection" element={<DataCollection />} />
             <Route path="/feedback" element={feedbackComponent} />
-            <Route path="/faq" element={<Faq />} />
+            <Route path="/faq" element={faqComponent} />
             <Route path="/notifications" element={<Notification />} />
             <Route path="/login" element={<Login />} />
             <Route path="/sign-up" element={<SignUp />} />

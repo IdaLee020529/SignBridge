@@ -80,5 +80,4 @@ const AccordionContent = React.forwardRef<HTMLDivElement, AccordionContentProps>
   )
 );
 
-
 export default AccordionDemo;
