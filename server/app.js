@@ -43,9 +43,14 @@ app.use(userRoutes);
 const feedbackRoutes = require("./routes/FeedbackRoutes")
 app.use(feedbackRoutes);
 
+const faqRoutes = require("./routes/FaqRoutes")
+app.use(faqRoutes);
+
 // ------------------------------------------------------------------------------------------------------------
 const UserController = require("./controllers/UserController")
+const FaqController = require("./controllers/FaqController")
   app.listen(port, () => {
   console.log(`Server started at http://localhost:${port}`);
   UserController.insertPresetAccounts();
+  FaqController.insertFixFaq();
 });
