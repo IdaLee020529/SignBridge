@@ -1,82 +1,310 @@
-{
-  "ADIKPEREMPUAN": ["AdikPerempuan1", "AdikPerempuan2", "AdikPerempuan3"],
-  "AKAN": ["Akan1", "Akan2"],
-  "ASMA": ["Asma1", "Asma2"],
-  "BADAN": ["Badan1", "Badan2", "Badan3"],
-  "BAHU": ["Bahu1", "Bahu2", "Bahu3", "Bahu4"],
-  "BENGKAK": ["Bengkak1", "Bengkak2", "Bengkak3"],
-  "BIBIR": ["Bibir1", "Bibir2", "Bibir3"],
-  "BUAHPINGGANG": ["BuahPinggang1", "BuahPinggang2", "BuahPinggang3"],
-  "DARAH": ["Darah1", "Darah2", "Darah3"],
-  "DATUK": ["Datuk1", "Datuk2", "Datuk3"],
-  "DEMAM": ["Demam1", "Demam2"],
-  "DOKTOR": ["Doktor1", "Doktor2", "Doktor3", "Doktor4"],
-  "GATAL": ["Gatal1", "Gatal2", "Gatal3"],
-  "GIGI": ["Gigi1", "Gigi2", "Gigi3"],
-  "HABIS": ["Habis1", "Habis2", "Habis3", "Habis4"],
-  "HIDUNG": ["Hidung1", "Hidung2"],
-  "HUJAN": ["Hujan1", "Hujan2"],
-  "JANTUNG": ["Jantung1", "Jantung2"],
-  "JARI": ["Jari1", "Jari2", "Jari3"],
-  "JURURAWAT": ["Jururawat1", "Jururawat2"],
-  "KAKI": ["Kaki1", "Kaki2", "Kaki3"],
-  "KECEMASAN": ["Kecemasan1", "Kecemasan2", "Kecemasan3"],
-  "KERANA": ["Kerana1", "Kerana2"],
-  "KESAKITAN": ["Kesakitan1", "Kesakitan2"],
-  "KRIM": ["Krim1", "Krim2", "Krim3"],
-  "KULIT": ["Kulit1", "Kulit2", "Kulit3"],
-  "LEHER": ["Leher1", "Leher2", "Leher3"],
-  "LEMAH": ["Lemah1", "Lemah2", "Lemah3"],
-  "LIDAH": ["Lidah1", "Lidah2", "Lidah3"],
-  "MAHU": ["Mahu1", "Mahu2"],
-  "MATA": ["Mata1", "Mata2"],
-  "MENGANDUNG": ["Mengandung1", "Mengandung2"],
-  "MULUT": ["Mulut1", "Mulut2"],
-  "MUNTAH": ["Muntah1", "Muntah2", "Muntah3"],
-  "PENAT": ["Penat1", "Penat2", "Penat3"],
-  "PERGI": ["Pergi1", "Pergi2"],
-  "PERUT": ["Perut1", "Perut2"],
-  "PIL": ["Pil1", "Pil2", "Pil3"],
-  "SAKITKEPALA": ["SakitKepala1", "SakitKepala2", "SakitKepala3", "SakitKepala4"],
-  "SAKITPERUT": ["SakitPerut1", "SakitPerut2"],
-  "SAKITPINGGANG": ["SakitPinggang1", "SakitPinggang2", "SakitPinggang3", "SakitPinggang4"],
-  "SAKITTEKAK": ["SakitTekak1", "SakitTekak2", "SakitTekak3", "SakitTekak4"],
-  "SELSEMA": ["Selsema1", "Selsema2", "Selsema3"],
-  "SINARX": ["SinarX1", "SinarX2", "SinarX3", "SinarX4", "SinarX5", "SinarX6"],
-  "TINGGI": ["Tinggi1", "Tinggi2"],
-  "TULANG": ["Tulang1", "Tulang2", "Tulang3"],
-  "TULANGRUSUK": ["TulangRusuk1", "TulangRusuk2"],
-
-  "SATU": ["Satu"],
-  "DUA": ["Dua"],
-  "TIGA": ["Tiga"],
-  "EMPAT": ["Empat"],
-  "LIMA": ["Lima"],
-  "ENAM": ["Enam"],
-  "TUJUH": ["Tujuh"],
-  "LAPAN": ["Lapan"],
-  "SEMBILAN": ["Sembilan"],
-  "SEPULUH": ["Sepuluh1", "Sepuluh2"],
-
-  "1": ["Satu"],
-  "2": ["Dua"],
-  "3": ["Tiga"],
-  "4": ["Empat"],
-  "5": ["Lima"],
-  "6": ["Enam"],
-  "7": ["Tujuh"],
-  "8": ["Lapan"],
-  "9": ["Sembilan"],
-  "10": ["Sepuluh1", "Sepuluh2"],
-  
-  "A": ["A"],
-  "B": ["B"],
-  "C": ["C"],
-  "D": ["D"],
-  "E": ["E"],
-  "F": ["F"],
-  "G": ["G"],
-  "H": ["H"],
-  "I": ["I"],
-  "J": ["J"]
-}
+[
+  {
+    "keyword": "ADIKPEREMPUAN",
+    "animations": ["AdikPerempuan1", "AdikPerempuan2", "AdikPerempuan3"]
+  },
+  {
+    "keyword": "AKAN",
+    "animations": ["Akan1", "Akan2"]
+  },
+  {
+    "keyword": "ASMA",
+    "animations": ["Asma1", "Asma2"]
+  },
+  {
+    "keyword": "BADAN",
+    "animations": ["Badan1", "Badan2", "Badan3"]
+  },
+  {
+    "keyword": "BAHU",
+    "animations": ["Bahu1", "Bahu2", "Bahu3", "Bahu4"]
+  },
+  {
+    "keyword": "BENGKAK",
+    "animations": ["Bengkak1", "Bengkak2", "Bengkak3"]
+  },
+  {
+    "keyword": "BIBIR",
+    "animations": ["Bibir1", "Bibir2", "Bibir3"]
+  },
+  {
+    "keyword": "BUAHPINGGANG",
+    "animations": ["BuahPinggang1", "BuahPinggang2", "BuahPinggang3"]
+  },
+  {
+    "keyword": "DARAH",
+    "animations": ["Darah1", "Darah2", "Darah3"]
+  },
+  {
+    "keyword": "DATUK",
+    "animations": ["Datuk1", "Datuk2", "Datuk3"]
+  },
+  {
+    "keyword": "DEMAM",
+    "animations": ["Demam1", "Demam2"]
+  },
+  {
+    "keyword": "DOKTOR",
+    "animations": ["Doktor1", "Doktor2", "Doktor3", "Doktor4"]
+  },
+  {
+    "keyword": "GATAL",
+    "animations": ["Gatal1", "Gatal2", "Gatal3"]
+  },
+  {
+    "keyword": "GIGI",
+    "animations": ["Gigi1", "Gigi2", "Gigi3"]
+  },
+  {
+    "keyword": "HABIS",
+    "animations": ["Habis1", "Habis2", "Habis3", "Habis4"]
+  },
+  {
+    "keyword": "HIDUNG",
+    "animations": ["Hidung1", "Hidung2"]
+  },
+  {
+    "keyword": "HUJAN",
+    "animations": ["Hujan1", "Hujan2"]
+  },
+  {
+    "keyword": "JANTUNG",
+    "animations": ["Jantung1", "Jantung2"]
+  },
+  {
+    "keyword": "JARI",
+    "animations": ["Jari1", "Jari2", "Jari3"]
+  },
+  {
+    "keyword": "JURURAWAT",
+    "animations": ["Jururawat1", "Jururawat2"]
+  },
+  {
+    "keyword": "KAKI",
+    "animations": ["Kaki1", "Kaki2", "Kaki3"]
+  },
+  {
+    "keyword": "KECEMASAN",
+    "animations": ["Kecemasan1", "Kecemasan2", "Kecemasan3"]
+  },
+  {
+    "keyword": "KERANA",
+    "animations": ["Kerana1", "Kerana2"]
+  },
+  {
+    "keyword": "KESAKITAN",
+    "animations": ["Kesakitan1", "Kesakitan2"]
+  },
+  {
+    "keyword": "KRIM",
+    "animations": ["Krim1", "Krim2", "Krim3"]
+  },
+  {
+    "keyword": "KULIT",
+    "animations": ["Kulit1", "Kulit2", "Kulit3"]
+  },
+  {
+    "keyword": "LEHER",
+    "animations": ["Leher1", "Leher2", "Leher3"]
+  },
+  {
+    "keyword": "LEMAH",
+    "animations": ["Lemah1", "Lemah2", "Lemah3"]
+  },
+  {
+    "keyword": "LIDAH",
+    "animations": ["Lidah1", "Lidah2", "Lidah3"]
+  },
+  {
+    "keyword": "MAHU",
+    "animations": ["Mahu1", "Mahu2"]
+  },
+  {
+    "keyword": "MATA",
+    "animations": ["Mata1", "Mata2"]
+  },
+  {
+    "keyword": "MENGANDUNG",
+    "animations": ["Mengandung1", "Mengandung2"]
+  },
+  {
+    "keyword": "MULUT",
+    "animations": ["Mulut1", "Mulut2"]
+  },
+  {
+    "keyword": "MUNTAH",
+    "animations": ["Muntah1", "Muntah2", "Muntah3"]
+  },
+  {
+    "keyword": "PENAT",
+    "animations": ["Penat1", "Penat2", "Penat3"]
+  },
+  {
+    "keyword": "PERGI",
+    "animations": ["Pergi1", "Pergi2"]
+  },
+  {
+    "keyword": "PERUT",
+    "animations": ["Perut1", "Perut2"]
+  },
+  {
+    "keyword": "PIL",
+    "animations": ["Pil1", "Pil2", "Pil3"]
+  },
+  {
+    "keyword": "SAKITKEPALA",
+    "animations": ["SakitKepala1", "SakitKepala2", "SakitKepala3", "SakitKepala4"]
+  },
+  {
+    "keyword": "SAKITPERUT",
+    "animations": ["SakitPerut1", "SakitPerut2"]
+  },
+  {
+    "keyword": "SAKITPINGGANG",
+    "animations": ["SakitPinggang1", "SakitPinggang2", "SakitPinggang3", "SakitPinggang4"]
+  },
+  {
+    "keyword": "SAKITTEKAK",
+    "animations": ["SakitTekak1", "SakitTekak2", "SakitTekak3", "SakitTekak4"]
+  },
+  {
+    "keyword": "SELSEMA",
+    "animations": ["Selsema1", "Selsema2", "Selsema3"]
+  },
+  {
+    "keyword": "SINARX",
+    "animations": ["SinarX1", "SinarX2", "SinarX3", "SinarX4", "SinarX5", "SinarX6"]
+  },
+  {
+    "keyword": "TINGGI",
+    "animations": ["Tinggi1", "Tinggi2"]
+  },
+  {
+    "keyword": "TULANG",
+    "animations": ["Tulang1", "Tulang2", "Tulang3"]
+  },
+  {
+    "keyword": "TULANGRUSUK",
+    "animations": ["TulangRusuk1", "TulangRusuk2"]
+  },
+  {
+    "keyword": "SATU",
+    "animations": ["Satu"]
+  },
+  {
+    "keyword": "DUA",
+    "animations": ["Dua"]
+  },
+  {
+    "keyword": "TIGA",
+    "animations": ["Tiga"]
+  },
+  {
+    "keyword": "EMPAT",
+    "animations": ["Empat"]
+  },
+  {
+    "keyword": "LIMA",
+    "animations": ["Lima"]
+  },
+  {
+    "keyword": "ENAM",
+    "animations": ["Enam"]
+  },
+  {
+    "keyword": "TUJUH",
+    "animations": ["Tujuh"]
+  },
+  {
+    "keyword": "LAPAN",
+    "animations": ["Lapan"]
+  },
+  {
+    "keyword": "SEMBILAN",
+    "animations": ["Sembilan"]
+  },
+  {
+    "keyword": "SEPULUH",
+    "animations": ["Sepuluh1", "Sepuluh2"]
+  },
+  {
+    "keyword": "1",
+    "animations": ["Satu"]
+  },
+  {
+    "keyword": "2",
+    "animations": ["Dua"]
+  },
+  {
+    "keyword": "3",
+    "animations": ["Tiga"]
+  },
+  {
+    "keyword": "4",
+    "animations": ["Empat"]
+  },
+  {
+    "keyword": "5",
+    "animations": ["Lima"]
+  },
+  {
+    "keyword": "6",
+    "animations": ["Enam"]
+  },
+  {
+    "keyword": "7",
+    "animations": ["Tujuh"]
+  },
+  {
+    "keyword": "8",
+    "animations": ["Lapan"]
+  },
+  {
+    "keyword": "9",
+    "animations": ["Sembilan"]
+  },
+  {
+    "keyword": "10",
+    "animations": ["Sepuluh1", "Sepuluh2"]
+  },
+  {
+    "keyword": "A",
+    "animations": ["A"]
+  },
+  {
+    "keyword": "B",
+    "animations": ["B"]
+  },
+  {
+    "keyword": "C",
+    "animations": ["C"]
+  },
+  {
+    "keyword": "D",
+    "animations": ["D"]
+  },
+  {
+    "keyword": "E",
+    "animations": ["E"]
+  },
+  {
+    "keyword": "F",
+    "animations": ["F"]
+  },
+  {
+    "keyword": "G",
+    "animations": ["G"]
+  },
+  {
+    "keyword": "H",
+    "animations": ["H"]
+  },
+  {
+    "keyword": "I",
+    "animations": ["I"]
+  },
+  {
+    "keyword": "J",
+    "animations": ["J"]
+  }
+]
