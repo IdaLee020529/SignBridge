@@ -12,13 +12,16 @@ import Login from "./containers/Login/Login";
 import SignUp from "./containers/SignUp/SignUp";
 import ForgotPassword from "./containers/Login/ForgotPwd/ForgotPassword";
 import ResetPassword from "./containers/Login/ResetPwd/ResetPassword";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { gapi } from "gapi-script";
 import HomeLayout from "./HomeLayout";
 import ForgotResetPasswordLayout from "./ForgotResetPasswordLayout";
 import { Toaster } from "react-hot-toast";
 import GuessTheWord from "./containers/Education/Game/GuessTheWord";
 import DoTheSign from "./containers/Education/Game/DoTheSign";
+import DataCollectionReview from "./containers/DataCollection/Admin/DataCollectionReview";
+import FeedbackAdmin from "./containers/Feedback/Admin/FeedbackAdmin";
+import FeedbackSuccess from "./containers/Feedback/FeedbackSuccess";
 
 function App() {
 	const clientId = "52594958094-08qvrugskhjjv34j4h0oi4m2ognjg830.apps.googleusercontent.com";
@@ -33,6 +36,26 @@ function App() {
     }
     gapi.load("client:auth2", initGapi);
   });
+
+  const [feedbackComponent, setFeedbackComponent] = useState<React.ReactNode>(<Feedback />);
+  useEffect(() => {
+    const roleAccess = document.cookie
+        .split("; ")
+        .find((row) => row.startsWith("role_access="))
+        ?.split("=")[1];
+
+    switch (roleAccess) {
+      case "admin":
+        setFeedbackComponent(<FeedbackAdmin />);
+        break;
+      case "signexpert":
+        setFeedbackComponent(<Feedback />);
+        break;
+      default:
+        setFeedbackComponent(<Feedback />);
+        break;
+    }
+  }, [location.pathname]);
 
   useEffect(() => {
 	if (location.pathname !== "/education" && location.pathname !== "/guess-the-word" && location.pathname !== "/do-the-sign") {
@@ -54,7 +77,7 @@ return (
             <Route path="/communication" element={<Communication />} />
             <Route path="/education" element={<Education />} />
             <Route path="/dataset-collection" element={<DataCollection />} />
-            <Route path="/feedback" element={<Feedback />} />
+            <Route path="/feedback" element={feedbackComponent} />
             <Route path="/faq" element={<Faq />} />
             <Route path="/notifications" element={<Notification />} />
             <Route path="/login" element={<Login />} />
@@ -65,6 +88,7 @@ return (
           <Route element={<ForgotResetPasswordLayout />}>
             <Route path="/forgot-password" element={<ForgotPassword />} />
             <Route path="/reset-password" element={<ResetPassword />} />
+            <Route path="/feedback-success" element={<FeedbackSuccess />} />
           </Route>
         </Routes>
     </>

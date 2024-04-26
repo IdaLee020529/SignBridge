@@ -15,7 +15,7 @@ function Navbar() {
 	const userRole = Cookies.get("role_access");
 	const { color, updateColors } = useTheme();
 
-	console.log("User Role: ", userRole);
+	//console.log("User Role: ", userRole);
 
 	// Function to set user authentication status in session storage when user logs in
 	const setUserLoggedIn = () => {
@@ -24,7 +24,7 @@ function Navbar() {
 
 	// Function to check if user is logged in based on session storage
 	const isUserLoggedIn = () => {
-		console.log("Is user login:", Cookies.get("token"));
+		//console.log("Is user login:", Cookies.get("token"));
 		return Cookies.get("token") ? true : false;
 	};
 

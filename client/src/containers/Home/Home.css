@@ -36,7 +36,7 @@
 
 /* ---------- For available module ---------- */
 .available-module-section {
-  padding: 2rem 0;
+  padding: 0 0 2rem 0;
   margin: 20px auto;
   width: 80%;
   text-align: center;
@@ -160,13 +160,11 @@
   display: flex;
   align-items: center;
   gap: 2rem;
-  flex-wrap: wrap;
-  padding: 2rem 0;
   padding-bottom: 3rem;
 }
 
 .about .row .video-container {
-  flex: 1 1 30rem;
+  flex: 1 1 40rem;
   position: relative;
 }
 
@@ -220,16 +218,26 @@ iframe {
 
 /* ----------Back to top ---------- */
 .back-to-top-button {
-    width: 40px;
-    height: 40px;
-    position: fixed;
-    bottom: 20px;
-    right: 20px;
-    background-color: #000000;
-    color: white;
-    border: none;
-    border-radius: 50%;
-    cursor: pointer;
-    transition: background-color 0.3s;
-    font-size: 1.5rem;
+  width: 40px;
+  height: 40px;
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  background-color: #000000;
+  color: white;
+  border: none;
+  border-radius: 50%;
+  cursor: pointer;
+  transition: background-color 0.3s;
+  font-size: 1.5rem;
+}
+
+@media screen and (max-width: 768px) {
+  .about .row {
+    flex-wrap: wrap;
   }
+
+  .about .row .content p {
+    font-size: 15px;
+  }
+}
