@@ -6,7 +6,8 @@ const PORT = process.env.PORT
 
 const DATABASE_COLLECTIONS = {
   USERS: "users",
-  AVATAR: "avatar"
+  AVATAR: "avatar",
+  FEEDBACKS: "feedbacks"
 }
 
 async function connectDB() {
