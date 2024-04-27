@@ -3,7 +3,7 @@
     background-repeat: no-repeat;
     background-position: 0 70%;
     background-size: cover;
-    height: calc(100vh - 80px);
+    height: calc(100vh - 30px);
     display: grid;
     place-items: center;
 }
@@ -131,12 +131,12 @@
 }
 
 .question {
-    width: 100%; /* Ensures the question takes full width of its container */
+    width: 100%; 
     display: flex;
-    justify-content: center; /* Center content horizontally in case of inline or inline-block elements inside */
-    align-items: center; /* Center content vertically */
-    height: 100px; /* Or whatever height you prefer, adjust accordingly */
-	margin: 14% 0;
+    justify-content: center; 
+    align-items: center; 
+    height: 100px; 
+	margin: 13% 0;
 }
 
 .answer-option {
@@ -155,7 +155,7 @@
     justify-content: center;
     padding-left: 16px;
     padding-right: 16px;
-    margin: 0 19px;
+    margin: 19px 19px;
     font-size: 25px;
 }
 
@@ -186,5 +186,20 @@
 /* Avatar */
 .education-canvas-wrapper {
     width: 50%;
-    height: 40vh;
+    height: 350px;
 }
+
+/* Lives */
+.lives-container {
+    display: flex;
+    justify-content: center;
+    align-items: center; 
+    margin: 10px 10px; 
+}
+
+.lives-container img {
+    width: 30px;
+    height: 30px;
+    margin: 0 3px; 
+}
+
