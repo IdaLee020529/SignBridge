@@ -1,13 +1,17 @@
 import React, { useState, useRef, useEffect } from "react";
 import RulesPopup from "../components/RulesPopup/RulesPopup";
 import InnerSetting from "../components/InnerSetting/InnerSetting";
+import GameOverPopup from "../components/GameOver/GameOver";
 import "./GuessTheWord.css";
-import backgroundMusic from "/music/gameMusic2.mp3";
-import buttonClickedSound from "/music/btnClicked.wav";
 import { Canvas } from "@react-three/fiber";
 import { CharacterAnimationsProvider } from "../../../components/SLP/CharacterAnimations";
 import Experience from "../../../components/SLP/Experience";
 import Man from "../../../components/AvatarModels/Man";
+import heartImage from "/images/heart.png";
+import backgroundMusic from "/music/gameMusic2.mp3";
+import buttonClickedSound from "/music/btnClicked.wav";
+import correctAnswerSound from "/music/correctMusic.mp3";
+import wrongAnswerSound from "/music/wrongMusic.mp3";
 
 interface Question {
     level: number;
@@ -20,9 +24,18 @@ interface GlossData {
     [key: string]: any;
 }
 
-// Function to play button clicked sound
 const playButtonClickedSound = () => {
     const audio = new Audio(buttonClickedSound);
+    audio.play();
+};
+
+const playCorrectAnswerSound = () => {
+    const audio = new Audio(correctAnswerSound);
+    audio.play();
+};
+
+const playWrongAnswerSound = () => {
+    const audio = new Audio(wrongAnswerSound);
     audio.play();
 };
 
@@ -41,7 +54,20 @@ const GuessTheWord: React.FC = () => {
     const [animationKeyword, setAnimationKeyword] = useState("");
     const [answerOptions, setAnswerOptions] = useState<string[]>([]);
     const [questions, setQuestions] = useState<Question>();
-    console.log("Question List: ", questionList)
+    const [clickedOptions, setClickedOptions] = useState<boolean[]>(
+        new Array(4).fill(false)
+    );
+    const [lives, setLives] = useState(3);
+    const [gameOver, setGameOver] = useState(false);
+
+    showScore;
+
+    // Function to render hearts for lives
+    const renderLives = () => {
+        return Array.from({ length: lives }, (_, i) => (
+            <img key={i} src={heartImage} alt="Heart" />
+        ));
+    };
 
     const loadAnimationKeywords = async (): Promise<GlossData | null> => {
         try {
@@ -69,30 +95,20 @@ const GuessTheWord: React.FC = () => {
 
     const pickRandomKeyword = async () => {
         const glossData = await loadAnimationKeywords();
-        console.log("glossData", glossData);
         if (glossData) {
             const keys = Object.keys(glossData);
-            console.log("Keys", keys);
             const randomKey = keys[Math.floor(Math.random() * keys.length)];
+            const newQuestion = {
+                level: level++,
+                question: "",
+                options: [],
+                correctAnswer: randomKey,
+            };
             setAnimationKeyword(randomKey);
-            const newQuestion = { level: level++, question: "", options: [], correctAnswer: randomKey };
             setQuestions(newQuestion);
             questionList.push(newQuestion);
-            console.log("Question List: ", questionList);
-            console.log("Selected animation keyword:", randomKey);
         }
     };
-
-    // const updateCurrentQuestionCorrectAnswer = (answer: string) => {
-    //     const updatedQuestions = questionList.map((question, index) => {
-    //         if (index === currentQuestionIndex) {
-    //             return { ...question, correctAnswer: answer };
-    //         }
-    //         return question;
-    //     });
-    //     // setQuestions(updatedQuestions);
-    //     console.log("Updated questions:", updatedQuestions);
-    // };
 
     useEffect(() => {
         pickRandomKeyword();
@@ -108,11 +124,6 @@ const GuessTheWord: React.FC = () => {
 
         fetchAnswerOptions();
     }, [animationKeyword]);
-
-    useEffect(() => {
-        console.log("Answer option: ", answerOptions);
-        console.log("Questions: ", questions);
-    }, [answerOptions, questions]);
 
     const generateAnswerOptions = async (
         animationKeyword: string
@@ -161,28 +172,36 @@ const GuessTheWord: React.FC = () => {
     ) => {
         try {
             const glossData = await loadAnimationKeywords();
-            if (
-                glossData &&
-                questions
-            ) {
+            if (clickedOptions[index]) {
+                return;
+            }
+
+            const updatedClickedOptions = [...clickedOptions];
+            updatedClickedOptions[index] = true;
+            setClickedOptions(updatedClickedOptions);
+
+            // Disable other options
+            const disabledOptions = [...updatedClickedOptions];
+            disabledOptions.fill(true);
+            setClickedOptions(disabledOptions);
+
+            if (glossData && questions) {
                 const correctAnswer = questions.correctAnswer;
                 const correctAnswerLowerCase = correctAnswer.toLowerCase();
-                const correctAnswerFromData = glossData[correctAnswerLowerCase];
-
-                console.log("Selected option:", selectedOption);
-                console.log("Correct answer:", correctAnswerLowerCase);
-                console.log("Question List: ", questionList);
-
+                const correctAnswerIndex = answerOptions.findIndex(option => option.toLowerCase() === correctAnswerLowerCase);
+                
                 if (selectedOption.toLowerCase() === correctAnswerLowerCase) {
                     setScore(score + 1);
                     setCorrectAnswerIndex(index);
+                    playCorrectAnswerSound();
                 } else {
-                    setCorrectAnswerIndex(
-                        questions.options.indexOf(
-                            correctAnswerFromData
-                        )
-                    );
+                    setCorrectAnswerIndex(correctAnswerIndex);
                     setWrongAnswerIndex(index);
+                    playWrongAnswerSound();
+                    setLives(lives - 1);
+                    if (lives === 1) {
+                        setGameOver(true);
+                    }
                 }
 
                 const nextQuestionIndex = currentQuestionIndex + 1;
@@ -206,12 +225,10 @@ const GuessTheWord: React.FC = () => {
         }
     };
 
-    const resetQuiz = () => {
-        setCurrentQuestionIndex(0);
-        setScore(0);
-        setShowScore(false);
-        setCorrectAnswerIndex(-1);
-    };
+    // Reset clicked options when moving to the next level
+    useEffect(() => {
+        setClickedOptions(new Array(4).fill(false));
+    }, [currentQuestionIndex]);
 
     const updateBackgroundMusicVolume = (volume: number) => {
         if (audioRef.current) {
@@ -231,6 +248,12 @@ const GuessTheWord: React.FC = () => {
 
     return (
         <div className="guess-the-word-layout">
+            {gameOver && (
+                <GameOverPopup
+                    score={score}
+                    onClose={() => setGameOver(false)}
+                />
+            )}
             <div className="guess-the-word-container">
                 <div className="guess-the-word">
                     <button
@@ -244,7 +267,8 @@ const GuessTheWord: React.FC = () => {
                         Rules
                     </button>
                     <h1 className="level-title">
-                        {questionList.length > 0 && questionList[currentQuestionIndex]
+                        {questionList.length > 0 &&
+                        questionList[currentQuestionIndex]
                             ? `Level ${questionList[currentQuestionIndex].level}`
                             : "Loading..."}
                     </h1>
@@ -264,6 +288,7 @@ const GuessTheWord: React.FC = () => {
                             height="30"
                         />
                     </button>
+                    <div className="lives-container">{renderLives()}</div>
                     {showRules && (
                         <RulesPopup
                             onClose={() => setShowRules(false)}
@@ -271,63 +296,55 @@ const GuessTheWord: React.FC = () => {
                             rules={[
                                 "Select the correct answer to earn points.",
                                 "Advance to the next level by answering correctly.",
-                                "Choosing incorrectly ends the game.",
-                                "Your score will be displayed at the end of the game.",
+                                "You will be given three lives at the start of the game.",
+                                "If you answer a question incorrectly, you will lose a life.",
+                                "Losing all your lives will end the game.",
+                                "Your total score will be displayed at the end of the game.",
                             ]}
                         />
                     )}
-                    {showScore ? (
-                        <div className="result-container">
-                            <button onClick={resetQuiz}>Try Again</button>
-                        </div>
-                    ) : (
-                        <div className="question-container">
-                            <h3 className="question">
-                                <div className="education-canvas-wrapper">
-                                    <Canvas
-                                        camera={{
-                                            position: [1, 55, 225],
-                                            fov: 45,
-                                        }}
-                                    >
-                                        {/* Your 3D scene components */}
-                                        <directionalLight
-                                            intensity={1}
-                                            color="white"
-                                            position={[10, 10, 10]}
+                    <div className="question-container">
+                        <h3 className="question">
+                            <div className="education-canvas-wrapper">
+                                <Canvas
+                                    camera={{
+                                        position: [1, 55, 225],
+                                        fov: 45,
+                                    }}
+                                >
+                                    {/* Your 3D scene components */}
+                                    <directionalLight
+                                        intensity={1}
+                                        color="white"
+                                        position={[10, 10, 10]}
+                                    />
+                                    <CharacterAnimationsProvider>
+                                        <Experience />
+                                        <Man
+                                            animationKeyword={animationKeyword}
                                         />
-                                        <CharacterAnimationsProvider>
-                                            <Experience />
-                                            <Man
-                                                animationKeyword={
-                                                    animationKeyword
-                                                }
-                                            />
-                                        </CharacterAnimationsProvider>
-                                    </Canvas>
-                                </div>
-                            </h3>
-                            <div className="options-container">
-                                {answerOptions.map((option, index) => (
-                                    <button
-                                        className={`answer-option 
+                                    </CharacterAnimationsProvider>
+                                </Canvas>
+                            </div>
+                        </h3>
+                        <div className="options-container">
+                            {answerOptions.map((option, index) => (
+                                <button
+                                    className={`answer-option 
                       ${correctAnswerIndex === index ? "correct-answer" : ""}
                       ${wrongAnswerIndex === index ? "wrong-answer" : ""}
                     `}
-                                        key={index}
-                                        onClick={() =>
-                                            handleAnswerOptionClick(
-                                                option,
-                                                index
-                                            )
-                                        }
-                                    >
-                                        {option}
-                                    </button>
-                                ))}
-                            </div>
+                                    key={index}
+                                    onClick={() =>
+                                        handleAnswerOptionClick(option, index)
+                                    }
+                                    disabled={clickedOptions[index]}
+                                >
+                                    {option}
+                                </button>
+                            ))}
                         </div>
-                    )}
+                    </div>
                 </div>
             </div>
             {/* Add audio player for background music */}

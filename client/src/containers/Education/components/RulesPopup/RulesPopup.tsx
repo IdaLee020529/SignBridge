@@ -31,21 +31,21 @@ const RulesPopup: React.FC<RulesPopupProps> = ({ onClose, title, rules }) => {
   }, [onClose]);
 
   return (
-    <div className="popup-container">
-      <div ref={popupRef} className="popup-content">
+    <div className="popup_container">
+      <div ref={popupRef} className="popup_content">
         <h3>{title}</h3>
-        <button className="close-btn-pushable" role="button" onClick={() => {
+        <button className="close_btn_pushable" role="button" onClick={() => {
           onClose();
           playButtonClickedSound(); 
         }}>
-          <span className="close-btn-shadow"></span>
-          <span className="close-btn-edge"></span>
-          <span className="close-btn-front text">
+          <span className="close_btn_shadow"></span>
+          <span className="close_btn_edge"></span>
+          <span className="close_btn_front text">
             <i className="fa fa-close"></i>
           </span>
         </button>
         
-        <div className="popup-details">
+        <div className="popup_details">
           {rules.map((rule, index) => (
             <p key={index}>&#8226; {rule}</p>
           ))}
