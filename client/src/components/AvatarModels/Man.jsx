@@ -4,7 +4,7 @@ import { useCharacterAnimations } from "../SLP/CharacterAnimations";
 import * as THREE from "three";
 import animationsData from "../../../public/glosses/gloss.json";
 
-const Man = ({props, animationKeyword, speed}) => {
+const Man = ({ props, animationKeyword, speed, showSkeleton}) => {
   const group = useRef();
   const { nodes, materials, animations } = useGLTF("../../../public/models/man.glb");
   const { setAnimations, animationIndex } = useCharacterAnimations();
@@ -16,25 +16,20 @@ const Man = ({props, animationKeyword, speed}) => {
   useEffect(() => {
     setAnimations(names);
   }, [names]);
-    
-    useEffect(() => {
-      if (animationKeyword) {
-        const animationKeywordUpper = animationKeyword.toLocaleUpperCase(); // Convert to uppercase
-        const newAnimationQueue = animationsData[animationKeywordUpper] || [];
-        setAnimationQueue(newAnimationQueue);
-        setCurrentAnimationIndex(0);
-      }
-    }, [animationKeyword]);
-  
+
+  useEffect(() => {
+    if (animationKeyword) {
+      const animationKeywordUpper = animationKeyword.toUpperCase(); // Convert to uppercase
+      const animationData = animationsData.find(item => item.keyword === animationKeywordUpper);
+      const newAnimationQueue = animationData ? animationData.animations : [];
+      setAnimationQueue(newAnimationQueue);
+      setCurrentAnimationIndex(0);
+    }
+  }, [animationKeyword]);
 
   const onAnimationFinished = () => {
-    const animationName = animationQueue[currentAnimationIndex];
-    const currentAction = actions[animationName];
-
-
-    // Play the next animation if there are more in the queue
     if (currentAnimationIndex < animationQueue.length - 1) {
-      setCurrentAnimationIndex((prevIndex) => prevIndex + 1);
+      setCurrentAnimationIndex(prevIndex => prevIndex + 1);
     }
   };
 
@@ -44,26 +39,18 @@ const Man = ({props, animationKeyword, speed}) => {
       const currentAction = actions[animationName];
 
       if (currentAction) {
-        if(speed){
+        if (speed) {
           currentAction.setEffectiveTimeScale(speed);
         }
-        if (currentAnimationIndex < animationQueue.length - 1) {
-          const nextAnimationName = animationQueue[currentAnimationIndex + 1];
-          const nextAction = actions[nextAnimationName];
-
-        }
-
-          currentAction.reset().fadeIn(0.5).play();
-          currentAction.setLoop(THREE.LoopOnce, 1);
-          currentAction.getMixer().addEventListener("finished", onAnimationFinished);
-          currentAction.clampWhenFinished = true;
+        currentAction.reset().fadeIn(0.5).play();
+        currentAction.setLoop(THREE.LoopOnce, 1);
+        currentAction.getMixer().addEventListener("finished", onAnimationFinished);
+        currentAction.clampWhenFinished = true;
       }
     };
 
     playNextAnimation();
 
-
-    // Cleanup function
     return () => {
       const animationName = animationQueue[currentAnimationIndex];
       const currentAction = actions[animationName];
@@ -74,8 +61,19 @@ const Man = ({props, animationKeyword, speed}) => {
     };
   }, [animationQueue, actions, currentAnimationIndex]);
 
+  useEffect(() => {
+    const helper = new THREE.SkeletonHelper(group.current);
+    if (showSkeleton) {
+      helper.position.set(0, 100, 0); // Set the helper position coordinates (x, y, z)
+      group.current.add(helper);
+    } else if (!showSkeleton) {
+    group.current.remove(helper);
+    }
+    }, [showSkeleton]);
+  
+
   return (
-    <group ref={group} {...props} position={[7.5, -105, 0]} dispose={null}>
+    <group ref={group} {...props} position={[0, 0, 0]} dispose={null}>
       <group name="Scene">
         <group name="Armature001" rotation={[1.829, 0, 0]}>
           <primitive object={nodes.root} />
