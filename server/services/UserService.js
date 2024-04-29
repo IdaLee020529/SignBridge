@@ -62,15 +62,40 @@ const UserService = {
             const count = await collection.countDocuments();
             userData.user_id = count + 1; // Increment count to start from 1
 
-            const result = await collection.insertOne(userData);
+            const result = await collection.insertOne({
+                username: userData.name,
+                email: userData.email,
+                picture: userData.picture,
+                acc_type: userData.acc_type,
+                role_access: userData.role_access,
+                email_verified: true,
+                user_id: userData.user_id,
+            });
+
+            const insertedUser = await collection.findOne({ email: userData.email });
+
             client.close();
-            return result;
+            return insertedUser;
         } catch (error) {
             if (error.name === 'ValidationError') {
                 throw new Error(`Registration failed: ${error.message}`);
             } else {
                 throw new Error(`Error registering user: ${error.message}`);
             }
+        }
+    },
+
+    async LoginGoogleUser(userData) {
+        try {
+            const { client, database } = await connectDB();
+            const collection = database.collection(DATABASE_COLLECTIONS.USERS);
+            const user = await collection.findOne({ email: userData.email });
+
+            client.close();
+            return user;
+        } catch (error) {
+            console.error("Error logging in user:", error);
+            throw new Error("Login failed");
         }
     },
 
@@ -228,8 +253,7 @@ const UserService = {
             console.error("Error fetching users:", error);
             throw error; // Re-throw for controller to handle
         }
-    }
-
+    },
 };
 
 module.exports = UserService;

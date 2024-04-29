@@ -7,6 +7,7 @@ router.post('/users/signup', UserController.SignUpUser);
 router.post('/users/seed-preset', UserController.insertPresetAccounts);
 router.get('/users', UserController.GetAllUsers);
 router.post('/users/google/signup', UserController.SignUpGoogleUser);
+router.post('/users/google/login', UserController.LoginGoogleUser);
 router.get('/users/verify-email', UserController.VerifyEmail);
 router.post('/users/login', UserController.LoginUser);
 router.post('/users/forget-password', UserController.ForgetPassword);

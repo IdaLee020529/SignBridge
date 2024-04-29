@@ -46,6 +46,9 @@ app.use(feedbackRoutes);
 const faqRoutes = require("./routes/FaqRoutes")
 app.use(faqRoutes);
 
+const notificationRoutes = require("./routes/NotificationRoutes")
+app.use(notificationRoutes);
+
 // ------------------------------------------------------------------------------------------------------------
 const UserController = require("./controllers/UserController")
 const FaqController = require("./controllers/FaqController")
