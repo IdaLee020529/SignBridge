@@ -1,9 +1,9 @@
 import { Link } from 'react-router-dom';
-import { useTheme } from '../../store/theme';
+import { useThemeStore } from '../../store/theme';
 import './Footer.css';
 
 function Footer() {
-  const { color } = useTheme();
+  const { color } = useThemeStore();
 
   // Function to check if user is logged in based on session storage
   const isUserLoggedIn = () => {

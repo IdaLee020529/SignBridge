@@ -1,10 +1,11 @@
 import { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { Button } from "../../components/Button/Button";
-import { useTheme } from "../../store/theme";
+import { useThemeStore } from "../../store/theme";
 import "./Navbar.css";
 import Cookies from "js-cookie";
 import { LogoutUser } from "../../services/account.service";
+import { GetUserIdByEmail, FetchNotificationCounts } from "../../services/notification.service";
 
 function Navbar() {
 	const navigate = useNavigate();
@@ -13,9 +14,7 @@ function Navbar() {
 	const [name, setName] = useState("");
 	const [picture, setPicture] = useState("");
 	const userRole = Cookies.get("role_access");
-	const { color, updateColors } = useTheme();
-
-	//console.log("User Role: ", userRole);
+	const { color, updateColors } = useThemeStore();
 
 	// Function to set user authentication status in session storage when user logs in
 	const setUserLoggedIn = () => {
@@ -78,6 +77,32 @@ function Navbar() {
 	useEffect(() => {
 		showButton();
 	}, []);
+
+	// ---------- Fetch notification counts ----------
+	const email = Cookies.get("email");
+  	const [userIds, setUserIds] = useState("");
+	const [notificationCount, setNotificationCount] = useState(0);
+
+	useEffect(() => {
+		const getUserId = async () => {
+		  const res = await GetUserIdByEmail(email);
+		  setUserIds(res.data);
+		  console.log(userIds);
+		};
+		getUserId();
+	}, []);
+
+	useEffect(() => {
+        const fetchCounts = async () => {
+            const response = await FetchNotificationCounts(parseInt(userIds), 0);
+            const data = response.data;
+            setNotificationCount(data);
+        };
+        fetchCounts();
+		const interval = setInterval(fetchCounts, 5000); 
+
+    	return () => clearInterval(interval);
+    }, [userIds]);
 
 	// ---------- Listen on the weebsite screen size ----------
 	window.addEventListener("resize", showButton);
@@ -184,7 +209,10 @@ function Navbar() {
 							<>
 								<li className="nav-item">
 									<Link to="/notifications" className="nav-links notification" onClick={closeMobileMenu}>
-										<i className="fas fa-bell" /> {/* Notification Icon */}
+									<div className="notification-icon-container">
+										<i className="fas fa-bell" />
+										{notificationCount > 0 && <span className="notification-count">{notificationCount}</span>}
+									</div>
 									</Link>
 								</li>
 								<li className="nav-item dropdown">

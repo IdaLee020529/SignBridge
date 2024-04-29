@@ -8,7 +8,8 @@ const DATABASE_COLLECTIONS = {
   USERS: "users",
   AVATAR: "avatar",
   FEEDBACKS: "feedbacks",
-  FAQS: "faqs"
+  FAQS: "faqs",
+  NOTIFICATIONS: "notifications",
 }
 
 async function connectDB() {
