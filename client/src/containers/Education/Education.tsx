@@ -1,6 +1,6 @@
 import { useState, useRef, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import SettingPopup from "../../components/SettingPopup/SettingPopup";
+import SettingPopup from "./components/SettingPopup/SettingPopup";
 import "./Education.css";
 import backgroundMusic from "/music/gameMusic.mp3";
 import buttonClickedSound from "/music/btnClicked.wav";

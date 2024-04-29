@@ -68,7 +68,7 @@
     height: auto;
     min-height: 100px;
     resize: none;
-    overflow: hidden;
+    overflow: auto;
 }
 
 /* .form-control.is-invalid {

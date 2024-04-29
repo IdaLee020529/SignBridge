@@ -81,16 +81,16 @@ const SettingPopup: React.FC<SettingPopupProps> = ({
       <div ref={popupRef} className="setting-content2">
         <h3>Setting</h3>
         <button
-          className="close-btn-pushable"
+          className="close_btn_pushable"
           role="button"
           onClick={() => {
             onClose();
             playButtonClickedSound();
           }}
         >
-          <span className="close-btn-shadow"></span>
-          <span className="close-btn-edge"></span>
-          <span className="close-btn-front text">
+          <span className="close_btn_shadow"></span>
+          <span className="close_btn_edge"></span>
+          <span className="close_btn_front text">
             <i className="fa fa-close"></i>
           </span>
         </button>

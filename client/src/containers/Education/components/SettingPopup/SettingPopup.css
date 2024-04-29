@@ -89,6 +89,7 @@
 	width: 25px !important;
 	height: 35px !important;
 	top: -12px !important;
+	cursor: pointer;
 }
 
 .noUi-handle::after,

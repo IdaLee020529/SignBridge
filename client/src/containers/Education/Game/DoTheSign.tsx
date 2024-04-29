@@ -1,7 +1,7 @@
 import React, { useState, useRef, useEffect } from "react";
-import RulesPopup from "../../../components/RulesPopup/RulesPopup";
-import InnerSetting from "../../../components/InnerSetting/InnerSetting";
-import VideoRecorder from "../../../components/RecordVideo/VideoRecorder";
+import RulesPopup from "../components/RulesPopup/RulesPopup";
+import InnerSetting from "../components/InnerSetting/InnerSetting";
+import VideoRecorder from "../components/RecordVideo/VideoRecorder";
 import "./DoTheSign.css";
 import backgroundMusic from "/music/gameMusic2.mp3";
 import buttonClickedSound from "/music/btnClicked.wav";
