@@ -4,6 +4,7 @@ import { Button } from "../../components/Button/Button";
 import { useTheme } from "../../store/theme";
 import "./Navbar.css";
 import Cookies from "js-cookie";
+import { LogoutUser } from "../../services/account.service";
 
 function Navbar() {
 	const navigate = useNavigate();
@@ -11,7 +12,10 @@ function Navbar() {
 	const [button, setButton] = useState(true);
 	const [name, setName] = useState("");
 	const [picture, setPicture] = useState("");
+	const userRole = Cookies.get("role_access");
 	const { color, updateColors } = useTheme();
+
+	//console.log("User Role: ", userRole);
 
 	// Function to set user authentication status in session storage when user logs in
 	const setUserLoggedIn = () => {
@@ -20,14 +24,18 @@ function Navbar() {
 
 	// Function to check if user is logged in based on session storage
 	const isUserLoggedIn = () => {
-		console.log("Is user login:", Cookies.get("token"));
+		//console.log("Is user login:", Cookies.get("token"));
 		return Cookies.get("token") ? true : false;
 	};
 
 	const isLoggedIn = isUserLoggedIn();
 
 	// Function to clear user authentication status from session storage when user logs out
-	const handleLogout = () => {
+	const handleLogout = async () => {
+		await LogoutUser({
+			email: Cookies.get("email"),
+		});
+
 		// remove the name, email, and token from the cookies
 		Cookies.remove("name");
 		Cookies.remove("email");
@@ -38,8 +46,6 @@ function Navbar() {
 		// change the color back to the default color
 		localStorage.setItem("color", "#1C2E4A");
 		updateColors("#1C2E4A");
-
-		navigate("/login");
 	};
 
 	const handleClick = () => setClick(!click);
@@ -117,11 +123,32 @@ function Navbar() {
 								</li>
 							</ul>
 						</li>
-						<li className="nav-item">
-							<Link to="/dataset-collection" className="nav-links" onClick={closeMobileMenu}>
-								Dataset Collection
-							</Link>
-						</li>
+						{userRole === "signexpert" ? (
+							// Render dropdown menu for dataset collection for sign experts
+							<li className="nav-item dropdown">
+								<Link to="#" className="nav-links" onClick={closeMobileMenu}>
+									Dataset Collection
+								</Link>
+								<ul className="dropdown-menu2">
+									<li>
+										<Link to="/dataset-collection" className="dropdown-link" onClick={closeMobileMenu}>
+											Dataset Form
+										</Link>
+									</li>
+									<li>
+										<Link to="/dataset-collection" className="dropdown-link" onClick={closeMobileMenu}>
+											Dataset Review
+										</Link>
+									</li>
+								</ul>
+							</li>
+						) : (
+							<li className="nav-item">
+								<Link to="/dataset-collection" className="nav-links" onClick={closeMobileMenu}>
+									Dataset Collection
+								</Link>
+							</li>
+						)}
 
 						<li className="nav-item">
 							<Link to="/feedback" className="nav-links" onClick={closeMobileMenu}>

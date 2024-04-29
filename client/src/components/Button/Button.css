@@ -36,7 +36,6 @@
     text-align: center;
     text-decoration: none;
     box-shadow: 3px 3px 10px rgba(0, 0, 0, 0.2);
-    /* Adjust the values to control the shadow */
 }
 
 .btn--reset {
@@ -44,14 +43,24 @@
     color: #fff;
 }
 
+.btn--accept,
 .btn--send {
-    background-color: #4d85ff;
-    color: #fff;
+    background-color: rgb(231, 231, 231);
+    box-shadow: 2px 5px 5px rgba(0, 0, 0, 0.2);
 
 }
 
-.btn--submit,
-.btn--accept {
+.btn--send:hover {
+    background-color: #4d85ff !important;
+    color: #fff !important;
+}
+
+.btn--accept:hover {
+    background-color: #ff4d4d !important;
+    color: #fff !important;
+}
+
+.btn--submit {
     background-color: #2ecc71;
     color: #fff;
 }

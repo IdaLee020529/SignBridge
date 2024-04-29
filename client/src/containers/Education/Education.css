@@ -95,7 +95,7 @@
     border-radius: 99px;
 }
 
-.game-btn-btn::after {
+.game-btn::after {
     content: '';
     height: 10%;
     position: absolute;

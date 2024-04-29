@@ -13,6 +13,7 @@ const config: Config.InitialOptions = {
     "!*.{ts,tsx}",
     "!./src/services/**",
     "!./src/constants/**",
+    "./src/containers/**/components/*.{tsx,ts,js,jsx}",
   ],
   testResultsProcessor: "jest-junit",
   testEnvironment: "jest-environment-jsdom",
