@@ -13,6 +13,7 @@ import {
 import { toast } from "react-hot-toast";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEdit, faTrash } from "@fortawesome/free-solid-svg-icons";
+import InputField from "../../../components/InputField/InputField";
 
 interface FaqData {
     question: string;
@@ -40,14 +41,13 @@ export default function FaqAdmin() {
     const [answer, setAnswer] = useState("");
     const [openUpdate, setOpenUpdate] = useState(false);
     const [faq, setFaq] = useState<FaqData | null>(null);
-    const [openFaqId, setOpenFaqId] = useState<string | undefined>(undefined);
+    const [openDeleteConfirm, setOpenDeleteConfirm] = useState(false);
+    const [faqToDelete, setFaqToDelete] = useState<number | null>(null);
 
     const AccordionDemo = ({ faqs }: { faqs: FaqData[] }) => (
         <Accordion.Root
             className={styles.AccordionRoot}
             type="single"
-            defaultValue={openFaqId} 
-            onValueChange={setOpenFaqId}
             collapsible
         >
             {faqs.map((faq) => (
@@ -61,10 +61,10 @@ export default function FaqAdmin() {
                         {faq.answer}
                         <div className={styles.buttonsContainer}>
                             <button
-                                onClick={() => {
+                                onClick={(e) => {
+                                    e.stopPropagation();
                                     setFaq(faq);
                                     setOpenUpdate(true);
-                                    setOpenFaqId(faq.faq_id.toString());
                                 }}
                                 className={styles.updateFaqButton}
                             >
@@ -72,7 +72,10 @@ export default function FaqAdmin() {
                             </button>
 
                             <button
-                                onClick={() => deleteFaq(faq.faq_id)}
+                                onClick={(e) => {
+                                    setFaqToDelete(faq.faq_id);
+                                    setOpenDeleteConfirm(true);
+                                }}
                                 className={styles.dltFaqButton}
                             >
                                 <FontAwesomeIcon icon={faTrash} />
@@ -131,21 +134,34 @@ export default function FaqAdmin() {
         getFaqs();
     }, []);
 
+    useEffect(() => {
+        if (!open) {
+            setQuestion("");
+            setAnswer("");
+        }
+    }, [open]);
+
     if (loading) {
         return <p>Loading FAQs...</p>;
     }
 
     async function addFaq(e: React.FormEvent<HTMLFormElement>) {
         e.preventDefault();
+        if (!question.trim() || !answer.trim()) {
+            toast.error("Both question and answer fields are required.");
+            return;
+        }
+
         try {
             await CreateFaq({ question, answer });
             toast.success("FAQ created successfully");
             await getFaqs();
         } catch (error) {
-            console.error("Error creating FAQ:", error);
             toast.error("Error creating FAQ");
         } finally {
             setOpen(false);
+            setQuestion("");
+            setAnswer("");
         }
     }
 
@@ -155,10 +171,23 @@ export default function FaqAdmin() {
             toast.success("FAQ deleted successfully");
             await getFaqs();
         } catch (error) {
-            console.error("Error deleting FAQ:", error);
             toast.error("Error deleting FAQ");
         }
     }
+
+    const confirmDeleteFaq = async () => {
+        if (faqToDelete === null) return;
+        try {
+            await DeleteFaq(faqToDelete);
+            toast.success("FAQ deleted successfully");
+            await getFaqs();
+        } catch (error) {
+            toast.error("Error deleting FAQ");
+        } finally {
+            setOpenDeleteConfirm(false);
+            setFaqToDelete(null);
+        }
+    };
 
     async function updateFaq(
         e: React.FormEvent<HTMLFormElement>,
@@ -171,6 +200,11 @@ export default function FaqAdmin() {
         const form = e.target as HTMLFormElement;
         const question = form.question.value;
         const answer = form.answer.value;
+
+        if (!question.trim() || !answer.trim()) {
+            toast.error("Both question and answer fields are required.");
+            return;
+        }
 
         try {
             await UpdateFaq({ faq_id, question, answer });
@@ -199,45 +233,42 @@ export default function FaqAdmin() {
                     <Dialog.Portal>
                         <Dialog.Overlay className={styles.dialog_overlay} />
                         <Dialog.Content className={styles.dialog_content}>
-                            <Dialog.Title className={styles.dialog_title}>Create FAQ</Dialog.Title>
-                            <Dialog.Description className={styles.dialog_description}>
+                            <Dialog.Title className={styles.dialog_title}>
+                                Create FAQ
+                                <i
+                                    className={`${styles.fa} fa fa-close`}
+                                    onClick={() => setOpen(false)}
+                                ></i>
+                            </Dialog.Title>
+                            <Dialog.Description
+                                className={styles.dialog_description}
+                            >
                                 Please fill in the details:
                             </Dialog.Description>
                             <form method="post" onSubmit={addFaq}>
-                                <fieldset className={styles.Fieldset}>
-                                    <label
-                                        className={styles.Label}
-                                        htmlFor="question"
-                                    >
-                                        Question
-                                    </label>
-                                    <div>
-                                        <input
-                                            className={styles.Input}
-                                            id="question"
-                                            onChange={(e) => {
-                                                setQuestion(e.target.value);
-                                            }}
-                                        />
-                                    </div>
+                                <fieldset className={styles.Fieldset_question}>
+                                    <InputField
+                                        label="Question"
+                                        name="question"
+                                        value={question}
+                                        onChange={(e) => {
+                                            setQuestion(e.target.value);
+                                        }}
+                                        error=""
+                                    />
                                 </fieldset>
 
-                                <fieldset className={styles.Fieldset}>
-                                    <label
-                                        className={styles.Label}
-                                        htmlFor="answer"
-                                    >
-                                        Answer
-                                    </label>
-                                    <div>
-                                        <textarea
-                                            className={styles.Input}
-                                            id="answer"
-                                            onChange={(e) => {
-                                                setAnswer(e.target.value);
-                                            }}
-                                        ></textarea>
-                                    </div>
+                                <fieldset className={styles.Fieldset_answer}>
+                                    <InputField
+                                        label="Answer"
+                                        name="answer"
+                                        value={answer}
+                                        onChange={(e) => {
+                                            setAnswer(e.target.value);
+                                        }}
+                                        multipleLines={true}
+                                        error=""
+                                    />
                                 </fieldset>
 
                                 <div
@@ -248,7 +279,7 @@ export default function FaqAdmin() {
                                     }}
                                 >
                                     <button
-                                        className={styles.save_button}
+                                        className={styles.saveButton}
                                         type="submit"
                                     >
                                         Save changes
@@ -272,67 +303,65 @@ export default function FaqAdmin() {
             <Dialog.Root open={openUpdate} onOpenChange={setOpenUpdate}>
                 <Dialog.Portal>
                     <Dialog.Overlay className={styles.dialog_overlay} />
-                    <Dialog.Content className={styles.dialog_content}>
-                        <Dialog.Title>Update FAQ Question</Dialog.Title>
-                        <Dialog.Description>
+                    <Dialog.Content
+                        onOpenAutoFocus={(event) => {
+                            event?.preventDefault();
+                        }}
+                        className={styles.dialog_content}
+                    >
+                        <Dialog.Title className={styles.dialog_title}>
+                            Update FAQ
+                            <i
+                                className={`${styles.fa} fa fa-close`}
+                                onClick={() => setOpenUpdate(false)}
+                            ></i>
+                        </Dialog.Title>
+                        <Dialog.Description
+                            className={styles.dialog_description}
+                        >
                             Please fill in the details
                         </Dialog.Description>
                         <form
                             method="post"
                             onSubmit={(e) => updateFaq(e, faq?.faq_id)}
                         >
-                            <fieldset className={styles.Fieldset}>
-                                <label
-                                    className={styles.Label}
-                                    htmlFor="question"
-                                >
-                                    Question
-                                </label>
-                                <div>
-                                    <input
-                                        className={styles.Input}
-                                        id="question"
-                                        value={faq?.question || ""}
-                                        onChange={(e) =>
-                                            setFaq((prevState) =>
-                                                prevState
-                                                    ? {
-                                                          ...prevState,
-                                                          question:
-                                                              e.target.value,
-                                                      }
-                                                    : null
-                                            )
-                                        }
-                                    />
-                                </div>
+                            <fieldset className={styles.Fieldset_question}>
+                                <InputField
+                                    label="Question"
+                                    name="question"
+                                    value={faq?.question || ""}
+                                    onChange={(e) =>
+                                        setFaq((prevState) =>
+                                            prevState
+                                                ? {
+                                                      ...prevState,
+                                                      question: e.target.value,
+                                                  }
+                                                : null
+                                        )
+                                    }
+                                    error=""
+                                />
                             </fieldset>
 
-                            <fieldset className={styles.Fieldset}>
-                                <label
-                                    className={styles.Label}
-                                    htmlFor="answer"
-                                >
-                                    Answer
-                                </label>
-                                <div>
-                                    <textarea
-                                        className={styles.Input}
-                                        id="answer"
-                                        value={faq?.answer || ""}
-                                        onChange={(e) =>
-                                            setFaq((prevState) =>
-                                                prevState
-                                                    ? {
-                                                          ...prevState,
-                                                          answer: e.target
-                                                              .value,
-                                                      }
-                                                    : null
-                                            )
-                                        }
-                                    ></textarea>
-                                </div>
+                            <fieldset className={styles.Fieldset_answer}>
+                                <InputField
+                                    label="Answer"
+                                    name="answer"
+                                    value={faq?.answer || ""}
+                                    onChange={(e) =>
+                                        setFaq((prevState) =>
+                                            prevState
+                                                ? {
+                                                      ...prevState,
+                                                      answer: e.target.value,
+                                                  }
+                                                : null
+                                        )
+                                    }
+                                    multipleLines={true}
+                                    error=""
+                                />
                             </fieldset>
 
                             <div
@@ -343,7 +372,7 @@ export default function FaqAdmin() {
                                 }}
                             >
                                 <button
-                                    className={styles.save_button}
+                                    className={styles.saveButton}
                                     type="submit"
                                 >
                                     Save changes
@@ -359,6 +388,39 @@ export default function FaqAdmin() {
                             <Cross2Icon />
                         </button>
                     </Dialog.Close>
+                </Dialog.Portal>
+            </Dialog.Root>
+
+            <Dialog.Root
+                open={openDeleteConfirm}
+                onOpenChange={setOpenDeleteConfirm}
+            >
+                <Dialog.Portal>
+                    <Dialog.Overlay className={styles.dialog_overlay} />
+                    <Dialog.Content className={styles.dialog_content2}>
+                        <Dialog.Title className={styles.dialog_title}>
+                            Confirm Delete
+                        </Dialog.Title>
+                        <Dialog.Description
+                            className={styles.dialog_description2}
+                        >
+                            Are you sure you want to delete this FAQ?
+                        </Dialog.Description>
+                        <div className={styles.buttonsConfirmation}>
+                            <button
+                                className={styles.noButton}
+                                onClick={() => setOpenDeleteConfirm(false)}
+                            >
+                                No
+                            </button>
+                            <button
+                                className={styles.yesButton}
+                                onClick={confirmDeleteFaq}
+                            >
+                                Yes
+                            </button>
+                        </div>
+                    </Dialog.Content>
                 </Dialog.Portal>
             </Dialog.Root>
         </div>

@@ -7,6 +7,7 @@ interface InputFieldProps {
   placeholder?: string;
   type?: string;
   value: string;
+  id?: string;
   onChange: (e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => void;
   multipleLines?: boolean;
   error: string;
@@ -20,6 +21,7 @@ const InputField: React.FC<InputFieldProps> = ({
   value = "",
   onChange,
   error,
+  id,
   multipleLines = false,
 }) => {
   // const [error, setError] = useState<string | undefined>(undefined);
@@ -39,6 +41,7 @@ const InputField: React.FC<InputFieldProps> = ({
       placeholder={placeholder}
       name={name}
       value={value}
+      id={id}
       onChange={onChange}
     />
   ) : (
@@ -48,6 +51,7 @@ const InputField: React.FC<InputFieldProps> = ({
       type={type}
       name={name}
       value={value}
+      id={id}
       onChange={onChange}
     />
   );

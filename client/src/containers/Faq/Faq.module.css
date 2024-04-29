@@ -85,7 +85,7 @@
 .AccordionContent {
     position: relative;
     overflow: hidden;
-    font-size: 15px;
+    font-size: 16px;
     color: var(--mauve-11);
     background-color: var(--mauve-2);
 }

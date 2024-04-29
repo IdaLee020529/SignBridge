@@ -85,7 +85,7 @@
 .AccordionContent {
     position: relative;
     overflow: hidden;
-    font-size: 15px;
+    font-size: 16px;
     color: var(--mauve-11);
     background-color: var(--mauve-2);
     padding-bottom: 50px;
@@ -118,14 +118,14 @@
         padding-bottom: 0;
     }
     to {
-        max-height: 500px; 
-        padding-bottom: 60px; 
+        max-height: 500px;
+        padding-bottom: 60px;
     }
 }
 
 @keyframes slideUp {
     from {
-        max-height: 500px; 
+        max-height: 500px;
         padding-bottom: 40px;
     }
     to {
@@ -134,10 +134,20 @@
     }
 }
 
+.fa {
+    float: right;
+    font-size: 36px;
+    cursor: pointer;
+}
+
+.fa:hover {
+    text-shadow: 0 4px 8px rgba(0, 0, 0, 0.5);
+}
+
 /* Add Button */
 .addFaqButton {
     position: absolute;
-    margin-top: 40px;
+    margin-top: 25px;
     transform: translate(-50%, -50%);
     appearance: none;
     border-radius: 10px;
@@ -191,14 +201,14 @@
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    border-radius: 100%; 
-    height: 45px; 
+    border-radius: 100%;
+    height: 45px;
     width: 45px;
-    color: #fff; 
-    background-color: #F8BE64; 
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2); 
-    transition: background-color 0.3s, box-shadow 0.3s; 
-    cursor: pointer; 
+    color: #fff;
+    background-color: #f8be64;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+    transition: background-color 0.3s, box-shadow 0.3s;
+    cursor: pointer;
     font-size: 20px;
     border: none;
     outline: none;
@@ -206,9 +216,8 @@
 }
 
 .updateFaqButton:hover {
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.4); 
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.4);
 }
-
 
 /* Delete Button */
 .dltFaqButton {
@@ -216,14 +225,14 @@
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    border-radius: 100%; 
-    height: 45px; 
+    border-radius: 100%;
+    height: 45px;
     width: 45px;
-    color: #fff; 
-    background-color: red; 
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2); 
-    transition: background-color 0.3s, box-shadow 0.3s; 
-    cursor: pointer; 
+    color: #fff;
+    background-color: red;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+    transition: background-color 0.3s, box-shadow 0.3s;
+    cursor: pointer;
     font-size: 20px;
     border: none;
     outline: none;
@@ -231,7 +240,7 @@
 }
 
 .dltFaqButton:hover {
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.4); 
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.4);
 }
 
 .buttonsContainer {
@@ -257,13 +266,30 @@
     left: 50%;
     transform: translate(-50%, -50%);
     width: 500px;
+    height: 460px;
     max-width: calc(100% - 20px);
     padding: 30px;
     animation: contentShow 150ms cubic-bezier(0.16, 1, 0.3, 1);
     z-index: 1000;
 }
 
-.dialog_title{
+.dialog_content2 {
+    background-color: white;
+    border-radius: 15px;
+    box-shadow: 0 10px 38px rgba(0, 0, 0, 0.3);
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 500px;
+    height: 240px;
+    max-width: calc(100% - 20px);
+    padding: 30px;
+    animation: contentShow 150ms cubic-bezier(0.16, 1, 0.3, 1);
+    z-index: 1000;
+}
+
+.dialog_title {
     font-size: 30px;
     text-align: center;
     margin-bottom: 20px;
@@ -274,34 +300,22 @@
     margin-bottom: 15px;
 }
 
-.Fieldset {
-    margin-bottom: 20px;
+.dialog_description2 {
+    font-size: 20px;
+    margin-bottom: 15px;
+    text-align: center;
 }
 
-.Label {
-    font-size: 15px;
-    color: var(--violet-11);
-    width: 90px;
-    text-align: right;
+.Fieldset_question {
+    border: 0;
+    padding: 0;
+    margin: 35px 0;
 }
 
-.Input {
-    width: 100%;
-    flex: 1;
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    border-radius: 4px;
-    padding: 0 10px;
-    font-size: 15px;
-    line-height: 1;
-    color: var(--violet-11);
-    box-shadow: 0 0 0 1px var(--violet-7);
-    height: 35px;
-}
-
-.Input:focus {
-    box-shadow: 0 0 0 2px var(--violet-8);
+.Fieldset_answer {
+    border: 0;
+    padding: 0;
+    margin: -45px 0;
 }
 
 .icon_button {
@@ -326,28 +340,137 @@
     box-shadow: 0 0 0 2px var(--violet-7);
 }
 
-.save_button {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
+/* Save Button */
+.saveButton {
+    position: absolute;
+    appearance: none;
     border-radius: 4px;
-    padding: 0 15px;
-    font-size: 15px;
-    line-height: 1;
+    align-items: center;
+    border: none;
+    box-shadow: rgba(0, 0, 0, 0.2) 0 3px 5px -1px,
+        rgba(0, 0, 0, 0.14) 0 6px 10px 0, rgba(0, 0, 0, 0.12) 0 1px 18px 0;
+    box-sizing: border-box;
+    background-color: #2ecc71;
+    color: #172808;
+    cursor: pointer;
+    display: inline-flex;
+    fill: currentcolor;
+    font-size: 17px;
     font-weight: 500;
-    height: 35px;
+    height: 48px;
+    letter-spacing: 0.25px;
+    line-height: normal;
+    overflow: visible;
+    padding: 25px 30px;
+    text-align: center;
+    text-transform: none;
+    transition: box-shadow 280ms cubic-bezier(0.4, 0, 0.2, 1),
+        opacity 15ms linear 30ms, transform 270ms cubic-bezier(0, 0, 0.2, 1) 0ms;
+    user-select: none;
+    -webkit-user-select: none;
+    touch-action: manipulation;
+    width: auto;
+    will-change: transform, opacity;
+    z-index: 2;
 }
 
-.save_button.green {
-    background-color: var(--green-4);
-    color: var(--green-11);
+.saveButton:not([disabled]):focus {
+    box-shadow: 0 0 0.25rem rgba(0, 0, 0, 0.5),
+        -0.125rem -0.125rem 1rem rgba(50, 154, 107, 0.5),
+        0.125rem 0.125rem 1rem rgba(117, 209, 148, 0.5);
 }
 
-.save_button.green:hover {
-    background-color: var(--green-5);
+.saveButton:not([disabled]):hover {
+    color: #fff;
+    box-shadow: 0 0 0.25rem rgba(0, 0, 0, 0.5),
+        -0.125rem -0.125rem 1rem rgba(50, 154, 107, 0.5),
+        0.125rem 0.125rem 1rem rgba(117, 209, 148, 0.5);
 }
 
-.save_button.green:focus {
-    box-shadow: 0 0 0 2px var(--green-7);
+.buttonsConfirmation {
+    display: flex;
+    justify-content: center;
+    margin-top: 30px;
 }
 
+/* Yes Button */
+.yesButton {
+    appearance: none;
+    border-radius: 4px;
+    align-items: center;
+    border: none;
+    box-shadow: rgba(0, 0, 0, 0.2) 0 3px 5px -1px,
+        rgba(0, 0, 0, 0.14) 0 6px 10px 0, rgba(0, 0, 0, 0.12) 0 1px 18px 0;
+    box-sizing: border-box;
+    background-color: #2ecc71;
+    color: #172808;
+    cursor: pointer;
+    display: inline-flex;
+    fill: currentcolor;
+    font-size: 18px;
+    font-weight: 500;
+    height: 48px;
+    letter-spacing: 0.25px;
+    line-height: normal;
+    overflow: visible;
+    padding: 25px 30px;
+    text-align: center;
+    text-transform: none;
+    transition: box-shadow 280ms cubic-bezier(0.4, 0, 0.2, 1),
+        opacity 15ms linear 30ms, transform 270ms cubic-bezier(0, 0, 0.2, 1) 0ms;
+    user-select: none;
+    -webkit-user-select: none;
+    touch-action: manipulation;
+    width: auto;
+    will-change: transform, opacity;
+    z-index: 2;
+    margin-left: 15px;
+}
+
+.yesButton:not([disabled]):hover {
+    color: #fff;
+    box-shadow: 0 0 0.25rem rgba(0, 0, 0, 0.5),
+        -0.125rem -0.125rem 1rem rgba(50, 154, 107, 0.5),
+        0.125rem 0.125rem 1rem rgba(117, 209, 148, 0.5);
+}
+
+/* No Button */
+.noButton {
+    appearance: none;
+    border-radius: 4px;
+    align-items: center;
+    border: none;
+    box-shadow: rgba(0, 0, 0, 0.2) 0 3px 5px -1px,
+        rgba(0, 0, 0, 0.14) 0 6px 10px 0, rgba(0, 0, 0, 0.12) 0 1px 18px 0;
+    box-sizing: border-box;
+    background-color: #ff4d4d;
+    color: rgb(82, 1, 1);
+    cursor: pointer;
+    display: inline-flex;
+    fill: currentcolor;
+    font-size: 18px;
+    font-weight: 500;
+    height: 48px;
+    letter-spacing: 0.25px;
+    line-height: normal;
+    overflow: visible;
+    padding: 25px 30px;
+    text-align: center;
+    text-transform: none;
+    transition: box-shadow 280ms cubic-bezier(0.4, 0, 0.2, 1),
+        opacity 15ms linear 30ms, transform 270ms cubic-bezier(0, 0, 0.2, 1) 0ms;
+    user-select: none;
+    -webkit-user-select: none;
+    touch-action: manipulation;
+    width: auto;
+    will-change: transform, opacity;
+    z-index: 2;
+    margin-right: 15px;
+}
+
+.noButton:not([disabled]):hover {
+    color: #fff;
+    box-shadow: 0 0 0.25rem rgba(0, 0, 0, 0.5),
+        -0.125rem -0.125rem 1rem rgba(299, 42, 42, 0.5),
+        0.125rem 0.125rem 1rem rgba(198, 159, 159, 0.5);
+}
