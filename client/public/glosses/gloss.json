@@ -1,310 +1,398 @@
 [
   {
-    "keyword": "ADIKPEREMPUAN",
-    "animations": ["AdikPerempuan1", "AdikPerempuan2", "AdikPerempuan3"]
+    "keyword": "ADIK_PEREMPUAN",
+    "animations": ["AdikPerempuan1", "AdikPerempuan2", "AdikPerempuan3"],
+    "category":"Medical"
   },
   {
     "keyword": "AKAN",
-    "animations": ["Akan1", "Akan2"]
+    "animations": ["Akan1", "Akan2"],
+    "category":"Conversation"
   },
   {
     "keyword": "ASMA",
-    "animations": ["Asma1", "Asma2"]
+    "animations": ["Asma1", "Asma2"],
+    "category":"Medical"
   },
   {
     "keyword": "BADAN",
-    "animations": ["Badan1", "Badan2", "Badan3"]
+    "animations": ["Badan1", "Badan2", "Badan3"],
+    "category":"Medical"
   },
   {
     "keyword": "BAHU",
-    "animations": ["Bahu1", "Bahu2", "Bahu3", "Bahu4"]
+    "animations": ["Bahu1", "Bahu2", "Bahu3", "Bahu4"],
+    "category":"Medical"
   },
   {
     "keyword": "BENGKAK",
-    "animations": ["Bengkak1", "Bengkak2", "Bengkak3"]
+    "animations": ["Bengkak1", "Bengkak2", "Bengkak3"],
+    "category":"Medical"
   },
   {
     "keyword": "BIBIR",
-    "animations": ["Bibir1", "Bibir2", "Bibir3"]
+    "animations": ["Bibir1", "Bibir2", "Bibir3"],
+    "category":"Medical"
   },
   {
     "keyword": "BUAHPINGGANG",
-    "animations": ["BuahPinggang1", "BuahPinggang2", "BuahPinggang3"]
+    "animations": ["BuahPinggang1", "BuahPinggang2", "BuahPinggang3"],
+    "category":"Medical"
   },
   {
     "keyword": "DARAH",
-    "animations": ["Darah1", "Darah2", "Darah3"]
+    "animations": ["Darah1", "Darah2", "Darah3"],
+    "category":"Medical"
   },
   {
     "keyword": "DATUK",
-    "animations": ["Datuk1", "Datuk2", "Datuk3"]
+    "animations": ["Datuk1", "Datuk2", "Datuk3"],
+    "category":"Medical"
   },
   {
     "keyword": "DEMAM",
-    "animations": ["Demam1", "Demam2"]
+    "animations": ["Demam1", "Demam2"],
+    "category":"Medical"
   },
   {
     "keyword": "DOKTOR",
-    "animations": ["Doktor1", "Doktor2", "Doktor3", "Doktor4"]
+    "animations": ["Doktor1", "Doktor2", "Doktor3", "Doktor4"],
+    "category":"Medical"
   },
   {
     "keyword": "GATAL",
-    "animations": ["Gatal1", "Gatal2", "Gatal3"]
+    "animations": ["Gatal1", "Gatal2", "Gatal3"],
+    "category":"Medical"
   },
   {
     "keyword": "GIGI",
-    "animations": ["Gigi1", "Gigi2", "Gigi3"]
+    "animations": ["Gigi1", "Gigi2", "Gigi3"],
+    "category":"Medical"
   },
   {
     "keyword": "HABIS",
-    "animations": ["Habis1", "Habis2", "Habis3", "Habis4"]
+    "animations": ["Habis1", "Habis2", "Habis3", "Habis4"],
+    "category":"Conversation"
   },
   {
     "keyword": "HIDUNG",
-    "animations": ["Hidung1", "Hidung2"]
+    "animations": ["Hidung1", "Hidung2"],
+    "category":"Medical"
   },
   {
     "keyword": "HUJAN",
-    "animations": ["Hujan1", "Hujan2"]
+    "animations": ["Hujan1", "Hujan2"],
+    "category":"Medical"
   },
   {
     "keyword": "JANTUNG",
-    "animations": ["Jantung1", "Jantung2"]
+    "animations": ["Jantung1", "Jantung2"],
+    "category":"Medical"
   },
   {
     "keyword": "JARI",
-    "animations": ["Jari1", "Jari2", "Jari3"]
+    "animations": ["Jari1", "Jari2", "Jari3"],
+    "category":"Medical"
   },
   {
     "keyword": "JURURAWAT",
-    "animations": ["Jururawat1", "Jururawat2"]
+    "animations": ["Jururawat1", "Jururawat2"],
+    "category":"Medical"
   },
   {
     "keyword": "KAKI",
-    "animations": ["Kaki1", "Kaki2", "Kaki3"]
+    "animations": ["Kaki1", "Kaki2", "Kaki3"],
+    "category":"Medical"
   },
   {
     "keyword": "KECEMASAN",
-    "animations": ["Kecemasan1", "Kecemasan2", "Kecemasan3"]
+    "animations": ["Kecemasan1", "Kecemasan2", "Kecemasan3"],
+    "category":"Medical"
   },
   {
     "keyword": "KERANA",
-    "animations": ["Kerana1", "Kerana2"]
+    "animations": ["Kerana1", "Kerana2"],
+    "category":"Medical"
   },
   {
     "keyword": "KESAKITAN",
-    "animations": ["Kesakitan1", "Kesakitan2"]
+    "animations": ["Kesakitan1", "Kesakitan2"],
+    "category":"Medical"
   },
   {
     "keyword": "KRIM",
-    "animations": ["Krim1", "Krim2", "Krim3"]
+    "animations": ["Krim1", "Krim2", "Krim3"],
+    "category":"Medical"
   },
   {
     "keyword": "KULIT",
-    "animations": ["Kulit1", "Kulit2", "Kulit3"]
+    "animations": ["Kulit1", "Kulit2", "Kulit3"],
+    "category":"Medical"
   },
   {
     "keyword": "LEHER",
-    "animations": ["Leher1", "Leher2", "Leher3"]
+    "animations": ["Leher1", "Leher2", "Leher3"],
+    "category":"Medical"
   },
   {
     "keyword": "LEMAH",
-    "animations": ["Lemah1", "Lemah2", "Lemah3"]
+    "animations": ["Lemah1", "Lemah2", "Lemah3"],
+    "category":"Medical"
   },
   {
     "keyword": "LIDAH",
-    "animations": ["Lidah1", "Lidah2", "Lidah3"]
+    "animations": ["Lidah1", "Lidah2", "Lidah3"],
+    "category":"Medical"
   },
   {
     "keyword": "MAHU",
-    "animations": ["Mahu1", "Mahu2"]
+    "animations": ["Mahu1", "Mahu2"],
+    "category":"Medical"
   },
   {
     "keyword": "MATA",
-    "animations": ["Mata1", "Mata2"]
+    "animations": ["Mata1", "Mata2"],
+    "category":"Medical"
   },
   {
     "keyword": "MENGANDUNG",
-    "animations": ["Mengandung1", "Mengandung2"]
+    "animations": ["Mengandung1", "Mengandung2"],
+    "category":"Medical"
   },
   {
     "keyword": "MULUT",
-    "animations": ["Mulut1", "Mulut2"]
+    "animations": ["Mulut1", "Mulut2"],
+    "category":"Medical"
   },
   {
     "keyword": "MUNTAH",
-    "animations": ["Muntah1", "Muntah2", "Muntah3"]
+    "animations": ["Muntah1", "Muntah2", "Muntah3"],
+    "category":"Medical"
   },
   {
     "keyword": "PENAT",
-    "animations": ["Penat1", "Penat2", "Penat3"]
+    "animations": ["Penat1", "Penat2", "Penat3"],
+    "category":"Medical"
   },
   {
     "keyword": "PERGI",
-    "animations": ["Pergi1", "Pergi2"]
+    "animations": ["Pergi1", "Pergi2"],
+    "category":"Medical"
   },
   {
     "keyword": "PERUT",
-    "animations": ["Perut1", "Perut2"]
+    "animations": ["Perut1", "Perut2"],
+    "category":"Medical"
   },
   {
     "keyword": "PIL",
-    "animations": ["Pil1", "Pil2", "Pil3"]
+    "animations": ["Pil1", "Pil2", "Pil3"],
+    "category":"Medical"
   },
   {
     "keyword": "SAKITKEPALA",
-    "animations": ["SakitKepala1", "SakitKepala2", "SakitKepala3", "SakitKepala4"]
+    "animations": ["SakitKepala1", "SakitKepala2", "SakitKepala3", "SakitKepala4"],
+    "category":"Medical"
   },
   {
     "keyword": "SAKITPERUT",
-    "animations": ["SakitPerut1", "SakitPerut2"]
+    "animations": ["SakitPerut1", "SakitPerut2"],
+    "category":"Medical"
   },
   {
     "keyword": "SAKITPINGGANG",
-    "animations": ["SakitPinggang1", "SakitPinggang2", "SakitPinggang3", "SakitPinggang4"]
+    "animations": ["SakitPinggang1", "SakitPinggang2", "SakitPinggang3", "SakitPinggang4"],
+    "category":"Medical"
   },
   {
     "keyword": "SAKITTEKAK",
-    "animations": ["SakitTekak1", "SakitTekak2", "SakitTekak3", "SakitTekak4"]
+    "animations": ["SakitTekak1", "SakitTekak2", "SakitTekak3", "SakitTekak4"],
+    "category":"Medical"
   },
   {
     "keyword": "SELSEMA",
-    "animations": ["Selsema1", "Selsema2", "Selsema3"]
+    "animations": ["Selsema1", "Selsema2", "Selsema3"],
+    "category":"Medical"
   },
   {
     "keyword": "SINARX",
-    "animations": ["SinarX1", "SinarX2", "SinarX3", "SinarX4", "SinarX5", "SinarX6"]
+    "animations": ["SinarX1", "SinarX2", "SinarX3", "SinarX4", "SinarX5", "SinarX6"],
+    "category":"Medical"
   },
   {
     "keyword": "TINGGI",
-    "animations": ["Tinggi1", "Tinggi2"]
+    "animations": ["Tinggi1", "Tinggi2"],
+    "category":"Medical"
   },
   {
     "keyword": "TULANG",
-    "animations": ["Tulang1", "Tulang2", "Tulang3"]
+    "animations": ["Tulang1", "Tulang2", "Tulang3"],
+    "category":"Medical"
   },
   {
     "keyword": "TULANGRUSUK",
-    "animations": ["TulangRusuk1", "TulangRusuk2"]
+    "animations": ["TulangRusuk1", "TulangRusuk2"],
+    "category":"Medical"
   },
   {
     "keyword": "SATU",
-    "animations": ["Satu"]
+    "animations": ["Satu"],
+    "category":"Numbers",
+    "toShow": "0"
   },
   {
     "keyword": "DUA",
-    "animations": ["Dua"]
+    "animations": ["Dua"],
+    "category":"Numbers",
+    "toShow": "0"
   },
   {
     "keyword": "TIGA",
-    "animations": ["Tiga"]
+    "animations": ["Tiga"],
+    "category":"Numbers",
+    "toShow": "0"
   },
   {
     "keyword": "EMPAT",
-    "animations": ["Empat"]
+    "animations": ["Empat"],
+    "category":"Numbers",
+    "toShow": "0"
   },
   {
     "keyword": "LIMA",
-    "animations": ["Lima"]
+    "animations": ["Lima"],
+    "category":"Numbers",
+    "toShow": "0"
   },
   {
     "keyword": "ENAM",
-    "animations": ["Enam"]
+    "animations": ["Enam"],
+    "category":"Numbers",
+    "toShow": "0"
   },
   {
     "keyword": "TUJUH",
-    "animations": ["Tujuh"]
+    "animations": ["Tujuh"],
+    "category":"Numbers",
+    "toShow": "0"
   },
   {
     "keyword": "LAPAN",
-    "animations": ["Lapan"]
+    "animations": ["Lapan"],
+    "category":"Numbers",
+    "toShow": "0"
   },
   {
     "keyword": "SEMBILAN",
-    "animations": ["Sembilan"]
+    "animations": ["Sembilan"],
+    "category":"Numbers",
+    "toShow": "0"
+    
   },
   {
     "keyword": "SEPULUH",
-    "animations": ["Sepuluh1", "Sepuluh2"]
+    "animations": ["Sepuluh1", "Sepuluh2"],
+    "category":"Numbers",
+    "toShow": "0"
   },
   {
     "keyword": "1",
-    "animations": ["Satu"]
+    "animations": ["Satu"],
+    "category":"Numbers"
   },
   {
     "keyword": "2",
-    "animations": ["Dua"]
+    "animations": ["Dua"],
+    "category":"Numbers"
   },
   {
     "keyword": "3",
-    "animations": ["Tiga"]
+    "animations": ["Tiga"],
+    "category":"Numbers"
   },
   {
     "keyword": "4",
-    "animations": ["Empat"]
+    "animations": ["Empat"],
+    "category":"Numbers"
   },
   {
     "keyword": "5",
-    "animations": ["Lima"]
+    "animations": ["Lima"],
+    "category":"Numbers"
   },
   {
     "keyword": "6",
-    "animations": ["Enam"]
+    "animations": ["Enam"],
+    "category":"Numbers"
   },
   {
     "keyword": "7",
-    "animations": ["Tujuh"]
+    "animations": ["Tujuh"],
+    "category":"Numbers"
   },
   {
     "keyword": "8",
-    "animations": ["Lapan"]
+    "animations": ["Lapan"],
+    "category":"Numbers"
   },
   {
     "keyword": "9",
-    "animations": ["Sembilan"]
+    "animations": ["Sembilan"],
+    "category":"Numbers"
   },
   {
     "keyword": "10",
-    "animations": ["Sepuluh1", "Sepuluh2"]
+    "animations": ["Sepuluh1", "Sepuluh2"],
+    "category":"Numbers"
   },
   {
     "keyword": "A",
-    "animations": ["A"]
+    "animations": ["A"],
+    "category":"Alphabet"
   },
   {
     "keyword": "B",
-    "animations": ["B"]
+    "animations": ["B"],
+    "category":"Alphabet"
   },
   {
     "keyword": "C",
-    "animations": ["C"]
+    "animations": ["C"],
+    "category":"Alphabet"
   },
   {
     "keyword": "D",
-    "animations": ["D"]
+    "animations": ["D"],
+    "category":"Alphabet"
   },
   {
     "keyword": "E",
-    "animations": ["E"]
+    "animations": ["E"],
+    "category":"Alphabet"
   },
   {
     "keyword": "F",
-    "animations": ["F"]
+    "animations": ["F"],
+    "category":"Alphabet"
   },
   {
     "keyword": "G",
-    "animations": ["G"]
+    "animations": ["G"],
+    "category":"Alphabet"
   },
   {
     "keyword": "H",
-    "animations": ["H"]
+    "animations": ["H"],
+    "category":"Alphabet"
   },
   {
     "keyword": "I",
-    "animations": ["I"]
+    "animations": ["I"],
+    "category":"Alphabet"
   },
   {
     "keyword": "J",
-    "animations": ["J"]
+    "animations": ["J"],
+    "category":"Alphabet"
   }
 ]
