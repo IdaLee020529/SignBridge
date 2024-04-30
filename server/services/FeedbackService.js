@@ -34,6 +34,19 @@ const FeedbackService = {
             throw new Error(`Error fetching feedback: ${error.message}`);
         }
     },
+
+    async UpdateFeedbackStatus(feedbackId){
+        try{
+            const { client, database } = await connectDB();
+            const collection = database.collection(DATABASE_COLLECTIONS.FEEDBACKS);
+            const numericFeedbackId = Number(feedbackId); // Convert receiverId to a number
+            const result = await collection.updateOne({ feedback_id: numericFeedbackId }, { $set: { status: "viewed" } });
+            client.close();
+            return result;
+        } catch (error) {
+            throw new Error(`Error updating feedback status: ${error.message}`);
+        }
+    }
 };
 
 

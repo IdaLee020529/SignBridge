@@ -63,6 +63,8 @@ const NotifFilter: React.FC = () => {
       }
     }
 
+    newData = newData.sort((a, b) => new Date(b.created_at).getTime() - new Date(a.created_at).getTime());
+
     useStore.setModifiedData(newData);
   }
 
