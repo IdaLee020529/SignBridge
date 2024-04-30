@@ -4,32 +4,37 @@ import { useCharacterAnimations } from "../SLP/CharacterAnimations";
 import * as THREE from "three";
 import animationsData from "../../../public/glosses/gloss.json";
 
-const Man = ({ props, animationKeyword, speed, showSkeleton}) => {
+const Man = ({ props, animationKeyword, speed, showSkeleton, repeat }) => {
   const group = useRef();
   const { nodes, materials, animations } = useGLTF("../../../public/models/man.glb");
-  const { setAnimations, animationIndex } = useCharacterAnimations();
+  // const { setAnimations, animationIndex } = useCharacterAnimations();
   const { actions, names } = useAnimations(animations, group);
 
   const [animationQueue, setAnimationQueue] = useState([]);
   const [currentAnimationIndex, setCurrentAnimationIndex] = useState(0);
+  const [prevAnimationKeyword, setPrevAnimationKeyword] = useState(null);
 
   useEffect(() => {
-    setAnimations(names);
-  }, [names]);
-
-  useEffect(() => {
-    if (animationKeyword) {
+    if (animationKeyword && animationKeyword !== prevAnimationKeyword) {
       const animationKeywordUpper = animationKeyword.toUpperCase(); // Convert to uppercase
-      const animationData = animationsData.find(item => item.keyword === animationKeywordUpper);
+      const animationData = animationsData.find((item) => item.keyword === animationKeywordUpper);
       const newAnimationQueue = animationData ? animationData.animations : [];
       setAnimationQueue(newAnimationQueue);
       setCurrentAnimationIndex(0);
+      setPrevAnimationKeyword(animationKeyword);
     }
-  }, [animationKeyword]);
+  }, [animationKeyword, prevAnimationKeyword]);
 
   const onAnimationFinished = () => {
     if (currentAnimationIndex < animationQueue.length - 1) {
-      setCurrentAnimationIndex(prevIndex => prevIndex + 1);
+      setCurrentAnimationIndex((prevIndex) => prevIndex + 1);
+    } 
+    else if (repeat == "Yes"){
+
+      setTimeout(() => {
+
+      setPrevAnimationKeyword(null);
+      }, 2000);
     }
   };
 
@@ -59,7 +64,7 @@ const Man = ({ props, animationKeyword, speed, showSkeleton}) => {
         currentAction.getMixer().removeEventListener("finished", onAnimationFinished);
       }
     };
-  }, [animationQueue, actions, currentAnimationIndex]);
+  }, [animationQueue, actions, currentAnimationIndex, speed]);
 
   useEffect(() => {
     const helper = new THREE.SkeletonHelper(group.current);
@@ -67,10 +72,9 @@ const Man = ({ props, animationKeyword, speed, showSkeleton}) => {
       helper.position.set(0, 100, 0); // Set the helper position coordinates (x, y, z)
       group.current.add(helper);
     } else if (!showSkeleton) {
-    group.current.remove(helper);
+      group.current.remove(helper);
     }
-    }, [showSkeleton]);
-  
+  }, [showSkeleton]);
 
   return (
     <group ref={group} {...props} position={[0, 0, 0]} dispose={null}>
@@ -101,5 +105,3 @@ const Man = ({ props, animationKeyword, speed, showSkeleton}) => {
 };
 
 export default Man;
-
-useGLTF.preload("./models/man.glb");
