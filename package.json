@@ -10,6 +10,7 @@
     "@react-three/drei": "^9.105.4",
     "@react-three/fiber": "^8.16.2",
     "gsap": "^3.12.5",
+    "lucide-react": "^0.376.0",
     "mdb-react-ui-kit": "^8.0.0"
   },
   "devDependencies": {

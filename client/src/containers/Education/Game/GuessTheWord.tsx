@@ -20,8 +20,10 @@ interface Question {
     correctAnswer: string;
 }
 
-interface GlossData {
-    [key: string]: any;
+interface GlossAnimation {
+    keyword: string;
+    animations: string[];
+    category: string;
 }
 
 const playButtonClickedSound = () => {
@@ -53,7 +55,7 @@ const GuessTheWord: React.FC = () => {
     const [wrongAnswerIndex, setWrongAnswerIndex] = useState(-1);
     const [animationKeyword, setAnimationKeyword] = useState("");
     const [answerOptions, setAnswerOptions] = useState<string[]>([]);
-    const [questions, setQuestions] = useState<Question>();
+    const [question, setQuestion] = useState<Question>();
     const [clickedOptions, setClickedOptions] = useState<boolean[]>(
         new Array(4).fill(false)
     );
@@ -69,7 +71,9 @@ const GuessTheWord: React.FC = () => {
         ));
     };
 
-    const loadAnimationKeywords = async (): Promise<GlossData | null> => {
+    const loadAnimationKeywords = async (): Promise<
+        GlossAnimation[] | null
+    > => {
         try {
             const response = await fetch("/glosses/gloss.json");
             if (!response.ok) {
@@ -77,16 +81,8 @@ const GuessTheWord: React.FC = () => {
                     `Failed to fetch: ${response.status} ${response.statusText}`
                 );
             }
-            const data: GlossData = await response.json();
-
-            const lowercaseData: GlossData = {};
-            for (const key in data) {
-                lowercaseData[key.toLowerCase()] = data[key];
-            }
-
-            const combinedData: GlossData = { ...data, ...lowercaseData };
-
-            return combinedData;
+            const data: GlossAnimation[] = await response.json();
+            return data;
         } catch (error) {
             console.error("Failed to load animation keywords:", error);
             return null;
@@ -94,18 +90,22 @@ const GuessTheWord: React.FC = () => {
     };
 
     const pickRandomKeyword = async () => {
-        const glossData = await loadAnimationKeywords();
-        if (glossData) {
-            const keys = Object.keys(glossData);
-            const randomKey = keys[Math.floor(Math.random() * keys.length)];
+        const data = await loadAnimationKeywords();
+
+        if (data) {
+            // generate a random number between 0 and the length of the data
+            const randomIndex = Math.floor(Math.random() * data.length);
+            const randomQuestion = data[randomIndex];
+
             const newQuestion = {
                 level: level++,
-                question: "",
+                question: randomQuestion.category,
                 options: [],
-                correctAnswer: randomKey,
+                correctAnswer: randomQuestion.keyword,
             };
-            setAnimationKeyword(randomKey);
-            setQuestions(newQuestion);
+
+            setAnimationKeyword(randomQuestion.keyword);
+            setQuestion(newQuestion);
             questionList.push(newQuestion);
         }
     };
@@ -131,9 +131,9 @@ const GuessTheWord: React.FC = () => {
         const options: string[] = [];
         const glossData = await loadAnimationKeywords();
         if (glossData) {
-            const glossKeys = Object.keys(glossData).filter((key) =>
-                /^[A-Z]+$/.test(key)
-            );
+            const glossKeys = glossData
+                .map((item) => item.keyword)
+                .filter((key) => /^[A-Z_]+$/.test(key));
 
             const filteredGlossKeys = glossKeys.filter(
                 (key) => key.toLowerCase() !== animationKeyword.toLowerCase()
@@ -153,13 +153,24 @@ const GuessTheWord: React.FC = () => {
 
             for (let i = 0; i < 4; i++) {
                 const randomKey = filteredGlossKeys[randomIndex];
-                const lowercaseOption = randomKey.toLowerCase();
-                options.push(lowercaseOption);
+                const formattedOption = randomKey
+                    .toLowerCase()
+                    .replace(/_/g, " ")
+                    .split(" ")
+                    .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
+                    .join(" ");
+                options.push(formattedOption);
                 randomIndex = (randomIndex + 1) % filteredGlossKeys.length;
             }
 
-            options[Math.floor(Math.random() * 4)] =
-                animationKeyword.toLowerCase();
+            options[Math.floor(Math.random() * 4)] = animationKeyword
+                .toLowerCase()
+                .replace(/_/g, " ")
+                .split(" ")
+                .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
+                .join(" ");
+
+            console.log(options);
             return options;
         } else {
             return [];
@@ -185,12 +196,25 @@ const GuessTheWord: React.FC = () => {
             disabledOptions.fill(true);
             setClickedOptions(disabledOptions);
 
-            if (glossData && questions) {
-                const correctAnswer = questions.correctAnswer;
-                const correctAnswerLowerCase = correctAnswer.toLowerCase();
-                const correctAnswerIndex = answerOptions.findIndex(option => option.toLowerCase() === correctAnswerLowerCase);
-                
-                if (selectedOption.toLowerCase() === correctAnswerLowerCase) {
+            if (glossData && question) {
+                const correctAnswer = question.correctAnswer;
+                const correctAnswerFormatted = correctAnswer
+                    .toLowerCase()
+                    .replace(/_/g, " ")
+                    .split(" ")
+                    .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
+                    .join(" ");
+
+                const correctAnswerIndex = answerOptions.findIndex(
+                    (option) =>
+                        option.toLowerCase() ===
+                        correctAnswerFormatted.toLowerCase()
+                );
+
+                if (
+                    selectedOption.toLowerCase() ===
+                    correctAnswerFormatted.toLowerCase()
+                ) {
                     setScore(score + 1);
                     setCorrectAnswerIndex(index);
                     playCorrectAnswerSound();

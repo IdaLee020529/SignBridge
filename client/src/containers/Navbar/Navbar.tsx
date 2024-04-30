@@ -6,6 +6,7 @@ import "./Navbar.css";
 import Cookies from "js-cookie";
 import { LogoutUser } from "../../services/account.service";
 import { GetUserIdByEmail, FetchNotificationCounts } from "../../services/notification.service";
+import { Globe } from 'lucide-react';
 
 function Navbar() {
 	const navigate = useNavigate();
@@ -80,7 +81,7 @@ function Navbar() {
 
 	// ---------- Fetch notification counts ----------
 	const email = Cookies.get("email");
-  	const [userIds, setUserIds] = useState("");
+	const [userIds, setUserIds] = useState("");
 	const [notificationCount, setNotificationCount] = useState(0);
 
 	useEffect(() => {
@@ -225,6 +226,17 @@ function Navbar() {
 									</div>
 									</Link>
 								</li>
+								<li className = "nav-item">
+									<Link to="language" className="nav-links" onClick={closeMobileMenu}>
+										<Globe />
+									</Link>
+								</li>
+								<li className = "nav-item">
+									<Link to="language" className="nav-links" onClick={closeMobileMenu}>
+										<Globe />
+									</Link>
+								</li>
+
 								<li className="nav-item dropdown">
 									<img src={picture} alt="Profile" className="profileimg" />
 
