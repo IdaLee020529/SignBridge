@@ -2,397 +2,477 @@
   {
     "keyword": "ADIK_PEREMPUAN",
     "animations": ["AdikPerempuan1", "AdikPerempuan2", "AdikPerempuan3"],
+    "english_keyword" : "YOUNGER_SISTER",
     "category":"Medical"
   },
   {
     "keyword": "AKAN",
     "animations": ["Akan1", "Akan2"],
+    "english_keyword" : "WILL",
     "category":"Conversation"
   },
   {
     "keyword": "ASMA",
     "animations": ["Asma1", "Asma2"],
+    "english_keyword" : "ASTHMA",
     "category":"Medical"
   },
   {
     "keyword": "BADAN",
     "animations": ["Badan1", "Badan2", "Badan3"],
+    "english_keyword" : "BODY",
     "category":"Medical"
   },
   {
     "keyword": "BAHU",
     "animations": ["Bahu1", "Bahu2", "Bahu3", "Bahu4"],
+    "english_keyword" : "SHOULDER",
     "category":"Medical"
   },
   {
     "keyword": "BENGKAK",
     "animations": ["Bengkak1", "Bengkak2", "Bengkak3"],
+    "english_keyword" : "SWOLLEN",
     "category":"Medical"
   },
   {
     "keyword": "BIBIR",
     "animations": ["Bibir1", "Bibir2", "Bibir3"],
+    "english_keyword" : "LIPS",
     "category":"Medical"
   },
   {
-    "keyword": "BUAHPINGGANG",
+    "keyword": "BUAH_PINGGANG",
     "animations": ["BuahPinggang1", "BuahPinggang2", "BuahPinggang3"],
+    "english_keyword" : "KIDNEY",
     "category":"Medical"
   },
   {
     "keyword": "DARAH",
     "animations": ["Darah1", "Darah2", "Darah3"],
+    "english_keyword" : "BLOOD",
     "category":"Medical"
   },
   {
     "keyword": "DATUK",
     "animations": ["Datuk1", "Datuk2", "Datuk3"],
+    "english_keyword" : "GRANDFATHER",
     "category":"Medical"
   },
   {
     "keyword": "DEMAM",
     "animations": ["Demam1", "Demam2"],
+    "english_keyword" : "FEVER",
     "category":"Medical"
   },
   {
     "keyword": "DOKTOR",
     "animations": ["Doktor1", "Doktor2", "Doktor3", "Doktor4"],
+    "english_keyword" : "DOCTOR",
     "category":"Medical"
   },
   {
     "keyword": "GATAL",
     "animations": ["Gatal1", "Gatal2", "Gatal3"],
+    "english_keyword" : "ITCHY",
     "category":"Medical"
   },
   {
     "keyword": "GIGI",
     "animations": ["Gigi1", "Gigi2", "Gigi3"],
+    "english_keyword" : "TEETH",
     "category":"Medical"
   },
   {
     "keyword": "HABIS",
     "animations": ["Habis1", "Habis2", "Habis3", "Habis4"],
+    "english_keyword" : "FINISHED",
     "category":"Conversation"
   },
   {
     "keyword": "HIDUNG",
     "animations": ["Hidung1", "Hidung2"],
+    "english_keyword" : "NOSE",
     "category":"Medical"
   },
   {
     "keyword": "HUJAN",
     "animations": ["Hujan1", "Hujan2"],
+    "english_keyword" : "RAIN",
     "category":"Medical"
   },
   {
     "keyword": "JANTUNG",
     "animations": ["Jantung1", "Jantung2"],
+    "english_keyword" : "HEART",
     "category":"Medical"
   },
   {
     "keyword": "JARI",
     "animations": ["Jari1", "Jari2", "Jari3"],
+    "english_keyword" : "FINGERS",
     "category":"Medical"
   },
   {
     "keyword": "JURURAWAT",
     "animations": ["Jururawat1", "Jururawat2"],
+    "english_keyword" : "NURSE",
     "category":"Medical"
   },
   {
     "keyword": "KAKI",
     "animations": ["Kaki1", "Kaki2", "Kaki3"],
+    "english_keyword" : "FEET",
     "category":"Medical"
   },
   {
     "keyword": "KECEMASAN",
     "animations": ["Kecemasan1", "Kecemasan2", "Kecemasan3"],
+    "english_keyword" : "EMERGENCY",
     "category":"Medical"
   },
   {
     "keyword": "KERANA",
     "animations": ["Kerana1", "Kerana2"],
+    "english_keyword" : "BECAUSE",
     "category":"Medical"
   },
   {
     "keyword": "KESAKITAN",
     "animations": ["Kesakitan1", "Kesakitan2"],
+    "english_keyword" : "PAIN",
     "category":"Medical"
   },
   {
     "keyword": "KRIM",
     "animations": ["Krim1", "Krim2", "Krim3"],
+    "english_keyword" : "CREAM",
     "category":"Medical"
   },
   {
     "keyword": "KULIT",
     "animations": ["Kulit1", "Kulit2", "Kulit3"],
+    "english_keyword" : "SKIN",
     "category":"Medical"
   },
   {
     "keyword": "LEHER",
     "animations": ["Leher1", "Leher2", "Leher3"],
+    "english_keyword" : "NECK",
     "category":"Medical"
   },
   {
     "keyword": "LEMAH",
     "animations": ["Lemah1", "Lemah2", "Lemah3"],
+    "english_keyword" : "WEAK",
     "category":"Medical"
   },
   {
     "keyword": "LIDAH",
     "animations": ["Lidah1", "Lidah2", "Lidah3"],
+    "english_keyword" : "TONGUE",
     "category":"Medical"
   },
   {
     "keyword": "MAHU",
     "animations": ["Mahu1", "Mahu2"],
+    "english_keyword" : "WANT",
     "category":"Medical"
   },
   {
     "keyword": "MATA",
     "animations": ["Mata1", "Mata2"],
+    "english_keyword" : "EYES",
     "category":"Medical"
   },
   {
     "keyword": "MENGANDUNG",
     "animations": ["Mengandung1", "Mengandung2"],
+    "english_keyword" : "PREGNANT",
     "category":"Medical"
   },
   {
     "keyword": "MULUT",
     "animations": ["Mulut1", "Mulut2"],
+    "english_keyword" : "MOUTH",
     "category":"Medical"
   },
   {
     "keyword": "MUNTAH",
     "animations": ["Muntah1", "Muntah2", "Muntah3"],
+    "english_keyword" : "VOMIT",
     "category":"Medical"
   },
   {
     "keyword": "PENAT",
     "animations": ["Penat1", "Penat2", "Penat3"],
+    "english_keyword" : "TIRED",
     "category":"Medical"
   },
   {
     "keyword": "PERGI",
     "animations": ["Pergi1", "Pergi2"],
+    "english_keyword" : "GO",
     "category":"Medical"
   },
   {
     "keyword": "PERUT",
     "animations": ["Perut1", "Perut2"],
+    "english_keyword" : "STOMACH",
     "category":"Medical"
   },
   {
     "keyword": "PIL",
     "animations": ["Pil1", "Pil2", "Pil3"],
+    "english_keyword" : "PILL",
     "category":"Medical"
   },
   {
-    "keyword": "SAKITKEPALA",
+    "keyword": "SAKIT_KEPALA",
     "animations": ["SakitKepala1", "SakitKepala2", "SakitKepala3", "SakitKepala4"],
+    "english_keyword" : "HEADACHE",
     "category":"Medical"
   },
   {
-    "keyword": "SAKITPERUT",
+    "keyword": "SAKIT_PERUT",
     "animations": ["SakitPerut1", "SakitPerut2"],
+    "english_keyword" : "STOMACHACHE",
     "category":"Medical"
   },
   {
-    "keyword": "SAKITPINGGANG",
+    "keyword": "SAKIT_PINGGANG",
     "animations": ["SakitPinggang1", "SakitPinggang2", "SakitPinggang3", "SakitPinggang4"],
+    "english_keyword" : "WAIST_PAIN",
     "category":"Medical"
   },
   {
-    "keyword": "SAKITTEKAK",
+    "keyword": "SAKIT_TEKAK",
     "animations": ["SakitTekak1", "SakitTekak2", "SakitTekak3", "SakitTekak4"],
+    "english_keyword" : "SORE_THROAT",
     "category":"Medical"
   },
   {
     "keyword": "SELSEMA",
     "animations": ["Selsema1", "Selsema2", "Selsema3"],
+    "english_keyword" : "FLU",
     "category":"Medical"
   },
   {
-    "keyword": "SINARX",
+    "keyword": "SINAR-X",
     "animations": ["SinarX1", "SinarX2", "SinarX3", "SinarX4", "SinarX5", "SinarX6"],
-    "category":"Medical"
+    "english_keyword" : "X-RAY",
+    "category":"Medical",
+    "toShow": "1"
   },
   {
     "keyword": "TINGGI",
     "animations": ["Tinggi1", "Tinggi2"],
-    "category":"Medical"
+    "english_keyword" : "HIGH",
+    "category":"Medical",
+    "toShow": "1"
   },
   {
     "keyword": "TULANG",
     "animations": ["Tulang1", "Tulang2", "Tulang3"],
-    "category":"Medical"
+    "english_keyword" : "BONE",
+    "category":"Medical",
+    "toShow": "1"
   },
   {
-    "keyword": "TULANGRUSUK",
+    "keyword": "TULANG_RUSUK",
     "animations": ["TulangRusuk1", "TulangRusuk2"],
-    "category":"Medical"
+    "english_keyword" : "RIB_CAGE",
+    "category":"Medical",
+    "toShow": "1"
   },
   {
     "keyword": "SATU",
     "animations": ["Satu"],
+    "english_keyword" : "ONE",
     "category":"Numbers",
     "toShow": "0"
   },
   {
     "keyword": "DUA",
     "animations": ["Dua"],
+    "english_keyword" : "TWO",
     "category":"Numbers",
     "toShow": "0"
   },
   {
     "keyword": "TIGA",
     "animations": ["Tiga"],
+    "english_keyword" : "THREE",
     "category":"Numbers",
     "toShow": "0"
   },
   {
     "keyword": "EMPAT",
     "animations": ["Empat"],
+    "english_keyword" : "FOUR",
     "category":"Numbers",
     "toShow": "0"
   },
   {
     "keyword": "LIMA",
     "animations": ["Lima"],
+    "english_keyword" : "FIVE",
     "category":"Numbers",
     "toShow": "0"
   },
   {
     "keyword": "ENAM",
     "animations": ["Enam"],
+    "english_keyword" : "SIX",
     "category":"Numbers",
     "toShow": "0"
   },
   {
     "keyword": "TUJUH",
     "animations": ["Tujuh"],
+    "english_keyword" : "SEVEN",
     "category":"Numbers",
     "toShow": "0"
   },
   {
     "keyword": "LAPAN",
     "animations": ["Lapan"],
+    "english_keyword" : "EIGHT",
     "category":"Numbers",
     "toShow": "0"
   },
   {
     "keyword": "SEMBILAN",
     "animations": ["Sembilan"],
+    "english_keyword" : "NINE",
     "category":"Numbers",
     "toShow": "0"
-    
   },
   {
     "keyword": "SEPULUH",
     "animations": ["Sepuluh1", "Sepuluh2"],
+    "english_keyword" : "TEN",
     "category":"Numbers",
     "toShow": "0"
   },
   {
     "keyword": "1",
     "animations": ["Satu"],
-    "category":"Numbers"
+    "category":"Numbers",
+    "toShow": "1"
   },
   {
     "keyword": "2",
     "animations": ["Dua"],
-    "category":"Numbers"
+    "category":"Numbers",
+    "toShow": "1"
   },
   {
     "keyword": "3",
     "animations": ["Tiga"],
-    "category":"Numbers"
+    "category":"Numbers",
+    "toShow": "1"
   },
   {
     "keyword": "4",
     "animations": ["Empat"],
-    "category":"Numbers"
+    "category":"Numbers",
+    "toShow": "1"
   },
   {
     "keyword": "5",
     "animations": ["Lima"],
-    "category":"Numbers"
+    "category":"Numbers",
+    "toShow": "1"
   },
   {
     "keyword": "6",
     "animations": ["Enam"],
-    "category":"Numbers"
+    "category":"Numbers",
+    "toShow": "1"
   },
   {
     "keyword": "7",
     "animations": ["Tujuh"],
-    "category":"Numbers"
+    "category":"Numbers",
+    "toShow": "1"
   },
   {
     "keyword": "8",
     "animations": ["Lapan"],
-    "category":"Numbers"
+    "category":"Numbers",
+    "toShow": "1"
   },
   {
     "keyword": "9",
     "animations": ["Sembilan"],
-    "category":"Numbers"
+    "category":"Numbers",
+    "toShow": "1"
   },
   {
     "keyword": "10",
     "animations": ["Sepuluh1", "Sepuluh2"],
-    "category":"Numbers"
+    "category":"Numbers",
+    "toShow": "1"
   },
   {
     "keyword": "A",
     "animations": ["A"],
-    "category":"Alphabet"
+    "category":"Alphabet",
+    "toShow": "1"
   },
   {
     "keyword": "B",
     "animations": ["B"],
-    "category":"Alphabet"
+    "category":"Alphabet",
+    "toShow": "1"
   },
   {
     "keyword": "C",
     "animations": ["C"],
-    "category":"Alphabet"
+    "category":"Alphabet",
+    "toShow": "1"
   },
   {
     "keyword": "D",
     "animations": ["D"],
-    "category":"Alphabet"
+    "category":"Alphabet",
+    "toShow": "1"
   },
   {
     "keyword": "E",
     "animations": ["E"],
-    "category":"Alphabet"
+    "category":"Alphabet",
+    "toShow": "1"
   },
   {
     "keyword": "F",
     "animations": ["F"],
-    "category":"Alphabet"
+    "category":"Alphabet",
+    "toShow": "1"
   },
   {
     "keyword": "G",
     "animations": ["G"],
-    "category":"Alphabet"
+    "category":"Alphabet",
+    "toShow": "1"
   },
   {
     "keyword": "H",
     "animations": ["H"],
-    "category":"Alphabet"
+    "category":"Alphabet",
+    "toShow": "1"
   },
   {
     "keyword": "I",
     "animations": ["I"],
-    "category":"Alphabet"
+    "category":"Alphabet",
+    "toShow": "1"
   },
   {
     "keyword": "J",
     "animations": ["J"],
-    "category":"Alphabet"
+    "category":"Alphabet",
+    "toShow": "1"
   }
 ]

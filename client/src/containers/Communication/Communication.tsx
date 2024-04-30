@@ -46,9 +46,16 @@ function Communication() {
     event.preventDefault();
     const formData = new FormData(event.target);
     const submittedText = formData.get("sigmlUrl");
-    // @ts-ignore
-    setInputText(submittedText);
+    // Check if submittedText is the same as the value from the form data
+    if (inputText === submittedText) {
+      // If they are the same, append "#" to the submitted text
+      setInputText(submittedText + "#");
+    } else {
+      // If they are different, update the inputText directly
+      setInputText(submittedText);
+    }
   };
+  
   const [leftHandedMode, setLeftHandedMode] = useState(false);
 
   // Function to toggle left-handed mode
@@ -57,7 +64,6 @@ function Communication() {
   };
 
   const controls = useRef();
-  console.log(showSkeleton)
   return (
     <div className={`communication-body ${leftHandedMode ? "left-handed" : ""}`}>
       <div className="container-wrapper">
@@ -92,13 +98,13 @@ function Communication() {
         </ul>
       </nav>
         <div className="canvas-wrapper">
-        <Canvas camera={{ position: [0, 0, 225], fov: 45 }}>
+        <Canvas camera={{ position: [0, 0, 225], fov: 55 }}>
             {/* Your 3D scene components */}
             <directionalLight intensity={1} color="white" position={[10, 10, 10]} />
             <CharacterAnimationsProvider>
               <Experience />
           {/* <CameraControl /> */}
-              <Man animationKeyword={inputText} speed={speed} showSkeleton={showSkeleton}  />
+              <Man animationKeyword={inputText} speed={speed} showSkeleton={showSkeleton} repeat={"No"}  />
             </CharacterAnimationsProvider>
             {/*@ts-ignore*/} 
             <OrbitControls ref={controls}/>
