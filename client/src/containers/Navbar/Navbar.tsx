@@ -231,11 +231,6 @@ function Navbar() {
 										<Globe />
 									</Link>
 								</li>
-								<li className = "nav-item">
-									<Link to="language" className="nav-links" onClick={closeMobileMenu}>
-										<Globe />
-									</Link>
-								</li>
 
 								<li className="nav-item dropdown">
 									<img src={picture} alt="Profile" className="profileimg" />
