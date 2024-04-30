@@ -14,7 +14,7 @@ const Feedback = () => {
     lastName: "",
     age: null,
     gender: "male",
-    phoneNo: "",
+    race: "",
     email: "",
     fcategory: "Whole Website",
     experience: 5,
@@ -31,7 +31,7 @@ const Feedback = () => {
     firstName: "",
     lastName: "",
     age: "",
-    phoneNo: "",
+    race: "",
     email: "",
     fcategory: "",
   });
@@ -82,8 +82,8 @@ const Feedback = () => {
       case 'age':
         isValid = validateAge(value ? +value : 0);
         break;
-      case 'phoneNo':
-        isValid = validatePhoneNo(value);
+      case 'race':
+        isValid = validateRace(value);
         break;
       case 'email':
         isValid = validateEmail(value);
@@ -139,17 +139,22 @@ const Feedback = () => {
     return true;
   };
   
-  const validatePhoneNo = (value: string) => {
-    const phoneNoRegex = /^\d{3}-\d{3}-\d{4}$|^\d{3}-\d{4}-\d{4}$/;
+  const validateRace = (value: string) => {
+    const lettersRegex = /^[a-zA-Z]+$/;
+  
     if (!value.trim()) {
-      setFormErrors((prev) => ({ ...prev, phoneNo: "Phone number is required" }));
+      setFormErrors((prev) => ({ ...prev, race: "Race is required" }));
       return false;
-    } else if (!phoneNoRegex.test(value)) {
-      setFormErrors((prev) => ({ ...prev, phoneNo: "Invalid phone number format" }));
+    } else if (!lettersRegex.test(value)) {
+      setFormErrors((prev) => ({ ...prev, race: "Race must contain only letters" }));
       return false;
+    } else if (value.length < 3) {
+      setFormErrors((prev) => ({ ...prev, race: "Race must be at least 3 characters long" }));
+      return false;
+    } else {
+      setFormErrors((prev) => ({ ...prev, race: "" }));
+      return true;
     }
-    setFormErrors((prev) => ({ ...prev, phoneNo: "" }));
-    return true;
   };
   
   const validateEmail = (value: string) => {
@@ -171,10 +176,10 @@ const Feedback = () => {
     const isFirstNameValid = validateFirstName(formData.firstName);
     const isLastNameValid = validateLastName(formData.lastName);
     const isAgeValid = validateAge(formData.age || 0);
-    const isPhoneNoValid = validatePhoneNo(formData.phoneNo);
+    const isRaceValid = validateRace(formData.race);
     const isEmailValid = validateEmail(formData.email);
 
-    if (isFirstNameValid && isLastNameValid && isAgeValid && isEmailValid && isPhoneNoValid ) {
+    if (isFirstNameValid && isLastNameValid && isAgeValid && isEmailValid && isRaceValid ) {
       await CreateFeedback(formData);
       handleFormReset();
       navigate("/feedback-success");
@@ -193,7 +198,7 @@ const Feedback = () => {
       lastName: "",
       age: null,
       gender: "male",
-      phoneNo: "",
+      race: "",
       email: "",
       fcategory: "Whole Website",
       experience: 5,
@@ -212,7 +217,7 @@ const Feedback = () => {
       firstName: "",
       lastName: "",
       age: "",
-      phoneNo: "",
+      race: "",
       email: "",
       fcategory: "",
     });
@@ -272,9 +277,9 @@ const Feedback = () => {
                 </div>
 
                 <div className={style.feedback_input}>
-                  <label>Phone Number</label>
-                  <input type="text" id="phoneNo" name="phoneNo" maxLength={15} value={formData.phoneNo} onChange={handleFormChange} />
-                  {formErrors.phoneNo && <div className={style.feedback_error}>{formErrors.phoneNo}</div>}
+                  <label>Race</label>
+                  <input type="text" id="race" name="race" maxLength={15} value={formData.race} onChange={handleFormChange} />
+                  {formErrors.race && <div className={style.feedback_error}>{formErrors.race}</div>}
                 </div>
               </div>
             </fieldset>
