@@ -128,7 +128,7 @@ const FeedbackAdmin: React.FC = () => {
                 name={data.firstName + " " + data.lastName}
                 age={data.age}
                 gender={data.gender}
-                phone={data.phoneNo}
+                race={data.race}
                 email={data.email}
                 fcategory={data.fcategory}
                 experience={data.experience}

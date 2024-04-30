@@ -20,6 +20,17 @@ const FeedbackController = {
             res.status(500).json({ error: "Internal Server Error" });
         }
     },
+
+    async UpdateFeedbackStatus(req, res) {
+        try {
+            const feedbackId = req.params.feedbackId;
+            const updatedFeedback = await FeedbackService.UpdateFeedbackStatus(feedbackId);
+            res.status(200).json(updatedFeedback);
+        } catch (error) {
+            console.error("Error updating feedback status:", error);
+            res.status(500).json({ error: "Internal Server Error" });
+        }
+    }
 };
 
 module.exports = FeedbackController;

@@ -8,7 +8,7 @@ interface CollapsibleContainerProps {
     name: string;
     age: number;
     gender: string;
-    phone: string;
+    race: string;
     email: string;
     fcategory: string;
     experience: string;
@@ -29,7 +29,7 @@ const CollapsibleContainer: React.FC<CollapsibleContainerProps> = ({
     name,
     age,
     gender,
-    phone,
+    race,
     email,
     fcategory,
     experience,
@@ -82,7 +82,7 @@ const CollapsibleContainer: React.FC<CollapsibleContainerProps> = ({
         { key: "1", label: "Name", children: name },
         { key: "2", label: "Age", children: String(age) },
         { key: "3", label: "Gender", children: gender },
-        { key: "4", label: "Phone", children: phone },
+        { key: "4", label: "Race", children: race },
         { key: "5", label: "Email", children: email },
     ];
 
