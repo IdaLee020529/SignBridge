@@ -3,9 +3,9 @@ import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { useGoogleLogin } from "@react-oauth/google";
 import { gapi } from "gapi-script";
-import { useTheme } from "../../store/theme";
+import { useThemeStore } from "../../store/theme";
 import { COLOR_ROLE_ACCESS } from "../../constants/account.constant";
-import { LoginUser, FetchGoogleData, SignUpLoginUserGoogle } from "../../services/account.service";
+import { LoginUser, FetchGoogleData, SignUpUserGoogle, LoginUserGoogle } from "../../services/account.service";
 import LoginInput from "../../components/LoginInput/LoginInput";
 import toast from "react-hot-toast";
 import Cookies from "js-cookie";
@@ -24,7 +24,7 @@ function Login() {
 	}, [navigate]);
 
 	// ---------- Define the variables ----------
-	const { updateColors } = useTheme();
+	const { updateColors } = useThemeStore();
 
 	const [email, setEmail] = useState("");
 	const [emailError, setEmailError] = useState("");
@@ -142,20 +142,28 @@ function Login() {
 				const res = await FetchGoogleData(credentialResponse.access_token);
 
 				// save the name into the cookies
-				Cookies.set("token", res.data.token, { expires: 7 });
-				Cookies.set("name", res.data.name, { expires: 7 });
-				Cookies.set("email", res.data.email, { expires: 7 });
-				Cookies.set("picture", res.data.picture, { expires: 7 });
-				Cookies.set("role_access", res.data.role_access, { expires: 7 });
+				Cookies.set("token", res.data.token, { expires: 30 });
+				Cookies.set("name", res.data.name, { expires: 30 });
+				Cookies.set("email", res.data.email, { expires: 30 });
+				Cookies.set("picture", res.data.picture, { expires: 30 });
 
-				SignUpLoginUserGoogle(res.data);
+				await SignUpUserGoogle(res.data);
+
+				const loginResponse = await LoginUserGoogle(res.data);
+				console.log("loginResponse", loginResponse);
+				Cookies.set("role_access", loginResponse.data.role_access, { expires: 30 });
+
+				// SignUpUserGoogle(res.data);
+				toast.success("Google login successful");
 				navigate("/");
 			} catch (e) {
 				console.error(e);
+				toast.error("Google login failed");
 			}
 		},
 		onError: () => {
 			console.log("Login failed");
+			toast.error("Google login failed");
 		},
 	});
 

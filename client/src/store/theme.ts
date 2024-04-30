@@ -14,7 +14,7 @@ if (data !== null) {
   console.log("No data found in localStorage");
 }
 
-export const useTheme = create<ThemeState>((set) => ({
+export const useThemeStore = create<ThemeState>((set) => ({
   color: data ?? COLOR_ROLE_ACCESS.public.color,
   updateColors: (newColors) => set({ color: newColors }),
 }));

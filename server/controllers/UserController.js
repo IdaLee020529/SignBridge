@@ -40,6 +40,40 @@ const UserController = {
         }
     },
 
+    async LoginGoogleUser(req, res) {
+        try {
+            const googleUser = req.body;
+            const user = await UserService.LoginGoogleUser(googleUser);
+            
+            if (user) {
+                const token = jwt.sign({ email: user.email }, process.env.JWT_SECRET, {
+                    expiresIn: "7d",
+                });
+
+                req.session.isLoggedIn = true;
+                req.session.username = user.username;
+                req.session.email = user.email;
+                req.session.picture = user.picture;
+                req.session.acc_type = user.acc_type;
+                req.session.role_access = user.role_access;
+
+                res.status(200).json({
+                    Login: true,
+                    username: req.session.username,
+                    role_access: req.session.role_access,
+                    picture: req.session.picture,
+                    token: token,
+                    message: "Login successful",
+                });
+            } else {
+                res.status(401).json({ error: "Invalid email or password" });
+            }
+        } catch (error) {
+            console.error("Error logging in user:", error);
+            res.status(500).json({ error: "Internal Server Error" });
+        }
+    },
+
     async VerifyEmail(req, res) {
         try {
             const token = req.query.token;
@@ -172,8 +206,7 @@ const UserController = {
             console.error("Error fetching users:", error);
             res.status(500).json({ error: "Internal Server Error" });
         }
-    }
-
+    },
 }
 
 module.exports = UserController

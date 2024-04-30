@@ -5,7 +5,7 @@ import { useGoogleLogin } from "@react-oauth/google";
 import { useEffect } from "react";
 import { gapi } from "gapi-script";
 import LoginInput from "../../components/LoginInput/LoginInput";
-import { SignUpUser, FetchGoogleData, SignUpLoginUserGoogle } from "../../services/account.service";
+import { SignUpUser, FetchGoogleData, SignUpUserGoogle, LoginUserGoogle } from "../../services/account.service";
 import toast from "react-hot-toast";
 import Cookies from "js-cookie";
 
@@ -179,19 +179,27 @@ function SignUp() {
 		onSuccess: async credentialResponse => {
 			try {
 				// save the token in the cookies with name "token"
-				document.cookie = `token=${credentialResponse.access_token}`;
+				// document.cookie = `token=${credentialResponse.access_token}`;
+				Cookies.set("token", credentialResponse.access_token, { expires: 30 });
 
 				const res = await FetchGoogleData(credentialResponse.access_token);
+				console.log(res);
 
 				// save the name into the cookies
-				Cookies.set("name", res.data.name);
-				Cookies.set("email", res.data.email);
-				Cookies.set("picture", res.data.picture);
-				Cookies.set("role_access", res.data.role_access);
+				Cookies.set("name", res.data.name, { expires: 30 });
+				Cookies.set("email", res.data.email, { expires: 30 });
+				Cookies.set("picture", res.data.picture, { expires: 30 });
 
-				SignUpLoginUserGoogle(res.data);
+				await SignUpUserGoogle(res.data);
+
+				const loginResponse = await LoginUserGoogle(res.data);
+				console.log("loginResponse", loginResponse);
+				Cookies.set("role_access", loginResponse.data.role_access, { expires: 30 });
+
+				toast.success("Signup successful");
 				navigate("/");
 			} catch (e) {
+				toast.error("Signup failed");
 				console.error(e);
 			}
 		},
