@@ -26,7 +26,7 @@ export const GetFeedback = async () => {
 // ---------- Update Feedback ----------
 export const UpdateFeedback = async (feedbackId: number) => {
   try {
-    const response = await axios.patch(
+    const response = await axios.put(
       `http://localhost:3000/feedbacks/update-feedback-status/${feedbackId}`,
     );
     return response;
