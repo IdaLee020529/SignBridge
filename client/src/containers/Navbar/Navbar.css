@@ -213,7 +213,7 @@
     overflow-y: auto;
   }
 
-  .nav-menu.active {
+  .nav-menu.activate {
     background: #242222;
     left: 0;
     opacity: 1;

@@ -57,7 +57,7 @@ const UserController = {
                 req.session.acc_type = user.acc_type;
                 req.session.role_access = user.role_access;
 
-                res.status(200).json({
+                return res.status(200).json({
                     Login: true,
                     username: req.session.username,
                     role_access: req.session.role_access,
@@ -66,7 +66,7 @@ const UserController = {
                     message: "Login successful",
                 });
             } else {
-                res.status(401).json({ error: "Invalid email or password" });
+                return res.status(401).json({ error: "Invalid email or password" });
             }
         } catch (error) {
             console.error("Error logging in user:", error);
@@ -99,13 +99,12 @@ const UserController = {
         try {
             const { email, password } = req.body;
             const user = await UserService.LoginUser({email, password});
-          
-            if (user) {
 
-                if (user.password !== req.body.password || user.email !== req.body.email) {
-                    return res.status(401).json({ error: "Incorrect email or password" });
-                }
-    
+            if ('error' in user && user.error === "Invalid password") {
+                return res.status(401).json({ error: "Invalid email or password" });
+            }
+
+            if (user) {
                 if (user.email_verified === false) {
                     return res.status(403).json({ error: "Email not verified" });
                 }

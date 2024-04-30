@@ -23,6 +23,7 @@ import DoTheSign from "./containers/Education/Game/DoTheSign";
 import FeedbackAdmin from "./containers/Feedback/Admin/FeedbackAdmin";
 import FeedbackSuccess from "./containers/Feedback/FeedbackSuccess";
 import FaqAdmin from "./containers/Faq/Admin/FaqAdmin";
+import Cookies from "js-cookie";
 
 function App() {
 	const clientId = "52594958094-08qvrugskhjjv34j4h0oi4m2ognjg830.apps.googleusercontent.com";
@@ -38,14 +39,11 @@ function App() {
     gapi.load("client:auth2", initGapi);
   });
 
-  const [feedbackComponent, setFeedbackComponent] = useState<React.ReactNode>(<Feedback />);
+  const [feedbackComponent, setFeedbackComponent] = useState<React.ReactNode>();
   useEffect(() => {
-    const roleAccess = document.cookie
-        .split("; ")
-        .find((row) => row.startsWith("role_access="))
-        ?.split("=")[1];
+    const role_access = Cookies.get("role_access");
 
-    switch (roleAccess) {
+    switch (role_access) {
       case "admin":
         setFeedbackComponent(<FeedbackAdmin />);
         break;

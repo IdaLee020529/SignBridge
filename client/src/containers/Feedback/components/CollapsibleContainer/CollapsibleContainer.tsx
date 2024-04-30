@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import style from './CollapsibleContainer.module.css';
 import RatingStars from '../RatingStars/RatingStars';
+import { useFeedbackSortFilterStore } from "../../../../store/feedbackSortFilter";
 
 interface CollapsibleContainerProps {
     id: number;
@@ -20,6 +21,7 @@ interface CollapsibleContainerProps {
     image: string;
     created_at: string;
     status: string;
+    updateStatus: (feedbackId: string, status: string) => void;
 }
 
 const CollapsibleContainer: React.FC<CollapsibleContainerProps> = ({
@@ -40,11 +42,30 @@ const CollapsibleContainer: React.FC<CollapsibleContainerProps> = ({
     image,
     created_at,
     status,
+    updateStatus,
 }) => {
     const [isOpen, setIsOpen] = useState<boolean>(false);
+    const useStore = useFeedbackSortFilterStore();
 
-    const toggleOpen = () => {
+    const toggleOpen = async () => {
         setIsOpen(!isOpen);
+        if (!isOpen) {
+            updateStatus(id.toString(), 'viewed'); 
+        }
+
+        for (let i = 0; i < useStore.modifiedData.length; i++) {
+            if (useStore.modifiedData[i].feedback_id === id) {
+                useStore.setModifiedData([
+                    ...useStore.modifiedData.slice(0, i),
+                    {
+                        ...useStore.modifiedData[i],
+                        status: 'viewed',
+                    },
+                    ...useStore.modifiedData.slice(i + 1),
+                ]);
+                break;
+            }
+        }
     };
 
     const closeForm = (e: React.MouseEvent<HTMLDivElement>) => {

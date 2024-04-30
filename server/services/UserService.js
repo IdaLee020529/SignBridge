@@ -2,6 +2,7 @@ const { connectDB, DATABASE_COLLECTIONS } = require("../config/database");
 const PRESET_ACCOUNTS = require("../constants/PresetAccount")
 const { sendEmail, mailTemplate } = require("../utils/email");
 const jwt = require('jsonwebtoken');
+const bcrypt = require('bcrypt');
 
 
 const UserService = {
@@ -33,6 +34,8 @@ const UserService = {
             await sendEmail(mailOption);
 
             userData.verification_token = token;
+            let hashPassword = await bcrypt.hash(userData.password, 10);
+            userData.password = hashPassword;
 
             const result = await collection.insertOne(userData);
             client.close();
@@ -89,6 +92,7 @@ const UserService = {
         try {
             const { client, database } = await connectDB();
             const collection = database.collection(DATABASE_COLLECTIONS.USERS);
+
             const user = await collection.findOne({ email: userData.email });
 
             client.close();
@@ -122,10 +126,14 @@ const UserService = {
         try {
             const { client, database } = await connectDB();
             const collection = database.collection(DATABASE_COLLECTIONS.USERS);
-            const user = await collection.findOne({
-                email: userData.email,
-                password: userData.password
-            });
+            const user = await collection.findOne({ email: userData.email });
+
+            const isSame = await bcrypt.compare(userData.password, user.password);
+            if (isSame === false) {
+                return {
+                    error: "Invalid password",
+                };
+            }
 
             client.close();
             return user;
@@ -185,9 +193,12 @@ const UserService = {
 
             const { client, database } = await connectDB();
             const collection = database.collection(DATABASE_COLLECTIONS.USERS);
+
+            const hashPassword = await bcrypt.hash(userData.password, 10);
+
             const user = await collection.findOneAndUpdate(
                 { email: decodedToken.email },
-                { $set: { password: userData.password }, $unset: { reset_password_token: "" }}
+                { $set: { password: hashPassword }, $unset: { reset_password_token: "" }}
             );
 
             client.close();
@@ -197,20 +208,6 @@ const UserService = {
             throw new Error("Failed to reset password");
         }
     },
-
-    // async SignUpManyUser(userDataList) {
-    //     try {
-    //         const { client, database } = await connectDB();
-    //         const collection = database.collection(DATABASE_COLLECTIONS.USERS);
-    //         const result = await collection.insertMany(userDataList);
-    //         const createdUsers = result.ops;
-    //         await client.close(); // Await closing for clarity
-    //         return createdUsers;
-    //     } catch (error) {
-    //         console.error("Error creating users:", error);
-    //         throw new Error(`Error creating users: ${error.message}`); // More specific message
-    //     }
-    // },
 
     async insertPresetAccounts() {
         const { client, database } = await connectDB();

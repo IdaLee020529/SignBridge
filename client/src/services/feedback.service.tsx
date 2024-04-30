@@ -22,3 +22,15 @@ export const GetFeedback = async () => {
     throw err;
   }
 };
+
+// ---------- Update Feedback ----------
+export const UpdateFeedback = async (feedbackId: number) => {
+  try {
+    const response = await axios.patch(
+      `http://localhost:3000/feedbacks/update-feedback-status/${feedbackId}`,
+    );
+    return response;
+  } catch (err) {
+    throw err;
+  }
+};

@@ -85,24 +85,34 @@ function Navbar() {
 
 	useEffect(() => {
 		const getUserId = async () => {
-		  const res = await GetUserIdByEmail(email);
-		  setUserIds(res.data);
-		  console.log(userIds);
+			const res = await GetUserIdByEmail(email);
+			setUserIds(res.data);
 		};
-		getUserId();
-	}, []);
-
+		
+		if (isLoggedIn) {
+			getUserId();
+		} else {
+			setUserIds(""); // Reset userIds if user is not logged in
+		}
+	}, [email, isLoggedIn]);
+	
 	useEffect(() => {
-        const fetchCounts = async () => {
-            const response = await FetchNotificationCounts(parseInt(userIds), 0);
-            const data = response.data;
-            setNotificationCount(data);
-        };
-        fetchCounts();
-		const interval = setInterval(fetchCounts, 5000); 
-
-    	return () => clearInterval(interval);
-    }, [userIds]);
+		const fetchCounts = async () => {
+			if (isLoggedIn && userIds !== "") {
+				const response = await FetchNotificationCounts(parseInt(userIds), 0);
+				const data = response.data;
+				setNotificationCount(data);
+			}
+		};
+	
+		fetchCounts();
+	
+		// Fetch counts only if the user is logged in and userIds is not empty
+		if (isLoggedIn && userIds !== "") {
+			const interval = setInterval(fetchCounts, 10000);
+			return () => clearInterval(interval);
+		}
+	}, [isLoggedIn, userIds]);
 
 	// ---------- Listen on the weebsite screen size ----------
 	window.addEventListener("resize", showButton);
@@ -122,7 +132,7 @@ function Navbar() {
 					</div>
 
 					{/* ---------- Navbar menu ---------- */}
-					<ul className={click ? "nav-menu active" : "nav-menu"}>
+					<ul className={click ? "nav-menu activate" : "nav-menu"}>
 						<li className="nav-item dropdown">
 							<Link to="#" className="nav-links" onClick={closeMobileMenu}>
 								Modules
