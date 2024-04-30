@@ -48,7 +48,26 @@ function Communication() {
     const formData = new FormData(event.target);
     const submittedText = formData.get("sigmlUrl") as string;
 
-    setInputText(submittedText);
+    try {
+      const response = await fetch('http://127.0.0.1:5000/api/SLP', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ text: submittedText }),
+      });
+
+      if (response.ok) {
+        const data = await response.json();
+        // Handle the response from Flask
+        console.log(data['return'])
+        setInputText(data['return']);
+      } else {
+        console.error('Failed to process text');
+      }
+    } catch (error) {
+      console.error('Error processing text: ', error);
+    }
   };
 
   const [leftHandedMode, setLeftHandedMode] = useState(false);
