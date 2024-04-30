@@ -1,192 +1,191 @@
 // Communication.jsx
 import "./Communication.css"
-import React, { useState, useRef } from "react";
+import React, { useRef, useState } from "react";
 import { Canvas, useFrame } from "@react-three/fiber";
+import { Link, useNavigate } from "react-router-dom";
 import { OrbitControls } from "@react-three/drei";
 import { useThree } from "@react-three/fiber";
+// @ts-ignore
 import { CharacterAnimationsProvider } from "../../components/SLP/CharacterAnimations";
+// @ts-ignore
 import Experience from "../../components/SLP/Experience";
+// @ts-ignore
 import Man from "../../components/AvatarModels/Man";
+import handImage from "../../../public/images/hand.png";
+import handColoredImage from "../../../public/images/handcolored.png";
 
 function Communication() {
   const [inputText, setInputText] = useState("");
   const [speed, setSpeed] = useState(1); // Initial speed value
-  const [selectedOption, setSelectedOption] = useState("option1"); // Default selected option
   const [handFocus, setHandFocus] = useState(false); // State to track if view needs reset
+  const [showSkeleton, setShowSkeleton] = useState(false);
 
-  const handleMinus = () => {
-    setSpeed((prevSpeed) => Math.max(prevSpeed - 0.2, 0)); // Decrease speed by 0.2, but ensure it doesn't go below 0
+  const toggleSkeleton = () => {
+    setShowSkeleton(prevState => !prevState);
   };
 
-  const handlePlus = () => {
-    setSpeed((prevSpeed) => Math.min(prevSpeed + 0.2, 2)); // Increase speed by 0.2, but ensure it doesn't exceed 2
-  };
-
-  const handleSpeedReset = () => {
-    setSpeed(1); // Reset speed to default value
-  };
   const handleViewReset = () => {
     // Reset camera rotation, and zoom
+    // @ts-ignore
     controls.current.reset();
+  };
+
+  const handleSpeedChange = (event) => {
+    const newSpeed = parseFloat(event.target.value);
+    setSpeed(newSpeed);
   };
 
   const handleHandFocus = () => {
     setHandFocus(prevFocus => !prevFocus); // Toggle handFocus state
+    // @ts-ignore
     controls.current.reset();
   };
 
-
-  const handleSubmit = (event) => {
+  // @ts-ignore
+  const handleSubmit = async (event) => {
     event.preventDefault();
+
     const formData = new FormData(event.target);
-    const submittedText = formData.get("sigmlUrl");
+    const submittedText = formData.get("sigmlUrl") as string;
+
     setInputText(submittedText);
   };
 
+  const [leftHandedMode, setLeftHandedMode] = useState(false);
+
+  // Function to toggle left-handed mode
+  const toggleLeftHandedMode = () => {
+    setLeftHandedMode(prevMode => !prevMode);
+  };
+
   const controls = useRef();
-
-  const handleOptionChange = (event) => {
-    setSelectedOption(event.target.value);
-  };
-
-  const handleBrowseLocalVideo = () => {
-    // Code to browse local video file
-    alert("Browse local video file")
-  };
-
-  const handleOpenCamera = () => {
-    // Code to open camera
-    alert("Open camera")
-  };
-
-  const handleSubmitVideo = () => {
-    // Code to submit video
-    alert("Submit video")
-  };
-
-  const handleResetVideo = () => {
-    // Code to reset video
-    alert("Reset video")
-  }
-
+  console.log(showSkeleton)
   return (
-    <div className="communication-body">
-    <div className="container-wrapper">
-      <div className="menu">
-        <select  value={selectedOption} onChange={handleOptionChange}>
-          <option value="option1">SLP (Sign Language Production)</option>
-          <option value="option2">SLR (Sign Language Recognition)</option>
-        </select>
-      </div>
-      {selectedOption === "option1" && (
-        <>
-      <div className="control-panel">
-      <div className="sidebar-btns">
-            <div className="hand-viewbtn">
-          <p>Hand Focus</p><button title="Hand Focus Mode" onClick={handleHandFocus} className={handFocus ? "handviewbtn-active" : "handviewbtn"}><img src="./images/handview.png" alt="Logo"/></button>
+    <div className={`communication-body ${leftHandedMode ? "left-handed" : ""}`}>
+      <div className="container-wrapper">
+        <div className="communication-menu">
+          <Link to="/communication"><a href="#">Sign Language Production (SLP)</a></Link>
+          <Link to="/education"><a href="#">Sign Language Recognition (SLR)</a></Link>
+          <div className="animation start-home"></div>
         </div>
-        <div className="reset-viewbtn">
-          <p>Reset Camera</p><button title="Reset Camera" onClick={handleViewReset} className={"resetviewbtn"}><img src="./images/resetview.png" alt="Logo"/></button>
-        </div>
-        </div>
-      </div>
-      <div className="canvas-wrapper">
-        <Canvas camera={{ position: [1, 55, 225], fov: 45 }} shadows>
-          {/* Your 3D scene components */}
-          <directionalLight intensity={1} color="white" position={[10, 10, 10]} />
-          <CharacterAnimationsProvider>
-            <Experience />
-            <Man animationKeyword={inputText} speed={speed} />
-          </CharacterAnimationsProvider>
+        <nav className="sidebar-navigation">
+          <ul>
+            <li
+              onClick={handleHandFocus}
+              className={handFocus ? "active" : ""}
+            >
+              <img
+                src={handFocus ? handColoredImage : handImage}
+                alt="hand"
+                className="sidebar-btn"
+              />
+              <span className="tooltip">Hand focus mode</span>
+            </li>
+            <li onClick={handleViewReset}>
+              <img
+                src="./images/resetview.png"
+                className="sidebar-btn"
+              />
+              <span className="tooltip">Reset zoom</span>
+            </li>
+            <li>
+              <span className="tooltip">None</span>
+            </li>
+          </ul>
+        </nav>
+        <div className="canvas-wrapper">
+          <Canvas camera={{ position: [0, 0, 225], fov: 45 }}>
+            {/* Your 3D scene components */}
+            <directionalLight intensity={1} color="white" position={[10, 10, 10]} />
+            <CharacterAnimationsProvider>
+              <Experience />
+              {/* <CameraControl /> */}
+              <Man animationKeyword={inputText} speed={speed} showSkeleton={showSkeleton} />
+            </CharacterAnimationsProvider>
+            {/*@ts-ignore*/}
             <OrbitControls ref={controls} />
             {handFocus && <HandFocusMode />}
-        </Canvas>
-      </div>
+          </Canvas>
+        </div>
+        <button className="communicationlog-btn">      <img
+          src="./images/history.png"
+          className="communicationlog-img"
+        /></button>
+        {/* <span className="tooltip">Communication history</span> */}
         <div className="content-wrapper">
-          <div className="avatar-details">
-            <label className="avatar-labels" htmlFor="avatarSelect">Avatar Controls</label>
+          <h1 className="communication-h1">Avatar Control</h1>
+          <div className="communication-toprow">
+            <button onClick={toggleLeftHandedMode} className="avatarcontrol-btn">Left-Hand Mode       <img
+              src="./images/lefthandmode.png"
+              className="avatarcontrol-img"
+            /></button>
+            <button className="avatarcontrol-btn" onClick={() => setShowSkeleton(prevState => !prevState)}>
+              {showSkeleton ? "Hide Skeleton" : "Show Skeleton"}
+              <img
+                src="./images/skeleton.png"
+                className="avatarcontrol-img"
+              /></button>
+            <button className="avatarcontrol-btn">Ambient       <img
+              src="./images/ambient.png"
+              className="avatarcontrol-img"
+            /></button>
           </div>
-          <div>
-            <img className="avatar-icons" src="./images/manuelhead.png" alt="Logo" /><label className="avatar-detail-labels" htmlFor="avatarname">Avatar : Manuel</label>
+          <div className="speed-control">
+            <span className="speed-span">Speed : </span>
+            <input
+              type="range"
+              className="speed-slider"
+              min="0.2"
+              max="2"
+              step="0.2"
+              value={speed} // Set the value of the slider to the current speed
+              onChange={handleSpeedChange} // Update speed when slider value changes
+            />
+            <input
+              type="text"
+              className="speed-textbox"
+              value={speed}
+              readOnly
+            />
           </div>
-          <div>
-            <img className="avatar-icons" src="./images/lefthand.png" alt="Logo" /><label className="avatar-detail-labels" htmlFor="vehicle1">Left-handed <i>(Mirrored)</i> </label>
-            <input className="lefthand-box" type="checkbox" id="vehicle1" name="vehicle1" value="Bike" />
-          </div>
-          <img className="speedcontrol-img" src="./images/speedcontrol.png" alt="Logo" />
-          <label className="speedcontrol-labels" htmlFor="speedControl">Speed:</label>
-          <input className="speedcontrol-box" type="text" id="speedControl" name="speedControl" value={speed} disabled />
-          <div className="speedcontrol-buttons">
-            <button
-              className={`speedcontrol-minus ${speed === 0 ? "disabled" : ""}`}
-              onClick={handleMinus}
-              disabled={speed === 0}
-            >
-              -
-            </button>
-            <button
-              className={`speedcontrol-plus ${speed === 2 ? "disabled" : ""}`}
-              onClick={handlePlus}
-              disabled={speed === 2}
-            >
-              +
-            </button>
-            <button className="speedcontrol-reset" onClick={handleSpeedReset}>Reset</button>
-          </div>
-          <br />
-          <div className="avatar-details">
-              <label className="avatar-labels" htmlFor="sigmlUrl">Animation</label>
-              <form onSubmit={handleSubmit}>
+          <div className="communication-middlerow">
+            <form onSubmit={handleSubmit}>
               <textarea
-              className="avatar-textbox"
-              id="sigmlUrl"
-              name="sigmlUrl"
+                className="avatar-textbox"
+                id="sigmlUrl"
+                name="sigmlUrl"
                 placeholder="Enter text here"
                 spellCheck="true"
               />
-              <button type="submit">Submit</button>
-              <button type="submit">Pause</button>
+              <button className="avatarplay-btn" type="submit">Play</button>
+              <button className="avatarpause-btn" type="submit">Pause</button>
             </form>
           </div>
+          <hr />
+          <h1 className="communication-h1">Stats</h1>
+          <div className="communication-bottomrow">
+            <span>FPS : </span>
+            <input className="fps-box" type="text" placeholder="60" />
+            <span>Sign / Frame : </span>
+            <input className="frame-box" type="text" placeholder="0 / 15" />
+            <span>Gloss : </span>
+            <input className="gloss-box" type="text" placeholder="Penat" />
+          </div>
+          <div className="status-row">
+            <span>Status : </span>
+            <input className="status-box" type="text" placeholder="Playing Sign" />
+          </div>
+
         </div>
-        </>
-      )}
-      {selectedOption === "option2" && (
-          <>
-            <div className="SLR-output-container">
-              <div className="SLR-output-wrapper">
-                <div className="SLR-output">
-                  <h3>SLR Output</h3>
-                  <p>Output text here</p>
-                </div>
-              </div>
-            </div>
-            <div className="SLR-input-container">
-              <div className="SLR-input-wrapper">
-                <div className="button-row">
-                  <button className="browse-local-video" onClick={handleBrowseLocalVideo}>Browse Local Video</button>
-                  <button className="open-camera" onClick={handleOpenCamera}>Open Camera</button>
-                </div>
-                <div className="preview-info">
-                  <p>Preview Info Here</p>
-                </div>
-                <div className="button-row">
-                  <button className="reset-button" onClick={handleResetVideo}>Reset</button>
-                  <button className="submit-video" onClick={handleSubmitVideo}>Submit Video</button>
-                </div>
-              </div>
-            </div>
-          </>
-        )}
-    </div>
+      </div>
     </div>
   );
 }
 
 function HandFocusMode() {
   const { camera } = useThree();
-  const x = -30; // Adjust these values according to your requirements
-  const y = 40;
+  const x = -35; // Adjust these values according to your requirements
+  const y = 150;
   const z = 100;
   const decimal = 1; // Adjust this value to control the speed of lerping
 
@@ -197,4 +196,21 @@ function HandFocusMode() {
 
   return null;
 }
+
+function CameraControl() {
+  const { camera } = useThree();
+
+  const x = -7.5; // Adjust these values according to your requirements
+  const y = 110;
+  const z = 215;
+  const decimal = 1; // Adjust this value to control the speed of lerping
+
+  useFrame(() => {
+    camera.position.lerp({ x, y, z }, decimal);
+    camera.lookAt(x, y, z);
+  });
+
+  return null;
+}
+
 export default Communication;
