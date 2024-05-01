@@ -1,9 +1,11 @@
 import { Link } from 'react-router-dom';
 import { useThemeStore } from '../../store/theme';
 import './Footer.css';
+import { useTranslation } from "react-i18next";
 
 function Footer() {
   const { color } = useThemeStore();
+  const { t, i18n } = useTranslation()
 
   // Function to check if user is logged in based on session storage
   const isUserLoggedIn = () => {
@@ -19,29 +21,29 @@ function Footer() {
         <div className='footer-link-wrapper'>
           <div className='footer-link-items'>
             <h2>Sign Bridge</h2>
-            <Link to='/login'>How it works</Link>
-            <Link to='/'>Testimonials</Link>
-            <Link to='/'>Careers</Link>
-            <Link to='/'>Investors</Link>
-            <Link to='/'>Terms of Service</Link>
+            <Link to='/login'>{t('how_it_works')}</Link>
+            <Link to='/'>{t('testimonials')}</Link>
+            <Link to='/'>{t('careers')}</Link>
+            <Link to='/'>{t('investors')}</Link>
+            <Link to='/'>{t('terms_of_service')}</Link>
           </div>
           <div className='footer-link-items'>
-            <h2>Contact Us</h2>
-            <Link to='/'>Contact</Link>
-            <Link to='/'>Support</Link>
-            <Link to='/'>Destinations</Link>
-            <Link to='/'>Sponsorships</Link>
+            <h2>{t('contact_us')}</h2>
+            <Link to='/'>{t('contact')}</Link>
+            <Link to='/'>{t('support')}</Link>
+            <Link to='/'>{t('destinations')}</Link>
+            <Link to='/'>{t('sponsorship')}</Link>
           </div>
         </div>
         <div className='footer-link-wrapper'>
           <div className='footer-link-items'>
-            <h2>Modules</h2>
-            <Link to='/library'>Library</Link>
-            <Link to='/communication'>Communication</Link>
-            <Link to='/education'>Education</Link>
+            <h2>{t('modules')}</h2>
+            <Link to='/library'>{t('library')}</Link>
+            <Link to='/communication'>{t('communication')}</Link>
+            <Link to='/education'>{t('education')}</Link>
           </div>
           <div className='footer-link-items'>
-            <h2>Social Media</h2>
+            <h2>{t('social_media')}</h2>
             <Link to='/'>Instagram</Link>
             <Link to='/'>Facebook</Link>
             <Link to='/'>Youtube</Link>
@@ -57,7 +59,7 @@ function Footer() {
               <i className='fab fa-typo3' />
             </Link>
           </div> */}
-          <small className='website-rights'>© CopyRight reserved by SIGN BRIDGE 2024</small>
+          <small className='website-rights'>{t('copyright')}</small>
           <div className='social-icons'>
             <Link
               className='social-icon-link facebook'

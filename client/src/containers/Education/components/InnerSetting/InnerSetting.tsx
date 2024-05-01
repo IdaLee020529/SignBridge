@@ -55,6 +55,7 @@ const SettingPopup: React.FC<SettingPopupProps> = ({
       ambientSlider.current.on("slide", (values: string[]) => {
         const newVolume = parseInt(values[0]);
         setVolume(newVolume);
+        localStorage.setItem("volumeValue", newVolume.toString());
         onVolumeChange(newVolume / 100);
       });
     }

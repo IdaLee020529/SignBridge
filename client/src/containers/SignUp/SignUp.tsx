@@ -8,11 +8,13 @@ import LoginInput from "../../components/LoginInput/LoginInput";
 import { SignUpUser, FetchGoogleData, SignUpUserGoogle, LoginUserGoogle } from "../../services/account.service";
 import toast from "react-hot-toast";
 import Cookies from "js-cookie";
+import { useTranslation } from "react-i18next"; 
 
 const clientId = "52594958094-08qvrugskhjjv34j4h0oi4m2ognjg830.apps.googleusercontent.com";
 
 function SignUp() {
 	const navigate = useNavigate(); // For the redirection
+	const { t } = useTranslation();
 
 	// ---------- Define the variables ----------
 	const [username, setUsername] = useState("");
@@ -210,18 +212,18 @@ function SignUp() {
 
 	return (
 		<div className="sign-up-container">
-			<h1>Sign Up</h1>
+			<h1>{t("signup")}</h1>
 			<div className="sign-up-form">
 				<form onSubmit={handleSubmit}>
 					<div className={`login-form-group ${usernameError ? "error" : ""}`}>
 						<input type="text" placeholder="" value={username} onChange={handleUsernameChange} />
 						<label htmlFor="inp" className="login-form-label">
-							Username
+							{t("username")}
 						</label>
 						{usernameError && <div className="login-error-message">{usernameError}</div>}
 					</div>
 
-					<LoginInput type="email" placeholder=" " value={email} onChange={handleEmailChange} error={emailError} label="Email" />
+					<LoginInput type="email" placeholder=" " value={email} onChange={handleEmailChange} error={emailError} label={t("email")} />
 
 					<LoginInput
 						type={showPassword ? "text" : "password"}
@@ -229,7 +231,7 @@ function SignUp() {
 						value={password}
 						onChange={handlePasswordChange}
 						error={passwordError}
-						label="Password"
+						label={t("password")}
 						showPassword={showPassword}
 						handleTogglePassword={handleTogglePassword}
 					/>
@@ -240,7 +242,7 @@ function SignUp() {
 						value={confirmPassword}
 						onChange={handleConfirmPasswordChange}
 						error={confirmPasswordError}
-						label="Confirm Password"
+						label={t("confirm_password")}
 						showPassword={showConfirmPassword}
 						handleTogglePassword={handleToggleConfirmPassword}
 					/>
@@ -248,22 +250,24 @@ function SignUp() {
 					<button className="sign-up-btn" type="submit" disabled={loading}>
 						{loading ? (
 							<>
-								<i className="fa fa-spinner fa-spin"></i> Loading
+								<i className="fa fa-spinner fa-spin"></i> {t("loading")}Loading
 							</>
 						) : (
-							"Sign Up"
+							<>
+								{t("signup")}
+							</>
 						)}
 					</button>
 
-					<div>or</div>
+					<div>{t("or")}</div>
 
 					<button className="google-sign-up-btn" type="button" onClick={() => login()}>
 						<img src="/images/google-logo.png" alt="Google Logo" className="google-logo" />
-						Sign Up with Google
+						{t("signup_with_google")}
 					</button>
 
 					<div className="login-link">
-						<div>Already have an account?</div> <a href="/login">Login Here</a>
+						<div>{t("already_have_account")}</div> <a href="/login">{t("login_here")}</a>
 					</div>
 				</form>
 			</div>

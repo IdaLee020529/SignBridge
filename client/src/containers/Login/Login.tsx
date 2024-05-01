@@ -14,12 +14,14 @@ import {
 import LoginInput from "../../components/LoginInput/LoginInput";
 import toast from "react-hot-toast";
 import Cookies from "js-cookie";
+import { useTranslation } from "react-i18next";
 
 const clientId =
   "52594958094-08qvrugskhjjv34j4h0oi4m2ognjg830.apps.googleusercontent.com";
 
 function Login() {
-  const navigate = useNavigate(); // For the redirection
+	const navigate = useNavigate(); // For the redirection
+	const { t, i18n } = useTranslation();
 
   // Detect cookies, if yes, redirect user to homepage
   useEffect(() => {
@@ -175,63 +177,48 @@ function Login() {
     },
   });
 
-  return (
-    <div className="login-container">
-      <h1>Login</h1>
-      <div className="login-form">
-        <form onSubmit={handleSubmit}>
-          <LoginInput
-            type="email"
-            placeholder=" "
-            value={email}
-            onChange={handleEmailChange}
-            error={emailError}
-            label="Email"
-          />
+	return (
+		<div className="login-container">
+			<h1>{t('login')}</h1>
+			<div className="login-form">
+				<form onSubmit={handleSubmit}>
+					<LoginInput type="email" placeholder=" " value={email} onChange={handleEmailChange} error={emailError} label={t('email')} />
 
-          <LoginInput
-            type={showPassword ? "text" : "password"}
-            placeholder=" "
-            value={password}
-            onChange={handlePasswordChange}
-            error={passwordError}
-            label="Password"
-            showPassword={showPassword}
-            handleTogglePassword={handleTogglePassword}
-          />
+					<LoginInput
+						type={showPassword ? "text" : "password"}
+						placeholder=" "
+						value={password}
+						onChange={handlePasswordChange}
+						error={passwordError}
+						label={t('password')}
+						showPassword={showPassword}
+						handleTogglePassword={handleTogglePassword}
+					/>
 
-          <div className="forgot-pwd-container">
-            <a href="/forgot-password" className="forgot-password">
-              Forgot Password?
-            </a>
-          </div>
+					<div className="forgot-pwd-container">
+						<a href="/forgot-password" className="forgot-password">
+							{t('forgot_password')}
+						</a>
+					</div>
 
-          <button className="login-btn" type="submit">
-            Login
-          </button>
+					<button className="login-btn" type="submit">
+						{t('login')}
+					</button>
 
-          <div>or</div>
+					<div>{t('or')}</div>
 
-          <button
-            className="google-login-btn"
-            type="button"
-            onClick={() => login()}
-          >
-            <img
-              src="/images/google-logo.png"
-              alt="Google Logo"
-              className="google-logo"
-            />
-            Login with Google
-          </button>
+					<button className="google-login-btn" type="button" onClick={() => login()}>
+						<img src="/images/google-logo.png" alt="Google Logo" className="google-logo" />
+						{t('login_with_google')}
+					</button>
 
-          <div className="sign-up">
-            <div>Don't have an account?</div> <a href="/sign-up">Sign Up</a>
-          </div>
-        </form>
-      </div>
-    </div>
-  );
+					<div className="sign-up">
+						<div>{t('no_account')}</div> <a href="/sign-up">{t('sign_up')}</a>
+					</div>
+				</form>
+			</div>
+		</div>
+	);
 }
 
 export default Login;
