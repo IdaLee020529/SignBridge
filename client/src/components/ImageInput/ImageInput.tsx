@@ -3,6 +3,7 @@ import React, { useState, useEffect } from "react";
 import { Upload, Button, message, Space } from "antd";
 import { UploadOutlined, CloseOutlined } from "@ant-design/icons";
 import "./ImageInput.css"; 
+import { useTranslation } from "react-i18next";
 
 interface ImageInputProps {
   reset: boolean;
@@ -10,6 +11,7 @@ interface ImageInputProps {
 }
 
 const ImageInput: React.FC<ImageInputProps> = ({ reset, onReset }) => {
+  const { t, i18n } = useTranslation();
   const [uploadedImage, setUploadedImage] = useState<string | null>(null);
   const [uploading, setUploading] = useState<boolean>(false);
 
@@ -58,7 +60,7 @@ const ImageInput: React.FC<ImageInputProps> = ({ reset, onReset }) => {
         }}
       >
         <Button icon={<UploadOutlined />} size="large" loading={uploading}>
-          {uploading ? "Uploading" : "Choose an Image"}
+          {uploading ? t('uploading') : t('choose_an_image')}
         </Button>
       </Upload>
       {uploadedImage && (

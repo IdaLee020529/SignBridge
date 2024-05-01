@@ -32,6 +32,17 @@ import FeedbackAdmin from "./containers/Feedback/Admin/FeedbackAdmin";
 import FeedbackSuccess from "./containers/Feedback/FeedbackSuccess";
 import FaqAdmin from "./containers/Faq/Admin/FaqAdmin";
 import Cookies from "js-cookie";
+import i18n from "i18next";
+import { initReactI18next } from "react-i18next";
+import resources from './i18n';
+
+i18n
+  .use(initReactI18next)
+  .init({
+    resources,
+    lng: "en",
+    fallbackLng: "en",
+  });
 
 function App() {
   const clientId =
