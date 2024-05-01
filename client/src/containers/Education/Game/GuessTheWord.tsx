@@ -12,6 +12,7 @@ import backgroundMusic from "/music/gameMusic2.mp3";
 import buttonClickedSound from "/music/btnClicked.wav";
 import correctAnswerSound from "/music/correctMusic.mp3";
 import wrongAnswerSound from "/music/wrongMusic.mp3";
+import { useTranslation } from "react-i18next";
 
 interface Question {
     level: number;
@@ -45,6 +46,7 @@ const questionList: Question[] = [];
 let level = 1;
 
 const GuessTheWord: React.FC = () => {
+    const { t, i18n } = useTranslation();
     const [isInnerSettingOpen, setIsInnerSettingOpen] = useState(false);
     const audioRef = useRef<HTMLAudioElement>(null);
     const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
@@ -288,15 +290,20 @@ const GuessTheWord: React.FC = () => {
                             playButtonClickedSound();
                         }}
                     >
-                        Rules
+                        {t("rules")}
                     </button>
                     <h1 className="level-title">
                         {questionList.length > 0 &&
                         questionList[currentQuestionIndex]
-                            ? `Level ${questionList[currentQuestionIndex].level}`
-                            : "Loading..."}
+                            ? `${t("level")} ${
+                                  questionList[currentQuestionIndex].level
+                              }`
+                            : t("loading")}
                     </h1>
-                    <h2 className="score-title">Score: {score}</h2>
+                    <h2 className="score-title">
+                        {t("score")}
+                        {score}
+                    </h2>
                     <button
                         className="shared-btn setting-btn2"
                         type="button"
@@ -316,14 +323,14 @@ const GuessTheWord: React.FC = () => {
                     {showRules && (
                         <RulesPopup
                             onClose={() => setShowRules(false)}
-                            title="Game Rules"
+                            title={t("game_rules")}
                             rules={[
-                                "Select the correct answer to earn points.",
-                                "Advance to the next level by answering correctly.",
-                                "You will be given three lives at the start of the game.",
-                                "If you answer a question incorrectly, you will lose a life.",
-                                "Losing all your lives will end the game.",
-                                "Your total score will be displayed at the end of the game.",
+                                t("gtw_rules1"),
+                                t("gtw_rules2"),
+                                t("gtw_rules3"),
+                                t("gtw_rules4"),
+                                t("gtw_rules5"),
+                                t("gtw_rules6"),
                             ]}
                         />
                     )}
@@ -374,7 +381,7 @@ const GuessTheWord: React.FC = () => {
             {/* Add audio player for background music */}
             <audio ref={audioRef} autoPlay loop>
                 <source src={backgroundMusic} type="audio/mpeg" />
-                Your browser does not support the audio element.
+                {t("not_support_music")}
             </audio>
             {/* Render InnerSetting if isInnerSettingOpen is true */}
             {isInnerSettingOpen && (

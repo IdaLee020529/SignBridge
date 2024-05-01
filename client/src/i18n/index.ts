@@ -5,6 +5,7 @@ import footerTranslations from "./footer";
 import homepageTranslations from './homepage';
 import datasetCollectionTranslations from './dataset_collection';
 import feedbackTranslations from "./feedback";
+import educationTranslations from "./education";
 
 const resources = {
     en: {
@@ -16,6 +17,7 @@ const resources = {
             ...homepageTranslations.en,
             ...datasetCollectionTranslations.en,
             ...feedbackTranslations.en,
+            ...educationTranslations.en,
         },
     },
     bm: {
@@ -27,6 +29,7 @@ const resources = {
             ...homepageTranslations.bm,
             ...datasetCollectionTranslations.bm,
             ...feedbackTranslations.bm,
+            ...educationTranslations.bm,
         },
     },
 };
