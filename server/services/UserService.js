@@ -3,7 +3,7 @@ const PRESET_ACCOUNTS = require("../constants/PresetAccount")
 const { sendEmail, mailTemplate } = require("../utils/email");
 const jwt = require('jsonwebtoken');
 const bcrypt = require('bcrypt');
-
+const UserCounterService = require("./UserCounterService");
 
 const UserService = {
     async SignUpUser(userData) {
@@ -17,8 +17,8 @@ const UserService = {
             }
 
             // Get the count of existing users to determine the next id
-            const count = await collection.countDocuments();
-            userData.user_id = count + 1; // Increment count to start from 1
+            const newFormId = await UserCounterService.getNextValue('userId');
+            userData.user_id = newFormId; // Increment count to start from 1
 
             const token = jwt.sign({ email: userData.email }, process.env.JWT_SECRET, { expiresIn: "1h" });
 
@@ -62,8 +62,8 @@ const UserService = {
             userData.acc_type = "google";   
             userData.role_access = "public";
             // Get the count of existing users to determine the next id
-            const count = await collection.countDocuments();
-            userData.user_id = count + 1; // Increment count to start from 1
+            const newFormId = await UserCounterService.getNextValue('userId');
+            userData.user_id = newFormId; // Increment count to start from 1
 
             const result = await collection.insertOne({
                 username: userData.name,
@@ -215,6 +215,14 @@ const UserService = {
         try {
             const collection = database.collection(DATABASE_COLLECTIONS.USERS);
     
+            // Check if the collection exists and insert preset accounts if it doesn't
+            const countersCollection = database.collection(DATABASE_COLLECTIONS.USERS_COUNTER);
+            const collections = await database.listCollections({ name: DATABASE_COLLECTIONS.USERS_COUNTER }).toArray();
+            if (collections.length === 0) {
+                await database.createCollection(DATABASE_COLLECTIONS.USERS_COUNTER);
+                await countersCollection.insertOne({ _id: "userId", value: 3 });
+            }
+
             const existingAccounts = await collection
                 .find({ $or: [{ username: "admin" }, { username: "signexpert" }] })
                 .toArray();

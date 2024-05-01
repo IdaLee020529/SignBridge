@@ -9,6 +9,7 @@ const PRESET_ACCOUNTS = [
         acc_type: "traditional",
         role_access: "admin",
         email_verified: true,
+        user_id: 1
     },
     {
         username: "signexpert",
@@ -18,6 +19,7 @@ const PRESET_ACCOUNTS = [
         acc_type: "traditional",
         role_access: "signexpert",
         email_verified: true,
+        user_id: 2
     },
 ];
 
