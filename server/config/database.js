@@ -6,10 +6,13 @@ const PORT = process.env.PORT
 
 const DATABASE_COLLECTIONS = {
   USERS: "users",
+  USERS_COUNTER: "users_counter",
   AVATAR: "avatar",
   FEEDBACKS: "feedbacks",
+  FEEDBACKS_COUNTER: "feedbacks_counter",
   FAQS: "faqs",
   NOTIFICATIONS: "notifications",
+  NOTIFICATIONS_COUNTER: "notifications_counter",
   DATASET_COLLECTION: "dataset_collection",
   DATASET_COUNTER: "dataset_counter"
 }

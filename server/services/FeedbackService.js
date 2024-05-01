@@ -1,4 +1,5 @@
 const { connectDB, DATABASE_COLLECTIONS } = require("../config/database");
+const FeedbackCounterService = require("./FeedbackCounterService");
 
 const FeedbackService = {
     async CreateFeedback(feedbackData) {
@@ -6,13 +7,13 @@ const FeedbackService = {
             const { client, database } = await connectDB();
             const collection = database.collection(DATABASE_COLLECTIONS.FEEDBACKS);
 
-            const count = await collection.countDocuments();
+            const newFormId = await FeedbackCounterService.getNextValue('feedbackId');
             
             const feedbackWithTimestamp = {
                 ...feedbackData,
                 createdAt: new Date(),
                 status: "new",
-                feedback_id: count + 1
+                feedback_id: newFormId
             };
             
             const result = await collection.insertOne(feedbackWithTimestamp);

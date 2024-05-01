@@ -4,7 +4,7 @@ const UserController = require("../controllers/UserController");
 const router = express.Router();
 
 router.post('/users/signup', UserController.SignUpUser);
-router.post('/users/seed-preset', UserController.insertPresetAccounts);
+// router.post('/users/seed-preset', UserController.insertPresetAccounts);
 router.get('/users', UserController.GetAllUsers);
 router.post('/users/google/signup', UserController.SignUpGoogleUser);
 router.post('/users/google/login', UserController.LoginGoogleUser);
