@@ -8,7 +8,7 @@ describe("Test Button Component", () => {
   //2. Write the purposes in the it() function
   it("should have been clicked 1 time", () => {
     //3. Define the necessary props
-    const handleClick = jest.fn();
+    const handleClick = jest.fn(); //mock function
     //4. Use the render function from "@testing-library/react"
     render(
       <Button

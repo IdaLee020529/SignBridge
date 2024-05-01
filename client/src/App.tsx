@@ -1,10 +1,18 @@
 import "./App.css";
-import { BrowserRouter as Router, Route, Routes, useLocation } from "react-router-dom";
+import {
+  BrowserRouter as Router,
+  Route,
+  Routes,
+  useLocation,
+} from "react-router-dom";
 import Home from "./containers/Home/Home";
 import Library from "./containers/Library/Library";
 import Communication from "./containers/Communication/Communication";
 import Education from "./containers/Education/Education";
 import DataCollection from "./containers/DataCollection/Public/DataCollection";
+import DatasetSubmission from "./containers/DataCollection/SignExpert/DatasetSubmission/DatasetSubmission";
+import DataCollectionReview from "./containers/DataCollection/Admin/DataCollectionReview";
+import DataFormReview from "./containers/DataCollection/SignExpert/DataFormReview/DataFormReview";
 import Feedback from "./containers/Feedback/Feedback";
 import Faq from "./containers/Faq/Faq";
 import Notification from "./containers/Notification/Notification";
@@ -26,8 +34,9 @@ import FaqAdmin from "./containers/Faq/Admin/FaqAdmin";
 import Cookies from "js-cookie";
 
 function App() {
-	const clientId = "52594958094-08qvrugskhjjv34j4h0oi4m2ognjg830.apps.googleusercontent.com";
-	const location = useLocation();
+  const clientId =
+    "52594958094-08qvrugskhjjv34jA4h0oi4m2ognjg830.apps.googleusercontent.com";
+  const location = useLocation();
 
   useEffect(() => {
     function initGapi() {
@@ -41,9 +50,12 @@ function App() {
 
   const [feedbackComponent, setFeedbackComponent] = useState<React.ReactNode>();
   useEffect(() => {
-    const role_access = Cookies.get("role_access");
+    const roleAccess = document.cookie
+      .split("; ")
+      .find((row) => row.startsWith("role_access="))
+      ?.split("=")[1];
 
-    switch (role_access) {
+    switch (roleAccess) {
       case "admin":
         setFeedbackComponent(<FeedbackAdmin />);
         break;
@@ -59,16 +71,16 @@ function App() {
   const [faqComponent, setFaqComponent] = useState<React.ReactNode>(<Faq />);
   useEffect(() => {
     const roleAccess = document.cookie
-        .split("; ")
-        .find((row) => row.startsWith("role_access="))
-        ?.split("=")[1];
+      .split("; ")
+      .find((row) => row.startsWith("role_access="))
+      ?.split("=")[1];
 
     switch (roleAccess) {
       case "admin":
         setFaqComponent(<FaqAdmin />);
         break;
       case "signexpert":
-        setFaqComponent(<Faq />); 
+        setFaqComponent(<Faq />);
         break;
       default:
         setFaqComponent(<Faq />);
@@ -76,40 +88,67 @@ function App() {
     }
   }, [location.pathname]);
 
+  const [datasetComponent, setDatasetComponent] = useState<React.ReactNode>(
+    <DataCollection />
+  );
   useEffect(() => {
-	if (location.pathname !== "/education" && location.pathname !== "/guess-the-word" && location.pathname !== "/do-the-sign") {
-		console.log("App.tsx: useEffect: window.window.location.pathname !== /education, /guess-the-word, /do-the-sign");
-		const localVolumeValue = localStorage.getItem("volumeValue");
-		if (localVolumeValue) {
-			localStorage.setItem("volumeValue", "100");
-		}
-	}
-}, [location.pathname]);
+    const roleAccess = document.cookie
+      .split("; ")
+      .find((row) => row.startsWith("role_access="))
+      ?.split("=")[1];
 
-return (
+    switch (roleAccess) {
+      case "admin":
+        setDatasetComponent(<DataCollectionReview />);
+        break;
+      case "signexpert":
+        setDatasetComponent(<DatasetSubmission />);
+        break;
+      default:
+        setDatasetComponent(<DataCollection />);
+        break;
+    }
+  }, [location.pathname]);
+  useEffect(() => {
+    if (
+      location.pathname !== "/education" &&
+      location.pathname !== "/guess-the-word" &&
+      location.pathname !== "/do-the-sign"
+    ) {
+      console.log(
+        "App.tsx: useEffect: window.window.location.pathname !== /education, /guess-the-word, /do-the-sign"
+      );
+      const localVolumeValue = localStorage.getItem("volumeValue");
+      if (localVolumeValue) {
+        localStorage.setItem("volumeValue", "100");
+      }
+    }
+  }, [location.pathname]);
+
+  return (
     <>
       <Toaster />
-        <Routes>
-          <Route element={<HomeLayout />}>
-            <Route path="/" element={<Home />} />
-            <Route path="/library" element={<Library />} />
-            <Route path="/communication" element={<Communication />} />
-            <Route path="/education" element={<Education />} />
-            <Route path="/dataset-collection" element={<DataCollection />} />
-            <Route path="/feedback" element={feedbackComponent} />
-            <Route path="/faq" element={faqComponent} />
-            <Route path="/notifications" element={<Notification />} />
-            <Route path="/login" element={<Login />} />
-            <Route path="/sign-up" element={<SignUp />} />
-            <Route path="/guess-the-word" element={<GuessTheWord />} />
-            <Route path="/do-the-sign" element={<DoTheSign />} />
-          </Route>
-          <Route element={<ForgotResetPasswordLayout />}>
-            <Route path="/forgot-password" element={<ForgotPassword />} />
-            <Route path="/reset-password" element={<ResetPassword />} />
-            <Route path="/feedback-success" element={<FeedbackSuccess />} />
-          </Route>
-        </Routes>
+      <Routes>
+        <Route element={<HomeLayout />}>
+          <Route path="/" element={<Home />} />
+          <Route path="/library" element={<Library />} />
+          <Route path="/communication" element={<Communication />} />
+          <Route path="/education" element={<Education />} />
+          <Route path="/dataset-collection" element={datasetComponent} />
+          <Route path="/feedback" element={feedbackComponent} />
+          <Route path="/faq" element={faqComponent} />
+          <Route path="/notifications" element={<Notification />} />
+          <Route path="/login" element={<Login />} />
+          <Route path="/sign-up" element={<SignUp />} />
+          <Route path="/guess-the-word" element={<GuessTheWord />} />
+          <Route path="/do-the-sign" element={<DoTheSign />} />
+        </Route>
+        <Route element={<ForgotResetPasswordLayout />}>
+          <Route path="/forgot-password" element={<ForgotPassword />} />
+          <Route path="/reset-password" element={<ResetPassword />} />
+          <Route path="/feedback-success" element={<FeedbackSuccess />} />
+        </Route>
+      </Routes>
     </>
   );
 }
