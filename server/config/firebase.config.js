@@ -2,16 +2,14 @@ const { initializeApp } = require("firebase/app");
 const { getStorage } = require("firebase/storage");
 
 const firebaseConfig = {
-    apiKey: "AIzaSyDPYIDHLOImw98JVqf4bPVjK0tmNJMq4ko",
-    authDomain: "signbridge2.firebaseapp.com",
-    projectId: "signbridge2",
-    storageBucket: "signbridge2.appspot.com",
-    messagingSenderId: "261183623336",
-    appId: "1:261183623336:web:c16959f120474f5e11f29d",
-    measurementId: "G-JK83E22W15"
+    apiKey: "AIzaSyBcDEVLtLmS3efWtFSujxYTEhrTS7xkZPw",
+    authDomain: "signbridge-5e0de.firebaseapp.com",
+    projectId: "signbridge-5e0de",
+    storageBucket: "signbridge-5e0de.appspot.com",
+    messagingSenderId: "19684228565",
+    appId: "1:19684228565:web:c6e52fc9a81cd03b99915c",
+    measurementId: "G-HXG3NEK4DN"
 };
-
-
 // Initialize Firebase
 const app = initializeApp(firebaseConfig);
 
