@@ -45,9 +45,25 @@ const VideoInput: React.FC<VideoInputProps> = ({
 
   return (
     <div className="videoinput-class">
-      <Upload name="video" onChange={handleChange} maxCount={1} accept=".mp4">
-        <Button icon={<UploadOutlined />} size="large">
-          Choose a Video
+      <Upload
+        name="video"
+        onChange={handleChange}
+        maxCount={1}
+        accept=".mp4"
+        showUploadList={false}
+        beforeUpload={() => {
+          setUploading(true);
+          return true;
+        }}
+        customRequest={({ file, onSuccess, onError }) => {
+          setTimeout(() => {
+            onSuccess?.("ok");
+            setUploading(false);
+          }, 1000);
+        }}
+      >
+        <Button icon={<UploadOutlined />} size="large" loading={uploading}>
+          {uploading ? "Uploading" : "Choose a Video"}
         </Button>
       </Upload>
       {uploadedVideo && (
