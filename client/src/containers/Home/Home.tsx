@@ -148,7 +148,7 @@ export default function HomepageSection() {
           </div>
           <div className="content">
             <p>{t('about_description1')}</p>
-            <p>{t('about_description2')} </p>
+            <p>{t('about_description2')}</p>
           </div>
         </div>
       </section>
