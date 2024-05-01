@@ -6,7 +6,7 @@ exports[`Test Collapsible Form should render correctly 1`] = `
     class="collapsible-content opened"
   >
     <div
-      class="collapsible-content-header"
+      class="collapsible-content-header undefined"
     >
       <div
         class="header-content"
@@ -45,7 +45,7 @@ exports[`Test Collapsible Form should render correctly 1`] = `
         class="collapsible-content-details"
       >
         <div
-          class="personal-details"
+          class="personal-details undefined"
         >
           <h2>
             PERSONAL DETAILS
@@ -75,18 +75,6 @@ exports[`Test Collapsible Form should render correctly 1`] = `
                             Name
                           </span>
                         </th>
-                        <th
-                          class="ant-descriptions-item-label"
-                          colspan="2"
-                        >
-                          <span>
-                            Email
-                          </span>
-                        </th>
-                      </tr>
-                      <tr
-                        class="ant-descriptions-row"
-                      >
                         <td
                           class="ant-descriptions-item-content"
                           colspan="1"
@@ -99,9 +87,21 @@ exports[`Test Collapsible Form should render correctly 1`] = `
                             </span>
                           </span>
                         </td>
+                      </tr>
+                      <tr
+                        class="ant-descriptions-row"
+                      >
+                        <th
+                          class="ant-descriptions-item-label"
+                          colspan="1"
+                        >
+                          <span>
+                            Email
+                          </span>
+                        </th>
                         <td
                           class="ant-descriptions-item-content"
-                          colspan="2"
+                          colspan="1"
                         >
                           <span>
                             <span
@@ -138,7 +138,7 @@ exports[`Test Collapsible Form should render correctly 1`] = `
         class="collapsible-content-footer"
       >
         <div
-          class="content-left"
+          class="content-left undefined"
         >
           <h2>
             VIDEO DETAILS

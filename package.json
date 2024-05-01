@@ -19,6 +19,10 @@
   "scripts": {
     "start": "concurrently \"npm run start:frontend\" \"npm run start:backend\"",
     "start:frontend": "cd client && npm run dev",
-    "start:backend": "cd server && node app"
+    "start:backend": "cd server && node app",
+    "install:all": "concurrently \"npm run install:root\" \"npm run install:frontend\" \"npm run install:backend\"",
+    "install:root": "npm i",
+    "install:frontend": "cd client && npm i",
+    "install:backend": "cd server && npm i"
   }
 }

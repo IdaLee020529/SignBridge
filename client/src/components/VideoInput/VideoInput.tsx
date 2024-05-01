@@ -7,9 +7,14 @@ import "./VideoInput.css";
 interface VideoInputProps {
   reset: boolean;
   onReset: () => void;
+  setVideoInfo: any;
 }
 
-const VideoInput: React.FC<VideoInputProps> = ({ reset, onReset }) => {
+const VideoInput: React.FC<VideoInputProps> = ({
+  reset,
+  onReset,
+  setVideoInfo,
+}) => {
   const [uploadedVideo, setUploadedVideo] = useState<string | null>(null);
   const [uploading, setUploading] = useState<boolean>(false);
 
@@ -22,11 +27,11 @@ const VideoInput: React.FC<VideoInputProps> = ({ reset, onReset }) => {
 
   const handleChange = (info: any) => {
     if (info.file.status !== "uploading") {
-      console.log(info.file, info.fileList);
     }
     if (info.file.status === "done") {
       message.success(`${info.file.name} file uploaded successfully`);
       setUploadedVideo(info.file.name); // Set the uploaded video name
+      setVideoInfo(info.file.originFileObj); // Set video info when upload is successful
     } else if (info.file.status === "error") {
       message.error(`${info.file.name} file upload failed.`);
       setUploadedVideo(null); // Reset uploaded video name on error
@@ -35,30 +40,14 @@ const VideoInput: React.FC<VideoInputProps> = ({ reset, onReset }) => {
 
   const handleRemove = () => {
     setUploadedVideo(null);
+    setVideoInfo(null);
   };
 
   return (
     <div className="videoinput-class">
-      <Upload
-        name="video"
-        action="/upload/video"
-        onChange={handleChange}
-        maxCount={1}
-        accept=".mp4"
-        showUploadList={false}
-        beforeUpload={() => {
-          setUploading(true);
-          return true;
-        }}
-        customRequest={({ file, onSuccess, onError }) => {
-          setTimeout(() => {
-            onSuccess?.("ok");
-            setUploading(false);
-          }, 1000);
-        }}
-      >
-        <Button icon={<UploadOutlined />} size="large" loading={uploading}>
-          {uploading ? "Uploading" : "Choose a Video"}
+      <Upload name="video" onChange={handleChange} maxCount={1} accept=".mp4">
+        <Button icon={<UploadOutlined />} size="large">
+          Choose a Video
         </Button>
       </Upload>
       {uploadedVideo && (

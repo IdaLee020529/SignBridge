@@ -49,10 +49,12 @@ app.use(faqRoutes);
 const notificationRoutes = require("./routes/NotificationRoutes")
 app.use(notificationRoutes);
 
+const formRoutes = require("./routes/DatasetFormRoutes")
+app.use(formRoutes);
 // ------------------------------------------------------------------------------------------------------------
 const UserController = require("./controllers/UserController")
 const FaqController = require("./controllers/FaqController")
-  app.listen(port, () => {
+app.listen(port, () => {
   console.log(`Server started at http://localhost:${port}`);
   UserController.insertPresetAccounts();
   FaqController.insertFixFaq();
