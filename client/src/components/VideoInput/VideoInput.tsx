@@ -66,7 +66,7 @@ const VideoInput: React.FC<VideoInputProps> = ({
         }}
       >
         <Button icon={<UploadOutlined />} size="large" loading={uploading}>
-          {uploading ? t('uploading') : t('choose_a_video')}
+          {uploading ? t("uploading") : t("choose_a_video")}
         </Button>
       </Upload>
       {uploadedVideo && (
