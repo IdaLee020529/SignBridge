@@ -17,8 +17,27 @@ const FirebaseService = {
         } catch (error) {
             throw error;
         }
+    },
+
+    //  upload image
+    async uploadImageToStorageAndGetURL(imageFile) {
+        const timestamp = new Date().getTime();
+        const filename = `${timestamp}_${imageFile.originalname}`;
+        const fileRef = ref(storage, `demoIssueScreenShot/${filename}`);
+        const metaData = {
+            contentType: imageFile.mimetype,
+        }
+        
+        const uploadTask = uploadBytesResumable(fileRef, imageFile.buffer, metaData);
+        
+        try {
+            await uploadTask;
+            const downloadURL = await getDownloadURL(uploadTask.snapshot.ref);
+            return downloadURL;
+        } catch (error) {
+            throw error;
+        }
     }
 };
-
 
 module.exports = FirebaseService

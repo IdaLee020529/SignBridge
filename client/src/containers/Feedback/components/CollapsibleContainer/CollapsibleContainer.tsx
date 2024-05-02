@@ -148,7 +148,14 @@ const CollapsibleContainer: React.FC<CollapsibleContainerProps> = ({
                                 {comments.map((comment) => (
                                     <div key={comment.key} className={style.commentsItem}>
                                         <span className={style.commentsLabel}>{comment.label}: </span>
-                                        <span className={style.commentsContent}>{comment.children}</span>
+                                        {comment.label === 'Screenshot' && comment.children.toLowerCase().includes('http') ? (
+                                            <a href={comment.children} target="_blank" rel="noopener noreferrer">
+                                                {/* <img src={comment.children} alt="Screenshot" className={style.screenshotImage} /> */}
+                                                View Screenshot
+                                            </a>
+                                        ) : (
+                                            <span className={style.commentsContent}>{comment.children || '-'}</span>
+                                        )}
                                     </div>
                                 ))}
                             </div>
