@@ -1,11 +1,16 @@
 import axios from "axios";
 
 // ---------- Create Feedback ----------
-export const CreateFeedback = async (data: any) => {
+export const CreateFeedback = async (data: FormData) => {
   try {
     const response = await axios.post(
       "http://localhost:3000/feedbacks/create-feedback",
-      data
+      data,
+      {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+      }
     );
     return response;
   } catch (err) {

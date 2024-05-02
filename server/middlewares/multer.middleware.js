@@ -28,16 +28,7 @@ function uploadVideo(req, res, next) {
 
 // Function to upload images
 function uploadImage(req, res, next) {
-    const storage = multer.memoryStorage({
-        // Configure storage options for images
-        // For example:
-        // destination: function (req, file, cb) {
-        //     cb(null, 'uploads/images');
-        // },
-        // filename: function (req, file, cb) {
-        //     cb(null, Date.now() + '-' + file.originalname);
-        // },
-    });
+    const storage = multer.memoryStorage({});
 
     const upload = multer({ storage: storage }).single('image');
     upload(req, res, function (err) {

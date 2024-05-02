@@ -79,3 +79,9 @@
   margin-bottom: 10px;
   font-size: 18px;
 }
+
+.screenshotImage{
+  width: 50%;
+  height: auto;
+  margin: 10px 0;
+}

@@ -1,5 +1,5 @@
 import style from "./Feedback.module.css";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import toast from "react-hot-toast";
 import RatingEmoji from "../../components/RatingEmoji/RatingEmoji";
 import ImageInput from "../../components/ImageInput/ImageInput";
@@ -10,6 +10,7 @@ import { useTranslation } from "react-i18next";
 const Feedback = () => {
   const { t, i18n } = useTranslation();
   const navigate = useNavigate();
+  
   const [formData, setFormData] = useState({
     firstName: "",
     lastName: "",
@@ -25,7 +26,7 @@ const Feedback = () => {
     question1: "",
     question2: "",
     question3: "",
-    screenshot: "",
+    screenshot: null,
   });
 
   const [formErrors, setFormErrors] = useState({
@@ -55,8 +56,28 @@ const Feedback = () => {
     },
   };
 
+  // ---------- Dropdown Control ----------
   const [isOpenDropdown, setIsOpenDropdown] = useState<boolean>(false);
+  
+  const handleDropdownClick = () => {
+    setIsOpenDropdown(!isOpenDropdown);
+  };
+
+  // ---------- Image Control ----------
+  const [imageInfo, setImageInfo] = useState(null);
   const [resetImage, setResetImage] = useState(false);
+
+  const setImage = (image: any) => {
+    setFormData({ ...formData, screenshot: image });
+  }
+
+  useEffect(() => {
+    console.log(imageInfo);
+  }, [imageInfo]);
+
+  const handleImageReset = () => {
+    setResetImage(false); 
+  };
 
   const handleFormChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement >) => {
     const { name, value, type } = e.target;
@@ -97,10 +118,6 @@ const Feedback = () => {
   const handleSelectChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
     const selectedCategory = e.target.value;
     setFormData({ ...formData, fcategory: selectedCategory });
-  };
-
-  const handleDropdownClick = () => {
-    setIsOpenDropdown(!isOpenDropdown);
   };
 
   // ---------- Validations ----------
@@ -172,7 +189,7 @@ const Feedback = () => {
   };
 
   // ---------- Handle form submission ----------
-  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>): Promise<void> => {
     e.preventDefault();
     const isFirstNameValid = validateFirstName(formData.firstName);
     const isLastNameValid = validateLastName(formData.lastName);
@@ -181,7 +198,28 @@ const Feedback = () => {
     const isEmailValid = validateEmail(formData.email);
 
     if (isFirstNameValid && isLastNameValid && isAgeValid && isEmailValid && isRaceValid ) {
-      await CreateFeedback(formData);
+      const data = new FormData();
+      data.append("firstName", formData.firstName);
+      data.append("lastName", formData.lastName);
+      data.append("age", formData.age!);
+      data.append("gender", formData.gender);
+      data.append("race", formData.race);
+      data.append("email", formData.email);
+      data.append("fcategories", formData.fcategory);
+      data.append("experience", formData.experience.toString());
+      data.append("friendliness", formData.friendliness.toString());
+      data.append("quality", formData.quality.toString());
+      data.append("recommended", formData.recommended.toString());
+      data.append("question1", formData.question1);
+      data.append("question2", formData.question2);
+      data.append("question3", formData.question3);
+      if (formData.screenshot) {
+        data.append("image", formData.screenshot);
+      } else {
+        data.append("imageURL", "");
+      }
+
+      await CreateFeedback(data);
       handleFormReset();
       navigate("/feedback-success");
       
@@ -208,7 +246,7 @@ const Feedback = () => {
       question1: "",
       question2: "",
       question3: "",
-      screenshot: "",
+      screenshot: null,
     });
     
     setResetImage(true);
@@ -221,10 +259,6 @@ const Feedback = () => {
       email: "",
       fcategory: "",
     });
-  };
-
-  const handleImageReset = () => {
-    setResetImage(false); 
   };
 
   return (
@@ -383,7 +417,7 @@ const Feedback = () => {
               <div className={style.feedback_row}>
                 <div className={style.feedback_input}>
                   <label>{t('issues_screenshot')}</label>
-                  <ImageInput reset={resetImage} onReset={handleImageReset} />
+                  <ImageInput reset={resetImage} onReset={handleImageReset} setImageInfo={setImage} />
                 </div>
               </div>
             </fieldset>
