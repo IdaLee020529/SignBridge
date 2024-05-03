@@ -1,8 +1,8 @@
 [
   {
-    "keyword": "ADIK_PEREMPUAN",
+    "keyword": "ADIK PEREMPUAN",
     "animations": ["AdikPerempuan1", "AdikPerempuan2", "AdikPerempuan3"],
-    "english_keyword" : "YOUNGER_SISTER",
+    "english_keyword" : "YOUNGER SISTER",
     "category":"Medical"
   },
   {
@@ -42,7 +42,7 @@
     "category":"Medical"
   },
   {
-    "keyword": "BUAH_PINGGANG",
+    "keyword": "BUAH PINGGANG",
     "animations": ["BuahPinggang1", "BuahPinggang2", "BuahPinggang3"],
     "english_keyword" : "KIDNEY",
     "category":"Medical"
@@ -228,27 +228,27 @@
     "category":"Medical"
   },
   {
-    "keyword": "SAKIT_KEPALA",
+    "keyword": "SAKIT KEPALA",
     "animations": ["SakitKepala1", "SakitKepala2", "SakitKepala3", "SakitKepala4"],
     "english_keyword" : "HEADACHE",
     "category":"Medical"
   },
   {
-    "keyword": "SAKIT_PERUT",
+    "keyword": "SAKIT PERUT",
     "animations": ["SakitPerut1", "SakitPerut2"],
     "english_keyword" : "STOMACHACHE",
     "category":"Medical"
   },
   {
-    "keyword": "SAKIT_PINGGANG",
+    "keyword": "SAKIT PINGGANG",
     "animations": ["SakitPinggang1", "SakitPinggang2", "SakitPinggang3", "SakitPinggang4"],
-    "english_keyword" : "WAIST_PAIN",
+    "english_keyword" : "WAIST PAIN",
     "category":"Medical"
   },
   {
-    "keyword": "SAKIT_TEKAK",
+    "keyword": "SAKIT TEKAK",
     "animations": ["SakitTekak1", "SakitTekak2", "SakitTekak3", "SakitTekak4"],
-    "english_keyword" : "SORE_THROAT",
+    "english_keyword" : "SORE THROAT",
     "category":"Medical"
   },
   {
@@ -279,10 +279,17 @@
     "toShow": "1"
   },
   {
-    "keyword": "TULANG_RUSUK",
+    "keyword": "TULANG RUSUK",
     "animations": ["TulangRusuk1", "TulangRusuk2"],
-    "english_keyword" : "RIB_CAGE",
+    "english_keyword" : "RIB CAGE",
     "category":"Medical",
+    "toShow": "1"
+  },
+  {
+    "keyword": "SAYA",
+    "animations": ["Saya1", "Saya2"],
+    "english_keyword" : "ME",
+    "category":"Conversation",
     "toShow": "1"
   },
   {

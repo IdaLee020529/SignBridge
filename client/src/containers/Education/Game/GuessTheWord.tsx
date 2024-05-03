@@ -1,11 +1,15 @@
 import React, { useState, useRef, useEffect } from "react";
+import { useThree } from "@react-three/fiber";
 import RulesPopup from "../components/RulesPopup/RulesPopup";
 import InnerSetting from "../components/InnerSetting/InnerSetting";
 import GameOverPopup from "../components/GameOver/GameOver";
 import "./GuessTheWord.css";
-import { Canvas } from "@react-three/fiber";
+import { Canvas, useFrame } from "@react-three/fiber";
+// @ts-ignore
 import { CharacterAnimationsProvider } from "../../../components/SLP/CharacterAnimations";
+// @ts-ignore
 import Experience from "../../../components/SLP/Experience";
+// @ts-ignore
 import Man from "../../../components/AvatarModels/Man";
 import heartImage from "/images/heart.png";
 import backgroundMusic from "/music/gameMusic2.mp3";
@@ -294,10 +298,9 @@ const GuessTheWord: React.FC = () => {
                     </button>
                     <h1 className="level-title">
                         {questionList.length > 0 &&
-                        questionList[currentQuestionIndex]
-                            ? `${t("level")} ${
-                                  questionList[currentQuestionIndex].level
-                              }`
+                            questionList[currentQuestionIndex]
+                            ? `${t("level")} ${questionList[currentQuestionIndex].level
+                            }`
                             : t("loading")}
                     </h1>
                     <h2 className="score-title">
@@ -339,8 +342,7 @@ const GuessTheWord: React.FC = () => {
                             <div className="education-canvas-wrapper">
                                 <Canvas
                                     camera={{
-                                        position: [1, 55, 225],
-                                        fov: 45,
+                                        fov: 35,
                                     }}
                                 >
                                     {/* Your 3D scene components */}
@@ -351,8 +353,13 @@ const GuessTheWord: React.FC = () => {
                                     />
                                     <CharacterAnimationsProvider>
                                         <Experience />
+                                        <CameraControl />
                                         <Man
                                             animationKeyword={animationKeyword}
+                                            speed={""}
+                                            showSkeleton={""}
+                                            repeat={"Yes"}
+                                            isPaused={""}
                                         />
                                     </CharacterAnimationsProvider>
                                 </Canvas>
@@ -392,6 +399,23 @@ const GuessTheWord: React.FC = () => {
             )}
         </div>
     );
+
 };
+
+function CameraControl() {
+    const { camera } = useThree();
+  
+    const x = -7.5; // Adjust these values according to your requirements
+    const y = 140;
+    const z = 215;
+    const decimal = 1; // Adjust this value to control the speed of lerping
+  
+    useFrame(() => {
+      camera.position.lerp({ x, y, z }, decimal);
+      camera.lookAt(x, y, z);
+    });
+  
+    return null;
+  }
 
 export default GuessTheWord;
