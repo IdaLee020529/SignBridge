@@ -7,9 +7,12 @@ const DatasetFormController = {
             const { user_id, name, email, text_sentence, status_SE, status_Admin } = req.body;
             const avatar_link = "";
             const videoInfo = req.file;
-            const videoURL = await FirebaseService.uploadVideoToStorageAndGetURL(videoInfo);
-            if (videoURL) {
-                const result = await DatasetFormService.SubmitForm({ user_id, name, email, text_sentence, status_SE, status_Admin, videoURL, avatar_link })
+            const videoContent = await FirebaseService.uploadVideoToStorageAndGetURL(videoInfo);
+            if (videoContent) {
+                const video_link = videoContent.downloadURL
+                const submitted_time = videoContent.timestamp
+                const video_name = videoContent.formattedDateTime
+                const result = await DatasetFormService.SubmitForm({ user_id, name, email, text_sentence, submitted_time, status_SE, status_Admin, video_link, video_name, avatar_link })
                 res.status(201).json(result);
             }
         } catch (error) {
@@ -17,14 +20,38 @@ const DatasetFormController = {
         }
     },
 
-    async GetAllForms(req, res) {
+    async GetAllFormsForSignExpert(req, res) {
         try {
-            const forms = await DatasetFormService.GetAllForms();
+            const forms = await DatasetFormService.GetAllFormsForSignExpert();
             res.status(200).json(forms);
         } catch (error) {
             console.error("Error fetching forms:", error);
             res.status(500).json({ error: "Internal Server Error" });
         }
+    },
+
+    async GetAllFormsForAdmin(req, res) {
+        try {
+            const forms = await DatasetFormService.GetAllFormsForAdmin();
+            res.status(200).json(forms);
+        } catch (error) {
+            console.error("Error fetching forms:", error);
+            res.status(500).json({ error: "Internal Server Error" });
+        }
+    },
+
+    async UpdateFormStatusById(req, res) {
+        try {
+            const formId = req.params.id;
+            const updatedFormData = req.body;
+            console.log(updatedFormData)
+            await DatasetFormService.UpdateFormByID(formId, updatedFormData);
+            res.status(200).json({ message: "Form updated successfully" });
+        } catch (error) {
+            console.error("Error updating form:", error);
+            res.status(500).json({ error: "Internal Server Error" });
+        }
     }
+
 }
 module.exports = DatasetFormController

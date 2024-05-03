@@ -7,6 +7,7 @@ const router = express.Router()
 
 router.post("/datasetForms", uploadVideo, DatasetFormController.ProcessVideoAndSubmitFormData)
 // router.post("/datasetForms", DatasetFormController.ProcessVideoAndSubmitFormData)
-router.get("/datasetForms", DatasetFormController.GetAllForms)
-
+router.get("/datasetForms/signexpert", DatasetFormController.GetAllFormsForSignExpert)
+router.get("/datasetForms/admin", DatasetFormController.GetAllFormsForAdmin)
+router.put("/datasetForms/:id", DatasetFormController.UpdateFormStatusById)
 module.exports = router;

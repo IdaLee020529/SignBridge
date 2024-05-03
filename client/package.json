@@ -52,7 +52,6 @@
   "devDependencies": {
     "@testing-library/jest-dom": "^6.4.2",
     "@testing-library/react": "^14.2.2",
-    "@types/enzyme-adapter-react-16": "^1.0.9",
     "@types/jest": "^29.5.12",
     "@types/jest-json-schema": "^6.1.4",
     "@types/js-cookie": "^3.0.6",
