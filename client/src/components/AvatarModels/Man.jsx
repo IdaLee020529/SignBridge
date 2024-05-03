@@ -4,7 +4,7 @@ import { useCharacterAnimations } from "../SLP/CharacterAnimations";
 import * as THREE from "three";
 import animationsData from "../../../public/glosses/gloss.json";
 
-const Man = ({ props, animationKeyword, speed, showSkeleton, repeat, isPaused, updateCurrentAnimationName }) => {
+const Man = ({ props, animationKeyword, speed, showSkeleton, repeat, isPaused, updateCurrentAnimationName  = () => {} }) => {
   const group = useRef();
   const { nodes, materials, animations } = useGLTF("../../../public/models/man.glb");
   const { actions, names } = useAnimations(animations, group);
@@ -51,6 +51,8 @@ const Man = ({ props, animationKeyword, speed, showSkeleton, repeat, isPaused, u
       setCurrentAnimationIndex(prevIndex => prevIndex + 1);
     } else if (repeat === "Yes") {
       setTimeout(() => {
+        setAnimationQueue([]);
+        setCurrentAnimationIndex(0);
         setPrevAnimationKeyword(null);
       }, 2000);
     }
@@ -74,9 +76,6 @@ const Man = ({ props, animationKeyword, speed, showSkeleton, repeat, isPaused, u
           if (speed) {
             currentAction.setEffectiveTimeScale(speed);
           }
-const frameRate = 30; // 60 frames per second
-const numberOfFrames = getNumberOfFrames(currentAction, frameRate);
-console.log(numberOfFrames);
           currentAction.reset().fadeIn(0.5).play();
           currentAction.setLoop(THREE.LoopOnce, 1);
           currentAction.getMixer().addEventListener("finished", onAnimationFinished);
