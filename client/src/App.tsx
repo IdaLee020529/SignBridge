@@ -9,10 +9,10 @@ import Home from "./containers/Home/Home";
 import Library from "./containers/Library/Library";
 import Communication from "./containers/Communication/Communication";
 import Education from "./containers/Education/Education";
-import DataCollection from "./containers/DataCollection/Public/DataCollection";
-import DatasetSubmission from "./containers/DataCollection/SignExpert/DatasetSubmission/DatasetSubmission";
-import DataCollectionReview from "./containers/DataCollection/Admin/DataCollectionReview";
-import DataFormReview from "./containers/DataCollection/SignExpert/DataFormReview/DataFormReview";
+import DataCollectionPublic from "./containers/DataCollection/Public/DataCollectionPublic";
+import DatasetReviewAdmin from "./containers/DataCollection/Admin/DatasetReviewAdmin";
+import DatasetReviewSE from "./containers/DataCollection/SignExpert/DatasetReviewSE/DatasetReviewSE";
+import DatasetCollectionSE from "./containers/DataCollection/SignExpert/DatasetCollection/DatasetCollectionSE";
 import Feedback from "./containers/Feedback/Feedback";
 import Faq from "./containers/Faq/Faq";
 import Notification from "./containers/Notification/Notification";
@@ -20,7 +20,7 @@ import Login from "./containers/Login/Login";
 import SignUp from "./containers/SignUp/SignUp";
 import ForgotPassword from "./containers/Login/ForgotPwd/ForgotPassword";
 import ResetPassword from "./containers/Login/ResetPwd/ResetPassword";
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { gapi } from "gapi-script";
 import HomeLayout from "./HomeLayout";
 import ForgotResetPasswordLayout from "./ForgotResetPasswordLayout";
@@ -34,15 +34,13 @@ import FaqAdmin from "./containers/Faq/Admin/FaqAdmin";
 import Cookies from "js-cookie";
 import i18n from "i18next";
 import { initReactI18next } from "react-i18next";
-import resources from './i18n';
+import resources from "./i18n";
 
-i18n
-  .use(initReactI18next)
-  .init({
-    resources,
-    lng: "en",
-    fallbackLng: "en",
-  });
+i18n.use(initReactI18next).init({
+  resources,
+  lng: "en",
+  fallbackLng: "en",
+});
 
 function App() {
   const clientId =
@@ -100,8 +98,10 @@ function App() {
   }, [location.pathname]);
 
   const [datasetComponent, setDatasetComponent] = useState<React.ReactNode>(
-    <DataCollection />
+    <DataCollectionPublic />
   );
+  const [datasetReviewComponent, setDatasetReviewComponent] =
+    useState<React.ReactNode>();
   useEffect(() => {
     const roleAccess = document.cookie
       .split("; ")
@@ -110,13 +110,14 @@ function App() {
 
     switch (roleAccess) {
       case "admin":
-        setDatasetComponent(<DataCollectionReview />);
+        setDatasetComponent(<DatasetReviewAdmin />);
         break;
       case "signexpert":
-        setDatasetComponent(<DatasetSubmission />);
+        setDatasetComponent(<DatasetCollectionSE />);
+        setDatasetReviewComponent(<DatasetReviewSE />);
         break;
       default:
-        setDatasetComponent(<DataCollection />);
+        setDatasetComponent(<DataCollectionPublic />);
         break;
     }
   }, [location.pathname]);
@@ -146,6 +147,10 @@ function App() {
           <Route path="/communication" element={<Communication />} />
           <Route path="/education" element={<Education />} />
           <Route path="/dataset-collection" element={datasetComponent} />
+          <Route
+            path="/dataset-collection-review"
+            element={datasetReviewComponent}
+          />
           <Route path="/feedback" element={feedbackComponent} />
           <Route path="/faq" element={faqComponent} />
           <Route path="/notifications" element={<Notification />} />

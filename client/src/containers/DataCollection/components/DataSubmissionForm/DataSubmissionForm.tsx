@@ -6,7 +6,7 @@ import EmailIcon from "../EmailIcon/EmailIcon";
 import PhoneIcon from "../PhoneIcon/PhoneIcon";
 import InfoIcon from "../InfoIcon/InfoIcon";
 import LocationIcon from "../LocationIcon/LocationIcon";
-import submitForm from "../../../../services/dataset.service";
+import { submitForm } from "../../../../services/dataset.service";
 import "./DataSubmissionForm.css";
 import Cookies from "js-cookie";
 import { useTranslation } from "react-i18next";
@@ -16,8 +16,9 @@ interface DataSubmissionFormProps {
 }
 
 const DataSubmissionForm: React.FC<DataSubmissionFormProps> = ({ user }) => {
-  //Modal Control (Onsubmit popup)
   const { t, i18n } = useTranslation();
+
+  //Modal Control (Onsubmit popup)
   const [isModalOpen, setIsModalOpen] = useState(false);
   const handleOpenModal = () => {
     setIsModalOpen(true);
@@ -132,8 +133,7 @@ const DataSubmissionForm: React.FC<DataSubmissionFormProps> = ({ user }) => {
         if (videoInfo) {
           formData.append("video", videoInfo);
           try {
-            const submitFormRequest = await submitForm(formData);
-            console.log(submitFormRequest);
+            await submitForm(formData);
           } catch (error: any) {
             console.error("Error");
           }
@@ -148,31 +148,28 @@ const DataSubmissionForm: React.FC<DataSubmissionFormProps> = ({ user }) => {
     <div className="dataForm">
       <div className="dataForm-header-container">
         <div className="dataForm-header">
-          <h1>{t('dataset_collection_form')}</h1>
+          <h1>{t("dataset_collection_form")}</h1>
         </div>
       </div>
       <div className="dataForm-cover">
         <div className={`dataForm-card ${user}`}>
-          <h1>{t('in_touch')}</h1>
-          <h3>{t('more_suggestions')}</h3>
+          <h1>{t("in_touch")}</h1>
+          <h3>{t("more_suggestions")}</h3>
           <div className={"dataForm-card-content"}>
             <div className="dataForm-card-info">
               <LocationIcon />
-              <p>
-                {" "}
-                {t('neoun_address')}
-              </p>
+              <p> {t("neoun_address")}</p>
             </div>
             <div className="dataForm-card-info2">
               {/* <img src={phoneIcon} alt="location" className="phone-icon" /> */}
               <PhoneIcon />
               {/* <p>Phone: [Phone Number]</p> */}
-              <p>{t('neoun_phone')}</p>
+              <p>{t("neoun_phone")}</p>
             </div>
             <div className="dataForm-card-info2">
               {/* <img src={emailIcon} alt="location" className="email-icon" /> */}
               <EmailIcon />
-              <p>{t('neoun_email')}</p>
+              <p>{t("neoun_email")}</p>
             </div>
             <div className="dataForm-card-info"></div>
           </div>
@@ -185,14 +182,14 @@ const DataSubmissionForm: React.FC<DataSubmissionFormProps> = ({ user }) => {
             <div className="col-md-8">
               <form onSubmit={handleSubmit} noValidate>
                 <InputField
-                  label={t('name_input')}
+                  label={t("name_input")}
                   name="name"
                   value={name}
                   onChange={handleNameChange}
                   error={nameError}
                 />
                 <InputField
-                  label={t('email_input')}
+                  label={t("email_input")}
                   name="email"
                   type="email"
                   value={email}
@@ -200,7 +197,7 @@ const DataSubmissionForm: React.FC<DataSubmissionFormProps> = ({ user }) => {
                   error={emailError}
                 />
                 <InputField
-                  label={t('text_sentence_input')}
+                  label={t("text_sentence_input")}
                   name="text"
                   value={text}
                   onChange={handleTextChange}
@@ -221,14 +218,14 @@ const DataSubmissionForm: React.FC<DataSubmissionFormProps> = ({ user }) => {
                     buttonStyle="btn--reset"
                     buttonSize="btn--large"
                   >
-                    {t('reset_btn')}
+                    {t("reset_btn")}
                   </Button>
                   <Button
                     type="submit"
                     buttonStyle="btn--submit"
                     buttonSize="btn--large"
                   >
-                    {t('submit_btn')}
+                    {t("submit_btn")}
                   </Button>
                 </div>
               </form>
