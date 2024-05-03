@@ -83,7 +83,7 @@ exports[`Test Collapsible Form should render correctly 1`] = `
                             <span
                               class="personal-details-info"
                             >
-                              Luffy Gear 5 Sun God Nika
+                              Luffy Lee
                             </span>
                           </span>
                         </td>
@@ -129,7 +129,7 @@ exports[`Test Collapsible Form should render correctly 1`] = `
             class="sentence-details-content"
           >
             <p>
-              anak ku bodoh
+              Aku mahu makan nasi
             </p>
           </div>
         </div>
@@ -188,7 +188,9 @@ exports[`Test Collapsible Form should render correctly 1`] = `
                             <span
                               class="video-details-info"
                             >
-                              testing123.mp4
+                              <a
+                                href="testing123.mp4"
+                              />
                             </span>
                           </span>
                         </td>
@@ -212,18 +214,7 @@ exports[`Test Collapsible Form should render correctly 1`] = `
         </div>
         <div
           class="buttons-right"
-        >
-          <div
-            class="button-container"
-          >
-            <button
-              class="btn btn--accept btn--large"
-              type="button"
-            >
-              Accept
-            </button>
-          </div>
-        </div>
+        />
       </div>
     </div>
   </div>

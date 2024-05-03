@@ -42,6 +42,7 @@ const InputField: React.FC<InputFieldProps> = ({
       value={value}
       id={id}
       onChange={onChange}
+      data-testid={name}
     />
   ) : (
     <input
@@ -52,6 +53,7 @@ const InputField: React.FC<InputFieldProps> = ({
       value={value}
       id={id}
       onChange={onChange}
+      data-testid={name}
     />
   );
 

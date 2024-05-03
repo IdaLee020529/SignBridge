@@ -161,13 +161,10 @@ const DataSubmissionForm: React.FC<DataSubmissionFormProps> = ({ user }) => {
               <p> {t("neoun_address")}</p>
             </div>
             <div className="dataForm-card-info2">
-              {/* <img src={phoneIcon} alt="location" className="phone-icon" /> */}
               <PhoneIcon />
-              {/* <p>Phone: [Phone Number]</p> */}
               <p>{t("neoun_phone")}</p>
             </div>
             <div className="dataForm-card-info2">
-              {/* <img src={emailIcon} alt="location" className="email-icon" /> */}
               <EmailIcon />
               <p>{t("neoun_email")}</p>
             </div>
