@@ -1,6 +1,6 @@
 [
   {
-    "keyword": "ADIK_PEREMPUAN",
+    "keyword": "ADIK PEREMPUAN",
     "animations": ["AdikPerempuan1", "AdikPerempuan2", "AdikPerempuan3"],
     "english_keyword" : "YOUNGER_SISTER",
     "category":"Medical"
@@ -283,6 +283,13 @@
     "animations": ["TulangRusuk1", "TulangRusuk2"],
     "english_keyword" : "RIB_CAGE",
     "category":"Medical",
+    "toShow": "1"
+  },
+  {
+    "keyword": "SAYA",
+    "animations": ["Saya1", "Saya2"],
+    "english_keyword" : "ME",
+    "category":"Conversation",
     "toShow": "1"
   },
   {
