@@ -24,10 +24,12 @@ function Communication() {
   const [leftHandedMode, setLeftHandedMode] = useState(false);
   const [fps, setFps] = useState(60); // State to hold FPS value
 
+  // @ts-ignore
   const updateFPS = (newFPS) => {
     setFps(newFPS); // Update FPS state
   };
   
+  // @ts-ignore
   const updateCurrentAnimationName = (animationName) => {
     setCurrentAnimationName(animationName);
   };
@@ -43,9 +45,11 @@ function Communication() {
   };
 
   const handleViewReset = () => {
+    // @ts-ignore
     controls.current.reset();
   };
 
+  // @ts-ignore
   const handleSpeedChange = (event) => {
     const newSpeed = parseFloat(event.target.value);
     setSpeed(newSpeed);
@@ -53,9 +57,11 @@ function Communication() {
 
   const handleHandFocus = () => {
     setHandFocus((prevFocus) => !prevFocus);
+    // @ts-ignore
     controls.current.reset();
   };
 
+  // @ts-ignore
   const handleSubmit = (event) => {
     event.preventDefault();
     const formData = new FormData(event.target);
@@ -65,6 +71,7 @@ function Communication() {
       setInputText(submittedText + "#");
     } else {
       // If they are different, update the inputText directly
+      // @ts-ignore
       setInputText(submittedText);
     }
   };
@@ -116,12 +123,13 @@ function Communication() {
                 animationKeyword={inputText}
                 speed={speed}
                 showSkeleton={showSkeleton}
-                repeat={"No"}
+                repeat={"Yes"}
                 isPaused={isPaused}
                 updateCurrentAnimationName={updateCurrentAnimationName}
               />
             </CharacterAnimationsProvider>
             <FPSCounter onUpdateFPS={updateFPS} />
+            {/*// @ts-ignore*/}
             <OrbitControls ref={controls} />
             {handFocus && <HandFocusMode />}
           </Canvas>
@@ -182,7 +190,6 @@ function Communication() {
   );
 }
 
-
 function HandFocusMode() {
   const { camera } = useThree();
   const x = -35; // Adjust these values according to your requirements
@@ -197,6 +204,8 @@ function HandFocusMode() {
 
   return null;
 }
+
+// @ts-ignore
 function FPSCounter({ onUpdateFPS }) {
   const frameRef = useRef({ lastTime: performance.now(), frameCount: 0 });
 
@@ -215,22 +224,5 @@ function FPSCounter({ onUpdateFPS }) {
 
   return null; // No need to return anything as DOM updates are handled by the parent
 }
-
-/*
-function CameraControl() {
-  const { camera } = useThree();
-
-  const x = -7.5; // Adjust these values according to your requirements
-  const y = 110;
-  const z = 215;
-  const decimal = 1; // Adjust this value to control the speed of lerping
-
-  useFrame(() => {
-    camera.position.lerp({ x, y, z }, decimal);
-    camera.lookAt(x, y, z);
-  });
-
-  return null;
-}*/
 
 export default Communication;
