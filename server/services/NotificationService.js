@@ -1,15 +1,17 @@
 const { connectDB, DATABASE_COLLECTIONS } = require("../config/database");
+const NotificationCounterService = require("./NotificationCounterService");
 
 const NotificationService = {
     async CreateNotification(notificationData) {
         try {
             const { client, database } = await connectDB();
             const collection = database.collection(DATABASE_COLLECTIONS.NOTIFICATIONS);
-            const count = await collection.countDocuments();
+
+            const newFormId = await NotificationCounterService.getNextValue('notifId');
             
             const notificationWithTimestamp = {
                 ...notificationData,
-                notification_id: count + 1
+                notification_id: newFormId
             };
             
             const result = await collection.insertOne(notificationWithTimestamp);

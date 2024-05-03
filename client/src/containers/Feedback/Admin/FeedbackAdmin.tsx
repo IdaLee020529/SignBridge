@@ -1,10 +1,11 @@
 import React, { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import CollapsibleContainer from "../components/CollapsibleContainer/CollapsibleContainer";
 import FeedbackOrderFilter from "../components/Filter/FeedbackOrderSorting/FeedbackOrderSorting";
 import FeedbackFieldsFilter from "../components/Filter/FeedbackFieldsFilter/FeedbackFieldsFilter";
 import TablePagination from '@mui/material/TablePagination';
 import style from "./FeedbackAdmin.module.css";
-import { GetFeedback } from "../../../services/feedback.service";
+import { GetFeedback, UpdateFeedback } from "../../../services/feedback.service";
 import { useFeedbackSortFilterStore } from "../../../store/feedbackSortFilter";
 
 const FeedbackAdmin: React.FC = () => {
@@ -16,18 +17,26 @@ const FeedbackAdmin: React.FC = () => {
   // Pagination
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(10);
+  const navigate = useNavigate();
+  const [loading, setLoading] = useState(true);
 
   // Fetch data from server
   useEffect(() => {
+    setLoading(true);
     GetFeedback()
       .then((res) => {
         setCollapsibleData(res.data);
         setModifiedCollapsibleData(res.data);
         store.setData(res.data);
         store.setModifiedData(res.data);
+        setLoading(false);
       })
       .catch((err) => {
         console.log(err);
+        setLoading(false); 
+      })
+      .finally(() => {
+        setLoading(false);
       });
   }, []);
 
@@ -99,46 +108,54 @@ const FeedbackAdmin: React.FC = () => {
 
   return (
     <div className={style.feedbackAdmin_container}>
-      <h1>Feedback Review</h1>
-      <div className={style.feedbackAdmin_containerbox}>
-        <div className={style.feedbackAdmin_filterbox}>
-          <FeedbackFieldsFilter sortData={sortData} />
-          <FeedbackOrderFilter sortData={sortData} />
-        </div>
-        {/* Render only the data for the current page */}
-        {store.modifiedData.slice(page * rowsPerPage, (page + 1) * rowsPerPage).map((data: any) => (
-          <CollapsibleContainer
-            key={data.feedback_id}
-            id={data.feedback_id}
-            name={data.firstName + " " + data.lastName}
-            age={data.age}
-            gender={data.gender}
-            phone={data.phoneNo}
-            email={data.email}
-            fcategory={data.fcategory}
-            experience={data.experience}
-            friendliness={data.friendliness}
-            quality={data.quality}
-            recommended={data.recommended}
-            q1={data.question1}
-            q2={data.question2}
-            q3={data.question3}
-            image={data.screenshot}
-            created_at={formatDate(data.createdAt)}
-            status={data.status}
-          />
-        ))}
+      
+      {loading ? ( 
+        <p>Loading Feedback...</p>
+      ) : (
+        <>
+          <h1>Feedback Review</h1>
+          <div className={style.feedbackAdmin_containerbox}>
+            <div className={style.feedbackAdmin_filterbox}>
+              <FeedbackFieldsFilter sortData={sortData} />
+              <FeedbackOrderFilter sortData={sortData} />
+            </div>
+            {/* Render only the data for the current page */}
+            {store.modifiedData.slice(page * rowsPerPage, (page + 1) * rowsPerPage).map((data: any) => (
+              <CollapsibleContainer
+                key={data.feedback_id}
+                updateStatus={() => UpdateFeedback(data.feedback_id)}
+                id={data.feedback_id}
+                name={data.firstName + " " + data.lastName}
+                age={data.age}
+                gender={data.gender}
+                race={data.race}
+                email={data.email}
+                fcategory={data.fcategory}
+                experience={data.experience}
+                friendliness={data.friendliness}
+                quality={data.quality}
+                recommended={data.recommended}
+                q1={data.question1}
+                q2={data.question2}
+                q3={data.question3}
+                image={data.imageURL}
+                created_at={formatDate(data.createdAt)}
+                status={data.status}
+              />
+            ))}
 
-        <TablePagination
-          component="div"
-          count={paginationCount}
-          page={page}
-          onPageChange={handleChangePage}
-          rowsPerPage={rowsPerPage}
-          onRowsPerPageChange={handleChangeRowsPerPage}
-        />
+            <TablePagination
+              component="div"
+              count={paginationCount}
+              page={page}
+              onPageChange={handleChangePage}
+              rowsPerPage={rowsPerPage}
+              onRowsPerPageChange={handleChangeRowsPerPage}
+            />
+          </div>
+        </>
+      )}
       </div>
-    </div>
   );
 };
 

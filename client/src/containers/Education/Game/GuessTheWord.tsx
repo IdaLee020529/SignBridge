@@ -12,6 +12,7 @@ import backgroundMusic from "/music/gameMusic2.mp3";
 import buttonClickedSound from "/music/btnClicked.wav";
 import correctAnswerSound from "/music/correctMusic.mp3";
 import wrongAnswerSound from "/music/wrongMusic.mp3";
+import { useTranslation } from "react-i18next";
 
 interface Question {
     level: number;
@@ -20,8 +21,10 @@ interface Question {
     correctAnswer: string;
 }
 
-interface GlossData {
-    [key: string]: any;
+interface GlossAnimation {
+    keyword: string;
+    animations: string[];
+    category: string;
 }
 
 const playButtonClickedSound = () => {
@@ -43,6 +46,7 @@ const questionList: Question[] = [];
 let level = 1;
 
 const GuessTheWord: React.FC = () => {
+    const { t, i18n } = useTranslation();
     const [isInnerSettingOpen, setIsInnerSettingOpen] = useState(false);
     const audioRef = useRef<HTMLAudioElement>(null);
     const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
@@ -53,7 +57,7 @@ const GuessTheWord: React.FC = () => {
     const [wrongAnswerIndex, setWrongAnswerIndex] = useState(-1);
     const [animationKeyword, setAnimationKeyword] = useState("");
     const [answerOptions, setAnswerOptions] = useState<string[]>([]);
-    const [questions, setQuestions] = useState<Question>();
+    const [question, setQuestion] = useState<Question>();
     const [clickedOptions, setClickedOptions] = useState<boolean[]>(
         new Array(4).fill(false)
     );
@@ -69,7 +73,9 @@ const GuessTheWord: React.FC = () => {
         ));
     };
 
-    const loadAnimationKeywords = async (): Promise<GlossData | null> => {
+    const loadAnimationKeywords = async (): Promise<
+        GlossAnimation[] | null
+    > => {
         try {
             const response = await fetch("/glosses/gloss.json");
             if (!response.ok) {
@@ -77,16 +83,8 @@ const GuessTheWord: React.FC = () => {
                     `Failed to fetch: ${response.status} ${response.statusText}`
                 );
             }
-            const data: GlossData = await response.json();
-
-            const lowercaseData: GlossData = {};
-            for (const key in data) {
-                lowercaseData[key.toLowerCase()] = data[key];
-            }
-
-            const combinedData: GlossData = { ...data, ...lowercaseData };
-
-            return combinedData;
+            const data: GlossAnimation[] = await response.json();
+            return data;
         } catch (error) {
             console.error("Failed to load animation keywords:", error);
             return null;
@@ -94,18 +92,22 @@ const GuessTheWord: React.FC = () => {
     };
 
     const pickRandomKeyword = async () => {
-        const glossData = await loadAnimationKeywords();
-        if (glossData) {
-            const keys = Object.keys(glossData);
-            const randomKey = keys[Math.floor(Math.random() * keys.length)];
+        const data = await loadAnimationKeywords();
+
+        if (data) {
+            // generate a random number between 0 and the length of the data
+            const randomIndex = Math.floor(Math.random() * data.length);
+            const randomQuestion = data[randomIndex];
+
             const newQuestion = {
                 level: level++,
-                question: "",
+                question: randomQuestion.category,
                 options: [],
-                correctAnswer: randomKey,
+                correctAnswer: randomQuestion.keyword,
             };
-            setAnimationKeyword(randomKey);
-            setQuestions(newQuestion);
+
+            setAnimationKeyword(randomQuestion.keyword);
+            setQuestion(newQuestion);
             questionList.push(newQuestion);
         }
     };
@@ -131,9 +133,9 @@ const GuessTheWord: React.FC = () => {
         const options: string[] = [];
         const glossData = await loadAnimationKeywords();
         if (glossData) {
-            const glossKeys = Object.keys(glossData).filter((key) =>
-                /^[A-Z]+$/.test(key)
-            );
+            const glossKeys = glossData
+                .map((item) => item.keyword)
+                .filter((key) => /^[A-Z_]+$/.test(key));
 
             const filteredGlossKeys = glossKeys.filter(
                 (key) => key.toLowerCase() !== animationKeyword.toLowerCase()
@@ -153,13 +155,24 @@ const GuessTheWord: React.FC = () => {
 
             for (let i = 0; i < 4; i++) {
                 const randomKey = filteredGlossKeys[randomIndex];
-                const lowercaseOption = randomKey.toLowerCase();
-                options.push(lowercaseOption);
+                const formattedOption = randomKey
+                    .toLowerCase()
+                    .replace(/_/g, " ")
+                    .split(" ")
+                    .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
+                    .join(" ");
+                options.push(formattedOption);
                 randomIndex = (randomIndex + 1) % filteredGlossKeys.length;
             }
 
-            options[Math.floor(Math.random() * 4)] =
-                animationKeyword.toLowerCase();
+            options[Math.floor(Math.random() * 4)] = animationKeyword
+                .toLowerCase()
+                .replace(/_/g, " ")
+                .split(" ")
+                .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
+                .join(" ");
+
+            console.log(options);
             return options;
         } else {
             return [];
@@ -185,12 +198,25 @@ const GuessTheWord: React.FC = () => {
             disabledOptions.fill(true);
             setClickedOptions(disabledOptions);
 
-            if (glossData && questions) {
-                const correctAnswer = questions.correctAnswer;
-                const correctAnswerLowerCase = correctAnswer.toLowerCase();
-                const correctAnswerIndex = answerOptions.findIndex(option => option.toLowerCase() === correctAnswerLowerCase);
-                
-                if (selectedOption.toLowerCase() === correctAnswerLowerCase) {
+            if (glossData && question) {
+                const correctAnswer = question.correctAnswer;
+                const correctAnswerFormatted = correctAnswer
+                    .toLowerCase()
+                    .replace(/_/g, " ")
+                    .split(" ")
+                    .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
+                    .join(" ");
+
+                const correctAnswerIndex = answerOptions.findIndex(
+                    (option) =>
+                        option.toLowerCase() ===
+                        correctAnswerFormatted.toLowerCase()
+                );
+
+                if (
+                    selectedOption.toLowerCase() ===
+                    correctAnswerFormatted.toLowerCase()
+                ) {
                     setScore(score + 1);
                     setCorrectAnswerIndex(index);
                     playCorrectAnswerSound();
@@ -264,15 +290,20 @@ const GuessTheWord: React.FC = () => {
                             playButtonClickedSound();
                         }}
                     >
-                        Rules
+                        {t("rules")}
                     </button>
                     <h1 className="level-title">
                         {questionList.length > 0 &&
                         questionList[currentQuestionIndex]
-                            ? `Level ${questionList[currentQuestionIndex].level}`
-                            : "Loading..."}
+                            ? `${t("level")} ${
+                                  questionList[currentQuestionIndex].level
+                              }`
+                            : t("loading")}
                     </h1>
-                    <h2 className="score-title">Score: {score}</h2>
+                    <h2 className="score-title">
+                        {t("score")}
+                        {score}
+                    </h2>
                     <button
                         className="shared-btn setting-btn2"
                         type="button"
@@ -292,14 +323,14 @@ const GuessTheWord: React.FC = () => {
                     {showRules && (
                         <RulesPopup
                             onClose={() => setShowRules(false)}
-                            title="Game Rules"
+                            title={t("game_rules")}
                             rules={[
-                                "Select the correct answer to earn points.",
-                                "Advance to the next level by answering correctly.",
-                                "You will be given three lives at the start of the game.",
-                                "If you answer a question incorrectly, you will lose a life.",
-                                "Losing all your lives will end the game.",
-                                "Your total score will be displayed at the end of the game.",
+                                t("gtw_rules1"),
+                                t("gtw_rules2"),
+                                t("gtw_rules3"),
+                                t("gtw_rules4"),
+                                t("gtw_rules5"),
+                                t("gtw_rules6"),
                             ]}
                         />
                     )}
@@ -350,7 +381,7 @@ const GuessTheWord: React.FC = () => {
             {/* Add audio player for background music */}
             <audio ref={audioRef} autoPlay loop>
                 <source src={backgroundMusic} type="audio/mpeg" />
-                Your browser does not support the audio element.
+                {t("not_support_music")}
             </audio>
             {/* Render InnerSetting if isInnerSettingOpen is true */}
             {isInnerSettingOpen && (

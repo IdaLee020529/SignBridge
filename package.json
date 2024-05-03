@@ -10,7 +10,10 @@
     "@react-three/drei": "^9.105.4",
     "@react-three/fiber": "^8.16.2",
     "gsap": "^3.12.5",
-    "mdb-react-ui-kit": "^8.0.0"
+    "i18next": "^23.11.3",
+    "lucide-react": "^0.376.0",
+    "mdb-react-ui-kit": "^8.0.0",
+    "react-i18next": "^14.1.1"
   },
   "devDependencies": {
     "concurrently": "^8.2.2"
@@ -18,6 +21,10 @@
   "scripts": {
     "start": "concurrently \"npm run start:frontend\" \"npm run start:backend\"",
     "start:frontend": "cd client && npm run dev",
-    "start:backend": "cd server && node app"
+    "start:backend": "cd server && node app",
+    "install:all": "concurrently \"npm run install:root\" \"npm run install:frontend\" \"npm run install:backend\"",
+    "install:root": "npm i",
+    "install:frontend": "cd client && npm i",
+    "install:backend": "cd server && npm i"
   }
 }

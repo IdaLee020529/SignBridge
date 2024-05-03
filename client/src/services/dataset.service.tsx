@@ -1,15 +1,20 @@
 //dataset.service.tsx
 import axios from "axios";
 
-const submitForm = async (formData: any): Promise<any> => {
+const submitForm = async (formData: FormData): Promise<any> => {
   try {
     const response = await axios.post(
       "http://localhost:3000/datasetForms",
-      formData
+      formData,
+      {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+      }
     );
-    return response.data;
-  } catch (error) {
-    throw error;
+    return response;
+  } catch (err) {
+    throw err;
   }
 };
 

@@ -116,9 +116,8 @@ const Notification: React.FC = () => {
           })
         );
         // Sort the notifications by the 'created_at' field in descending order
-        notificationsWithUsernames.sort((a, b) => new Date(b.created_at).getTime() - new Date(a.created_at).getTime());
-
-        useFilterStore.setData(notificationsWithUsernames);
+        let data = notificationsWithUsernames.sort((a, b) => new Date(b.created_at).getTime() - new Date(a.created_at).getTime());
+        useFilterStore.setData(data);
       } catch (error) {
         console.error('Error fetching data:', error);
       }

@@ -1,5 +1,5 @@
 //Import necessary libraries -> either "@testing-library/react" or "react-test-renderer"
-import { render, fireEvent, RenderResult } from "@testing-library/react";
+import { render, fireEvent } from "@testing-library/react";
 import CollapsibleForm from "../../../../../containers/DataCollection/components/CollapsibleForm/CollapsibleForm";
 
 describe("Test Collapsible Form", () => {

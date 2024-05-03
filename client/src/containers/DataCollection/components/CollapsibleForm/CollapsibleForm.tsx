@@ -10,7 +10,6 @@ interface CollapsibleFormProps {
   status: string;
   name: string;
   email: string;
-  // phoneNumber: string;
   text: string;
   videoLink: string;
   avatarLink: string;
@@ -23,7 +22,6 @@ const CollapsibleForm: React.FC<CollapsibleFormProps> = ({
   status,
   name,
   email,
-  // phoneNumber,
   text,
   videoLink,
   avatarLink,
@@ -54,11 +52,6 @@ const CollapsibleForm: React.FC<CollapsibleFormProps> = ({
       label: "Email",
       children: <span className="personal-details-info">{email}</span>,
     },
-    // {
-    //   key: "3",
-    //   label: "Phone Number",
-    //   children: <span className="personal-details-info">{phoneNumber}</span>,
-    // },
   ];
 
   const video_details = [
