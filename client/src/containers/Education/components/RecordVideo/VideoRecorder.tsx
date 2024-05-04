@@ -74,41 +74,40 @@ const VideoRecorder = ({
     if (onStartRecording) {
       onStartRecording(); // Callback to start countdown timer in parent component
     }
-  
+
     if (stream) {
+      // Ensure stream is not null
       const media = new MediaRecorder(stream, { mimeType });
       mediaRecorder.current = media;
-      let localVideoChunks: Blob[] = [];
-  
-      mediaRecorder.current.ondataavailable = (event) => {
-        if (event.data && event.data.size > 0) {
-          localVideoChunks.push(event.data);
-        }
-      };
-  
       mediaRecorder.current.start();
-  
-      // Set video chunks in state
+      let localVideoChunks: Blob[] = [];
+
+      mediaRecorder.current.ondataavailable = (event) => {
+        if (typeof event.data === "undefined") return;
+        if (event.data.size === 0) return;
+        localVideoChunks.push(event.data);
+      };
+
       setVideoChunks(localVideoChunks);
     } else {
       console.error("Stream is null. Cannot start recording.");
     }
   };
-  
-  const stopRecording = async () => {
+
+  const stopRecording = () => {
     if (onStopRecording) {
       onStopRecording(); // Callback to stop countdown timer in parent component
     }
-  
+
     setPermission(false);
     setRecordingStatus("inactive");
     mediaRecorder.current?.stop();
-  
+
     if (mediaRecorder.current) {
       mediaRecorder.current.onstop = () => {
         const videoBlob = new Blob(videoChunks, { type: mimeType });
         const videoUrl = URL.createObjectURL(videoBlob);
-  
+
         setRecordedVideo(videoUrl);
       };
     }
@@ -120,15 +119,15 @@ const VideoRecorder = ({
         const videoBlob = new Blob(videoChunks, { type: mimeType });
         const formData = new FormData();
         formData.append("video", videoBlob);
-  
+
         const response = await fetch("http://localhost:5000/api/individual_SLR", {
           method: "POST",
           body: formData,
         });
-  
+
         if (response.ok) {
           const data = await response.json();
-          console.log(data);
+          console.log("Video uploaded successfully: ", data);
         } else {
           console.error("Failed to send video to server");
         }
@@ -139,7 +138,6 @@ const VideoRecorder = ({
       console.error("No recorded video to upload");
     }
   };
-  
 
   return (
     <div>
@@ -215,7 +213,7 @@ const VideoRecorder = ({
               <span className="upload-btn-shadow"></span>
               <span className="upload-btn-edge"></span>
               <span className="upload-btn-front text">
-                <i className="fa fa-upload"><a>Upload</a></i>
+                <i className="fa fa-upload"><a></a></i>
               </span>
             </button>
 
