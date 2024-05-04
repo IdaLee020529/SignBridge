@@ -109,9 +109,33 @@ const VideoRecorder = ({
         const videoUrl = URL.createObjectURL(videoBlob);
 
         setRecordedVideo(videoUrl);
-
-        setVideoChunks([]);
       };
+    }
+  };
+
+  const handleUpload = async () => {
+    if (recordedVideo) {
+      try {
+        const videoBlob = new Blob(videoChunks, { type: mimeType });
+        const formData = new FormData();
+        formData.append("video", videoBlob);
+
+        const response = await fetch("http://localhost:5000/api/individual_SLR", {
+          method: "POST",
+          body: formData,
+        });
+
+        if (response.ok) {
+          const data = await response.json();
+          console.log("Video uploaded successfully: ", data);
+        } else {
+          console.error("Failed to send video to server");
+        }
+      } catch (error) {
+        console.error("Error sending video to server: ", error);
+      }
+    } else {
+      console.error("No recorded video to upload");
     }
   };
 
@@ -184,11 +208,12 @@ const VideoRecorder = ({
             <button
               className="upload-btn-pushable"
               type="button"
+              onClick={handleUpload}
             >
               <span className="upload-btn-shadow"></span>
               <span className="upload-btn-edge"></span>
               <span className="upload-btn-front text">
-                <i className="fa fa-upload"><a download href={recordedVideo}></a></i>
+                <i className="fa fa-upload"><a></a></i>
               </span>
             </button>
 
