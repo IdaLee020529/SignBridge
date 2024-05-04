@@ -62,17 +62,35 @@ function Communication() {
   };
 
   // @ts-ignore
-  const handleSubmit = (event) => {
+  const handleSubmit = async (event) => {
     event.preventDefault();
+
     const formData = new FormData(event.target);
-    const submittedText = formData.get("sigmlUrl") || ""; // Prevent null value
-    if (inputText === submittedText) {
-      // If they are the same, append "#" to the submitted text
-      setInputText(submittedText + "#");
-    } else {
-      // If they are different, update the inputText directly
-      // @ts-ignore
-      setInputText(submittedText);
+    const submittedText = formData.get("sigmlUrl") as string; // Prevent null value
+
+    try {
+      const response = await fetch('http://127.0.0.1:5000/api/SLP', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ text: submittedText }),
+      });
+
+      if (response.ok) {
+        const data = await response.json();
+        if (inputText === submittedText) {
+          // If they are the same, append "#" to the submitted text
+          setInputText(data['return'] + "#");
+        } else {
+          // If they are different, update the inputText directly
+          setInputText(data['return']);
+        }
+      } else {
+        console.error('Failed to process text');
+      }
+    } catch (error) {
+      console.error('Error processing text: ', error);
     }
   };
 
@@ -184,6 +202,7 @@ function Communication() {
             <span>Status : </span>
             <input className="status-box" type="text" placeholder="Playing Sign" />
           </div>
+
         </div>
       </div>
     </div>
