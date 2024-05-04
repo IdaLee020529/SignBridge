@@ -91,9 +91,9 @@ function Navbar() {
     }
   };
 
-	useEffect(() => {
-		showButton();
-	}, []);
+  useEffect(() => {
+    showButton();
+  }, []);
 
   // ---------- Fetch notification counts ----------
   const email = Cookies.get("email");
@@ -131,8 +131,8 @@ function Navbar() {
     }
   }, [isLoggedIn, userIds]);
 
-	// ---------- Listen on the weebsite screen size ----------
-	window.addEventListener("resize", showButton);
+  // ---------- Listen on the weebsite screen size ----------
+  window.addEventListener("resize", showButton);
 
   return (
     <>
