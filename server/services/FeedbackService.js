@@ -1,4 +1,5 @@
 const { connectDB, DATABASE_COLLECTIONS } = require("../config/database");
+const FeedbackCounterService = require("./FeedbackCounterService");
 
 const FeedbackService = {
     async CreateFeedback(feedbackData) {
@@ -6,13 +7,13 @@ const FeedbackService = {
             const { client, database } = await connectDB();
             const collection = database.collection(DATABASE_COLLECTIONS.FEEDBACKS);
 
-            const count = await collection.countDocuments();
+            const newFormId = await FeedbackCounterService.getNextValue('feedbackId');
             
             const feedbackWithTimestamp = {
                 ...feedbackData,
                 createdAt: new Date(),
                 status: "new",
-                feedback_id: count + 1
+                feedback_id: newFormId
             };
             
             const result = await collection.insertOne(feedbackWithTimestamp);
@@ -34,6 +35,19 @@ const FeedbackService = {
             throw new Error(`Error fetching feedback: ${error.message}`);
         }
     },
+
+    async UpdateFeedbackStatus(feedbackId){
+        try{
+            const { client, database } = await connectDB();
+            const collection = database.collection(DATABASE_COLLECTIONS.FEEDBACKS);
+            const numericFeedbackId = Number(feedbackId); // Convert receiverId to a number
+            const result = await collection.updateOne({ feedback_id: numericFeedbackId }, { $set: { status: "viewed" } });
+            client.close();
+            return result;
+        } catch (error) {
+            throw new Error(`Error updating feedback status: ${error.message}`);
+        }
+    }
 };
 
 

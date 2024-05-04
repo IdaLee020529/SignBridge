@@ -21,7 +21,7 @@ const UserController = {
             res.status(201).json({
                 message:
                     "Verification email sent. Please verify your email to complete registration.",
-                })
+            })
         } catch (error) {
             console.error("Error registering user:", error)
             res.status(500).json({ error: "Internal Server Error" });
@@ -44,7 +44,7 @@ const UserController = {
         try {
             const googleUser = req.body;
             const user = await UserService.LoginGoogleUser(googleUser);
-            
+
             if (user) {
                 const token = jwt.sign({ email: user.email }, process.env.JWT_SECRET, {
                     expiresIn: "7d",
@@ -57,7 +57,7 @@ const UserController = {
                 req.session.acc_type = user.acc_type;
                 req.session.role_access = user.role_access;
 
-                res.status(200).json({
+                return res.status(200).json({
                     Login: true,
                     username: req.session.username,
                     role_access: req.session.role_access,
@@ -66,7 +66,7 @@ const UserController = {
                     message: "Login successful",
                 });
             } else {
-                res.status(401).json({ error: "Invalid email or password" });
+                return res.status(401).json({ error: "Invalid email or password" });
             }
         } catch (error) {
             console.error("Error logging in user:", error);
@@ -79,7 +79,7 @@ const UserController = {
             const token = req.query.token;
             const decodedToken = jwt.verify(token, process.env.JWT_SECRET);
             const user = await UserService.VerifyEmail(token);
-            
+
             if (user) {
                 if (user.email === decodedToken.email) {
                     res.redirect(`${process.env.FRONTEND_URL}/login`);
@@ -98,14 +98,13 @@ const UserController = {
     async LoginUser(req, res) {
         try {
             const { email, password } = req.body;
-            const user = await UserService.LoginUser({email, password});
-          
-            if (user) {
+            const user = await UserService.LoginUser({ email, password });
 
-                if (user.password !== req.body.password || user.email !== req.body.email) {
-                    return res.status(401).json({ error: "Incorrect email or password" });
-                }
-    
+            if ('error' in user && user.error === "Invalid password") {
+                return res.status(401).json({ error: "Invalid email or password" });
+            }
+
+            if (user) {
                 if (user.email_verified === false) {
                     return res.status(403).json({ error: "Email not verified" });
                 }
@@ -115,6 +114,7 @@ const UserController = {
                 });
 
                 req.session.isLoggedIn = true;
+                req.session.user_id = user.user_id;
                 req.session.username = user.username;
                 req.session.email = user.email;
                 req.session.picture = user.picture;
@@ -123,6 +123,7 @@ const UserController = {
 
                 res.status(200).json({
                     Login: true,
+                    user_id: req.session.user_id,
                     username: req.session.username,
                     role_access: req.session.role_access,
                     picture: req.session.picture,
@@ -197,7 +198,7 @@ const UserController = {
             }
         }
     },
-    
+
     async GetAllUsers(req, res) {
         try {
             const users = await UserService.GetAllUsers();

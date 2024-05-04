@@ -59,4 +59,10 @@
     font-size: 16px;
     color: rgb(128, 129, 145);
     text-align: center;
-  }
+}
+
+@media screen and (max-width: 768px) {
+    .notificationContainer {
+        margin-left: 20px;
+    }
+}

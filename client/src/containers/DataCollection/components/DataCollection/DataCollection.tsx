@@ -1,15 +1,18 @@
 // Form.tsx
-import React, { useState } from "react";
+import React from "react";
 import "./DataCollection.css";
-import image from "/images/avatar-hi.png";
 // import PopupModal from "../../../components/PopupModal/PopupModal";
-import DataSubmissionForm from "../components/DataSubmissionForm/DataSubmissionForm";
+import DataSubmissionForm from "../DataSubmissionForm/DataSubmissionForm";
 
-const DataCollection: React.FC = () => {
+interface DataCollectionProps {
+  user: string;
+}
+
+const DataCollection: React.FC<DataCollectionProps> = ({ user }) => {
   return (
     <div className="dataForm-bg">
       <div className="dataSubmissionForm">
-        <DataSubmissionForm user="public" />
+        <DataSubmissionForm user={user} />
       </div>
       <div>
         {/* <PopupModal isOpen={isModalOpen} onClose={handleCloseModal} /> */}

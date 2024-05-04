@@ -2,7 +2,8 @@ const { connectDB, DATABASE_COLLECTIONS } = require("../config/database");
 const PRESET_ACCOUNTS = require("../constants/PresetAccount")
 const { sendEmail, mailTemplate } = require("../utils/email");
 const jwt = require('jsonwebtoken');
-
+const bcrypt = require('bcrypt');
+const UserCounterService = require("./UserCounterService");
 
 const UserService = {
     async SignUpUser(userData) {
@@ -16,8 +17,8 @@ const UserService = {
             }
 
             // Get the count of existing users to determine the next id
-            const count = await collection.countDocuments();
-            userData.user_id = count + 1; // Increment count to start from 1
+            const newFormId = await UserCounterService.getNextValue('userId');
+            userData.user_id = newFormId; // Increment count to start from 1
 
             const token = jwt.sign({ email: userData.email }, process.env.JWT_SECRET, { expiresIn: "1h" });
 
@@ -33,6 +34,8 @@ const UserService = {
             await sendEmail(mailOption);
 
             userData.verification_token = token;
+            let hashPassword = await bcrypt.hash(userData.password, 10);
+            userData.password = hashPassword;
 
             const result = await collection.insertOne(userData);
             client.close();
@@ -59,8 +62,8 @@ const UserService = {
             userData.acc_type = "google";   
             userData.role_access = "public";
             // Get the count of existing users to determine the next id
-            const count = await collection.countDocuments();
-            userData.user_id = count + 1; // Increment count to start from 1
+            const newFormId = await UserCounterService.getNextValue('userId');
+            userData.user_id = newFormId; // Increment count to start from 1
 
             const result = await collection.insertOne({
                 username: userData.name,
@@ -89,6 +92,7 @@ const UserService = {
         try {
             const { client, database } = await connectDB();
             const collection = database.collection(DATABASE_COLLECTIONS.USERS);
+
             const user = await collection.findOne({ email: userData.email });
 
             client.close();
@@ -122,10 +126,14 @@ const UserService = {
         try {
             const { client, database } = await connectDB();
             const collection = database.collection(DATABASE_COLLECTIONS.USERS);
-            const user = await collection.findOne({
-                email: userData.email,
-                password: userData.password
-            });
+            const user = await collection.findOne({ email: userData.email });
+
+            const isSame = await bcrypt.compare(userData.password, user.password);
+            if (isSame === false) {
+                return {
+                    error: "Invalid password",
+                };
+            }
 
             client.close();
             return user;
@@ -185,9 +193,12 @@ const UserService = {
 
             const { client, database } = await connectDB();
             const collection = database.collection(DATABASE_COLLECTIONS.USERS);
+
+            const hashPassword = await bcrypt.hash(userData.password, 10);
+
             const user = await collection.findOneAndUpdate(
                 { email: decodedToken.email },
-                { $set: { password: userData.password }, $unset: { reset_password_token: "" }}
+                { $set: { password: hashPassword }, $unset: { reset_password_token: "" }}
             );
 
             client.close();
@@ -198,26 +209,20 @@ const UserService = {
         }
     },
 
-    // async SignUpManyUser(userDataList) {
-    //     try {
-    //         const { client, database } = await connectDB();
-    //         const collection = database.collection(DATABASE_COLLECTIONS.USERS);
-    //         const result = await collection.insertMany(userDataList);
-    //         const createdUsers = result.ops;
-    //         await client.close(); // Await closing for clarity
-    //         return createdUsers;
-    //     } catch (error) {
-    //         console.error("Error creating users:", error);
-    //         throw new Error(`Error creating users: ${error.message}`); // More specific message
-    //     }
-    // },
-
     async insertPresetAccounts() {
         const { client, database } = await connectDB();
         const presetAccounts = PRESET_ACCOUNTS.PRESET_ACCOUNTS;
         try {
             const collection = database.collection(DATABASE_COLLECTIONS.USERS);
     
+            // Check if the collection exists and insert preset accounts if it doesn't
+            const countersCollection = database.collection(DATABASE_COLLECTIONS.USERS_COUNTER);
+            const collections = await database.listCollections({ name: DATABASE_COLLECTIONS.USERS_COUNTER }).toArray();
+            if (collections.length === 0) {
+                await database.createCollection(DATABASE_COLLECTIONS.USERS_COUNTER);
+                await countersCollection.insertOne({ _id: "userId", value: 3 });
+            }
+
             const existingAccounts = await collection
                 .find({ $or: [{ username: "admin" }, { username: "signexpert" }] })
                 .toArray();

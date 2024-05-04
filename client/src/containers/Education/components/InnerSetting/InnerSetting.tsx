@@ -5,6 +5,7 @@ import noUiSlider from "nouislider";
 import wNumb from "wnumb";
 import "nouislider/dist/nouislider.css";
 import "./InnerSetting.css";
+import { useTranslation } from "react-i18next";
 
 interface SettingPopupProps {
   onClose: () => void;
@@ -15,6 +16,7 @@ const SettingPopup: React.FC<SettingPopupProps> = ({
   onClose,
   onVolumeChange,
 }) => {
+  const { t, i18n } = useTranslation();
   const navigate = useNavigate();
   const popupRef = useRef<HTMLDivElement>(null);
   const [volume, setVolume] = useState(() => {
@@ -55,6 +57,7 @@ const SettingPopup: React.FC<SettingPopupProps> = ({
       ambientSlider.current.on("slide", (values: string[]) => {
         const newVolume = parseInt(values[0]);
         setVolume(newVolume);
+        localStorage.setItem("volumeValue", newVolume.toString());
         onVolumeChange(newVolume / 100);
       });
     }
@@ -79,7 +82,7 @@ const SettingPopup: React.FC<SettingPopupProps> = ({
   return (
     <div className="setting-container2">
       <div ref={popupRef} className="setting-content2">
-        <h3>Setting</h3>
+        <h3>{t('setting')}</h3>
         <button
           className="close_btn_pushable"
           role="button"
@@ -95,7 +98,7 @@ const SettingPopup: React.FC<SettingPopupProps> = ({
           </span>
         </button>
         <div className="setting-details2">
-          <h4 className="volume-title">Music Volume:</h4>
+          <h4 className="volume-title">{t('music_volume')}</h4>
           <div className="game-volume-bar-container">
             <div className="slider-layout">
               <i className="fa fa-volume-down"></i>
@@ -120,7 +123,7 @@ const SettingPopup: React.FC<SettingPopupProps> = ({
                 playButtonClickedSound();
               }}
             >
-              Quit
+              {t('quit_btn')}
             </button>
           </div>
         </div>
