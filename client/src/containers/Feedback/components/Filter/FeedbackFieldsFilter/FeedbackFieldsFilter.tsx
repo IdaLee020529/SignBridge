@@ -1,26 +1,38 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { Select } from "antd";
 import style from "./FeedbackFieldsFilter.module.css"
+import { useFeedbackSortFilterStore } from "../../../../../store/feedbackSortFilter";
+
 
 const { Option } = Select;
 
 interface FieldsFilterProps {
-  filterFields: string;
-  setFilterFields: (value: string) => void;
-  sortData: (data: any) => any;
-  setSortOrder: (value: string) => void;
+  sortData: () => void;
 }
 
-const FieldsFilterProps: React.FC<FieldsFilterProps> = ({
-    filterFields,
-    setFilterFields,
-    sortData,
-    setSortOrder,
-}) => {
+const FieldsFilterProps: React.FC<FieldsFilterProps> = ({ sortData }) => {
+  const store = useFeedbackSortFilterStore();
+
   const handleSelectChange = (value: string) => {
-    setFilterFields(value);
-    // sortData(value);
+    store.setFields(value);
+
+		if (value === "Category") {
+			store.setFilterBy("whole website");
+			store.setSortBy("");
+		} else if (value === "Status") {
+			store.setFilterBy("new");
+			store.setSortBy("");
+		} else {
+      store.setFilterBy("");
+      store.setSortBy("asc");
+    }
+
+    // sortData();
   };
+
+  useEffect(() => {
+    sortData();
+  }, [store.field,store.sortBy, store.filterBy]);
 
   const options = [
     { value: "ID", label: "ID" },
@@ -33,7 +45,7 @@ const FieldsFilterProps: React.FC<FieldsFilterProps> = ({
   return (
     <div className={style.fields_filter}>
       <Select
-        value={filterFields}
+        value={store.field}
         onChange={handleSelectChange}
         style={{ width: 140, height: 40 }}
         popupClassName={style.fields_filter_dropdown} // Added custom class

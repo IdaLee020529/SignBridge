@@ -1,13 +1,14 @@
 import { useState } from 'react';
 import style from './CollapsibleContainer.module.css';
 import RatingStars from '../RatingStars/RatingStars';
+import { useFeedbackSortFilterStore } from "../../../../store/feedbackSortFilter";
 
 interface CollapsibleContainerProps {
     id: number;
     name: string;
     age: number;
     gender: string;
-    phone: string;
+    race: string;
     email: string;
     fcategory: string;
     experience: string;
@@ -20,6 +21,7 @@ interface CollapsibleContainerProps {
     image: string;
     created_at: string;
     status: string;
+    updateStatus: (feedbackId: string, status: string) => void;
 }
 
 const CollapsibleContainer: React.FC<CollapsibleContainerProps> = ({
@@ -27,7 +29,7 @@ const CollapsibleContainer: React.FC<CollapsibleContainerProps> = ({
     name,
     age,
     gender,
-    phone,
+    race,
     email,
     fcategory,
     experience,
@@ -40,11 +42,30 @@ const CollapsibleContainer: React.FC<CollapsibleContainerProps> = ({
     image,
     created_at,
     status,
+    updateStatus,
 }) => {
     const [isOpen, setIsOpen] = useState<boolean>(false);
+    const useStore = useFeedbackSortFilterStore();
 
-    const toggleOpen = () => {
+    const toggleOpen = async () => {
         setIsOpen(!isOpen);
+        if (!isOpen) {
+            updateStatus(id.toString(), 'viewed'); 
+        }
+
+        for (let i = 0; i < useStore.modifiedData.length; i++) {
+            if (useStore.modifiedData[i].feedback_id === id) {
+                useStore.setModifiedData([
+                    ...useStore.modifiedData.slice(0, i),
+                    {
+                        ...useStore.modifiedData[i],
+                        status: 'viewed',
+                    },
+                    ...useStore.modifiedData.slice(i + 1),
+                ]);
+                break;
+            }
+        }
     };
 
     const closeForm = (e: React.MouseEvent<HTMLDivElement>) => {
@@ -61,7 +82,7 @@ const CollapsibleContainer: React.FC<CollapsibleContainerProps> = ({
         { key: "1", label: "Name", children: name },
         { key: "2", label: "Age", children: String(age) },
         { key: "3", label: "Gender", children: gender },
-        { key: "4", label: "Phone", children: phone },
+        { key: "4", label: "Race", children: race },
         { key: "5", label: "Email", children: email },
     ];
 
@@ -127,7 +148,14 @@ const CollapsibleContainer: React.FC<CollapsibleContainerProps> = ({
                                 {comments.map((comment) => (
                                     <div key={comment.key} className={style.commentsItem}>
                                         <span className={style.commentsLabel}>{comment.label}: </span>
-                                        <span className={style.commentsContent}>{comment.children}</span>
+                                        {comment.label === 'Screenshot' && comment.children.toLowerCase().includes('http') ? (
+                                            <a href={comment.children} target="_blank" rel="noopener noreferrer">
+                                                {/* <img src={comment.children} alt="Screenshot" className={style.screenshotImage} /> */}
+                                                View Screenshot
+                                            </a>
+                                        ) : (
+                                            <span className={style.commentsContent}>{comment.children || '-'}</span>
+                                        )}
                                     </div>
                                 ))}
                             </div>

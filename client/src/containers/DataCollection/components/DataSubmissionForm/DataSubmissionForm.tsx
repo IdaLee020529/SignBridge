@@ -6,14 +6,18 @@ import EmailIcon from "../EmailIcon/EmailIcon";
 import PhoneIcon from "../PhoneIcon/PhoneIcon";
 import InfoIcon from "../InfoIcon/InfoIcon";
 import LocationIcon from "../LocationIcon/LocationIcon";
-import submitForm from "../../../../services/dataset.service";
+import { submitForm } from "../../../../services/dataset.service";
 import "./DataSubmissionForm.css";
+import Cookies from "js-cookie";
+import { useTranslation } from "react-i18next";
 
 interface DataSubmissionFormProps {
   user: string;
 }
 
 const DataSubmissionForm: React.FC<DataSubmissionFormProps> = ({ user }) => {
+  const { t, i18n } = useTranslation();
+
   //Modal Control (Onsubmit popup)
   const [isModalOpen, setIsModalOpen] = useState(false);
   const handleOpenModal = () => {
@@ -23,74 +27,22 @@ const DataSubmissionForm: React.FC<DataSubmissionFormProps> = ({ user }) => {
   const handleCloseModal = () => {
     setIsModalOpen(false);
   };
-
-  //Form Data Control
-  const [formData, setFormData] = useState({
-    name: "",
-    email: "",
-    // phone: "",
-    text: "",
-  });
-
   //Video Control
+  const [videoInfo, setVideoInfo] = useState(null);
   const [resetVideo, setResetVideo] = useState(false);
-
   const handleVideoReset = () => {
-    setResetVideo(false); // Reset resetVideo state
+    setResetVideo(true); // Reset resetVideo state
   };
 
   const handleReset = () => {
-    setFormData({
-      name: "",
-      email: "",
-      // phone: "",
-      text: "",
-    });
+    setName("");
+    setEmail("");
+    setText("");
+    setNameError("");
+    setEmailError("");
+    setTextError("");
     setResetVideo(true); // Set resetVideo to true to trigger video input reset
   };
-
-  //Submit Control
-  const handleSubmit = async (
-    e: React.FormEvent<HTMLFormElement>
-  ): Promise<void> => {
-    e.preventDefault(); // Prevent default form submission behavior
-    if (
-      nameError.length === 0 &&
-      emailError.length === 0 &&
-      textError.length === 0
-    ) {
-      const user_id = 1;
-      const status = "New";
-      const demo_link = "";
-      const avatar_link = "";
-      const data = {
-        user_id,
-        name,
-        email,
-        text_sentence: text,
-        status,
-        demo_link,
-        avatar_link,
-      };
-      try {
-        const submitFormRequest = await submitForm(data);
-      } catch (error: any) {
-        console.error("Error");
-      }
-    }
-    handleReset();
-    await handleOpenModal();
-  };
-
-  // const handleChange = (
-  //   e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
-  // ) => {
-  //   const { name, value } = e.target;
-  //   setFormData((prevFormData) => ({
-  //     ...prevFormData,
-  //     [name]: value,
-  //   }));
-  // };
 
   //Validation Control
   const validateName = (value: string) => {
@@ -111,7 +63,6 @@ const DataSubmissionForm: React.FC<DataSubmissionFormProps> = ({ user }) => {
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     if (!emailRegex.test(value)) {
       setEmailError("Invalid email format");
-      console.log("Testing123");
       return "Invalid email format";
     }
     setEmailError("");
@@ -155,36 +106,67 @@ const DataSubmissionForm: React.FC<DataSubmissionFormProps> = ({ user }) => {
     validateText(e.target.value);
   };
 
+  //Submit Control
+  const handleSubmit = async (
+    e: React.FormEvent<HTMLFormElement>
+  ): Promise<void> => {
+    e.preventDefault(); // Prevent default form submission behavior
+    if (
+      nameError.length === 0 &&
+      emailError.length === 0 &&
+      textError.length === 0 &&
+      videoInfo != null
+    ) {
+      const user_id = Cookies.get("user_id");
+      if (!user_id) {
+        console.log("Please login");
+      } else {
+        const status_SE = "New";
+        const status_Admin = "-";
+        const formData = new FormData();
+        formData.append("user_id", user_id);
+        formData.append("name", name);
+        formData.append("email", email);
+        formData.append("text_sentence", text);
+        formData.append("status_SE", status_SE);
+        formData.append("status_Admin", status_Admin);
+        if (videoInfo) {
+          formData.append("video", videoInfo);
+          try {
+            await submitForm(formData);
+          } catch (error: any) {
+            console.error("Error");
+          }
+          handleReset();
+          await handleOpenModal();
+        }
+      }
+    }
+  };
+
   return (
     <div className="dataForm">
       <div className="dataForm-header-container">
         <div className="dataForm-header">
-          <h1>Dataset Collection Form</h1>
+          <h1>{t("dataset_collection_form")}</h1>
         </div>
       </div>
       <div className="dataForm-cover">
         <div className={`dataForm-card ${user}`}>
-          <h1>Lets Get in Touch</h1>
-          <h3>We're open for more suggestions</h3>
+          <h1>{t("in_touch")}</h1>
+          <h3>{t("more_suggestions")}</h3>
           <div className={"dataForm-card-content"}>
             <div className="dataForm-card-info">
               <LocationIcon />
-              <p>
-                {" "}
-                Address: AI Lab @ The Orchard, NEUON AI Sdn Bhd (1308301-T,
-                Kuching - Samarahan Expressway, 94300 Kota Samarahan, Sarawak
-              </p>
+              <p> {t("neoun_address")}</p>
             </div>
             <div className="dataForm-card-info2">
-              {/* <img src={phoneIcon} alt="location" className="phone-icon" /> */}
               <PhoneIcon />
-              {/* <p>Phone: [Phone Number]</p> */}
-              <p>Phone: 082-368 302</p>
+              <p>{t("neoun_phone")}</p>
             </div>
             <div className="dataForm-card-info2">
-              {/* <img src={emailIcon} alt="location" className="email-icon" /> */}
               <EmailIcon />
-              <p>Email: info@neuon.ai</p>
+              <p>{t("neoun_email")}</p>
             </div>
             <div className="dataForm-card-info"></div>
           </div>
@@ -197,14 +179,14 @@ const DataSubmissionForm: React.FC<DataSubmissionFormProps> = ({ user }) => {
             <div className="col-md-8">
               <form onSubmit={handleSubmit} noValidate>
                 <InputField
-                  label="Name"
+                  label={t("name_input")}
                   name="name"
                   value={name}
                   onChange={handleNameChange}
                   error={nameError}
                 />
                 <InputField
-                  label="Email"
+                  label={t("email_input")}
                   name="email"
                   type="email"
                   value={email}
@@ -212,7 +194,7 @@ const DataSubmissionForm: React.FC<DataSubmissionFormProps> = ({ user }) => {
                   error={emailError}
                 />
                 <InputField
-                  label="Text/ Sentence"
+                  label={t("text_sentence_input")}
                   name="text"
                   value={text}
                   onChange={handleTextChange}
@@ -220,7 +202,11 @@ const DataSubmissionForm: React.FC<DataSubmissionFormProps> = ({ user }) => {
                   error={textError}
                 />
                 <div className="video-container">
-                  <VideoInput reset={resetVideo} onReset={handleVideoReset} />
+                  <VideoInput
+                    reset={resetVideo}
+                    onReset={handleVideoReset}
+                    setVideoInfo={setVideoInfo}
+                  />
                 </div>
                 <div className="button-container">
                   <Button
@@ -229,14 +215,14 @@ const DataSubmissionForm: React.FC<DataSubmissionFormProps> = ({ user }) => {
                     buttonStyle="btn--reset"
                     buttonSize="btn--large"
                   >
-                    Reset
+                    {t("reset_btn")}
                   </Button>
                   <Button
                     type="submit"
                     buttonStyle="btn--submit"
                     buttonSize="btn--large"
                   >
-                    Submit
+                    {t("submit_btn")}
                   </Button>
                 </div>
               </form>

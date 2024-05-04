@@ -165,16 +165,6 @@ export default function FaqAdmin() {
         }
     }
 
-    async function deleteFaq(faq_id: number) {
-        try {
-            await DeleteFaq(faq_id);
-            toast.success("FAQ deleted successfully");
-            await getFaqs();
-        } catch (error) {
-            toast.error("Error deleting FAQ");
-        }
-    }
-
     const confirmDeleteFaq = async () => {
         if (faqToDelete === null) return;
         try {

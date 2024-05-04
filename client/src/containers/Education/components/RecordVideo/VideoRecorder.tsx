@@ -1,6 +1,7 @@
 import { useState, useRef } from "react";
 import "./VideoRecorder.css";
 import buttonClickedSound from "/music/btnClicked.wav";
+import { useTranslation } from "react-i18next";
 
 const mimeType = 'video/webm; codecs="opus,vp8"';
 
@@ -17,6 +18,7 @@ const VideoRecorder = ({
   onStartRecording: () => void;
   onStopRecording: () => void;
 }) => {
+  const { t, i18n } = useTranslation();
   const [permission, setPermission] = useState(false);
   const mediaRecorder = useRef<MediaRecorder | null>(null);
   const liveVideoFeed = useRef<HTMLVideoElement>(null);

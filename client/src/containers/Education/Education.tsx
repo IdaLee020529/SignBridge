@@ -4,9 +4,11 @@ import SettingPopup from "./components/SettingPopup/SettingPopup";
 import "./Education.css";
 import backgroundMusic from "/music/gameMusic.mp3";
 import buttonClickedSound from "/music/btnClicked.wav";
+import { useTranslation } from "react-i18next";
 
 export default function Education() {
 	const navigate = useNavigate();
+	const { t, i18n } = useTranslation();
 	const [isSettingPopupOpen, setIsSettingPopupOpen] = useState(false);
 	const audioRef = useRef<HTMLAudioElement>(null);
 
@@ -37,7 +39,7 @@ export default function Education() {
 		<div className="education-layout">
 			<div className="education-container">
 				<div className="education-game-mode">
-					<h1>Game Mode</h1>
+					<h1>{t('game_mode')}</h1>
 					<button
 						className="game-btn setting-btn"
 						type="button"
@@ -54,7 +56,7 @@ export default function Education() {
 							navigate("/guess-the-word");
 							playButtonClickedSound();
 						}}>
-						Guess The Word
+						{t('guess_the_word')}
 					</button>
 					<button
 						className="game-btn do-the-sign-btn"
@@ -63,14 +65,14 @@ export default function Education() {
 							navigate("/do-the-sign");
 							playButtonClickedSound();
 						}}>
-						Do The Sign
+						{t('do_the_sign')}
 					</button>
 				</div>
 			</div>
 			{/* Add audio player for background music */}
 			<audio ref={audioRef} autoPlay loop>
 				<source src={backgroundMusic} type="audio/mpeg" />
-				Your browser does not support the audio element.
+				{t('not_support_music')}
 			</audio>
 			{/* Render SettingPopup if isSettingPopupOpen is true */}
 			{isSettingPopupOpen && <SettingPopup onClose={() => setIsSettingPopupOpen(false)} onVolumeChange={updateBackgroundMusicVolume} />}
