@@ -1,20 +1,22 @@
 import style from "./Feedback.module.css";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import toast from "react-hot-toast";
 import RatingEmoji from "../../components/RatingEmoji/RatingEmoji";
 import ImageInput from "../../components/ImageInput/ImageInput";
 import { useNavigate } from "react-router-dom";
-
 import { CreateFeedback } from "../../services/feedback.service";
+import { useTranslation } from "react-i18next";
 
 const Feedback = () => {
+  const { t, i18n } = useTranslation();
   const navigate = useNavigate();
+  
   const [formData, setFormData] = useState({
     firstName: "",
     lastName: "",
     age: null,
     gender: "male",
-    phoneNo: "",
+    race: "",
     email: "",
     fcategory: "Whole Website",
     experience: 5,
@@ -24,38 +26,58 @@ const Feedback = () => {
     question1: "",
     question2: "",
     question3: "",
-    screenshot: "",
+    screenshot: null,
   });
 
   const [formErrors, setFormErrors] = useState({
     firstName: "",
     lastName: "",
     age: "",
-    phoneNo: "",
+    race: "",
     email: "",
     fcategory: "",
   });
 
   const questionMapping = {
     "Whole Website": {
-      question1: "Which feature of the website do you prefer the most?",
-      question2: "What should we change to improve the overall experience?",
-      question3: "Any other feedback or suggestions?",
+      question1: t('website_question1'),
+      question2: t('website_question2'),
+      question3: t('website_question3'),
     },
     "Game 1": {
-      question1: "What do you like most about Game 1?",
-      question2: "What improvements would you suggest for Game 1?",
-      question3: "Any other comments or suggestions for Game 1?",
+      question1: t('game1_question1'),
+      question2: t('game1_question2'),
+      question3: t('game1_question3'),
     },
     "Game 2": {
-      question1: "What features of Game 2 do you find most appealing?",
-      question2: "How can we enhance your experience with Game 2?",
-      question3: "Any other feedback or ideas for Game 2?",
+      question1: t('game2_question1'),
+      question2: t('game2_question2'),
+      question3: t('game2_question3'),
     },
   };
 
+  // ---------- Dropdown Control ----------
   const [isOpenDropdown, setIsOpenDropdown] = useState<boolean>(false);
+  
+  const handleDropdownClick = () => {
+    setIsOpenDropdown(!isOpenDropdown);
+  };
+
+  // ---------- Image Control ----------
+  const [imageInfo, setImageInfo] = useState(null);
   const [resetImage, setResetImage] = useState(false);
+
+  const setImage = (image: any) => {
+    setFormData({ ...formData, screenshot: image });
+  }
+
+  useEffect(() => {
+    console.log(imageInfo);
+  }, [imageInfo]);
+
+  const handleImageReset = () => {
+    setResetImage(false); 
+  };
 
   const handleFormChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement >) => {
     const { name, value, type } = e.target;
@@ -82,8 +104,8 @@ const Feedback = () => {
       case 'age':
         isValid = validateAge(value ? +value : 0);
         break;
-      case 'phoneNo':
-        isValid = validatePhoneNo(value);
+      case 'race':
+        isValid = validateRace(value);
         break;
       case 'email':
         isValid = validateEmail(value);
@@ -98,17 +120,13 @@ const Feedback = () => {
     setFormData({ ...formData, fcategory: selectedCategory });
   };
 
-  const handleDropdownClick = () => {
-    setIsOpenDropdown(!isOpenDropdown);
-  };
-
   // ---------- Validations ----------
   const validateFirstName = (value: string) => {
     if (!value.trim()) {
-      setFormErrors((prev) => ({ ...prev, firstName: "First name is required" }));
+      setFormErrors((prev) => ({ ...prev, firstName: t('firstname_required') }));
       return false;
     } else if (value.length < 3) {
-      setFormErrors((prev) => ({ ...prev, firstName: "First name must be at least 3 characters long" }));
+      setFormErrors((prev) => ({ ...prev, firstName: t('firstname_length') }));
       return false;
     }
     setFormErrors((prev) => ({ ...prev, firstName: "" }));
@@ -117,10 +135,10 @@ const Feedback = () => {
   
   const validateLastName = (value: string) => {
     if (!value.trim()) {
-      setFormErrors((prev) => ({ ...prev, lastName: "Last name is required" }));
+      setFormErrors((prev) => ({ ...prev, lastName: t('lastname_required') }));
       return false;
     } else if (value.length < 3) {
-      setFormErrors((prev) => ({ ...prev, lastName: "Last name must be at least 3 characters long" }));
+      setFormErrors((prev) => ({ ...prev, lastName: t('lastname_length') }));
       return false;
     }
     setFormErrors((prev) => ({ ...prev, lastName: "" }));
@@ -129,36 +147,41 @@ const Feedback = () => {
   
   const validateAge = (value: number) => {
     if (!value) {
-      setFormErrors((prev) => ({ ...prev, age: "Age is required" }));
+      setFormErrors((prev) => ({ ...prev, age: t('age_required') }));
       return false;
     } else if (+value < 2 || +value > 150 || isNaN(+value)) {
-      setFormErrors((prev) => ({ ...prev, age: "Age must be between 2 and 150" }));
+      setFormErrors((prev) => ({ ...prev, age: t('age_length') }));
       return false;
     }
     setFormErrors((prev) => ({ ...prev, age: "" }));
     return true;
   };
   
-  const validatePhoneNo = (value: string) => {
-    const phoneNoRegex = /^\d{3}-\d{3}-\d{4}$|^\d{3}-\d{4}-\d{4}$/;
+  const validateRace = (value: string) => {
+    const lettersRegex = /^[a-zA-Z]+$/;
+  
     if (!value.trim()) {
-      setFormErrors((prev) => ({ ...prev, phoneNo: "Phone number is required" }));
+      setFormErrors((prev) => ({ ...prev, race: t('race_required') }));
       return false;
-    } else if (!phoneNoRegex.test(value)) {
-      setFormErrors((prev) => ({ ...prev, phoneNo: "Invalid phone number format" }));
+    } else if (!lettersRegex.test(value)) {
+      setFormErrors((prev) => ({ ...prev, race: t('race_letter') }));
       return false;
+    } else if (value.length < 3) {
+      setFormErrors((prev) => ({ ...prev, race: t('race_length') }));
+      return false;
+    } else {
+      setFormErrors((prev) => ({ ...prev, race: "" }));
+      return true;
     }
-    setFormErrors((prev) => ({ ...prev, phoneNo: "" }));
-    return true;
   };
   
   const validateEmail = (value: string) => {
     const emailRegex = /\S+@\S+\.\S+/;
     if (!value.trim()) {
-      setFormErrors((prev) => ({ ...prev, email: "Email is required" }));
+      setFormErrors((prev) => ({ ...prev, email: t('email_required') }));
       return false;
     } else if (!emailRegex.test(value)) {
-      setFormErrors((prev) => ({ ...prev, email: "Invalid email format" }));
+      setFormErrors((prev) => ({ ...prev, email: t('email_invalid') }));
       return false;
     }
     setFormErrors((prev) => ({ ...prev, email: "" }));
@@ -166,23 +189,43 @@ const Feedback = () => {
   };
 
   // ---------- Handle form submission ----------
-  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>): Promise<void> => {
     e.preventDefault();
     const isFirstNameValid = validateFirstName(formData.firstName);
     const isLastNameValid = validateLastName(formData.lastName);
     const isAgeValid = validateAge(formData.age || 0);
-    const isPhoneNoValid = validatePhoneNo(formData.phoneNo);
+    const isRaceValid = validateRace(formData.race);
     const isEmailValid = validateEmail(formData.email);
 
-    if (isFirstNameValid && isLastNameValid && isAgeValid && isEmailValid && isPhoneNoValid ) {
-      await CreateFeedback(formData);
+    if (isFirstNameValid && isLastNameValid && isAgeValid && isEmailValid && isRaceValid ) {
+      const data = new FormData();
+      data.append("firstName", formData.firstName);
+      data.append("lastName", formData.lastName);
+      data.append("age", formData.age!);
+      data.append("gender", formData.gender);
+      data.append("race", formData.race);
+      data.append("email", formData.email);
+      data.append("fcategories", formData.fcategory);
+      data.append("experience", formData.experience.toString());
+      data.append("friendliness", formData.friendliness.toString());
+      data.append("quality", formData.quality.toString());
+      data.append("recommended", formData.recommended.toString());
+      data.append("question1", formData.question1);
+      data.append("question2", formData.question2);
+      data.append("question3", formData.question3);
+      if (formData.screenshot) {
+        data.append("image", formData.screenshot);
+      } else {
+        data.append("imageURL", "");
+      }
+
+      await CreateFeedback(data);
       handleFormReset();
       navigate("/feedback-success");
       
-
-      toast.success("Feedback submitted successfully!");
+      toast.success(t('feedback_toast_success'));
     } else {
-      toast.error("Please fill in the form correctly!");
+      toast.error(t('feedback_toast_error'));
     }
   };
 
@@ -193,7 +236,7 @@ const Feedback = () => {
       lastName: "",
       age: null,
       gender: "male",
-      phoneNo: "",
+      race: "",
       email: "",
       fcategory: "Whole Website",
       experience: 5,
@@ -203,7 +246,7 @@ const Feedback = () => {
       question1: "",
       question2: "",
       question3: "",
-      screenshot: "",
+      screenshot: null,
     });
     
     setResetImage(true);
@@ -212,37 +255,33 @@ const Feedback = () => {
       firstName: "",
       lastName: "",
       age: "",
-      phoneNo: "",
+      race: "",
       email: "",
       fcategory: "",
     });
   };
 
-  const handleImageReset = () => {
-    setResetImage(false); 
-  };
-
   return (
     <>
       <div className={style.feedback_header_container}>
-        <h1 className={style.feedback_heading}>Feedback Us</h1>
-        <p className={style.feedback_subheading}>We would love to hear your thoughts, concerns or problems with anything so we can improve! Thank you!</p>
+        <h1 className={style.feedback_heading}>{t('feedback_us')}</h1>
+        <p className={style.feedback_subheading}>{t('feedback_subheading')}</p>
       </div>
       <div className={style.feedback_container}>
         {/* Feedback Form */}
         <div className={style.feedback_box}>
           <form id="feedbackForm" onSubmit={handleSubmit}>
-            <legend className={style.feedback_legend}>Personal Details</legend>
+            <legend className={style.feedback_legend}>{t('personal_details')}</legend>
             <fieldset className={style.feedback_fieldset}>
               <div className={style.feedback_row}>
                 <div className={style.feedback_input}>
-                  <label htmlFor="firstName">First Name</label>
+                  <label htmlFor="firstName">{t('first_name')}</label>
                   <input type="text" id="firstName" name="firstName" maxLength={25} value={formData.firstName} onChange={handleFormChange} />
                   {formErrors.firstName.length > 0 && <div className={style.feedback_error}>{formErrors.firstName}</div>}
                 </div>
 
                 <div className={style.feedback_input}>
-                  <label htmlFor="lastName">Last Name</label>
+                  <label htmlFor="lastName">{t('last_name')}</label>
                   <input type="text" id="lastName" name="lastName" maxLength={25} value={formData.lastName} onChange={handleFormChange} />
                   {formErrors.lastName && <div className={style.feedback_error}>{formErrors.lastName}</div>}
                 </div>
@@ -250,46 +289,46 @@ const Feedback = () => {
 
               <div className={style.feedback_row}>
                 <div className={style.feedback_input}>
-                  <label>Age</label>
+                  <label>{t('age')}</label>
                   <input type="text" id="age" name="age" max={150} min={2} value={formData.age || ""} onChange={handleFormChange} />
                   {formErrors.age && <div className={style.feedback_error}>{formErrors.age}</div>}
                 </div>
 
                 <div className={style.feedback_input}>
-                  <label>Gender</label>
+                  <label>{t('gender')}</label>
                   <div className={style.gender}>
-                    <input type="radio" name="gender" id="male" value="male" onChange={handleFormChange} checked={formData.gender === "male"} /><label htmlFor="male"> Male</label>
-                    <input type="radio" name="gender" id="female" value="female" className="female" onChange={handleFormChange} /><label htmlFor="female"> Female</label>
+                    <input type="radio" name="gender" id="male" value="male" onChange={handleFormChange} checked={formData.gender === "male"} /><label htmlFor="male"> {t('male')}</label>
+                    <input type="radio" name="gender" id="female" value="female" className="female" onChange={handleFormChange} /><label htmlFor="female"> {t('female')}</label>
                   </div>
                 </div>
               </div>
 
               <div className={style.feedback_row}>
                 <div className={style.feedback_input}>
-                  <label>Email Address</label>
+                  <label>{t('email_address')}</label>
                   <input type="text" name="email" id="email" value={formData.email} onChange={handleFormChange} />
                   {formErrors.email && <div className={style.feedback_error}>{formErrors.email}</div>}
                 </div>
 
                 <div className={style.feedback_input}>
-                  <label>Phone Number</label>
-                  <input type="text" id="phoneNo" name="phoneNo" maxLength={15} value={formData.phoneNo} onChange={handleFormChange} />
-                  {formErrors.phoneNo && <div className={style.feedback_error}>{formErrors.phoneNo}</div>}
+                  <label>{t('race')}</label>
+                  <input type="text" id="race" name="race" maxLength={15} value={formData.race} onChange={handleFormChange} />
+                  {formErrors.race && <div className={style.feedback_error}>{formErrors.race}</div>}
                 </div>
               </div>
             </fieldset>
 
-            <legend className={style.feedback_legend}>Rating</legend>
+            <legend className={style.feedback_legend}>{t('rating')}</legend>
             <fieldset className={style.feedback_fieldset}>
               <div className={style.feedback_row}>
                 <div className={`${style.feedback_input} ${isOpenDropdown ? `${style.open}` : ""}`}>
-                  <label>Feedback Category</label>
+                  <label>{t('feedback_category')}</label>
                   <div className={style.select_wrapper}>
                     <select id="fcategory" className={style.fcategory} onChange={handleSelectChange} onClick={handleDropdownClick} value={formData.fcategory}>
                       {/* dropdown */}
-                      <option value="Whole Website">Whole Website</option>
-                      <option value="Game 1">Game 1 - Guess The Word</option>
-                      <option value="Game 2">Game 2 - Do The Sign</option>
+                      <option value="Whole Website">{t('whole_website')}</option>
+                      <option value="Game 1">{t('game1_guess_the_word')}</option>
+                      <option value="Game 2">{t('game2_do_the_sign')}</option>
                     </select>
                     <div className={style.arrow_down}></div>
                   </div>
@@ -301,7 +340,7 @@ const Feedback = () => {
             <fieldset className={style.feedback_fieldset}>
               <div className={style.feedback_row}>
                 <div className={style.feedback_input2}>
-                  <label>Experience</label>
+                  <label>{t('experience')}</label>
                   <div className={style.rating_emojis}>
                     <RatingEmoji type="radio" name="experience" className="super_happy" id="super-happy" value={5} onChange={handleFormChange} checked={formData.experience === 5} />
                     <RatingEmoji type="radio" name="experience" className="happy" id="happy" value={4} onChange={handleFormChange} />
@@ -314,7 +353,7 @@ const Feedback = () => {
 
               <div className={style.feedback_row}>
                 <div className={style.feedback_input2}>
-                  <label>Friendliness</label>
+                  <label>{t('friendliness')}</label>
                   <div className={style.rating_emojis}>
                     <RatingEmoji type="radio" name="friendliness" className="super_happy" id="super-happy1" value={5} onChange={handleFormChange} checked={formData.friendliness === 5} />
                     <RatingEmoji type="radio" name="friendliness" className="happy" id="happy1" value={4} onChange={handleFormChange} />
@@ -327,7 +366,7 @@ const Feedback = () => {
 
               <div className={style.feedback_row}>
                 <div className={style.feedback_input2}>
-                  <label>Quality</label>
+                  <label>{t('quality')}</label>
                   <div className={style.rating_emojis}>
                     <RatingEmoji type="radio" name="quality" className="super_happy" id="super-happy2" value={5} onChange={handleFormChange} checked={formData.quality === 5} />
                     <RatingEmoji type="radio" name="quality" className="happy" id="happy2" value={4} onChange={handleFormChange} />
@@ -340,7 +379,7 @@ const Feedback = () => {
 
               <div className={style.feedback_row}>
                 <div className={style.feedback_input2}>
-                  <label>Recommended</label>
+                  <label>{t('recommended')}</label>
                   <div className={style.rating_emojis}>
                     <RatingEmoji type="radio" name="recommended" className="super_happy" id="super-happy3" value={5} onChange={handleFormChange} checked={formData.recommended === 5} />
                     <RatingEmoji type="radio" name="recommended" className="happy" id="happy3" value={4} onChange={handleFormChange} />
@@ -352,7 +391,7 @@ const Feedback = () => {
               </div>
             </fieldset>
 
-            <legend className={style.feedback_legend}>Comments</legend>
+            <legend className={style.feedback_legend}>{t('comments')}</legend>
             <fieldset className={style.feedback_fieldset}>
               <div className={style.feedback_row}>
                 <div className={style.feedback_input}>
@@ -377,16 +416,16 @@ const Feedback = () => {
 
               <div className={style.feedback_row}>
                 <div className={style.feedback_input}>
-                  <label>Issues Faced Screenshot</label>
-                  <ImageInput reset={resetImage} onReset={handleImageReset} />
+                  <label>{t('issues_screenshot')}</label>
+                  <ImageInput reset={resetImage} onReset={handleImageReset} setImageInfo={setImage} />
                 </div>
               </div>
             </fieldset>
 
             {/* Submit and Reset */}
             <div className={style.wrap}>
-              <button type="reset" id="reset_button" className={style.cancel} onClick={handleFormReset}>Reset</button>
-              <br /><button type="submit" id="submit_button" className={style.submit} name="submit_button">Submit</button>
+              <button type="reset" id="reset_button" className={style.cancel} onClick={handleFormReset}>{t('reset_btn')}</button>
+              <br /><button type="submit" id="submit_button" className={style.submit} name="submit_button">{t('submit_btn')}</button>
             </div>
           </form>
         </div>

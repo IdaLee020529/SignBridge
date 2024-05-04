@@ -1,10 +1,6 @@
-.fa-video, .fa-play, .fa-stop {
+.fa-video, .fa-play, .fa-stop, .fa-upload{
     font-size: 30px;
     padding: 13px 0;
-}
-
-.fa-upload{ 
-    padding: 18px 0;
 }
 
 .open-cam-btn-pushable {

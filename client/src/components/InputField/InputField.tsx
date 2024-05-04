@@ -34,7 +34,6 @@ const InputField: React.FC<InputFieldProps> = ({
   //   setError(validationError);
   //   onChange(e);
   // };
-
   const inputElement = multipleLines ? (
     <textarea
       className={`form-control ${error ? "is-invalid" : ""} multipleLines`}
@@ -43,6 +42,7 @@ const InputField: React.FC<InputFieldProps> = ({
       value={value}
       id={id}
       onChange={onChange}
+      data-testid={name}
     />
   ) : (
     <input
@@ -53,6 +53,7 @@ const InputField: React.FC<InputFieldProps> = ({
       value={value}
       id={id}
       onChange={onChange}
+      data-testid={name}
     />
   );
 

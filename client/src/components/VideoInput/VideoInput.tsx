@@ -3,13 +3,20 @@ import React, { useState, useEffect } from "react";
 import { Upload, Button, message, Space } from "antd";
 import { UploadOutlined, CloseOutlined } from "@ant-design/icons";
 import "./VideoInput.css";
+import { useTranslation } from "react-i18next";
 
 interface VideoInputProps {
   reset: boolean;
   onReset: () => void;
+  setVideoInfo: any;
 }
 
-const VideoInput: React.FC<VideoInputProps> = ({ reset, onReset }) => {
+const VideoInput: React.FC<VideoInputProps> = ({
+  reset,
+  onReset,
+  setVideoInfo,
+}) => {
+  const { t, i18n } = useTranslation();
   const [uploadedVideo, setUploadedVideo] = useState<string | null>(null);
   const [uploading, setUploading] = useState<boolean>(false);
 
@@ -22,11 +29,11 @@ const VideoInput: React.FC<VideoInputProps> = ({ reset, onReset }) => {
 
   const handleChange = (info: any) => {
     if (info.file.status !== "uploading") {
-      console.log(info.file, info.fileList);
     }
     if (info.file.status === "done") {
       message.success(`${info.file.name} file uploaded successfully`);
       setUploadedVideo(info.file.name); // Set the uploaded video name
+      setVideoInfo(info.file.originFileObj); // Set video info when upload is successful
     } else if (info.file.status === "error") {
       message.error(`${info.file.name} file upload failed.`);
       setUploadedVideo(null); // Reset uploaded video name on error
@@ -35,6 +42,7 @@ const VideoInput: React.FC<VideoInputProps> = ({ reset, onReset }) => {
 
   const handleRemove = () => {
     setUploadedVideo(null);
+    setVideoInfo(null);
   };
 
   return (
@@ -58,7 +66,7 @@ const VideoInput: React.FC<VideoInputProps> = ({ reset, onReset }) => {
         }}
       >
         <Button icon={<UploadOutlined />} size="large" loading={uploading}>
-          {uploading ? "Uploading" : "Choose a Video"}
+          {uploading ? t("uploading") : t("choose_a_video")}
         </Button>
       </Upload>
       {uploadedVideo && (

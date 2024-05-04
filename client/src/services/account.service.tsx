@@ -14,10 +14,22 @@ export const SignUpUser = async (data: any) => {
   }
 };
 
-export const SignUpLoginUserGoogle = async (data: any) => {
+export const SignUpUserGoogle = async (data: any) => {
   try {
     const loginUser = await axios.post(
       "http://localhost:3000/users/google/signup",
+      data
+    );
+    return loginUser;
+  } catch (err) {
+    throw err;
+  }
+};
+
+export const LoginUserGoogle = async (data: any) => {
+  try {
+    const loginUser = await axios.post(
+      "http://localhost:3000/users/google/login",
       data
     );
     return loginUser;

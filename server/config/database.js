@@ -6,9 +6,15 @@ const PORT = process.env.PORT
 
 const DATABASE_COLLECTIONS = {
   USERS: "users",
+  USERS_COUNTER: "users_counter",
   AVATAR: "avatar",
   FEEDBACKS: "feedbacks",
-  FAQS: "faqs"
+  FEEDBACKS_COUNTER: "feedbacks_counter",
+  FAQS: "faqs",
+  NOTIFICATIONS: "notifications",
+  NOTIFICATIONS_COUNTER: "notifications_counter",
+  DATASET_COLLECTION: "dataset_collection",
+  DATASET_COUNTER: "dataset_counter"
 }
 
 async function connectDB() {
@@ -20,7 +26,7 @@ async function connectDB() {
       //   useUnifiedTopology: true
       // }
     );
-    console.log(`MongoDB Connected: ${client.db().databaseName}`);
+    // console.log(`MongoDB Connected: ${client.db().databaseName}`);
     const database = client.db(DATABASE_NAME);
     return { client, database }
     // return client;
