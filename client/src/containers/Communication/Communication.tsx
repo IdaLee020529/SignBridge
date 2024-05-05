@@ -14,7 +14,10 @@ import Experience from "../../components/SLP/Experience";
 import Man from "../../components/AvatarModels/Man";
 import handImage from "../../../public/images/hand.png";
 import handColoredImage from "../../../public/images/handcolored.png";
+import BrowseLocalVideo from "../../components/SLR/BrowseLocalVideo/BrowseLocalVideo";
+import OpenCameraRecord from "../../components/SLR/OpenCameraRecord/OpenCameraRecord";
 function Communication() {
+  const [activeButton, setActiveButton] = useState("SLP");
   const [inputText, setInputText] = useState("");
   const [speed, setSpeed] = useState(1);
   const [handFocus, setHandFocus] = useState(false);
@@ -23,12 +26,29 @@ function Communication() {
   const [isPaused, setPaused] = useState(false);
   const [leftHandedMode, setLeftHandedMode] = useState(false);
   const [fps, setFps] = useState(60); // State to hold FPS value
+  const [videoInfo, setVideoInfo] = useState(null);
+  const [resetVideo, setResetVideo] = useState(false);
+
+  const handleVideoReset = () => {
+    setResetVideo(true); // Reset resetVideo state
+  };
+
+  // @ts-ignore
+  const handleButtonValue = (event) => {
+    const { value } = event.target;
+    setActiveButton(event.target.value);
+  };
+
+  // @ts-ignore
+  const isButtonActive = (buttonValue) => {
+    return activeButton === buttonValue;
+  };
 
   // @ts-ignore
   const updateFPS = (newFPS) => {
     setFps(newFPS); // Update FPS state
   };
-  
+
   // @ts-ignore
   const updateCurrentAnimationName = (animationName) => {
     setCurrentAnimationName(animationName);
@@ -109,101 +129,123 @@ function Communication() {
     <div className={`communication-body ${leftHandedMode ? "left-handed" : ""}`}>
       <div className="container-wrapper">
         <div className="communication-menu">
-          <Link to="/communication">
-            <a href="#">Sign Language Production (SLP)</a>
-          </Link>
-          <Link to="/education">
-            <a href="#">Sign Language Recognition (SLR)</a>
-          </Link>
-          <div className="animation start-home"></div>
-        </div>
-        <nav className="sidebar-navigation">
-          <ul>
-            <li onClick={handleHandFocus} className={handFocus ? "active" : ""}>
-              <img src={handFocus ? handColoredImage : handImage} alt="hand" className="sidebar-btn" />
-              <span className="tooltip">Hand focus mode</span>
-            </li>
-            <li onClick={handleViewReset}>
-              <img src="./images/resetview.png" className="sidebar-btn" />
-              <span className="tooltip">Reset zoom</span>
-            </li>
-            <li>
-              <span className="tooltip">None</span>
-            </li>
-          </ul>
-        </nav>
-        <div className="canvas-wrapper">
-          <Canvas camera={{ position: [0, 0, 225], fov: 55 }}>
-            <directionalLight intensity={1} color="white" position={[10, 10, 10]} />
-            <CharacterAnimationsProvider>
-              <Experience />
-              <Man
-                animationKeyword={inputText}
-                speed={speed}
-                showSkeleton={showSkeleton}
-                repeat={"Yes"}
-                isPaused={isPaused}
-                updateCurrentAnimationName={updateCurrentAnimationName}
-              />
-            </CharacterAnimationsProvider>
-            <FPSCounter onUpdateFPS={updateFPS} />
-            {/*// @ts-ignore*/}
-            <OrbitControls ref={controls} />
-            {handFocus && <HandFocusMode />}
-          </Canvas>
-        </div>
-        {isLoggedIn ? (
-          <button className="communicationlog-btn">
-            <img src="./images/history.png" className="communicationlog-img" />
+          <button
+            value="SLP"
+            onClick={handleButtonValue}
+            className={isButtonActive("SLP") ? "active" : ""}
+          >
+            Sign Language Production (SLP)
           </button>
-        ) : (
-          <a></a>
-        )}
-        <div className="content-wrapper">
-          <h1 className="communication-h1">Avatar Control</h1>
-          <div className="communication-toprow">
-            <button onClick={toggleLeftHandedMode} className="avatarcontrol-btn">
-              Left-Hand Mode
-              <img src="./images/lefthandmode.png" className="avatarcontrol-img" />
-            </button>
-            <button className="avatarcontrol-btn" onClick={() => setShowSkeleton((prevState) => !prevState)}>
-              {showSkeleton ? "Hide Skeleton" : "Show Skeleton"}
-              <img src="./images/skeleton.png" className="avatarcontrol-img" />
-            </button>
-            <button className="avatarcontrol-btn">Ambient</button>
-          </div>
-          <div className="speed-control">
-            <span className="speed-span">Speed : </span>
-            <input type="range" className="speed-slider" min="0.2" max="2" step="0.2" value={speed} onChange={handleSpeedChange} />
-            <input type="text" className="speed-textbox" value={speed} readOnly />
-          </div>
-          <div className="communication-middlerow">
-            <form onSubmit={handleSubmit}>
-              <textarea className="avatar-textbox" id="sigmlUrl" name="sigmlUrl" placeholder="Enter text here" spellCheck="true" />
-              <button className="avatarplay-btn" type="submit">
-                Play
-              </button>
-              <button className="avatarpause-btn" onClick={togglePause} type="button">
-                {isPaused ? "Unpause" : "Pause"}
-              </button>
-            </form>
-          </div>
-          <hr />
-          <h1 className="communication-h1">Stats</h1>
-          <div className="communication-bottomrow">
-            <span>FPS : </span>
-            <input className="fps-box" type="text" value={fps} readOnly />
-            <span>Sign / Frame : </span>
-            <input className="frame-box" type="text" placeholder="0 / 15" />
-            <span>Gloss : </span>
-            <input className="gloss-box" type="text" placeholder="None" value={currentAnimationName} readOnly />
-          </div>
-          <div className="status-row">
-            <span>Status : </span>
-            <input className="status-box" type="text" placeholder="Playing Sign" />
-          </div>
-
+          <button
+            value="SLR"
+            onClick={handleButtonValue}
+            className={isButtonActive("SLR") ? "active" : ""}
+          >
+            Sign Language Recognition (SLR)
+          </button>
+          <div className={`animation ${isButtonActive("SLR") ? "start-about" : "start-home"}`}></div>
         </div>
+        {activeButton === "SLP" && (
+          <>
+            <nav className="sidebar-navigation">
+              <ul>
+                <li onClick={handleHandFocus} className={handFocus ? "active" : ""}>
+                  <img src={handFocus ? handColoredImage : handImage} alt="hand" className="sidebar-btn" />
+                  <span className="tooltip">Hand focus mode</span>
+                </li>
+                <li onClick={handleViewReset}>
+                  <img src="./images/resetview.png" className="sidebar-btn" />
+                  <span className="tooltip">Reset zoom</span>
+                </li>
+                <li>
+                  <span className="tooltip">None</span>
+                </li>
+              </ul>
+            </nav>
+            <div className="canvas-wrapper">
+              <Canvas camera={{ position: [0, 0, 225], fov: 55 }}>
+                <directionalLight intensity={1} color="white" position={[10, 10, 10]} />
+                <CharacterAnimationsProvider>
+                  <Experience />
+                  <Man
+                    animationKeyword={inputText}
+                    speed={speed}
+                    showSkeleton={showSkeleton}
+                    repeat={"Yes"}
+                    isPaused={isPaused}
+                    updateCurrentAnimationName={updateCurrentAnimationName}
+                  />
+                </CharacterAnimationsProvider>
+                <FPSCounter onUpdateFPS={updateFPS} />
+                {/*// @ts-ignore*/}
+                <OrbitControls ref={controls} />
+                {handFocus && <HandFocusMode />}
+              </Canvas>
+            </div>
+            {isLoggedIn ? (
+              <button className="communicationlog-btn">
+                <img src="./images/history.png" className="communicationlog-img" />
+              </button>
+            ) : (
+              <a></a>
+            )}
+            <div className="content-wrapper">
+              <h1 className="communication-h1">Avatar Control</h1>
+              <div className="communication-toprow">
+                <button onClick={toggleLeftHandedMode} className="avatarcontrol-btn">
+                  Left-Hand Mode
+                  <img src="./images/lefthandmode.png" className="avatarcontrol-img" />
+                </button>
+                <button className="avatarcontrol-btn" onClick={() => setShowSkeleton((prevState) => !prevState)}>
+                  {showSkeleton ? "Hide Skeleton" : "Show Skeleton"}
+                  <img src="./images/skeleton.png" className="avatarcontrol-img" />
+                </button>
+                <button className="avatarcontrol-btn">Ambient</button>
+              </div>
+              <div className="speed-control">
+                <span className="speed-span">Speed : </span>
+                <input type="range" className="speed-slider" min="0.2" max="2" step="0.2" value={speed} onChange={handleSpeedChange} />
+                <input type="text" className="speed-textbox" value={speed} readOnly />
+              </div>
+              <div className="communication-middlerow">
+                <form onSubmit={handleSubmit}>
+                  <textarea className="avatar-textbox" id="sigmlUrl" name="sigmlUrl" placeholder="Enter text here" spellCheck="true" />
+                  <button className="avatarplay-btn" type="submit">
+                    Play
+                  </button>
+                  <button className="avatarpause-btn" onClick={togglePause} type="button">
+                    {isPaused ? "Unpause" : "Pause"}
+                  </button>
+                </form>
+              </div>
+              <hr />
+              <h1 className="communication-h1">Stats</h1>
+              <div className="communication-bottomrow">
+                <span>FPS : </span>
+                <input className="fps-box" type="text" value={fps} readOnly />
+                <span>Sign / Frame : </span>
+                <input className="frame-box" type="text" placeholder="0 / 15" />
+                <span>Gloss : </span>
+                <input className="gloss-box" type="text" placeholder="None" value={currentAnimationName} readOnly />
+              </div>
+              <div className="status-row">
+                <span>Status : </span>
+                <input className="status-box" type="text" placeholder="Playing Sign" />
+              </div>
+            </div>
+          </>
+        )}
+        {activeButton === "SLR" && (
+          <>
+            <div className="content-wrapper">
+              <BrowseLocalVideo />
+              <OpenCameraRecord />
+            </div>
+            <div className="content-wrapper">
+              <h1 className="communication-h1">Generated Sentence</h1>
+            </div>
+          </>
+        )}
       </div>
     </div>
   );

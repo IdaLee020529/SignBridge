@@ -1,0 +1,43 @@
+.BrowseLocalVideo-class {
+    display: flex;
+    align-items: center;
+}
+
+.BrowseLocalVideo-class .ant-btn {
+    font-size: 15px;
+    height: 40px;
+    background-color: #e0ebeb;
+    box-shadow: 3px 3px 10px rgba(0, 0, 0, 0.2);
+    border: 0px solid #000;
+    transition: background-color 0.3s, color 0.3s;
+}
+
+.BrowseLocalVideo-class .ant-btn:hover {
+    background-color: #ffffff !important;
+    color: #000 !important;
+    /* border: 1px groove #000 !important; */
+}
+
+.BrowseLocalVideo-class .ant-space {
+    margin-top: 8px;
+    margin-left: 20px;
+    max-width: 100%;
+    text-align: left;
+}
+
+/* .BrowseLocalVideo-class .ant-space span {
+    cursor: pointer;
+} */
+
+.BrowseLocalVideo-class .uploaded-text {
+    color: red;
+    font-size: 14px;
+}
+
+.BrowseLocalVideo-class .ant-space span:hover svg path {
+    fill: red;
+}
+
+.BrowseLocalVideo-class .ant-space .close-outline-button {
+    cursor: pointer
+}
