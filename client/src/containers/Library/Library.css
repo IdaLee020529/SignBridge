@@ -1,0 +1,44 @@
+/* Library.css */
+
+.library {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 20px;
+  }
+  
+  .title {
+    font-size: 24px;
+    font-weight: bold;
+    margin-bottom: 20px;
+  }
+  
+  .grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    grid-gap: 20px;
+  }
+  
+  .card {
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    overflow: hidden;
+    transition: transform 0.3s ease;
+  }
+  
+  .card:hover {
+    transform: translateY(-5px);
+  }
+  
+  .thumbnail {
+    width: 100%;
+    height: auto;
+    display: block;
+    border-bottom: 1px solid #ccc;
+  }
+  
+  .categoryName {
+    padding: 10px;
+    text-align: center;
+    font-size: 18px;
+  }
+  

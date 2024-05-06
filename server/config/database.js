@@ -8,6 +8,7 @@ const DATABASE_COLLECTIONS = {
   USERS: "users",
   USERS_COUNTER: "users_counter",
   AVATAR: "avatar",
+  LIBRARY: "library",
   FEEDBACKS: "feedbacks",
   FEEDBACKS_COUNTER: "feedbacks_counter",
   FAQS: "faqs",

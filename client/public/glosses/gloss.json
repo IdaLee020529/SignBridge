@@ -261,225 +261,190 @@
     "keyword": "SINAR-X",
     "animations": ["SinarX1", "SinarX2", "SinarX3", "SinarX4", "SinarX5", "SinarX6"],
     "english_keyword" : "X-RAY",
-    "category":"Medical",
-    "toShow": "1"
+    "category":"Medical"
   },
   {
     "keyword": "TINGGI",
     "animations": ["Tinggi1", "Tinggi2"],
     "english_keyword" : "HIGH",
-    "category":"Medical",
-    "toShow": "1"
+    "category":"Medical"
   },
   {
     "keyword": "TULANG",
     "animations": ["Tulang1", "Tulang2", "Tulang3"],
     "english_keyword" : "BONE",
-    "category":"Medical",
-    "toShow": "1"
+    "category":"Medical"
   },
   {
     "keyword": "TULANG RUSUK",
     "animations": ["TulangRusuk1", "TulangRusuk2"],
     "english_keyword" : "RIB CAGE",
-    "category":"Medical",
-    "toShow": "1"
+    "category":"Medical"
   },
   {
     "keyword": "SAYA",
     "animations": ["Saya1", "Saya2"],
     "english_keyword" : "ME",
-    "category":"Conversation",
-    "toShow": "1"
+    "category":"Conversation"
   },
   {
     "keyword": "SATU",
     "animations": ["Satu"],
     "english_keyword" : "ONE",
-    "category":"Numbers",
-    "toShow": "0"
+    "category":"Numbers"
   },
   {
     "keyword": "DUA",
     "animations": ["Dua"],
     "english_keyword" : "TWO",
-    "category":"Numbers",
-    "toShow": "0"
+    "category":"Numbers"
   },
   {
     "keyword": "TIGA",
     "animations": ["Tiga"],
     "english_keyword" : "THREE",
-    "category":"Numbers",
-    "toShow": "0"
+    "category":"Numbers"
   },
   {
     "keyword": "EMPAT",
     "animations": ["Empat"],
     "english_keyword" : "FOUR",
-    "category":"Numbers",
-    "toShow": "0"
+    "category":"Numbers"
   },
   {
     "keyword": "LIMA",
     "animations": ["Lima"],
     "english_keyword" : "FIVE",
-    "category":"Numbers",
-    "toShow": "0"
+    "category":"Numbers"
   },
   {
     "keyword": "ENAM",
     "animations": ["Enam"],
     "english_keyword" : "SIX",
-    "category":"Numbers",
-    "toShow": "0"
+    "category":"Numbers"
   },
   {
     "keyword": "TUJUH",
     "animations": ["Tujuh"],
     "english_keyword" : "SEVEN",
-    "category":"Numbers",
-    "toShow": "0"
+    "category":"Numbers"
   },
   {
     "keyword": "LAPAN",
     "animations": ["Lapan"],
     "english_keyword" : "EIGHT",
-    "category":"Numbers",
-    "toShow": "0"
+    "category":"Numbers"
   },
   {
     "keyword": "SEMBILAN",
     "animations": ["Sembilan"],
     "english_keyword" : "NINE",
-    "category":"Numbers",
-    "toShow": "0"
+    "category":"Numbers"
   },
   {
     "keyword": "SEPULUH",
     "animations": ["Sepuluh1", "Sepuluh2"],
     "english_keyword" : "TEN",
-    "category":"Numbers",
-    "toShow": "0"
+    "category":"Numbers"
   },
   {
     "keyword": "1",
     "animations": ["Satu"],
-    "category":"Numbers",
-    "toShow": "1"
+    "category":"Numbers"
   },
   {
     "keyword": "2",
     "animations": ["Dua"],
-    "category":"Numbers",
-    "toShow": "1"
+    "category":"Numbers"
   },
   {
     "keyword": "3",
     "animations": ["Tiga"],
-    "category":"Numbers",
-    "toShow": "1"
+    "category":"Numbers"
   },
   {
     "keyword": "4",
     "animations": ["Empat"],
-    "category":"Numbers",
-    "toShow": "1"
+    "category":"Numbers"
   },
   {
     "keyword": "5",
     "animations": ["Lima"],
-    "category":"Numbers",
-    "toShow": "1"
+    "category":"Numbers"
   },
   {
     "keyword": "6",
     "animations": ["Enam"],
-    "category":"Numbers",
-    "toShow": "1"
+    "category":"Numbers"
   },
   {
     "keyword": "7",
     "animations": ["Tujuh"],
-    "category":"Numbers",
-    "toShow": "1"
+    "category":"Numbers"
   },
   {
     "keyword": "8",
     "animations": ["Lapan"],
-    "category":"Numbers",
-    "toShow": "1"
+    "category":"Numbers"
   },
   {
     "keyword": "9",
     "animations": ["Sembilan"],
-    "category":"Numbers",
-    "toShow": "1"
+    "category":"Numbers"
   },
   {
     "keyword": "10",
     "animations": ["Sepuluh1", "Sepuluh2"],
-    "category":"Numbers",
-    "toShow": "1"
+    "category":"Numbers"
   },
   {
     "keyword": "A",
     "animations": ["A"],
-    "category":"Alphabet",
-    "toShow": "1"
+    "category":"Alphabet"
   },
   {
     "keyword": "B",
     "animations": ["B"],
-    "category":"Alphabet",
-    "toShow": "1"
+    "category":"Alphabet"
   },
   {
     "keyword": "C",
     "animations": ["C"],
-    "category":"Alphabet",
-    "toShow": "1"
+    "category":"Alphabet"
   },
   {
     "keyword": "D",
     "animations": ["D"],
-    "category":"Alphabet",
-    "toShow": "1"
+    "category":"Alphabet"
   },
   {
     "keyword": "E",
     "animations": ["E"],
-    "category":"Alphabet",
-    "toShow": "1"
+    "category":"Alphabet"
   },
   {
     "keyword": "F",
     "animations": ["F"],
-    "category":"Alphabet",
-    "toShow": "1"
+    "category":"Alphabet"
   },
   {
     "keyword": "G",
     "animations": ["G"],
-    "category":"Alphabet",
-    "toShow": "1"
+    "category":"Alphabet"
   },
   {
     "keyword": "H",
     "animations": ["H"],
-    "category":"Alphabet",
-    "toShow": "1"
+    "category":"Alphabet"
   },
   {
     "keyword": "I",
     "animations": ["I"],
-    "category":"Alphabet",
-    "toShow": "1"
+    "category":"Alphabet"
   },
   {
     "keyword": "J",
     "animations": ["J"],
-    "category":"Alphabet",
-    "toShow": "1"
+    "category":"Alphabet"
   }
 ]
