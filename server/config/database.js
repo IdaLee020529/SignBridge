@@ -11,6 +11,7 @@ const DATABASE_COLLECTIONS = {
   FEEDBACKS: "feedbacks",
   FEEDBACKS_COUNTER: "feedbacks_counter",
   FAQS: "faqs",
+  FAQ_COUNTER: "faq_counter",
   NOTIFICATIONS: "notifications",
   NOTIFICATIONS_COUNTER: "notifications_counter",
   DATASET_COLLECTION: "dataset_collection",
