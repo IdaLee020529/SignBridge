@@ -14,7 +14,7 @@ const Feedback = () => {
   const [formData, setFormData] = useState({
     firstName: "",
     lastName: "",
-    age: null,
+    age: "",
     gender: "male",
     race: "",
     email: "",
@@ -102,7 +102,7 @@ const Feedback = () => {
         isValid = validateLastName(value);
         break;
       case 'age':
-        isValid = validateAge(value ? +value : 0);
+        isValid = validateAge(value);
         break;
       case 'race':
         isValid = validateRace(value);
@@ -145,7 +145,7 @@ const Feedback = () => {
     return true;
   };
   
-  const validateAge = (value: number) => {
+  const validateAge = (value: string) => {
     if (!value) {
       setFormErrors((prev) => ({ ...prev, age: t('age_required') }));
       return false;
@@ -193,7 +193,7 @@ const Feedback = () => {
     e.preventDefault();
     const isFirstNameValid = validateFirstName(formData.firstName);
     const isLastNameValid = validateLastName(formData.lastName);
-    const isAgeValid = validateAge(formData.age || 0);
+    const isAgeValid = validateAge(formData.age);
     const isRaceValid = validateRace(formData.race);
     const isEmailValid = validateEmail(formData.email);
 
@@ -205,7 +205,7 @@ const Feedback = () => {
       data.append("gender", formData.gender);
       data.append("race", formData.race);
       data.append("email", formData.email);
-      data.append("fcategories", formData.fcategory);
+      data.append("fcategory", formData.fcategory);
       data.append("experience", formData.experience.toString());
       data.append("friendliness", formData.friendliness.toString());
       data.append("quality", formData.quality.toString());
@@ -234,7 +234,7 @@ const Feedback = () => {
     setFormData({
       firstName: "",
       lastName: "",
-      age: null,
+      age: "",
       gender: "male",
       race: "",
       email: "",

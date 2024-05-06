@@ -329,7 +329,7 @@ function Navbar() {
                   <ul className="dropdown-menu">
                     <li>
                       <Link
-                        to="#"
+                        to="/profile"
                         className="dropdown-link"
                         onClick={closeMobileMenu}
                       >

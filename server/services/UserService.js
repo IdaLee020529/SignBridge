@@ -16,6 +16,9 @@ const UserService = {
                 return existingUser;
             }
 
+            // Save the created date
+            userData.created_at = new Date().toISOString();
+
             // Get the count of existing users to determine the next id
             const newFormId = await UserCounterService.getNextValue('userId');
             userData.user_id = newFormId; // Increment count to start from 1
@@ -72,6 +75,7 @@ const UserService = {
                 acc_type: userData.acc_type,
                 role_access: userData.role_access,
                 email_verified: true,
+                created_at: new Date().toISOString(),
                 user_id: userData.user_id,
             });
 
@@ -231,6 +235,7 @@ const UserService = {
                 // Generate IDs for preset accounts and insert them into the collection
                 const presetAccountsWithIds = presetAccounts.map((account, index) => ({
                     ...account,
+                    created_at: new Date().toISOString(),
                     user_id: index + 1 // Increment index to start from 1
                 }));
     
@@ -256,9 +261,47 @@ const UserService = {
             return users;
         } catch (error) {
             console.error("Error fetching users:", error);
-            throw error; // Re-throw for controller to handle
+            throw error; 
         }
     },
+
+    async GetUserByEmail(email) {
+        const { client, database } = await connectDB();
+        try {
+            const collection = database.collection(DATABASE_COLLECTIONS.USERS);
+            const user = await collection.findOne({
+                email: email
+            });
+
+            await client.close();
+            return user;
+        }
+        catch (error) {
+            console.error("Error fetching user by email:", error);
+            throw error;
+        }
+    },
+
+    // update user profile
+    async UpdateUserProfileById(email, updatedData) {
+        try {
+            const { client, database } = await connectDB();
+            const collection = database.collection(DATABASE_COLLECTIONS.USERS);
+    
+            // Update the user profile based on user_id
+            const result = await collection.updateOne(
+                { email: email },
+                { $set: updatedData }
+            );
+    
+            client.close();
+            return result;
+        } catch (error) {
+            console.error("Error updating user profile:", error);
+            throw new Error("Failed to update user profile");
+        }
+    },
+    
 };
 
 module.exports = UserService;

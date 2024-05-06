@@ -2,20 +2,6 @@ const FeedbackService = require('../services/FeedbackService');
 const FirebaseService = require("../services/FirebaseService")
 
 const FeedbackController = {
-    // async CreateFeedback(req, res) {
-    //     try {
-    //         const feedbackData = req.body;
-    //         const imageInfo = req.file;
-    //         const imageURL = await FirebaseService.uploadImageToStorageAndGetURL(imageInfo); 
-    //         if(imageURL) {
-    //             const newFeedback = await FeedbackService.CreateFeedback({...feedbackData, imageURL});
-    //             res.status(201).json(newFeedback);
-    //         }
-    //     } catch (error) {
-    //         console.error("Error creating feedback:", error);
-    //         res.status(500).json({ error: "Internal Server Error" });
-    //     }
-    // },
     async CreateFeedback(req, res) {
         try {
             const feedbackData = req.body;

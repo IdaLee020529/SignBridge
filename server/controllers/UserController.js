@@ -134,8 +134,8 @@ const UserController = {
                 res.status(401).json({ error: "Invalid email or password" });
             }
         } catch (error) {
-            console.error("Error logging in user:", error);
-            res.status(500).json({ error: "Internal Server Error" });
+            // console.error("Error logging in user:", error);
+            res.status(500).json({ error: "Email not found" });
         }
     },
 
@@ -208,6 +208,42 @@ const UserController = {
             res.status(500).json({ error: "Internal Server Error" });
         }
     },
+
+    async GetUserByEmail(req, res) {
+        try {
+            const email = req.params.email;
+            const user = await UserService.GetUserByEmail(email);
+
+            if (user) {
+                res.status(200).json(user);
+            } else {
+                res.status(404).json({ error: "User not found" });
+            }
+        } catch (error) {
+            console.error("Error fetching user:", error);
+            res.status(500).json({ error: "Internal Server Error" });
+        }
+    },
+
+    //  update user
+    async UpdateUserProfileById(req, res) {
+        try {
+            const { email } = req.params;
+            const updatedData = req.body; // Assuming updatedData contains the fields to be updated
+    
+            const result = await UserService.UpdateUserProfileById(email, updatedData);
+    
+            if (result.modifiedCount === 1) {
+                res.status(200).json({ message: "User profile updated successfully" });
+            } else {
+                res.status(404).json({ error: "User not found or no changes applied" });
+            }
+        } catch (error) {
+            console.error("Error updating user profile:", error);
+            res.status(500).json({ error: "Internal Server Error" });
+        }
+    },
+    
 }
 
 module.exports = UserController
