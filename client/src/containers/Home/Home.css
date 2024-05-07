@@ -230,6 +230,7 @@ iframe {
   cursor: pointer;
   transition: background-color 0.3s;
   font-size: 1.5rem;
+  z-index: 999;
 }
 
 @media screen and (max-width: 768px) {

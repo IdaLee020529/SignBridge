@@ -16,7 +16,8 @@ const DATABASE_COLLECTIONS = {
   NOTIFICATIONS: "notifications",
   NOTIFICATIONS_COUNTER: "notifications_counter",
   DATASET_COLLECTION: "dataset_collection",
-  DATASET_COUNTER: "dataset_counter"
+  DATASET_COUNTER: "dataset_counter",
+  COUNTRY: "country",
 }
 
 async function connectDB() {

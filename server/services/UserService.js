@@ -1,5 +1,6 @@
 const { connectDB, DATABASE_COLLECTIONS } = require("../config/database");
-const PRESET_ACCOUNTS = require("../constants/PresetAccount")
+const PRESET_ACCOUNTS = require("../constants/PresetAccount");
+const PRESET_DATA = require("../constants/PresetCountry");
 const { sendEmail, mailTemplate } = require("../utils/email");
 const jwt = require('jsonwebtoken');
 const bcrypt = require('bcrypt');
@@ -13,6 +14,7 @@ const UserService = {
             const existingUser = await collection.findOne({ email: userData.email });
 
             if (existingUser) {
+                console.log("Existing user: ", existingUser);
                 return existingUser;
             }
 
@@ -42,7 +44,7 @@ const UserService = {
 
             const result = await collection.insertOne(userData);
             client.close();
-            return result;
+            return null;
         } catch (error) {
             if (error.name === 'ValidationError') {
                 throw new Error(`Registration failed: ${error.message}`);
@@ -299,6 +301,48 @@ const UserService = {
         } catch (error) {
             console.error("Error updating user profile:", error);
             throw new Error("Failed to update user profile");
+        }
+    },
+
+    // For country
+    async insertPresetCountry() {
+        const { client, database } = await connectDB();
+        const presetData = PRESET_DATA.PRESET_DATA;
+        try {
+            const collection = database.collection(DATABASE_COLLECTIONS.COUNTRY);
+    
+            // Check if the collection exists and insert preset accounts if it doesn't
+            const collections = await database.listCollections({ name: DATABASE_COLLECTIONS.COUNTRY }).toArray();
+            if (collections.length === 0) {
+                await database.createCollection(DATABASE_COLLECTIONS.COUNTRY);
+            }
+    
+            const existingData = await collection.find().toArray();
+    
+            if (existingData.length === 0) {
+                const result = await collection.insertMany(presetData);
+                console.log(`${result.insertedCount} preset country data inserted`);
+            } else {
+                console.log("Preset data already exist");
+            }
+        } catch (error) {
+            console.error("Error inserting preset data:", error);
+            throw new Error("Failed to insert preset data");
+        } finally {
+            client.close();
+        }
+    },
+
+    async GetAllCountries() {
+        const { client, database } = await connectDB();
+        try {
+            const collection = database.collection(DATABASE_COLLECTIONS.COUNTRY);
+            const countries = await collection.find().toArray();
+            client.close();            
+            return countries;
+        } catch (error) {
+            console.error("Error fetching countries:", error);
+            throw error; 
         }
     },
     

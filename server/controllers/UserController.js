@@ -1,7 +1,7 @@
 const UserService = require('../services/UserService');
 const jwt = require('jsonwebtoken');
 const session = require('express-session');
-
+const FirebaseService = require("../services/FirebaseService");
 
 const UserController = {
     async SignUpUser(req, res) {
@@ -18,9 +18,14 @@ const UserController = {
                 email_verified: false,
             })
 
-            res.status(201).json({
-                message:
-                    "Verification email sent. Please verify your email to complete registration.",
+            if (newUser) {
+                return res.status(409).json({
+                    message: "User already exist. Please login.",
+                })
+            }
+
+            return res.status(201).json({
+                message: "Verification email sent. Please verify your email to complete registration.",
             })
         } catch (error) {
             console.error("Error registering user:", error)
@@ -225,25 +230,56 @@ const UserController = {
         }
     },
 
-    //  update user
     async UpdateUserProfileById(req, res) {
         try {
             const { email } = req.params;
-            const updatedData = req.body; // Assuming updatedData contains the fields to be updated
+            const updatedData = req.body;
+            const imageInfo = req.file;
+            // console.log("Updated data:", updatedData);
+            // console.log("Image info:", imageInfo);
     
-            const result = await UserService.UpdateUserProfileById(email, updatedData);
-    
-            if (result.modifiedCount === 1) {
-                res.status(200).json({ message: "User profile updated successfully" });
+            if (imageInfo) {
+                const imageURL = await FirebaseService.uploadProfileImageToStorageAndGetURL(imageInfo);
+                if (imageURL) {
+                    const result = await UserService.UpdateUserProfileById(email, {...updatedData, picture: imageURL});
+                    res.status(201).json(result);
+                } else {
+                    res.status(500).json({ error: "Failed to upload image" });
+                }
             } else {
-                res.status(404).json({ error: "User not found or no changes applied" });
+                const result = await UserService.UpdateUserProfileById(email, updatedData);
+                res.status(201).json(result);
             }
         } catch (error) {
             console.error("Error updating user profile:", error);
             res.status(500).json({ error: "Internal Server Error" });
         }
     },
-    
+
+    // For country
+    async insertPresetCountry(req, res) {
+        try {
+            await UserService.insertPresetCountry();
+            if (res) {
+                res.status(200).json({ message: "Preset country inserted successfully" });
+            }
+        } catch (error) {
+            console.error("Error inserting preset country:", error);
+            if (res) {
+                res.status(500).json({ error: "Internal Server Error" });
+            }
+        }
+    },
+
+    async GetAllCountries(req, res) {
+        try {
+            const countries = await UserService.GetAllCountries();
+            return res.status(200).json(countries);
+        } catch (error) {
+            console.error("Error fetching countries:", error);
+            return res.status(500).json({ error: "Internal Server Error" });
+        }
+    },
 }
 
 module.exports = UserController

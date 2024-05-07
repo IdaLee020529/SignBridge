@@ -149,14 +149,22 @@ function SignUp() {
 			setLoading(true);
 
 			try {
-				await SignUpUser(data);
-				console.log("success");
-				toast.success("Verification email sent. Please check your inbox to complete registration.");
+				const response = await SignUpUser(data);
 
+				if (response.data.status === 409) {
+					toast.error("User already exists, please login.");
+					setLoading(false);
+					return;
+				}
+				
+				toast.success(response.data.message);
 				navigate("/login");
 			} catch (error: any) {
-				console.log("Error registering user:", error);
-				toast.error(error.code);
+				if (error.response.status === 409) {
+					toast.error("User already exists, please login.");
+					setLoading(false);
+					return;
+				}
 			} finally {
 				setLoading(false);
 			}
