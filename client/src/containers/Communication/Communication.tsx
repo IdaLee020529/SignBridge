@@ -1,43 +1,55 @@
 // Communication.jsx
+// General Imports
 import "./Communication.css"
-import React, { useRef, useState } from "react";
+import { useRef, useState } from "react";
+import Cookies from "js-cookie";
+
+// SLP Imports
 import { Canvas, useFrame } from "@react-three/fiber";
-import { Link, useNavigate } from "react-router-dom";
 import { OrbitControls } from "@react-three/drei";
 import { useThree } from "@react-three/fiber";
-import Cookies from "js-cookie";
+import { ConstantAlphaFactor } from "three";
+import handImage from "../../../public/images/hand.png";
+import handColoredImage from "../../../public/images/handcolored.png";
 // @ts-ignore
 import { CharacterAnimationsProvider } from "../../components/SLP/CharacterAnimations";
 // @ts-ignore
 import Experience from "../../components/SLP/Experience";
 // @ts-ignore
 import Man from "../../components/AvatarModels/Man";
-import handImage from "../../../public/images/hand.png";
-import handColoredImage from "../../../public/images/handcolored.png";
-import { ConstantAlphaFactor } from "three";
-import BrowseLocalVideo from "../../components/SLR/BrowseLocalVideo/BrowseLocalVideo";
-import OpenCameraRecord from "../../components/SLR/OpenCameraRecord/OpenCameraRecord";
+
+// SLR Imports
+import SlrButton from "../../components/SLR/SlrButton/SlrButton";
+import SlrPreviewVideo from "../../components/SLR/SlrPreviewVideo/SlrPreviewVideo";
+
 function Communication() {
-  const [activeButton, setActiveButton] = useState("SLP");
-  const [inputText, setInputText] = useState("");
-  const [speed, setSpeed] = useState(1);
-  const [handFocus, setHandFocus] = useState(false);
-  const [showSkeleton, setShowSkeleton] = useState(false);
-  const [currentAnimationName, setCurrentAnimationName] = useState("");
-  const [isPaused, setPaused] = useState(false);
-  const [leftHandedMode, setLeftHandedMode] = useState(false);
+  // States to manage the application
+  // General states
+  const [activeButton, setActiveButton] = useState(() => {
+    // Retrieve the activeButton value from localStorage on initial render
+    return localStorage.getItem("activeButton") || "SLP";
+  });
+  // SLP states
+  const [inputText, setInputText] = useState(""); // State to hold the input text
+  const [speed, setSpeed] = useState(1); // State to hold the speed value
+  const [handFocus, setHandFocus] = useState(false); // State to manage hand focus mode
+  const [showSkeleton, setShowSkeleton] = useState(false); // State to manage skeleton visibility
+  const [currentAnimationName, setCurrentAnimationName] = useState(""); // State to hold the current animation name
+  const [isPaused, setPaused] = useState(false); // State to manage pause/play
+  const [leftHandedMode, setLeftHandedMode] = useState(false); // State to manage left-handed mode
   const [fps, setFps] = useState(60); // State to hold FPS value
-  const [videoInfo, setVideoInfo] = useState(null);
-  const [resetVideo, setResetVideo] = useState(false);
 
-  const handleVideoReset = () => {
-    setResetVideo(true); // Reset resetVideo state
-  };
+  // SLR states
+  const [videoInfo, setVideoInfo] = useState(null); // State to hold the video information
+  const [resetVideo, setResetVideo] = useState(false); // State to reset the video
 
+  //////////////////////////////////////////
+  // General functions
   // @ts-ignore
   const handleButtonValue = (event) => {
     const { value } = event.target;
-    setActiveButton(event.target.value);
+    setActiveButton(value);
+    localStorage.setItem("activeButton", value); // Save the activeButton value to localStorage
   };
 
   // @ts-ignore
@@ -45,6 +57,13 @@ function Communication() {
     return activeButton === buttonValue;
   };
 
+  const isUserLoggedIn = () => {
+    return Cookies.get("token") ? true : false;
+  };
+  const isLoggedIn = isUserLoggedIn();
+
+  //////////////////////////////////////////
+  // SLP functions
   // @ts-ignore
   const updateFPS = (newFPS) => {
     setFps(newFPS); // Update FPS state
@@ -54,12 +73,6 @@ function Communication() {
   const updateCurrentAnimationName = (animationName) => {
     setCurrentAnimationName(animationName);
   };
-
-  const isUserLoggedIn = () => {
-    return Cookies.get("token") ? true : false;
-  };
-
-  const isLoggedIn = isUserLoggedIn();
 
   const toggleSkeleton = () => {
     setShowSkeleton((prevState) => !prevState);
@@ -81,50 +94,6 @@ function Communication() {
     // @ts-ignore
     controls.current.reset();
   };
- // Define a variable to store the previous submitted text
-let previousSubmittedText = "";
-
-// @ts-ignore
-const handleSubmit = async (event) => {
-  event.preventDefault();
-
-  const formData = new FormData(event.target);
-  const submittedText = formData.get("sigmlUrl") as string; // Prevent null value
-
-  try {
-    const response = await fetch('http://127.0.0.1:5000/api/SLP', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({ text: submittedText }),
-    });
-
-    if (response.ok) {
-      const data = await response.json();
-      console.log('Data: ', data);
-      console.log('Submitted text: ', submittedText);
-      console.log('Previous submitted text: ', previousSubmittedText);
-      
-      if (previousSubmittedText === submittedText) {
-        // If the current submitted text is the same as the previous one, append "#" to the returned text
-        setInputText(data['return'] + "#");
-      } else {
-        // If they are different, update the inputText directly
-        setInputText(data['return']);
-      }
-
-      // Update the previousSubmittedText variable for the next comparison
-      previousSubmittedText = submittedText;
-    } else {
-      console.error('Failed to process text');
-    }
-  } catch (error) {
-    console.error('Error processing text: ', error);
-  }
-};
-
-
 
   // Function to toggle left-handed mode
   const toggleLeftHandedMode = () => {
@@ -135,7 +104,133 @@ const handleSubmit = async (event) => {
     setPaused((prevState) => !prevState);
   };
 
+  function HandFocusMode() {
+    const { camera } = useThree();
+    const x = -35; // Adjust these values according to your requirements
+    const y = 150;
+    const z = 100;
+    const decimal = 1; // Adjust this value to control the speed of lerping
+
+    useFrame(() => {
+      camera.position.lerp({ x, y, z }, decimal);
+      camera.lookAt(x, y, z);
+    });
+
+    return null;
+  }
+
+  // // @ts-ignore
+  // function FPSCounter({ onUpdateFPS }) {
+  //   const frameRef = useRef({ lastTime: performance.now(), frameCount: 0 });
+  //   const previousFPS = useRef(0); // Store previous FPS value
+
+  //   useFrame(() => {
+  //     const now = performance.now();
+  //     const delta = now - frameRef.current.lastTime;
+  //     frameRef.current.frameCount++;
+
+  //     if (delta >= 1000) {
+  //       const newFPS = Math.round((frameRef.current.frameCount * 1000) / delta);
+  //       if (newFPS !== previousFPS.current) { // Update only if FPS changes
+  //         onUpdateFPS(newFPS); // Call the passed callback with the new FPS
+  //         previousFPS.current = newFPS; // Update previous FPS
+  //       }
+  //       frameRef.current.frameCount = 0;
+  //       frameRef.current.lastTime = now;
+  //     }
+  //   });
+
+  //   return null; // No need to return anything as DOM updates are handled by the parent
+  // }
+
   const controls = useRef();
+
+  // @ts-ignore
+  const handleSubmit = async (event) => {
+    event.preventDefault();
+
+    const formData = new FormData(event.target);
+    const submittedText = formData.get("sigmlUrl") as string; // Prevent null value
+
+    try {
+      const response = await fetch('http://127.0.0.1:5000/api/SLP', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ text: submittedText }),
+      });
+
+      if (response.ok) {
+        const data = await response.json();
+        console.log('Data: ', data);
+        console.log('Submitted text: ', submittedText);
+        console.log('Previous submitted text: ', previousSubmittedText);
+
+        if (previousSubmittedText === submittedText) {
+          // If the current submitted text is the same as the previous one, append "#" to the returned text
+          setInputText(data['return'] + "#");
+        } else {
+          // If they are different, update the inputText directly
+          setInputText(data['return']);
+        }
+
+        // Update the previousSubmittedText variable for the next comparison
+        previousSubmittedText = submittedText;
+      } else {
+        console.error('Failed to process text');
+      }
+    } catch (error) {
+      console.error('Error processing text: ', error);
+    }
+  };
+
+  // Define a variable to store the previous submitted text
+  let previousSubmittedText = "";
+
+  //////////////////////////////////////////
+  // SLR functions
+  const [selectedFile, setSelectedFile] = useState<File | null>(null);
+  const fileInputRef = useRef<HTMLInputElement>(null);
+  const [recordingStarted, setRecordingStarted] = useState(false); // State to track if recording has started
+  const [countdown, setCountdown] = useState(20);
+  const timerRef = useRef<NodeJS.Timeout | null>(null);
+
+  const handleFileSelect = (file: File) => {
+    setSelectedFile(file);
+  };
+
+  const handleFileInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files && e.target.files[0];
+    if (file) {
+      setSelectedFile(file);
+      handleFileSelect(file);
+    }
+  };
+
+  const startCountdown = () => {
+    recordingStarted;
+    setRecordingStarted(true); // Set recording started flag
+    timerRef.current = setInterval(() => {
+      setCountdown((prevCountdown) => {
+        if (prevCountdown === 0) {
+          clearInterval(timerRef.current!); // Clear timer when countdown reaches 0
+          return 20; // Reset countdown value
+        } else {
+          return prevCountdown - 1; // Decrement countdown
+        }
+      });
+    }, 1000);
+  };
+
+  // Function to stop countdown timer
+  const stopCountdown = () => {
+    setRecordingStarted(false); // Set recording started flag to false
+    if (timerRef.current) {
+      clearInterval(timerRef.current); // Clear the timer interval
+    }
+  };
+
 
   return (
     <div className={`communication-body ${leftHandedMode ? "left-handed" : ""}`}>
@@ -188,9 +283,9 @@ const handleSubmit = async (event) => {
                     updateCurrentAnimationName={updateCurrentAnimationName}
                   />
                 </CharacterAnimationsProvider>
-                <FPSCounter onUpdateFPS={updateFPS} />
-                {/*// @ts-ignore*/}
-                <OrbitControls ref={controls} />
+        {/*<FPSCounter onUpdateFPS={updateFPS} />*/}
+        {/*// @ts-ignore*/}
+        <OrbitControls ref={controls} />
                 {handFocus && <HandFocusMode />}
               </Canvas>
             </div>
@@ -249,12 +344,23 @@ const handleSubmit = async (event) => {
         )}
         {activeButton === "SLR" && (
           <>
-            <div className="content-wrapper">
-              <BrowseLocalVideo />
-              <OpenCameraRecord />
+            <div className="canvas-wrapper">
+              <h1 className="slr-h1">Generated Sentence</h1>
+              {/* Render PreviewVideo with selectedFile */}
+              {selectedFile && (
+                <SlrPreviewVideo key={selectedFile.name} videoFile={selectedFile} />
+              )}
             </div>
-            <div className="content-wrapper">
-              <h1 className="communication-h1">Generated Sentence</h1>
+            <div className="canvas-wrapper">
+              <h1 className="slr-h1">Video Preview</h1>
+              <div className="slr-content">
+              </div>
+              <div className="slr-content">
+                <SlrButton
+                  onBrowseVideo={handleFileSelect}
+                  onStartRecording={startCountdown}
+                  onStopRecording={stopCountdown} />
+              </div>
             </div>
           </>
         )}
@@ -262,45 +368,5 @@ const handleSubmit = async (event) => {
     </div>
   );
 }
-
-function HandFocusMode() {
-  const { camera } = useThree();
-  const x = -35; // Adjust these values according to your requirements
-  const y = 150;
-  const z = 100;
-  const decimal = 1; // Adjust this value to control the speed of lerping
-
-  useFrame(() => {
-    camera.position.lerp({ x, y, z }, decimal);
-    camera.lookAt(x, y, z);
-  });
-
-  return null;
-}
-
-// // @ts-ignore
-// function FPSCounter({ onUpdateFPS }) {
-//   const frameRef = useRef({ lastTime: performance.now(), frameCount: 0 });
-//   const previousFPS = useRef(0); // Store previous FPS value
-
-//   useFrame(() => {
-//     const now = performance.now();
-//     const delta = now - frameRef.current.lastTime;
-//     frameRef.current.frameCount++;
-
-//     if (delta >= 1000) {
-//       const newFPS = Math.round((frameRef.current.frameCount * 1000) / delta);
-//       if (newFPS !== previousFPS.current) { // Update only if FPS changes
-//         onUpdateFPS(newFPS); // Call the passed callback with the new FPS
-//         previousFPS.current = newFPS; // Update previous FPS
-//       }
-//       frameRef.current.frameCount = 0;
-//       frameRef.current.lastTime = now;
-//     }
-//   });
-
-//   return null; // No need to return anything as DOM updates are handled by the parent
-// }
-
 
 export default Communication;
