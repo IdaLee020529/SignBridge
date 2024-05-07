@@ -3,9 +3,19 @@ import style from "./AccountForm.module.css";
 import AccountInputField from "../accountInputFields/accountInputFields";
 import * as Ariakit from "@ariakit/react";
 import { CheckIcon, ChevronDownIcon, ChevronUpIcon } from '@radix-ui/react-icons';
-import { GetUserByEmail, UpdateProfileInfo } from "../../../../services/account.service";
+import { GetUserByEmail, UpdateProfileInfo, FetchAllCountries } from "../../../../services/account.service";
 import Cookies from "js-cookie";
 import toast from "react-hot-toast";
+
+type Country = {
+  country: string;
+  state: State[];
+}
+
+type State = {
+  name: string;
+  city: string[];
+}
 
 const AccountForm = () => {
   const [formData, setFormData] = useState({
@@ -19,7 +29,8 @@ const AccountForm = () => {
     country: "",
     city: "",
     state: "",
-    picture: "",
+    // make the picture either File or string
+    picture: null as File | null,
   });
 
   const [error, setError] = useState({
@@ -33,6 +44,12 @@ const AccountForm = () => {
   });
 
   const email = Cookies.get("email");
+  const [countries, setCountries] = useState<Country[] | null>(null);
+
+  async function fetchCountry() {
+    const response = await FetchAllCountries();
+    setCountries(response.data);
+  }
 
   async function fetchUser() {
     const user = await GetUserByEmail(email ?? "");
@@ -51,19 +68,28 @@ const AccountForm = () => {
       city: user.data.city,
       state: user.data.state,
     }));
+    setImage(user.data.picture);
+    setCustomKey(1);
+    setSelectedCountryOption(user.data.country ?? "");
+    setSelectedStateOption(user.data.state ?? "");
+    setSelectedCityOption(user.data.city ?? "");
   }
 
   useEffect(() => {
     fetchUser();
+    fetchCountry();
   }, []);
 
   const [selectCountryOpen, setSelectCountryOpen] = useState(false);
   const [selectCityOpen, setSelectCityOpen] = useState(false);
   const [selectStateOpen, setSelectStateOpen] = useState(false);
+
   const [selectedCountryOption, setSelectedCountryOption] = useState("");
-  const [selectedCityOption, setSelectedCityOption] = useState("");
   const [selectedStateOption, setSelectedStateOption] = useState("");
+  const [selectedCityOption, setSelectedCityOption] = useState("");
+
   const [image, setImage] = useState<string | null>(null);
+  const [customKey, setCustomKey] = useState(0);
 
   const handleChange = (e: ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>) => {
     const { name, value, type } = e.target;
@@ -110,31 +136,26 @@ const AccountForm = () => {
   };
 
   const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    // Extract the selected file from the input element
     const file = e.target.files && e.target.files[0];
+
+    setFormData((prevFormData) => ({
+      ...prevFormData,
+      picture: e.target.files ? e.target.files[0] : null,
+    }));
+
     if (file) {
-        // Create a new instance of FileReader to read the file content
         const reader = new FileReader();
 
-        // Define an event listener to execute when the file reading is completed
         reader.onloadend = () => {
-            // Check if the result of file reading is a string (data URL)
             if (typeof reader.result === 'string') {
-                // Update the image state with the new image data URL
                 setImage(reader.result);
-
-                // Update the formData picture field with the new image data URL
-                // Ensure the type conversion to string
-                setFormData((prevFormData) => ({
-                    ...prevFormData,
-                    picture: reader.result as string,
-                }));
             }
         };
         // Start reading the file as a data URL
         reader.readAsDataURL(file);
     }
   };
+
 
   // ---------- Validation Functions ----------
   const validateFirstName = (value: string) => {
@@ -179,16 +200,59 @@ const AccountForm = () => {
     setError((prev) => ({ ...prev, race: "" }));
     return true;
   };
-  
+
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+    console.log(formData);
     e.preventDefault();
     const isFirstNameValid = validateFirstName(formData.firstName);
     const isLastNameValid = validateLastName(formData.lastName);
     const isAgeValid = validateAge(formData.age);
     const isRaceValid = validateRace(formData.race);
     if (isFirstNameValid && isLastNameValid && isAgeValid && isRaceValid) {
+      const data = new FormData();
+      
+      if (formData.username) {
+        data.append('username', formData.username);
+      }
+
+      if (formData.picture) {
+        data.append('picture', formData.picture);
+      }
+
+      if (formData.firstName) {
+        data.append('firstName', formData.firstName);
+      }
+
+      if (formData.lastName) {
+        data.append('lastName', formData.lastName);
+      }
+
+      if (formData.age) {
+        data.append('age', formData.age);
+      }
+
+      if (formData.gender) {
+        data.append('gender', formData.gender);
+      }
+
+      if (formData.race) {
+        data.append('race', formData.race);
+      }
+
+      if (formData.country) {
+        data.append('country', formData.country);
+      }
+
+      if (formData.city) {
+        data.append('city', formData.city);
+      }
+
+      if (formData.state) {
+        data.append('state', formData.state);
+      }
+
+      UpdateProfileInfo(email ?? '', data);
       console.log("Form Submitted", formData);
-      UpdateProfileInfo(email ?? '', formData); // Fix: Convert user_id to number
       toast.success("Personal details updated successfully");
     } else {
       console.log("Form Submission Failed", error);
@@ -200,7 +264,7 @@ const AccountForm = () => {
     <div className={style.accountFormContainer}>
       <div className={style.accountContent}>
         <h1>Personal Detail</h1>
-        <form onSubmit={handleSubmit} className={style.form} key={formData.username}>
+        <form onSubmit={handleSubmit} className={style.form} key={customKey}>
           <AccountInputField
             label="Username"
             name="username"
@@ -268,7 +332,7 @@ const AccountForm = () => {
                 console.log(value)
                 setSelectedCountryOption(value)
               }}
-              defaultValue={""}
+              defaultValue={formData.country ?? ""}
             >
               <Ariakit.SelectLabel className={style.label}>
                 Country
@@ -280,36 +344,17 @@ const AccountForm = () => {
                 </div>
               </Ariakit.Select>
               <Ariakit.SelectPopover gutter={4} sameWidth className={style.selectPopover}>
-                <Ariakit.SelectItem className={style.selectItem} value="Apple" />
-                <Ariakit.SelectItem className={style.selectItem} value="Banana" />
-                <Ariakit.SelectItem className={style.selectItem} value="Orange" />
-              </Ariakit.SelectPopover>
-            </Ariakit.SelectProvider>
-          </div>
-
-          <div className={style.selectContainer}>
-            <Ariakit.SelectProvider setOpen={(open) => {
-                setSelectCityOpen(open)
-              }}
-              setValue={(value) => {
-                console.log(value)
-                setSelectedCityOption(value)
-              }}
-              defaultValue={""}
-              >
-              <Ariakit.SelectLabel className={style.label}>
-                City
-              </Ariakit.SelectLabel>
-              <Ariakit.Select className={style.selectTrigger}>
-                {selectedCityOption ? selectedCityOption : "Select a city" }
-                <div className={`${style.selectTriggerIcon} ${selectCityOpen ? style.selectIconFocus : ''}`}>
-                  <ChevronDownIcon />
-                </div>
-              </Ariakit.Select>
-              <Ariakit.SelectPopover gutter={4} sameWidth className={style.selectPopover}>
-                <Ariakit.SelectItem className={style.selectItem} value="Apple" />
-                <Ariakit.SelectItem className={style.selectItem} value="Banana" />
-                <Ariakit.SelectItem className={style.selectItem} value="Orange" />
+                {countries?.map((country, index) => (
+                  <Ariakit.SelectItem key={index} className={style.selectItem} value={country.country} onClick={() => {
+                    setSelectedCountryOption(country.country);
+                    setFormData((prevFormData) => ({
+                      ...prevFormData,
+                      country: country.country,
+                    }));
+                    setSelectCountryOpen(false);
+                  }
+                  } />
+                ))}
               </Ariakit.SelectPopover>
             </Ariakit.SelectProvider>
           </div>
@@ -319,10 +364,9 @@ const AccountForm = () => {
                 setSelectStateOpen(open)
               }}
               setValue={(value) => {
-                console.log(value)
                 setSelectedStateOption(value)
               }}
-              defaultValue={""}
+              defaultValue={formData.state ?? ""}
               >
               <Ariakit.SelectLabel className={style.label}>
                 State
@@ -334,9 +378,56 @@ const AccountForm = () => {
                 </div>
               </Ariakit.Select>
               <Ariakit.SelectPopover gutter={4} sameWidth className={style.selectPopover}>
-                <Ariakit.SelectItem className={style.selectItem} value="Apple" />
-                <Ariakit.SelectItem className={style.selectItem} value="Banana" />
-                <Ariakit.SelectItem className={style.selectItem} value="Orange" />
+                {
+                  selectedCountryOption ? countries?.filter(country => country.country === selectedCountryOption)[0].state.map((state, index) => (
+                    <Ariakit.SelectItem key={index} className={style.selectItem} value={state.name} onClick={() => {
+                      setSelectedStateOption(state.name);
+                      setFormData((prevFormData) => ({
+                        ...prevFormData,
+                        state: state.name,
+                      }));
+                      setSelectStateOpen(false);
+                      setSelectedCityOption("");
+                    }
+                    } />
+                  )) : null
+                }
+              </Ariakit.SelectPopover>
+            </Ariakit.SelectProvider>
+          </div>
+
+          <div className={style.selectContainer}>
+            <Ariakit.SelectProvider setOpen={(open) => {
+                setSelectCityOpen(open)
+              }}
+              setValue={(value) => {
+                setSelectedCityOption(value)
+              }}
+              defaultValue={formData.city ?? ""}
+              >
+              <Ariakit.SelectLabel className={style.label}>
+                City
+              </Ariakit.SelectLabel>
+              <Ariakit.Select className={style.selectTrigger}>
+                {selectedCityOption ? selectedCityOption : "Select a city" }
+                <div className={`${style.selectTriggerIcon} ${selectCityOpen ? style.selectIconFocus : ''}`}>
+                  <ChevronDownIcon />
+                </div>
+              </Ariakit.Select>
+              <Ariakit.SelectPopover gutter={4} sameWidth className={style.selectPopover}>
+                {
+                  selectedStateOption ? countries?.filter(country => country.country === selectedCountryOption)[0].state.filter(state => state.name === selectedStateOption)[0].city.map((city, index) => (
+                    <Ariakit.SelectItem key={index} className={style.selectItem} value={city} onClick={() => {
+                      setSelectedCityOption(city);
+                      setFormData((prevFormData) => ({
+                        ...prevFormData,
+                        city: city,
+                      }));
+                      setSelectCityOpen(false);
+                    }
+                    } />
+                  )) : null
+                }
               </Ariakit.SelectPopover>
             </Ariakit.SelectProvider>
           </div>
@@ -344,8 +435,8 @@ const AccountForm = () => {
           {/* Upload Image */}
           <div className={style.imageUploader}>
             <label htmlFor="file" className={style.uploadLabel}>
-              {formData.picture ? (
-                <img src={formData.picture} alt="Uploaded" className={style.uploadedImage} />
+              {image ? (
+                <img src={image} alt="Uploaded" className={style.uploadedImage} />
               ) : (
                 <span>Upload Image</span>
               )}
