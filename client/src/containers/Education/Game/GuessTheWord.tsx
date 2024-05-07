@@ -70,6 +70,22 @@ const GuessTheWord: React.FC = () => {
 
     showScore;
 
+    function CameraControl() {
+        const { camera } = useThree();
+      
+        const x = -7.5; // Adjust these values according to your requirements
+        const y = 140;
+        const z = 215;
+        const decimal = 1; // Adjust this value to control the speed of lerping
+      
+        useFrame(() => {
+          camera.position.lerp({ x, y, z }, decimal);
+          camera.lookAt(x, y, z);
+        });
+      
+        return null;
+      }
+
     // Function to render hearts for lives
     const renderLives = () => {
         return Array.from({ length: lives }, (_, i) => (

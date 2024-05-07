@@ -13,5 +13,8 @@ router.post('/users/login', UserController.LoginUser);
 router.post('/users/forget-password', UserController.ForgetPassword);
 router.post('/users/reset-password', UserController.ResetPassword);
 router.post('/users/logout', UserController.LogoutUser);
+router.get('/users/:email', UserController.GetUserByEmail);
+
+router.put('/users/:email/profile', UserController.UpdateUserProfileById);
 
 module.exports = router;

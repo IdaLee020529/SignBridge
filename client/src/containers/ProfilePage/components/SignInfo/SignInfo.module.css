@@ -1,0 +1,36 @@
+.horizontalContainer {
+    display: flex;
+    flex-direction: column;
+    gap: 25px;
+}
+
+.signInfoContainer {
+    width: fit-content;
+    display: flex;
+    background-color: white;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    transition: box-shadow 0.3s ease-in-out;
+    border-radius: 10px;
+    padding: 20px;
+}
+
+.slot {
+    padding: 20px;
+    text-align: center;
+}
+
+.title {
+    font-size: 20px;
+    font-weight: 500;
+}
+
+.number {
+    font-size: 24px;
+    font-weight: 400;
+}
+
+.divider {
+    width: 1px;
+    height: 100px;
+    background-color: rgba(0, 0, 0, 0.334);
+}

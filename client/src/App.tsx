@@ -31,6 +31,7 @@ import DoTheSign from "./containers/Education/Game/DoTheSign";
 import FeedbackAdmin from "./containers/Feedback/Admin/FeedbackAdmin";
 import FeedbackSuccess from "./containers/Feedback/FeedbackSuccess";
 import FaqAdmin from "./containers/Faq/Admin/FaqAdmin";
+import ProfilePage from "./containers/ProfilePage/ProfilePage";
 import Cookies from "js-cookie";
 import i18n from "i18next";
 import { initReactI18next } from "react-i18next";
@@ -158,6 +159,7 @@ function App() {
           <Route path="/sign-up" element={<SignUp />} />
           <Route path="/guess-the-word" element={<GuessTheWord />} />
           <Route path="/do-the-sign" element={<DoTheSign />} />
+          <Route path="/profile" element={<ProfilePage />} />
         </Route>
         <Route element={<ForgotResetPasswordLayout />}>
           <Route path="/forgot-password" element={<ForgotPassword />} />

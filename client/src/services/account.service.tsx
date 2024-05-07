@@ -103,3 +103,26 @@ export const UserResetPassword = async (data: any) => {
     throw err;
   }
 };
+
+//  ---------- Get User by email ----------
+export const GetUserByEmail = async (email: string) => {
+  try {
+    const response = await axios.get(`http://localhost:3000/users/${email}`);
+    return response;
+  } catch (err) {
+    throw err;
+  }
+};
+
+// ---------- Update profile info by user_id ----------
+export const UpdateProfileInfo = async ( email:string,  data: any) => {
+  try {
+    const response = await axios.put(
+      `http://localhost:3000/users/${email}/profile`,
+      data
+    );
+    return response;
+  } catch (err) {
+    throw err;
+  }
+};

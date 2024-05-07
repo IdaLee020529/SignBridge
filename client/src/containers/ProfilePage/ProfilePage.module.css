@@ -1,0 +1,65 @@
+.profilePageContainer {
+    width: 100%;
+    display: flex;
+    text-align: center;
+    justify-content: center;
+    /* align-items: center; */
+    /* height: 100vh; */
+    /* margin-top: 20px; */
+    background-color: rgba(212, 213, 244, 0.329);
+
+    padding-left: 4rem;
+    padding-right: 4rem;
+    padding-bottom: 0.5rem;
+}
+
+.profileContentContainer {
+    width: 100%;
+    display: flex;
+    max-width: 75rem;
+}
+
+.SignInfoContainer {
+    /* width: 724px; */
+    width: 100%;
+    /* flex: auto; */
+    margin: 100px;
+    margin-right: 0;
+}
+
+.TabsList {
+    flex-shrink: 0;
+    display: flex;
+    margin-bottom: 1.5rem;
+}
+
+.TabsTrigger:first-child {
+    margin-left: 2px;
+}
+
+.TabsTrigger {
+    height: 2rem;
+    font-size: 14px;
+    border-radius: 8px;
+    padding: 8px 16px;
+    transition: all 0.2s ease-in-out;
+    border: 0;
+    cursor: pointer;
+    background-color: transparent;
+    /* background-color: #b6b6b675; */
+}
+
+.TabsTrigger[data-state='active'] {
+    color: white;
+    background-color: #1C2E4A;
+    box-shadow: inset 0 -1px 0 0 currentColor, 0 1px 0 0 currentColor;
+    transition: all 0.3s ease-in-out;
+    border-radius: 8px;
+}
+
+.TabsTrigger:not([data-state='active']):hover {
+    /* background-color: #a6bdf050; */
+    color: black;
+    transition: all 0.3s ease-in-out;  
+}
+

@@ -246,24 +246,24 @@ function Navbar() {
               </Link>
             </li>
 
-            <li className="nav-item">
-              <Link
-                to="language"
-                className="nav-links"
-                onClick={closeMobileMenu}
-              >
-                <Globe />
-              </Link>
-              <ul className="dropdown-menu">
-                <li>
-                  <Link
-                    to="#"
-                    className="dropdown-link"
-                    onClick={() => changeLanguage("en")}
-                  >
-                    EN
-                  </Link>
-                </li>
+                        <li className="nav-item">
+                            <Link
+                                to="#"
+                                className="nav-links"
+                                onClick={closeMobileMenu}
+                            >
+                                <Globe />
+                            </Link>
+                            <ul className="dropdown-menu">
+                                <li>
+                                    <Link
+                                        to="#"
+                                        className="dropdown-link"
+                                        onClick={() => changeLanguage('en')}
+                                    >
+                                        EN
+                                    </Link>
+                                </li>
 
                 <li>
                   <Link
@@ -329,7 +329,7 @@ function Navbar() {
                   <ul className="dropdown-menu">
                     <li>
                       <Link
-                        to="#"
+                        to="/profile"
                         className="dropdown-link"
                         onClick={closeMobileMenu}
                       >

@@ -14,6 +14,7 @@ import Experience from "../../components/SLP/Experience";
 import Man from "../../components/AvatarModels/Man";
 import handImage from "../../../public/images/hand.png";
 import handColoredImage from "../../../public/images/handcolored.png";
+import { ConstantAlphaFactor } from "three";
 import BrowseLocalVideo from "../../components/SLR/BrowseLocalVideo/BrowseLocalVideo";
 import OpenCameraRecord from "../../components/SLR/OpenCameraRecord/OpenCameraRecord";
 function Communication() {
@@ -80,39 +81,50 @@ function Communication() {
     // @ts-ignore
     controls.current.reset();
   };
+ // Define a variable to store the previous submitted text
+let previousSubmittedText = "";
 
-  // @ts-ignore
-  const handleSubmit = async (event) => {
-    event.preventDefault();
+// @ts-ignore
+const handleSubmit = async (event) => {
+  event.preventDefault();
 
-    const formData = new FormData(event.target);
-    const submittedText = formData.get("sigmlUrl") as string; // Prevent null value
+  const formData = new FormData(event.target);
+  const submittedText = formData.get("sigmlUrl") as string; // Prevent null value
 
-    try {
-      const response = await fetch('http://127.0.0.1:5000/api/SLP', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ text: submittedText }),
-      });
+  try {
+    const response = await fetch('http://127.0.0.1:5000/api/SLP', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ text: submittedText }),
+    });
 
-      if (response.ok) {
-        const data = await response.json();
-        if (inputText === submittedText) {
-          // If they are the same, append "#" to the submitted text
-          setInputText(data['return'] + "#");
-        } else {
-          // If they are different, update the inputText directly
-          setInputText(data['return']);
-        }
+    if (response.ok) {
+      const data = await response.json();
+      console.log('Data: ', data);
+      console.log('Submitted text: ', submittedText);
+      console.log('Previous submitted text: ', previousSubmittedText);
+      
+      if (previousSubmittedText === submittedText) {
+        // If the current submitted text is the same as the previous one, append "#" to the returned text
+        setInputText(data['return'] + "#");
       } else {
-        console.error('Failed to process text');
+        // If they are different, update the inputText directly
+        setInputText(data['return']);
       }
-    } catch (error) {
-      console.error('Error processing text: ', error);
+
+      // Update the previousSubmittedText variable for the next comparison
+      previousSubmittedText = submittedText;
+    } else {
+      console.error('Failed to process text');
     }
-  };
+  } catch (error) {
+    console.error('Error processing text: ', error);
+  }
+};
+
+
 
   // Function to toggle left-handed mode
   const toggleLeftHandedMode = () => {
@@ -266,24 +278,29 @@ function HandFocusMode() {
   return null;
 }
 
-// @ts-ignore
-function FPSCounter({ onUpdateFPS }) {
-  const frameRef = useRef({ lastTime: performance.now(), frameCount: 0 });
+// // @ts-ignore
+// function FPSCounter({ onUpdateFPS }) {
+//   const frameRef = useRef({ lastTime: performance.now(), frameCount: 0 });
+//   const previousFPS = useRef(0); // Store previous FPS value
 
-  useFrame(() => {
-    const now = performance.now();
-    const delta = now - frameRef.current.lastTime;
-    frameRef.current.frameCount++;
+//   useFrame(() => {
+//     const now = performance.now();
+//     const delta = now - frameRef.current.lastTime;
+//     frameRef.current.frameCount++;
 
-    if (delta >= 1000) {
-      const newFPS = Math.round((frameRef.current.frameCount * 1000) / delta);
-      onUpdateFPS(newFPS); // Call the passed callback with the new FPS
-      frameRef.current.frameCount = 0;
-      frameRef.current.lastTime = now;
-    }
-  });
+//     if (delta >= 1000) {
+//       const newFPS = Math.round((frameRef.current.frameCount * 1000) / delta);
+//       if (newFPS !== previousFPS.current) { // Update only if FPS changes
+//         onUpdateFPS(newFPS); // Call the passed callback with the new FPS
+//         previousFPS.current = newFPS; // Update previous FPS
+//       }
+//       frameRef.current.frameCount = 0;
+//       frameRef.current.lastTime = now;
+//     }
+//   });
 
-  return null; // No need to return anything as DOM updates are handled by the parent
-}
+//   return null; // No need to return anything as DOM updates are handled by the parent
+// }
+
 
 export default Communication;
