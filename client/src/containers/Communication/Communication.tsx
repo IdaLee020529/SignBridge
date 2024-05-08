@@ -104,6 +104,13 @@ const handleSubmit = async (event) => {
   }
 };
 
+  // const handleSubmit = (event) => {
+  //   event.preventDefault();
+  //   const formData = new FormData(event.target);
+  //   const submittedText = formData.get("sigmlUrl");
+  //   setInputText(submittedText);
+  // };
+
 
 
   // Function to toggle left-handed mode
