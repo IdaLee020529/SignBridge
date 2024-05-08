@@ -19,8 +19,7 @@ import Experience from "../../components/SLP/Experience";
 import Man from "../../components/AvatarModels/Man";
 
 // SLR Imports
-import SlrButton from "../../components/SLR/SlrButton/SlrButton";
-import SlrPreviewVideo from "../../components/SLR/SlrPreviewVideo/SlrPreviewVideo";
+import SLRInput from "../../components/SLRInput/SLRInput";
 
 function Communication() {
   // States to manage the application
@@ -190,47 +189,6 @@ function Communication() {
 
   //////////////////////////////////////////
   // SLR functions
-  const [selectedFile, setSelectedFile] = useState<File | null>(null);
-  const fileInputRef = useRef<HTMLInputElement>(null);
-  const [recordingStarted, setRecordingStarted] = useState(false); // State to track if recording has started
-  const [countdown, setCountdown] = useState(20);
-  const timerRef = useRef<NodeJS.Timeout | null>(null);
-
-  const handleFileSelect = (file: File) => {
-    setSelectedFile(file);
-  };
-
-  const handleFileInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const file = e.target.files && e.target.files[0];
-    if (file) {
-      setSelectedFile(file);
-      handleFileSelect(file);
-    }
-  };
-
-  const startCountdown = () => {
-    recordingStarted;
-    setRecordingStarted(true); // Set recording started flag
-    timerRef.current = setInterval(() => {
-      setCountdown((prevCountdown) => {
-        if (prevCountdown === 0) {
-          clearInterval(timerRef.current!); // Clear timer when countdown reaches 0
-          return 20; // Reset countdown value
-        } else {
-          return prevCountdown - 1; // Decrement countdown
-        }
-      });
-    }, 1000);
-  };
-
-  // Function to stop countdown timer
-  const stopCountdown = () => {
-    setRecordingStarted(false); // Set recording started flag to false
-    if (timerRef.current) {
-      clearInterval(timerRef.current); // Clear the timer interval
-    }
-  };
-
 
   return (
     <div className={`communication-body ${leftHandedMode ? "left-handed" : ""}`}>
@@ -344,22 +302,13 @@ function Communication() {
         )}
         {activeButton === "SLR" && (
           <>
-            <div className="canvas-wrapper">
-              <h1 className="slr-h1">Generated Sentence</h1>
-              {/* Render PreviewVideo with selectedFile */}
-              {selectedFile && (
-                <SlrPreviewVideo key={selectedFile.name} videoFile={selectedFile} />
-              )}
+            <div className="content-wrapper">
+              <h1 className="slr-h1">SLR Output</h1>
             </div>
-            <div className="canvas-wrapper">
-              <h1 className="slr-h1">Video Preview</h1>
+            <div className="content-wrapper">
+              <h1 className="slr-h1">SLR Input</h1>
               <div className="slr-content">
-              </div>
-              <div className="slr-content">
-                <SlrButton
-                  onBrowseVideo={handleFileSelect}
-                  onStartRecording={startCountdown}
-                  onStopRecording={stopCountdown} />
+                <SLRInput />
               </div>
             </div>
           </>

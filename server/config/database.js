@@ -29,7 +29,6 @@ async function connectDB() {
       //   useUnifiedTopology: true
       // }
     );
-    // console.log(`MongoDB Connected: ${client.db().databaseName}`);
     const database = client.db(DATABASE_NAME);
     return { client, database }
     // return client;

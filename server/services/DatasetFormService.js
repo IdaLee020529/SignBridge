@@ -20,6 +20,19 @@ const DatasetFormService = {
             }
         }
     },
+    async GetFormById(formId) {
+        const { client, database } = await connectDB();
+        try {
+            const collection = database.collection(DATABASE_COLLECTIONS.DATASET_COLLECTION);
+            const form = await collection.findOne({ form_id: parseInt(formId) });
+            await client.close();
+            return form;
+        } catch (error) {
+            console.error("Error fetching form:", error);
+            throw error; // Re-throw for controller to handle
+        }
+    },
+
 
     async GetAllFormsForSignExpert() {
         const { client, database } = await connectDB();
@@ -47,30 +60,28 @@ const DatasetFormService = {
         }
     },
 
-    async DeleteFormByID(id) {
-        const { client, database } = await connectDB();
-        try {
-            const collection = database.collection(DATABASE_COLLECTIONS.DATASET_COLLECTION); // Assuming FORMS is the collection name
-            const result = await collection.deleteOne({ _id: ObjectId(id) });
-            await client.close();
-            return result.deletedCount;
-        } catch (error) {
-            console.error("Error deleting form:", error);
-            throw error;
-        }
-    },
+    // async DeleteFormByID(id) {
+    //     const { client, database } = await connectDB();
+    //     try {
+    //         const collection = database.collection(DATABASE_COLLECTIONS.DATASET_COLLECTION); // Assuming FORMS is the collection name
+    //         const result = await collection.deleteOne({ _id: ObjectId(id) });
+    //         await client.close();
+    //         return result.deletedCount;
+    //     } catch (error) {
+    //         console.error("Error deleting form:", error);
+    //         throw error;
+    //     }
+    // },
 
     async UpdateFormByID(id, updatedDetails) {
         const { client, database } = await connectDB();
         try {
             const collection = database.collection(DATABASE_COLLECTIONS.DATASET_COLLECTION); // Assuming FORMS is the collection name
-            console.log(typeof id)
             const result = await collection.updateOne(
                 { form_id: parseInt(id) },
                 { $set: updatedDetails }
             );
             if (result) {
-                console.log(result)
                 client.close();
                 return result; // Return the number of modified documents
             }
@@ -78,7 +89,24 @@ const DatasetFormService = {
             console.error("Error updating form:", error);
             throw error; // Re-throw for controller to handle
         }
-    }
+    },
+
+    async GetDemoVideoById(formId) {
+        const { client, database } = await connectDB();
+        try {
+            const collection = database.collection(DATABASE_COLLECTIONS.DATASET_COLLECTION);
+            const form = await collection.findOne({ form_id: parseInt(formId) });
+            await client.close();
+            if (form) {
+                return form.video_link; // Assuming video_link is the field containing the video link
+            } else {
+                return null; // Or handle if form is not found
+            }
+        } catch (error) {
+            console.error("Error fetching form:", error);
+            throw error; // Re-throw for controller to handle
+        }
+    },
 }
 
 module.exports = DatasetFormService

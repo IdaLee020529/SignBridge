@@ -1,0 +1,44 @@
+.fa-file-video-o,
+.fa-video-camera,
+.fa-stop-circle-o,
+.fa-refresh,
+.fa-upload {
+  font-size: 30px;
+  padding: 10px;
+}
+
+.slr-btn-menu {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+}
+
+.slr-btn {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  margin: 50px 0px 0px 0px;
+  width: 50px;
+  height: 50px;
+}
+
+.video-container {
+  position: relative;
+  width: 100%;
+  height: 400px; /* Adjust height as needed */
+}
+
+.slr-preview-video {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover; /* Ensure the video fills the container */
+  opacity: 0; /* Initially hide both videos */
+  transition: opacity 0.3s ease; /* Add transition for smooth visibility changes */
+}
+
+.slr-preview-video.active {
+  opacity: 1; /* Show the active video */
+}
