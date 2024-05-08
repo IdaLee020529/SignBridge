@@ -67,6 +67,29 @@ const FirebaseService = {
         }
     },
 
+
+    // async downloadVideoFromStorage(downloadUrl) {
+    //     try {
+    //         const videoRef = storage.refFromURL(downloadUrl);
+
+    //         // Extract the filename from the download URL path (replace with a more robust regex if needed)
+    //         const filename = downloadUrl.substring(downloadUrl.lastIndexOf('/') + 1);
+
+    //         const videoURL = await videoRef.getDownloadURL();
+    //         const videoBlob = await fetch(videoURL).then(response => response.blob());
+
+    //         // Create a link element with the original filename
+    //         const downloadLink = document.createElement('a');
+    //         downloadLink.href = URL.createObjectURL(videoBlob);
+    //         downloadLink.download = filename; // Use extracted filename
+    //         downloadLink.click();
+
+    //         // Or, use a download library like FileSaver.js for more control
+    //     } catch (error) {
+    //         console.error(error);
+    //         // Handle download errors gracefully (e.g., display error message)
+    //     }
+    // }
 };
 
 module.exports = FirebaseService

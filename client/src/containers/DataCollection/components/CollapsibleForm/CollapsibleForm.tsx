@@ -3,7 +3,7 @@ import "./CollapsibleForm.css";
 import { Button } from "../../../../components/Button/Button";
 import VideoInput from "../../../../components/VideoInput/VideoInput";
 import { Descriptions } from "antd";
-import { updateFormById } from "../../../../services/dataset.service";
+import DemoVideoDownloader from "../DemoVideoDownloader/DemoVideoDownloader";
 
 interface CollapsibleFormProps {
   number: string;
@@ -13,11 +13,12 @@ interface CollapsibleFormProps {
   name: string;
   email: string;
   text: string;
-  video_link?: string;
+  video_link: string;
   avatar_link?: string;
   user?: string;
-  video_name?: string;
+  video_name: string;
   avatar_name?: string;
+  handleSubmit: Function;
 }
 
 const CollapsibleForm: React.FC<CollapsibleFormProps> = ({
@@ -33,20 +34,16 @@ const CollapsibleForm: React.FC<CollapsibleFormProps> = ({
   user,
   video_name,
   avatar_name,
+  handleSubmit,
 }) => {
-  const handleSubmit = async (
-    formId: number,
-    updateData: Record<string, string>
-  ) => {
-    try {
-      await updateFormById(formId, updateData);
-      // Handle success if needed
-    } catch (error) {
-      console.error("Error updating form:", error);
-      // Handle error if needed
-    }
-  };
   const [isOpen, setIsOpen] = useState<boolean>(false);
+
+  //Video Control
+  const [videoInfo, setVideoInfo] = useState(null);
+  const [resetVideo, setResetVideo] = useState(false);
+  const handleVideoReset = () => {
+    setResetVideo(true); // Reset resetVideo state
+  };
 
   const toggleOpen = () => {
     if (isOpen) {
@@ -73,7 +70,7 @@ const CollapsibleForm: React.FC<CollapsibleFormProps> = ({
     },
   ];
 
-  const video_details = [
+  const video_details_with_video_upload = [
     {
       key: "1",
       label: "Demonstration Video",
@@ -86,9 +83,42 @@ const CollapsibleForm: React.FC<CollapsibleFormProps> = ({
       ),
     },
     {
-      key: "1",
+      key: "2",
       label: "Avatar Video",
-      children: <span className="video-details-info">{avatar_link}</span>,
+      children: (
+        <span className="video-details-info">
+          <VideoInput
+            reset={resetVideo}
+            onReset={handleVideoReset}
+            setVideoInfo={setVideoInfo}
+          />
+        </span>
+      ),
+    },
+  ];
+
+  const video_details_with_information = [
+    {
+      key: "1",
+      label: "Demonstration Video",
+      children: (
+        <span className="video-details-info">
+          <a href={video_link} download={video_name}>
+            {video_name}
+          </a>
+        </span>
+      ),
+    },
+    {
+      key: "2",
+      label: "Avatar Video",
+      children: (
+        <span className="video-details-info">
+          <a href={avatar_link} download={avatar_name}>
+            {avatar_name}
+          </a>
+        </span>
+      ),
     },
   ];
 
@@ -133,11 +163,31 @@ const CollapsibleForm: React.FC<CollapsibleFormProps> = ({
               <h2>VIDEO DETAILS</h2>
               <div className="row">
                 <div className="col-md-6">
-                  <Descriptions
-                    items={video_details}
-                    bordered
-                    layout="vertical"
-                  />
+                  {user === "admin" && (
+                    <>
+                      {avatar_link == "" && (
+                        <Descriptions
+                          items={video_details_with_video_upload}
+                          bordered
+                          layout="vertical"
+                        />
+                      )}
+                      {avatar_link != "" && (
+                        <Descriptions
+                          items={video_details_with_information}
+                          bordered
+                          layout="vertical"
+                        />
+                      )}
+                    </>
+                  )}
+                  {user === "signexpert" && (
+                    <Descriptions
+                      items={video_details_with_information}
+                      bordered
+                      layout="vertical"
+                    />
+                  )}
                 </div>
               </div>
             </div>
@@ -150,7 +200,7 @@ const CollapsibleForm: React.FC<CollapsibleFormProps> = ({
                         type="button"
                         onClick={() => {
                           const updateData = {
-                            status_SE: "In Progress",
+                            status_SE: "Awaiting Accept",
                             status_Admin: "New",
                           };
                           handleSubmit(form_id, updateData);
@@ -163,7 +213,10 @@ const CollapsibleForm: React.FC<CollapsibleFormProps> = ({
                       <Button
                         type="button"
                         onClick={() => {
-                          // Handle cancel action
+                          const updateData = {
+                            status_SE: "Cancelled",
+                          };
+                          handleSubmit(form_id, updateData);
                         }}
                         buttonStyle="btn--cancel" // Style for cancel button
                         buttonSize="btn--large"
@@ -177,7 +230,11 @@ const CollapsibleForm: React.FC<CollapsibleFormProps> = ({
                       <Button
                         type="button"
                         onClick={() => {
-                          // Handle verify action
+                          const updateData = {
+                            status_SE: "Verified",
+                            status_Admin: "Verified",
+                          };
+                          handleSubmit(form_id, updateData);
                         }}
                         buttonStyle="btn--send"
                         buttonSize="btn--large"
@@ -187,26 +244,16 @@ const CollapsibleForm: React.FC<CollapsibleFormProps> = ({
                       <Button
                         type="button"
                         onClick={() => {
-                          // Handle reject action
+                          const updateData = {
+                            status_SE: "Rejected",
+                            status_Admin: "Rejected",
+                          };
+                          handleSubmit(form_id, updateData);
                         }}
                         buttonStyle="btn--send"
                         buttonSize="btn--large"
                       >
                         Reject
-                      </Button>
-                    </div>
-                  )}
-                  {status === "In Progress" && (
-                    <div className="button-container">
-                      <Button
-                        type="button"
-                        onClick={() => {
-                          // Handle send action
-                        }}
-                        buttonStyle="btn--send"
-                        buttonSize="btn--large"
-                      >
-                        Send
                       </Button>
                     </div>
                   )}
@@ -219,46 +266,16 @@ const CollapsibleForm: React.FC<CollapsibleFormProps> = ({
                       <Button
                         type="button"
                         onClick={() => {
-                          // Handle accept action
+                          const updateData = {
+                            status_SE: "In Progress",
+                            status_Admin: "In Progress",
+                          };
+                          handleSubmit(form_id, updateData);
                         }}
                         buttonStyle="btn--accept" // Style for accept button
                         buttonSize="btn--large"
                       >
                         Accept
-                      </Button>
-                      <Button
-                        type="button"
-                        onClick={() => {
-                          // Handle cancel action
-                        }}
-                        buttonStyle="btn--cancel" // Style for cancel button
-                        buttonSize="btn--large"
-                      >
-                        Cancel
-                      </Button>
-                    </div>
-                  )}
-                  {status === "Awaiting Verification" && (
-                    <div className="button-container">
-                      <Button
-                        type="button"
-                        onClick={() => {
-                          // Handle verify action
-                        }}
-                        buttonStyle="btn--send"
-                        buttonSize="btn--large"
-                      >
-                        Verify
-                      </Button>
-                      <Button
-                        type="button"
-                        onClick={() => {
-                          // Handle reject action
-                        }}
-                        buttonStyle="btn--send"
-                        buttonSize="btn--large"
-                      >
-                        Reject
                       </Button>
                     </div>
                   )}
@@ -267,12 +284,34 @@ const CollapsibleForm: React.FC<CollapsibleFormProps> = ({
                       <Button
                         type="button"
                         onClick={() => {
-                          // Handle send action
+                          const updateData = {
+                            status_SE: "Awaiting Verification",
+                            status_Admin: "Awaiting Verification",
+                          };
+                          handleSubmit(form_id, updateData);
                         }}
                         buttonStyle="btn--send"
                         buttonSize="btn--large"
                       >
-                        Send
+                        Submit
+                      </Button>
+                    </div>
+                  )}
+                  {status === "Rejected" && (
+                    <div className="button-container">
+                      <Button
+                        type="button"
+                        onClick={() => {
+                          const updateData = {
+                            status_SE: "Awaiting Verification",
+                            status_Admin: "Awaiting Verification",
+                          };
+                          handleSubmit(form_id, updateData);
+                        }}
+                        buttonStyle="btn--send"
+                        buttonSize="btn--large"
+                      >
+                        Submit
                       </Button>
                     </div>
                   )}
