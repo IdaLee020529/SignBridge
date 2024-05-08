@@ -59,3 +59,28 @@ export const updateFormById = async (
     throw err;
   }
 };
+export const getFormById = async (formId: number): Promise<any> => {
+  try {
+    console.log(formId);
+    const response = await axios.get(
+      `http://localhost:3000/datasetForms/${formId}`
+    );
+
+    return response.data; // Assuming the forms are returned in the response data
+  } catch (err) {
+    throw err;
+  }
+};
+
+export const getDemoVidById = async (formId: number): Promise<any> => {
+  try {
+    console.log(formId);
+    const response = await axios.get(
+      `http://localhost:3000/datasetForms/demoVid/${formId}`
+    );
+
+    return response.data; // Assuming the forms are returned in the response data
+  } catch (err) {
+    throw err;
+  }
+};
