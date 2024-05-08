@@ -46,7 +46,50 @@ const FirebaseService = {
         } catch (error) {
             throw error;
         }
-    }
+    },
+
+    async uploadProfileImageToStorageAndGetURL(imageFile) {
+        const timestamp = new Date().getTime();
+        const filename = `${timestamp}_${imageFile.originalname}`;
+        const fileRef = ref(storage, `demoProfileImage/${filename}`);
+        const metaData = {
+            contentType: imageFile.mimetype,
+        }
+
+        const uploadTask = uploadBytesResumable(fileRef, imageFile.buffer, metaData);
+
+        try {
+            await uploadTask;
+            const downloadURL = await getDownloadURL(uploadTask.snapshot.ref);
+            return downloadURL;
+        } catch (error) {
+            throw error;
+        }
+    },
+
+
+    // async downloadVideoFromStorage(downloadUrl) {
+    //     try {
+    //         const videoRef = storage.refFromURL(downloadUrl);
+
+    //         // Extract the filename from the download URL path (replace with a more robust regex if needed)
+    //         const filename = downloadUrl.substring(downloadUrl.lastIndexOf('/') + 1);
+
+    //         const videoURL = await videoRef.getDownloadURL();
+    //         const videoBlob = await fetch(videoURL).then(response => response.blob());
+
+    //         // Create a link element with the original filename
+    //         const downloadLink = document.createElement('a');
+    //         downloadLink.href = URL.createObjectURL(videoBlob);
+    //         downloadLink.download = filename; // Use extracted filename
+    //         downloadLink.click();
+
+    //         // Or, use a download library like FileSaver.js for more control
+    //     } catch (error) {
+    //         console.error(error);
+    //         // Handle download errors gracefully (e.g., display error message)
+    //     }
+    // }
 };
 
 module.exports = FirebaseService

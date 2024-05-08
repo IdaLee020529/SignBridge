@@ -41,4 +41,18 @@ function uploadImage(req, res, next) {
     });
 }
 
-module.exports = { uploadVideo, uploadImage };
+function uploadPicture(req, res, next) {
+    const storage = multer.memoryStorage({});
+
+    const upload = multer({ storage: storage }).single('picture');
+    upload(req, res, function (err) {
+        if (err instanceof multer.MulterError) {
+            return res.status(400).json({ message: 'File upload error', error: err });
+        } else if (err) {
+            return res.status(500).json({ message: 'Server error', error: err });
+        }
+        next();
+    });
+}
+
+module.exports = { uploadVideo, uploadImage, uploadPicture };

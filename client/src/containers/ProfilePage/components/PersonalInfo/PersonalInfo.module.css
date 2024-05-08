@@ -27,6 +27,8 @@
     margin-bottom: 20px;
     padding: 5px;
     border: black 1px solid;
+    object-fit: cover;
+    object-position: center;
 }
 
 .email {

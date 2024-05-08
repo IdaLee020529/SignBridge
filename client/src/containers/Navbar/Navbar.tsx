@@ -5,10 +5,8 @@ import { useThemeStore } from "../../store/theme";
 import "./Navbar.css";
 import Cookies from "js-cookie";
 import { LogoutUser } from "../../services/account.service";
-import {
-  GetUserIdByEmail,
-  FetchNotificationCounts,
-} from "../../services/notification.service";
+import { GetUserIdByEmail, FetchNotificationCounts } from "../../services/notification.service";
+import { GetUserByEmail } from "../../services/account.service";
 import { Globe } from "lucide-react";
 import { useTranslation } from "react-i18next";
 
@@ -67,20 +65,22 @@ function Navbar() {
   const handleClick = () => setClick(!click);
   const closeMobileMenu = () => setClick(false);
 
-  // check if token exists inside the cookies, if exists, get the user's name from the cookies called name
-  useEffect(() => {
-    const token = Cookies.get("name");
-    if (token) {
-      setName(token);
-    }
-  });
+  const email = Cookies.get("email");
 
   useEffect(() => {
-    const token = Cookies.get("picture");
-    if (token) {
-      setPicture(token);
+    const getUserInfo = async () => {
+      const res = await GetUserByEmail(email ?? "");
+      setPicture(res.data.picture);
+      setName(res.data.username);
+    };
+    
+    if (isLoggedIn) {
+      getUserInfo();
+    } else {
+      setPicture(""); 
+      setName("");
     }
-  });
+  }, [email, isLoggedIn]);
 
   // ---------- Function to show login button on small screens ----------
   const showButton = () => {
@@ -96,7 +96,6 @@ function Navbar() {
   }, []);
 
   // ---------- Fetch notification counts ----------
-  const email = Cookies.get("email");
   const [userIds, setUserIds] = useState("");
   const [notificationCount, setNotificationCount] = useState(0);
 
@@ -246,24 +245,24 @@ function Navbar() {
               </Link>
             </li>
 
-                        <li className="nav-item">
-                            <Link
-                                to="#"
-                                className="nav-links"
-                                onClick={closeMobileMenu}
-                            >
-                                <Globe />
-                            </Link>
-                            <ul className="dropdown-menu">
-                                <li>
-                                    <Link
-                                        to="#"
-                                        className="dropdown-link"
-                                        onClick={() => changeLanguage('en')}
-                                    >
-                                        EN
-                                    </Link>
-                                </li>
+          <li className="nav-item">
+              <Link
+                  to="#"
+                  className="nav-links"
+                  onClick={closeMobileMenu}
+              >
+                  <Globe />
+              </Link>
+            <ul className="dropdown-menu">
+                <li>
+                    <Link
+                        to="#"
+                        className="dropdown-link"
+                        onClick={() => changeLanguage('en')}
+                    >
+                        EN
+                    </Link>
+                </li>
 
                 <li>
                   <Link

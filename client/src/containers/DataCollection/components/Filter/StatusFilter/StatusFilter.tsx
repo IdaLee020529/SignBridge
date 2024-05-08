@@ -7,23 +7,43 @@ const { Option } = Select;
 interface StatusFilterProps {
   filterStatus: string;
   setFilterStatus: (value: string) => void;
+  user: string;
 }
 
 const StatusFilter: React.FC<StatusFilterProps> = ({
   filterStatus,
   setFilterStatus,
+  user,
 }) => {
   const handleSelectChange = (value: string) => {
     setFilterStatus(value);
   };
 
-  const options = [
-    { value: "All", label: "All" },
-    { value: "New", label: "New" },
-    { value: "In Progress", label: "In Progress" },
-    { value: "Awaiting Verification", label: "Awaiting Verification" },
-    { value: "Rejected", label: "Rejected" },
-  ];
+  // Declare options variable
+  let options: { value: string; label: string }[] = [];
+
+  // Assign options based on user
+  if (user === "signexpert") {
+    options = [
+      { value: "All", label: "All" },
+      { value: "New", label: "New" },
+      { value: "Awaiting Accept", label: "Awaiting Accept" },
+      { value: "In Progress", label: "In Progress" },
+      { value: "Awaiting Verification", label: "Awaiting Verification" },
+      { value: "Rejected", label: "Rejected" },
+      { value: "Verified", label: "Verified" },
+      { value: "Cancelled", label: "Cancelled" },
+    ];
+  } else if (user === "admin") {
+    options = [
+      { value: "All", label: "All" },
+      { value: "New", label: "New" },
+      { value: "In Progress", label: "In Progress" },
+      { value: "Awaiting Verification", label: "Awaiting Verification" },
+      { value: "Rejected", label: "Rejected" },
+      { value: "Verified", label: "Verified" },
+    ];
+  }
 
   return (
     <div className="status-filter">
@@ -32,7 +52,7 @@ const StatusFilter: React.FC<StatusFilterProps> = ({
         value={filterStatus}
         onChange={handleSelectChange}
         style={{ width: 200, height: 50 }}
-        dropdownClassName="status-filter-dropdown" // Added custom class
+        dropdownClassName="status-filter-dropdown"
       >
         {options.map((option) => (
           <Option key={option.value} value={option.value}>
@@ -45,42 +65,3 @@ const StatusFilter: React.FC<StatusFilterProps> = ({
 };
 
 export default StatusFilter;
-
-// StatusFilter.tsx
-// import React, { useState } from "react";
-// import FilterSelect from "../FilterSelect/FilterSelect";
-// import "./StatusFilter.css";
-
-// const StatusFilter: React.FC = () => {
-//   const [isActive, setIsActive] = useState(false);
-
-//   const toggleMenu = () => {
-//     setIsActive(!isActive);
-//   };
-
-//   const options = [
-//     { text: "All" },
-//     {
-//       text: "New",
-//     },
-//     {
-//       text: "In Progress",
-//     },
-//     {
-//       text: "Awaiting Verification",
-//     },
-//     { text: "Rejected" },
-//   ];
-
-//   return (
-//     <div className={`select-menu ${isActive ? "active" : ""}`}>
-//       <div className="select-btn" onClick={toggleMenu}>
-//         <span className="sBtn-text">Filter by Status</span>
-//         <i className="bx bx-chevron-down"></i>
-//       </div>
-//       <FilterSelect options={options} />
-//     </div>
-//   );
-// };
-
-// export default StatusFilter;

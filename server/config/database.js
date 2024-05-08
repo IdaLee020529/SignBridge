@@ -17,7 +17,8 @@ const DATABASE_COLLECTIONS = {
   NOTIFICATIONS: "notifications",
   NOTIFICATIONS_COUNTER: "notifications_counter",
   DATASET_COLLECTION: "dataset_collection",
-  DATASET_COUNTER: "dataset_counter"
+  DATASET_COUNTER: "dataset_counter",
+  COUNTRY: "country",
 }
 
 async function connectDB() {
@@ -29,7 +30,6 @@ async function connectDB() {
       //   useUnifiedTopology: true
       // }
     );
-    // console.log(`MongoDB Connected: ${client.db().databaseName}`);
     const database = client.db(DATABASE_NAME);
     return { client, database }
     // return client;

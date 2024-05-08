@@ -62,5 +62,6 @@ app.listen(port, () => {
   console.log(`Server started at http://localhost:${port}`);
   UserController.insertPresetAccounts();
   CategoryController.insertPresetSignCategories();
+  UserController.insertPresetCountry();
   FaqController.insertFixFaq();
 });
