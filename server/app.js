@@ -49,6 +49,9 @@ app.use(faqRoutes);
 const categoryRoutes = require("./routes/CategoryRoutes")
 app.use(categoryRoutes);
 
+const categorySignRoutes = require("./routes/CategorySignRoutes")
+app.use(categorySignRoutes);
+
 const notificationRoutes = require("./routes/NotificationRoutes")
 app.use(notificationRoutes);
 
