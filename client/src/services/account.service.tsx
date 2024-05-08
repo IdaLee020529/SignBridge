@@ -115,12 +115,22 @@ export const GetUserByEmail = async (email: string) => {
 };
 
 // ---------- Update profile info by user_id ----------
-export const UpdateProfileInfo = async ( email:string,  data: any) => {
+export const UpdateProfileInfo = async ( email:string,  data: FormData) => {
   try {
     const response = await axios.put(
       `http://localhost:3000/users/${email}/profile`,
       data
     );
+    return response;
+  } catch (err) {
+    throw err;
+  }
+};
+
+// ---------- Fetch All Countries ----------
+export const FetchAllCountries = async () => {
+  try {
+    const response = await axios.get("http://localhost:3000/users/countries");
     return response;
   } catch (err) {
     throw err;

@@ -125,6 +125,10 @@
     background-color: #F5F5F5;
 }
 
+.selectItem[data-active-item] {
+    background-color: #F5F5F5;
+}
+
 .imageUploader {
     display: flex;
     flex-direction: column;
@@ -138,6 +142,8 @@
     border-radius: 50%;
     width: 100px;
     height: 100px;
+    object-fit: cover;
+    object-position: center;
 }
 
 .uploadButton {
