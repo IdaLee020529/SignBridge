@@ -65,13 +65,24 @@ const DatasetFormController = {
     async GetDemoVideoById(req, res) {
         try {
             const formId = req.params.id;
-            const video_link = await DatasetFormService.GetDemoVideoById(formId);
-            await FirebaseService.downloadVideoFromStorage(video_link)
+            const video = await DatasetFormService.GetDemoVideoById(formId);
+            const downloadUrl = video.videoLink;
+            const filename = video.videoName || 'default_video.mp4'; // Set default filename if unavailable
+            const response = await fetch(downloadUrl);
+            if (!response.ok) {
+                throw new Error('Error fetching video');
+            }
+            const arrayBuffer = await response.arrayBuffer(); // Convert blob to array buffer
+            const buffer = Buffer.from(arrayBuffer); // Convert array buffer to buffer
+            const contentType = response.headers.get('content-type') || 'video/mp4'; // Use response content type or default to video/mp4
+
+            res.setHeader('Content-Type', contentType);
+            res.setHeader('Content-Disposition', `attachment; filename="${filename}"`);
+            res.send(buffer); // Send the buffer data as the response body
         } catch (error) {
-            console.error("Error updating form:", error);
+            console.error("Error fetching video:", error);
             res.status(500).json({ error: "Internal Server Error" });
         }
     }
-
 }
 module.exports = DatasetFormController

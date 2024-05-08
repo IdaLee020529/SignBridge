@@ -3,8 +3,8 @@ import "./CollapsibleForm.css";
 import { Button } from "../../../../components/Button/Button";
 import VideoInput from "../../../../components/VideoInput/VideoInput";
 import { Descriptions } from "antd";
-import DemoVideoDownloader from "../DemoVideoDownloader/DemoVideoDownloader";
-
+import { getDemoVidById } from "../../../../services/dataset.service";
+import { saveAs } from "file-saver";
 interface CollapsibleFormProps {
   number: string;
   form_id: number;
@@ -36,6 +36,17 @@ const CollapsibleForm: React.FC<CollapsibleFormProps> = ({
   avatar_name,
   handleSubmit,
 }) => {
+  const downloadVideo = async () => {
+    try {
+      const video = await getDemoVidById(form_id); // Assuming getDemoVidById returns a Promise
+      const blob = new Blob([video.data], { type: "video/mp4" }); // Assuming video.data contains blob data and video.contentType contains the content type
+      saveAs(blob, video_name);
+    } catch (error) {
+      console.error("Error downloading video:", error);
+      // Handle download errors gracefully (e.g., display error message)
+    }
+  };
+
   const [isOpen, setIsOpen] = useState<boolean>(false);
 
   //Video Control
@@ -76,9 +87,7 @@ const CollapsibleForm: React.FC<CollapsibleFormProps> = ({
       label: "Demonstration Video",
       children: (
         <span className="video-details-info">
-          <a href={video_link} download={video_name}>
-            {video_name}
-          </a>
+          <button onClick={() => downloadVideo()}>Download {video_name}</button>
         </span>
       ),
     },
@@ -103,9 +112,7 @@ const CollapsibleForm: React.FC<CollapsibleFormProps> = ({
       label: "Demonstration Video",
       children: (
         <span className="video-details-info">
-          <a href={video_link} download={video_name}>
-            {video_name}
-          </a>
+          <button onClick={() => downloadVideo()}>Download {video_name}</button>
         </span>
       ),
     },
