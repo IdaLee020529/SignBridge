@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import "./Library.css";
-import { fetchCat } from "../../services/library.service";
+import { fetchCat } from "../../services/category.service";
 
 interface LibraryCategories {
   category_name: string;
