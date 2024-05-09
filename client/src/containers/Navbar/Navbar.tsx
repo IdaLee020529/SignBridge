@@ -5,7 +5,10 @@ import { useThemeStore } from "../../store/theme";
 import "./Navbar.css";
 import Cookies from "js-cookie";
 import { LogoutUser } from "../../services/account.service";
-import { GetUserIdByEmail, FetchNotificationCounts } from "../../services/notification.service";
+import {
+  GetUserIdByEmail,
+  FetchNotificationCounts,
+} from "../../services/notification.service";
 import { GetUserByEmail } from "../../services/account.service";
 import { Globe } from "lucide-react";
 import { useTranslation } from "react-i18next";
@@ -51,6 +54,7 @@ function Navbar() {
     });
 
     // remove the name, email, and token from the cookies
+    Cookies.remove("user_id");
     Cookies.remove("name");
     Cookies.remove("email");
     Cookies.remove("token");
@@ -73,11 +77,11 @@ function Navbar() {
       setPicture(res.data.picture);
       setName(res.data.username);
     };
-    
+
     if (isLoggedIn) {
       getUserInfo();
     } else {
-      setPicture(""); 
+      setPicture("");
       setName("");
     }
   }, [email, isLoggedIn]);
@@ -245,23 +249,19 @@ function Navbar() {
               </Link>
             </li>
 
-          <li className="nav-item">
-              <Link
-                  to="#"
-                  className="nav-links"
-                  onClick={closeMobileMenu}
-              >
-                  <Globe />
+            <li className="nav-item">
+              <Link to="#" className="nav-links" onClick={closeMobileMenu}>
+                <Globe />
               </Link>
-            <ul className="dropdown-menu">
+              <ul className="dropdown-menu">
                 <li>
-                    <Link
-                        to="#"
-                        className="dropdown-link"
-                        onClick={() => changeLanguage('en')}
-                    >
-                        EN
-                    </Link>
+                  <Link
+                    to="#"
+                    className="dropdown-link"
+                    onClick={() => changeLanguage("en")}
+                  >
+                    EN
+                  </Link>
                 </li>
 
                 <li>
