@@ -54,8 +54,8 @@ const UserController = {
                 const token = jwt.sign({ email: user.email }, process.env.JWT_SECRET, {
                     expiresIn: "7d",
                 });
-
                 req.session.isLoggedIn = true;
+                req.session.user_id = user.user_id
                 req.session.username = user.username;
                 req.session.email = user.email;
                 req.session.picture = user.picture;
@@ -64,6 +64,7 @@ const UserController = {
 
                 return res.status(200).json({
                     Login: true,
+                    user_id: user.user_id,
                     username: req.session.username,
                     role_access: req.session.role_access,
                     picture: req.session.picture,
@@ -235,11 +236,11 @@ const UserController = {
             const { userID } = req.params;
             const updatedData = req.body;
             const imageInfo = req.file;
-    
+
             if (imageInfo) {
                 const imageURL = await FirebaseService.uploadProfileImageToStorageAndGetURL(imageInfo);
                 if (imageURL) {
-                    const result = await UserService.UpdateUserProfileById(userID, {...updatedData, picture: imageURL});
+                    const result = await UserService.UpdateUserProfileById(userID, { ...updatedData, picture: imageURL });
                     res.status(201).json(result);
                 } else {
                     res.status(500).json({ error: "Failed to upload image" });
@@ -282,7 +283,7 @@ const UserController = {
     // For fetching the user's datasetcollection
     async GetUserDatasetCollection(req, res) {
         try {
-            const { userID }= req.params;
+            const { userID } = req.params;
             const datasetCollection = await UserService.GetDatasetById(userID);
 
             if (datasetCollection) {
