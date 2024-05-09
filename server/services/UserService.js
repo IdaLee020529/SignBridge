@@ -18,12 +18,10 @@ const UserService = {
                 return existingUser;
             }
 
-            // Save the created date
             userData.created_at = new Date().toISOString();
 
-            // Get the count of existing users to determine the next id
             const newFormId = await UserCounterService.getNextValue('userId');
-            userData.user_id = newFormId; // Increment count to start from 1
+            userData.user_id = newFormId; 
 
             const token = jwt.sign({ email: userData.email }, process.env.JWT_SECRET, { expiresIn: "1h" });
 
@@ -285,16 +283,16 @@ const UserService = {
     },
 
     // update user profile
-    async UpdateUserProfileById(email, updatedData) {
+    async UpdateUserProfileById(user_id, updatedData) {
         try {
             const { client, database } = await connectDB();
             const collection = database.collection(DATABASE_COLLECTIONS.USERS);
     
-            // Update the user profile based on user_id
             const result = await collection.updateOne(
-                { email: email },
+                { user_id: parseInt(user_id) },
                 { $set: updatedData }
             );
+            console.log(`${result.modifiedCount} user profile updated`);
     
             client.close();
             return result;
@@ -311,7 +309,6 @@ const UserService = {
         try {
             const collection = database.collection(DATABASE_COLLECTIONS.COUNTRY);
     
-            // Check if the collection exists and insert preset accounts if it doesn't
             const collections = await database.listCollections({ name: DATABASE_COLLECTIONS.COUNTRY }).toArray();
             if (collections.length === 0) {
                 await database.createCollection(DATABASE_COLLECTIONS.COUNTRY);
@@ -345,7 +342,38 @@ const UserService = {
             throw error; 
         }
     },
-    
+
+    // Fetch the datasetcollection by id
+    async GetDatasetById(user_id) {
+        const { client, database } = await connectDB();
+        try {
+            const collection = database.collection(DATABASE_COLLECTIONS.DATASET_COLLECTION);
+            const dataset = await collection.find({
+                user_id: parseInt(user_id)
+            }).toArray();
+
+            await client.close();
+            return dataset;
+        }
+        catch (error) {
+            console.error("Error fetching dataset by id:", error);
+            throw error;
+        }
+    },  
+
+    // Fetch all datasetcollection 
+    async GetAllUserDatasetCollection() {
+        const { client, database } = await connectDB();
+        try {
+            const collection = database.collection(DATABASE_COLLECTIONS.DATASET_COLLECTION);
+            const dataset = await collection.find().toArray();
+            await client.close();
+            return dataset;
+        } catch (error) {
+            console.error("Error fetching dataset collection:", error);
+            throw error;
+        }
+    },
 };
 
 module.exports = UserService;

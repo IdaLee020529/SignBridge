@@ -15,11 +15,14 @@ router.post('/users/forget-password', UserController.ForgetPassword);
 router.post('/users/reset-password', UserController.ResetPassword);
 router.post('/users/logout', UserController.LogoutUser);
 
+// For profile page (Account)
 router.get('/users/countries', UserController.GetAllCountries);
+router.get('/users/:email/profile', UserController.GetUserByEmail);
+router.put('/users/:userID/profile', uploadPicture, UserController.UpdateUserProfileById);
 
-router.get('/users/:email', UserController.GetUserByEmail);
-router.put('/users/:email/profile', uploadPicture, UserController.UpdateUserProfileById);
+// For profile page (Sign text)
+router.get('/users/all-datasets', UserController.GetAllDatasetCollection);
+router.get('/users/:userID/datasets', UserController.GetUserDatasetCollection);
 
-// For country
 
 module.exports = router;

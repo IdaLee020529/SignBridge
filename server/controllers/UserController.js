@@ -232,22 +232,20 @@ const UserController = {
 
     async UpdateUserProfileById(req, res) {
         try {
-            const { email } = req.params;
+            const { userID } = req.params;
             const updatedData = req.body;
             const imageInfo = req.file;
-            // console.log("Updated data:", updatedData);
-            // console.log("Image info:", imageInfo);
     
             if (imageInfo) {
                 const imageURL = await FirebaseService.uploadProfileImageToStorageAndGetURL(imageInfo);
                 if (imageURL) {
-                    const result = await UserService.UpdateUserProfileById(email, {...updatedData, picture: imageURL});
+                    const result = await UserService.UpdateUserProfileById(userID, {...updatedData, picture: imageURL});
                     res.status(201).json(result);
                 } else {
                     res.status(500).json({ error: "Failed to upload image" });
                 }
             } else {
-                const result = await UserService.UpdateUserProfileById(email, updatedData);
+                const result = await UserService.UpdateUserProfileById(userID, updatedData);
                 res.status(201).json(result);
             }
         } catch (error) {
@@ -278,6 +276,39 @@ const UserController = {
         } catch (error) {
             console.error("Error fetching countries:", error);
             return res.status(500).json({ error: "Internal Server Error" });
+        }
+    },
+
+    // For fetching the user's datasetcollection
+    async GetUserDatasetCollection(req, res) {
+        try {
+            const { userID }= req.params;
+            const datasetCollection = await UserService.GetDatasetById(userID);
+
+            if (datasetCollection) {
+                res.status(200).json(datasetCollection);
+            } else {
+                res.status(404).json({ error: "User dataset collection not found" });
+            }
+        } catch (error) {
+            console.error("Error fetching user dataset collection:", error);
+            res.status(500).json({ error: "Internal Server Error" });
+        }
+    },
+
+    // For fetching all datasetcollection
+    async GetAllDatasetCollection(req, res) {
+        try {
+            const datasetCollection = await UserService.GetAllUserDatasetCollection();
+
+            if (datasetCollection) {
+                res.status(200).json(datasetCollection);
+            } else {
+                res.status(404).json({ error: "Dataset collection not found" });
+            }
+        } catch (error) {
+            console.error("Error fetching dataset collection:", error);
+            res.status(500).json({ error: "Internal Server Error" });
         }
     },
 }
