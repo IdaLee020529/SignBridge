@@ -64,7 +64,7 @@ const UserController = {
 
                 return res.status(200).json({
                     Login: true,
-                    user_id: user.user_id,
+                    user_id: req.session.user_id,
                     username: req.session.username,
                     role_access: req.session.role_access,
                     picture: req.session.picture,
