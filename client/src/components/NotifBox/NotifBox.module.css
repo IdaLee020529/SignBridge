@@ -9,7 +9,7 @@
 
 .notifCheckbox, .notifAvatar, .notifIcon {
     display: flex;
-    align-items: center; /* Vertically center items */
+    align-items: center;
 }
 
 .notifAvatar img {
@@ -17,6 +17,8 @@
     width: 60px;
     height: 60px;
     margin-right: 24px;
+    object-fit: cover;
+    object-position: center;
 }
 
 .notifContent {

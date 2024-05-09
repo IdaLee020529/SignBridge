@@ -431,6 +431,7 @@ const AccountForm = () => {
                 className={style.uploadInput}
                 onChange={handleImageChange}
                 style={{ display: 'none'}} 
+                accept="image/jpeg, image/png, image/jpg"
               />
             </label>
           </div>

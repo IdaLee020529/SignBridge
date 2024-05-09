@@ -61,6 +61,12 @@
     text-align: left;
 }
 
+.tableHeader {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
 .tableRow {
     display: table-row;
 }
@@ -83,7 +89,7 @@
 .tableColumn {
     position: relative;
     display: table-cell;
-    vertical-align: top;
+    /* vertical-align: top; */
     padding: 16px 12px;
     color: #1A1D1F;
 }
@@ -115,4 +121,82 @@
     font-size: 12px;
     line-height: normal;
     font-weight: 700;
+}
+
+.searchBox {
+    display: flex;
+    /* flex-direction: row-reverse; */
+    gap: 10px;
+    margin-bottom: 20px;
+    position: relative;
+}
+
+.searchIcon {
+    position: absolute;
+    top: 50%;
+    left: 15px;
+    transform: translateY(-50%);
+    color: #6F767E;
+}
+
+.searchInputBox {
+    padding: 0 20px 0 50px;
+    border-radius: 12px;
+    height: 40px;
+    font-size: 15px;
+    border: none;
+    outline: none;
+    background: #F4F4F4;
+    font-weight: 600;
+    color: #1A1D1F;
+}
+
+.pagination {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    margin-top: 20px;
+}
+
+.pagination span {
+    font-size: 13px;
+}
+
+.pagination select{
+    border: none;
+    background: none;
+    cursor: pointer;
+    font-size: 13px;
+    margin-right: 15px;
+}
+
+.pagination .dataNumber {
+    font-size: 13px;  
+    margin-right: 15px;
+}
+
+.pagination button{
+    border: none;
+    background: none;
+    cursor: pointer;
+    
+}
+
+.pagination button:hover {
+    background: #f5f5f5;
+}
+
+.pagination button[disabled] {
+    cursor: default;
+    background: none;
+}
+
+.paginationIcon {
+    width: 15px;
+    height: auto;
+}
+
+.sortIcon {
+    width: 20px;
+    cursor: pointer;
 }

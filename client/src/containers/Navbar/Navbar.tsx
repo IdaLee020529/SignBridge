@@ -88,7 +88,7 @@ function Navbar() {
 
   // ---------- Function to show login button on small screens ----------
   const showButton = () => {
-    if (window.innerWidth <= 1100) {
+    if (window.innerWidth <= 1300) {
       setButton(false);
     } else {
       setButton(true);
