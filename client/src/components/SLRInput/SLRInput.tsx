@@ -1,7 +1,6 @@
 // SLRInput.tsx
 import './SLRInput.css';
 import React, { useRef, useState } from 'react';
-
 const mimeType = 'video/webm; codecs="opus,vp8"';
 
 const SLRInput = () => {
@@ -29,6 +28,8 @@ const SLRInput = () => {
 
         // Stop the media recorder and video stream
         mediaRecorder.current?.stop();
+
+        // Stop the live video feed
         if (liveVideoFeed.current) {
             liveVideoFeed.current.srcObject = null;
         }
@@ -165,7 +166,7 @@ const SLRInput = () => {
 
     return (
         <div>
-            <div className="slr-btn-menu">
+            <div className="slr-input-menu">
                 <input
                     type="file"
                     ref={videoInputRef}
@@ -173,33 +174,33 @@ const SLRInput = () => {
                     accept=".mp4"
                     onChange={handleSelectedVideoChange}
                 />
-                <button className="slr-btn" onClick={() => videoInputRef.current?.click()}>
+                <button className="slr-input-btn" onClick={() => videoInputRef.current?.click()}>
                     <i className="fa fa-file-video-o"></i>
                 </button>
 
                 {!permission && (
-                    <button className="slr-btn" onClick={handleCameraPermission} type="button">
+                    <button className="slr-input-btn" onClick={handleCameraPermission} type="button">
                         <i className="fa fa-video"></i>
                     </button>
                 )}
 
                 {permission && recordingStatus === "inactive" && (
-                    <button className="slr-btn" onClick={handleStartRecording} type="button">
+                    <button className="slr-input-btn" onClick={handleStartRecording} type="button">
                         <i className="fa fa-play"></i>
                     </button>
                 )}
 
                 {permission && recordingStatus === "recording" && (
-                    <button className="slr-btn" onClick={handleStopRecording} type="button">
+                    <button className="slr-input-btn" onClick={handleStopRecording} type="button">
                         <i className="fa fa-stop"></i>
                     </button>
                 )}
 
-                <button className="slr-btn" onClick={handleResetAll} type="button">
+                <button className="slr-input-btn" onClick={handleResetAll} type="button">
                     <i className="fa fa-refresh"></i>
                 </button>
 
-                <button className="slr-btn" onClick={handleUpload} type="button">
+                <button className="slr-input-btn" onClick={handleUpload} type="button">
                     <i className="fa fa-upload"></i>
                 </button>
             </div>

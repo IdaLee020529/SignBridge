@@ -25,7 +25,7 @@ function Communication() {
   // States to manage the application
   // General states
   const [activeButton, setActiveButton] = useState(() => {
-    // Retrieve the activeButton value from localStorage on initial render
+    // Retrieve the activeButton value from localStorage on initial Frender
     return localStorage.getItem("activeButton") || "SLP";
   });
   // SLP states
@@ -37,10 +37,6 @@ function Communication() {
   const [isPaused, setPaused] = useState(false); // State to manage pause/play
   const [leftHandedMode, setLeftHandedMode] = useState(false); // State to manage left-handed mode
   const [fps, setFps] = useState(60); // State to hold FPS value
-
-  // SLR states
-  const [videoInfo, setVideoInfo] = useState(null); // State to hold the video information
-  const [resetVideo, setResetVideo] = useState(false); // State to reset the video
 
   //////////////////////////////////////////
   // General functions
@@ -186,9 +182,6 @@ function Communication() {
 
   // Define a variable to store the previous submitted text
   let previousSubmittedText = "";
-
-  //////////////////////////////////////////
-  // SLR functions
 
   return (
     <div className={`communication-body ${leftHandedMode ? "left-handed" : ""}`}>
