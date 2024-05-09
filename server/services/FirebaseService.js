@@ -32,7 +32,7 @@ const FirebaseService = {
     async uploadImageToStorageAndGetURL(imageFile) {
         const timestamp = new Date().getTime();
         const filename = `${timestamp}_${imageFile.originalname}`;
-        const fileRef = ref(storage, `demoIssueScreenShot/${filename}`);
+        const fileRef = ref(storage, `feedbackIssueScreenShot/${filename}`);
         const metaData = {
             contentType: imageFile.mimetype,
         }
@@ -51,7 +51,7 @@ const FirebaseService = {
     async uploadProfileImageToStorageAndGetURL(imageFile) {
         const timestamp = new Date().getTime();
         const filename = `${timestamp}_${imageFile.originalname}`;
-        const fileRef = ref(storage, `demoProfileImage/${filename}`);
+        const fileRef = ref(storage, `userProfileImage/${filename}`);
         const metaData = {
             contentType: imageFile.mimetype,
         }
