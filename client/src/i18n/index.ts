@@ -6,6 +6,7 @@ import homepageTranslations from './homepage';
 import datasetCollectionTranslations from './dataset_collection';
 import feedbackTranslations from "./feedback";
 import educationTranslations from "./education";
+import faqTransaction from "./faq";
 
 const resources = {
     en: {
@@ -18,6 +19,7 @@ const resources = {
             ...datasetCollectionTranslations.en,
             ...feedbackTranslations.en,
             ...educationTranslations.en,
+            ...faqTransaction.en,
         },
     },
     bm: {
@@ -30,6 +32,7 @@ const resources = {
             ...datasetCollectionTranslations.bm,
             ...feedbackTranslations.bm,
             ...educationTranslations.bm,
+            ...faqTransaction.bm,
         },
     },
 };

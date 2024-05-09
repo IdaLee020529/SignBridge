@@ -6,7 +6,8 @@ interface InputFieldProps {
   name: string;
   placeholder?: string;
   type?: string;
-  value: string;
+  value?: string;
+  defaultValue?: string;
   id?: string;
   onChange: (e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => void;
   multipleLines?: boolean;
@@ -19,6 +20,7 @@ const InputField: React.FC<InputFieldProps> = ({
   placeholder = " ",
   type = "text",
   value = "",
+  defaultValue,
   onChange,
   error,
   id,
@@ -43,6 +45,7 @@ const InputField: React.FC<InputFieldProps> = ({
       id={id}
       onChange={onChange}
       data-testid={name}
+      defaultValue={defaultValue}
     />
   ) : (
     <input
@@ -54,6 +57,7 @@ const InputField: React.FC<InputFieldProps> = ({
       id={id}
       onChange={onChange}
       data-testid={name}
+      defaultValue={defaultValue}
     />
   );
 

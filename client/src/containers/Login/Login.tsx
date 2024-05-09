@@ -59,11 +59,11 @@ function Login() {
     let error = "";
     const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
     if (!value.trim()) {
-      error = "Email is required";
-      setEmailError("Email is required");
+      error = t('email_required');
+      setEmailError(t('email_required'));
       return error;
     } else if (!emailRegex.test(value)) {
-      setEmailError("Invalid email format");
+      setEmailError(t('email_invalid'));
       return error;
     }
     setEmailError("");
@@ -73,12 +73,12 @@ function Login() {
   const validatePassword = (value: string) => {
     let error = "";
     if (!value.trim()) {
-      error = "Password is required";
-      setPasswordError("Password is required");
+      error = t('password_required');
+      setPasswordError(t('password_required'));
       return error;
     } else if (password.length < 5) {
-      error = "Password must be at least 6 characters long";
-      setPasswordError("Password must be at least 6 characters long");
+      error = t('password_length');
+      setPasswordError(t('password_length'));
       return error;
     }
     setPasswordError("");
@@ -92,8 +92,8 @@ function Login() {
     const passwordErrors = validatePassword(password);
 
     let errorMessage = "";
-    if (emailErrors.length > 0) errorMessage += `- ${emailErrors}\n`;
-    if (passwordErrors.length > 0) errorMessage += `- ${passwordErrors}\n`;
+    if (emailErrors.length > 0) errorMessage += `• ${emailErrors}\n`;
+    if (passwordErrors.length > 0) errorMessage += `• ${passwordErrors}\n`;
 
     if (emailErrors.length === 0 && passwordErrors.length === 0) {
       const data = {
@@ -128,7 +128,7 @@ function Login() {
         console.error("Error Login user:", error);
       }
     } else {
-      toast.error("Form validation failed:\n" + errorMessage);
+      toast.error(t('form_validation_failed') + errorMessage);
     }
   };
 
@@ -165,16 +165,16 @@ function Login() {
         });
 
         // SignUpUserGoogle(res.data);
-        toast.success("Google login successful");
+        toast.success(t('google_successful'));
         navigate("/");
       } catch (e) {
         console.error(e);
-        toast.error("Google login failed");
+        toast.error(t('google_failed'));
       }
     },
     onError: () => {
       console.log("Login failed");
-      toast.error("Google login failed");
+      toast.error(t('google_failed'));
     },
   });
 

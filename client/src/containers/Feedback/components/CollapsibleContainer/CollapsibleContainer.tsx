@@ -2,6 +2,7 @@ import { useState } from 'react';
 import style from './CollapsibleContainer.module.css';
 import RatingStars from '../RatingStars/RatingStars';
 import { useFeedbackSortFilterStore } from "../../../../store/feedbackSortFilter";
+import { useTranslation } from "react-i18next";
 
 interface CollapsibleContainerProps {
     id: number;
@@ -15,9 +16,12 @@ interface CollapsibleContainerProps {
     friendliness: string;
     quality: string;
     recommended: string;
-    q1: string;
-    q2: string;
-    q3: string;
+    q1_en: string;
+    q2_en: string;
+    q3_en: string;
+    q1_bm: string;
+    q2_bm: string;
+    q3_bm: string;
     image: string;
     created_at: string;
     status: string;
@@ -36,14 +40,18 @@ const CollapsibleContainer: React.FC<CollapsibleContainerProps> = ({
     friendliness,
     quality,
     recommended,
-    q1,
-    q2,
-    q3,
+    q1_en,
+    q2_en,
+    q3_en,
+    q1_bm,
+    q2_bm,
+    q3_bm,
     image,
     created_at,
     status,
     updateStatus,
 }) => {
+    const { t, i18n } = useTranslation();
     const [isOpen, setIsOpen] = useState<boolean>(false);
     const useStore = useFeedbackSortFilterStore();
 
@@ -79,26 +87,26 @@ const CollapsibleContainer: React.FC<CollapsibleContainerProps> = ({
     };
 
     const personalDetails = [
-        { key: "1", label: "Name", children: name },
-        { key: "2", label: "Age", children: String(age) },
-        { key: "3", label: "Gender", children: gender },
-        { key: "4", label: "Race", children: race },
-        { key: "5", label: "Email", children: email },
+        { key: "1", label: t('feedback_name'), children: name },
+        { key: "2", label: t('age'), children: String(age) },
+        { key: "3", label: t('gender'), children: gender },
+        { key: "4", label: t('race'), children: race },
+        { key: "5", label: t('feedback_email'), children: email },
     ];
 
     const ratings = [
-        { key: "1", label: "Category", children: fcategory },
-        { key: "2", label: "Experience", children: experience },
-        { key: "3", label: "Friendliness", children: friendliness },
-        { key: "4", label: "Quality", children: quality },
-        { key: "5", label: "Recommended", children: recommended },
+        { key: "1", label: t('feedback_category_filter'), children: fcategory },
+        { key: "2", label: t('view_experience'), children: experience },
+        { key: "3", label: t('view_friendliness'), children: friendliness },
+        { key: "4", label: t('view_quality'), children: quality },
+        { key: "5", label: t('view_recommended'), children: recommended },
     ];
 
     const comments = [
-        { key: "1", label: "Q1", children: q1 },
-        { key: "2", label: "Q2", children: q2 },
-        { key: "3", label: "Q3", children: q3 },
-        { key: "4", label: "Screenshot", children: image },
+        { key: "1", label: "Q1", children: i18n.language === 'en' ? q1_en : q1_bm },
+        { key: "2", label: "Q2", children: i18n.language === 'en' ? q2_en : q2_bm },
+        { key: "3", label: "Q3", children: i18n.language === 'en' ? q3_en : q3_bm },
+        { key: "4", label: t('screenshot'), children: image },
     ];
 
     return (
@@ -108,10 +116,10 @@ const CollapsibleContainer: React.FC<CollapsibleContainerProps> = ({
                 onClick={toggleOpen}
             >
                 <div className={style.collapsibleHeader}>
-                    <h2>ID: {id}</h2>
-                    <h2>Name: {name}</h2>
-                    <h2>Status: {status}</h2>
-                    <h2>Date: {created_at}</h2>
+                    <h2>{t('feedback_id')}: {id}</h2>
+                    <h2>{t('feedback_name')}: {name}</h2>
+                    <h2>{t('feedback_status')}: {status}</h2>
+                    <h2>{t('feedback_date')}: {created_at}</h2>
                     <div className={style.expandIcon}>
                         {isOpen ? <span>&#9650;</span> : <span>&#9660;</span>}
                     </div>
@@ -121,7 +129,7 @@ const CollapsibleContainer: React.FC<CollapsibleContainerProps> = ({
                     <div className={style.collapsibleContent} onClick={closeForm}>
                         <div className={style.collapsiblebox}>
                             <div className={style.personalDetails}>
-                                <h3>Personal Details</h3>
+                                <h3>{t('personal_details')}</h3>
                                 {personalDetails.map((detail) => (
                                     <div key={detail.key} className={style.personalDetailsItem}>
                                         <span className={style.personalDetailsLabel}>{detail.label}: </span>
@@ -130,12 +138,12 @@ const CollapsibleContainer: React.FC<CollapsibleContainerProps> = ({
                                 ))}
                             </div>
                             <div className={style.ratings}>
-                                <h3>Ratings</h3>
+                                <h3>{t('ratings')}</h3>
                                 {ratings.map((rating) => (
                                 <div key={rating.key} className={style.ratingsItem}>
-                                    <span className={style.ratingsLabel}>{rating.label}{rating.label === 'Experience' || rating.label === 'Friendliness' || rating.label === 'Quality' || rating.label === 'Recommended' ? '' : ':'} </span>
+                                    <span className={style.ratingsLabel}>{rating.label}{rating.label === t('view_experience') || rating.label === t('view_friendliness') || rating.label === t('view_quality') || rating.label === t('view_recommended') ? '' : ':'} </span>
                                     <span className={style.ratingsContent}>
-                                        {rating.label === 'Experience' || rating.label === 'Friendliness' || rating.label === 'Quality' || rating.label === 'Recommended' ?
+                                        {rating.label === t('view_experience') || rating.label === t('view_friendliness') || rating.label === t('view_quality') || rating.label === t('view_recommended') ?
                                             <RatingStars rating={parseInt(rating.children)} />
                                             : rating.children
                                         }
@@ -144,14 +152,14 @@ const CollapsibleContainer: React.FC<CollapsibleContainerProps> = ({
                             ))}
                             </div>
                             <div className={style.comments}>
-                                <h3>Comments</h3>
+                                <h3>{t('comments')}</h3>
                                 {comments.map((comment) => (
                                     <div key={comment.key} className={style.commentsItem}>
                                         <span className={style.commentsLabel}>{comment.label}: </span>
                                         {comment.label === 'Screenshot' && comment.children.toLowerCase().includes('http') ? (
                                             <a href={comment.children} target="_blank" rel="noopener noreferrer">
                                                 {/* <img src={comment.children} alt="Screenshot" className={style.screenshotImage} /> */}
-                                                View Screenshot
+                                                {t('view_screenshot')}
                                             </a>
                                         ) : (
                                             <span className={style.commentsContent}>{comment.children || '-'}</span>
