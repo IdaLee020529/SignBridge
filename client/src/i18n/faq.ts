@@ -15,6 +15,7 @@ const faq = {
         questionAnswerRequired: "Both question and answer fields are required.",
         faqSuccess: "FAQ created successfully",
         faqError: "Error creating FAQ",
+        fetchFaqError: "Error fetching FAQs",
     },
     bm: {
         loading_faq: "Memuatkan FAQ...",
@@ -32,6 +33,7 @@ const faq = {
         questionAnswerRequired: "Kedua-dua medan soalan dan jawapan diperlukan.",
         faqSuccess: "FAQ berjaya dicipta",
         faqError: "Ralat mencipta FAQ",
+        fetchFaqError: "Ralat mengambil FAQ",
     },
 };
 

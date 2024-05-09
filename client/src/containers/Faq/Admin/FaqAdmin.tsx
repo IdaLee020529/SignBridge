@@ -17,8 +17,8 @@ import InputField from "../../../components/InputField/InputField";
 import { useTranslation } from "react-i18next";
 import axios from "axios";
 
-const API_KEY = "AIzaSyDbcbSEl15QUZXAsed4Rks4iW9-k47vqeA";
-const API_URL = "https://translation.googleapis.com/language/translate/v2";
+const API_KEY = "";
+const API_URL = "";
 const translateText = async (text: string, targetLanguage: "ms" | "en") => {
     const response = await axios.post(`${API_URL}?key=${API_KEY}`, {
         q: text,
