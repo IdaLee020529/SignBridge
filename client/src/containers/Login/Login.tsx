@@ -20,8 +20,8 @@ const clientId =
   "52594958094-08qvrugskhjjv34j4h0oi4m2ognjg830.apps.googleusercontent.com";
 
 function Login() {
-	const navigate = useNavigate(); // For the redirection
-	const { t, i18n } = useTranslation();
+  const navigate = useNavigate(); // For the redirection
+  const { t, i18n } = useTranslation();
 
   // Detect cookies, if yes, redirect user to homepage
   useEffect(() => {
@@ -159,6 +159,7 @@ function Login() {
 
         const loginResponse = await LoginUserGoogle(res.data);
         console.log("loginResponse", loginResponse);
+        Cookies.set("user_id", loginResponse.data.user_id, { expires: 30 });
         Cookies.set("role_access", loginResponse.data.role_access, {
           expires: 30,
         });
@@ -177,48 +178,63 @@ function Login() {
     },
   });
 
-	return (
-		<div className="login-container">
-			<h1>{t('login')}</h1>
-			<div className="login-form">
-				<form onSubmit={handleSubmit}>
-					<LoginInput type="email" placeholder=" " value={email} onChange={handleEmailChange} error={emailError} label={t('email')} />
+  return (
+    <div className="login-container">
+      <h1>{t("login")}</h1>
+      <div className="login-form">
+        <form onSubmit={handleSubmit}>
+          <LoginInput
+            type="email"
+            placeholder=" "
+            value={email}
+            onChange={handleEmailChange}
+            error={emailError}
+            label={t("email")}
+          />
 
-					<LoginInput
-						type={showPassword ? "text" : "password"}
-						placeholder=" "
-						value={password}
-						onChange={handlePasswordChange}
-						error={passwordError}
-						label={t('password')}
-						showPassword={showPassword}
-						handleTogglePassword={handleTogglePassword}
-					/>
+          <LoginInput
+            type={showPassword ? "text" : "password"}
+            placeholder=" "
+            value={password}
+            onChange={handlePasswordChange}
+            error={passwordError}
+            label={t("password")}
+            showPassword={showPassword}
+            handleTogglePassword={handleTogglePassword}
+          />
 
-					<div className="forgot-pwd-container">
-						<a href="/forgot-password" className="forgot-password">
-							{t('forgot_password')}
-						</a>
-					</div>
+          <div className="forgot-pwd-container">
+            <a href="/forgot-password" className="forgot-password">
+              {t("forgot_password")}
+            </a>
+          </div>
 
-					<button className="login-btn" type="submit">
-						{t('login')}
-					</button>
+          <button className="login-btn" type="submit">
+            {t("login")}
+          </button>
 
-					<div>{t('or')}</div>
+          <div>{t("or")}</div>
 
-					<button className="google-login-btn" type="button" onClick={() => login()}>
-						<img src="/images/google-logo.png" alt="Google Logo" className="google-logo" />
-						{t('login_with_google')}
-					</button>
+          <button
+            className="google-login-btn"
+            type="button"
+            onClick={() => login()}
+          >
+            <img
+              src="/images/google-logo.png"
+              alt="Google Logo"
+              className="google-logo"
+            />
+            {t("login_with_google")}
+          </button>
 
-					<div className="sign-up">
-						<div>{t('no_account')}</div> <a href="/sign-up">{t('sign_up')}</a>
-					</div>
-				</form>
-			</div>
-		</div>
-	);
+          <div className="sign-up">
+            <div>{t("no_account")}</div> <a href="/sign-up">{t("sign_up")}</a>
+          </div>
+        </form>
+      </div>
+    </div>
+  );
 }
 
 export default Login;
