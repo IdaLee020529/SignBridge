@@ -2,449 +2,478 @@
   {
     "keyword": "ADIK PEREMPUAN",
     "animations": ["AdikPerempuan1", "AdikPerempuan2", "AdikPerempuan3"],
-    "english_keyword" : "YOUNGER SISTER",
-    "category":"Medical"
+    "category":"Medical",
+    "contributor":"SARAWAK SOCIETY FOR THE DEAF (SSD)",
+    "thumbnail": "./images/signImages/medical.jpg"
   },
   {
     "keyword": "AKAN",
     "animations": ["Akan1", "Akan2"],
-    "english_keyword" : "WILL",
-    "category":"Conversation"
+    "category":"Conversation",
+    "contributor":"SARAWAK SOCIETY FOR THE DEAF (SSD)",
+    "thumbnail": "./images/signImages/medical.jpg"
   },
   {
     "keyword": "ASMA",
     "animations": ["Asma1", "Asma2"],
-    "english_keyword" : "ASTHMA",
-    "category":"Medical"
+    "category":"Medical",
+    "contributor":"SARAWAK SOCIETY FOR THE DEAF (SSD)",
+    "thumbnail": "./images/signImages/medical.jpg"
   },
   {
     "keyword": "BADAN",
     "animations": ["Badan1", "Badan2", "Badan3"],
-    "english_keyword" : "BODY",
-    "category":"Medical"
+    "category":"Medical",
+    "contributor":"SARAWAK SOCIETY FOR THE DEAF (SSD)",
+    "thumbnail": "./images/signImages/medical.jpg"
   },
   {
     "keyword": "BAHU",
     "animations": ["Bahu1", "Bahu2", "Bahu3", "Bahu4"],
-    "english_keyword" : "SHOULDER",
-    "category":"Medical"
+    "category":"Medical",
+    "contributor":"SARAWAK SOCIETY FOR THE DEAF (SSD)",
+    "thumbnail": "./images/signImages/medical.jpg"
   },
   {
     "keyword": "BENGKAK",
     "animations": ["Bengkak1", "Bengkak2", "Bengkak3"],
-    "english_keyword" : "SWOLLEN",
-    "category":"Medical"
+    "category":"Medical",
+    "contributor":"SARAWAK SOCIETY FOR THE DEAF (SSD)",
+    "thumbnail": "./images/signImages/medical.jpg"
   },
   {
     "keyword": "BIBIR",
     "animations": ["Bibir1", "Bibir2", "Bibir3"],
-    "english_keyword" : "LIPS",
-    "category":"Medical"
+    "category":"Medical",
+    "contributor":"SARAWAK SOCIETY FOR THE DEAF (SSD)",
+    "thumbnail": "./images/signImages/medical.jpg"
   },
   {
     "keyword": "BUAH PINGGANG",
     "animations": ["BuahPinggang1", "BuahPinggang2", "BuahPinggang3"],
-    "english_keyword" : "KIDNEY",
-    "category":"Medical"
+    "category":"Medical",
+    "contributor":"SARAWAK SOCIETY FOR THE DEAF (SSD)",
+    "thumbnail": "./images/signImages/medical.jpg"
   },
   {
     "keyword": "DARAH",
     "animations": ["Darah1", "Darah2", "Darah3"],
-    "english_keyword" : "BLOOD",
-    "category":"Medical"
+    "category":"Medical",
+    "contributor":"SARAWAK SOCIETY FOR THE DEAF (SSD)",
+    "thumbnail": "./images/signImages/medical.jpg"
   },
   {
     "keyword": "DATUK",
     "animations": ["Datuk1", "Datuk2", "Datuk3"],
-    "english_keyword" : "GRANDFATHER",
-    "category":"Medical"
+    "category":"Medical",
+    "contributor":"SARAWAK SOCIETY FOR THE DEAF (SSD)",
+    "thumbnail": "./images/signImages/medical.jpg"
   },
   {
     "keyword": "DEMAM",
     "animations": ["Demam1", "Demam2"],
-    "english_keyword" : "FEVER",
-    "category":"Medical"
+    "category":"Medical",
+    "contributor":"SARAWAK SOCIETY FOR THE DEAF (SSD)",
+    "thumbnail": "./images/signImages/medical.jpg"
   },
   {
     "keyword": "DOKTOR",
     "animations": ["Doktor1", "Doktor2", "Doktor3", "Doktor4"],
-    "english_keyword" : "DOCTOR",
-    "category":"Medical"
+    "category":"Medical",
+    "contributor":"SARAWAK SOCIETY FOR THE DEAF (SSD)",
+    "thumbnail": "./images/signImages/medical.jpg"
   },
   {
     "keyword": "GATAL",
     "animations": ["Gatal1", "Gatal2", "Gatal3"],
-    "english_keyword" : "ITCHY",
-    "category":"Medical"
+    "category":"Medical",
+    "contributor":"SARAWAK SOCIETY FOR THE DEAF (SSD)",
+    "thumbnail": "./images/signImages/medical.jpg"
   },
   {
     "keyword": "GIGI",
     "animations": ["Gigi1", "Gigi2", "Gigi3"],
-    "english_keyword" : "TEETH",
-    "category":"Medical"
+    "category":"Medical",
+    "contributor":"SARAWAK SOCIETY FOR THE DEAF (SSD)",
+    "thumbnail": "./images/signImages/medical.jpg"
   },
   {
     "keyword": "HABIS",
     "animations": ["Habis1", "Habis2", "Habis3", "Habis4"],
-    "english_keyword" : "FINISHED",
-    "category":"Conversation"
+    "category":"Conversation",
+    "contributor":"SARAWAK SOCIETY FOR THE DEAF (SSD)",
+    "thumbnail": "./images/signImages/medical.jpg"
   },
   {
     "keyword": "HIDUNG",
     "animations": ["Hidung1", "Hidung2"],
-    "english_keyword" : "NOSE",
-    "category":"Medical"
+    "category":"Medical",
+    "contributor":"SARAWAK SOCIETY FOR THE DEAF (SSD)",
+    "thumbnail": "./images/signImages/medical.jpg"
   },
   {
     "keyword": "HUJAN",
     "animations": ["Hujan1", "Hujan2"],
-    "english_keyword" : "RAIN",
-    "category":"Medical"
+    "category":"Medical",
+    "contributor":"SARAWAK SOCIETY FOR THE DEAF (SSD)",
+    "thumbnail": "./images/signImages/medical.jpg"
   },
   {
     "keyword": "JANTUNG",
     "animations": ["Jantung1", "Jantung2"],
-    "english_keyword" : "HEART",
-    "category":"Medical"
+    "category":"Medical",
+    "contributor":"SARAWAK SOCIETY FOR THE DEAF (SSD)",
+    "thumbnail": "./images/signImages/medical.jpg"
   },
   {
     "keyword": "JARI",
     "animations": ["Jari1", "Jari2", "Jari3"],
-    "english_keyword" : "FINGERS",
-    "category":"Medical"
+    "category":"Medical",
+    "contributor":"SARAWAK SOCIETY FOR THE DEAF (SSD)",
+    "thumbnail": "./images/signImages/medical.jpg"
   },
   {
     "keyword": "JURURAWAT",
     "animations": ["Jururawat1", "Jururawat2"],
-    "english_keyword" : "NURSE",
-    "category":"Medical"
+    "category":"Medical",
+    "contributor":"SARAWAK SOCIETY FOR THE DEAF (SSD)",
+    "thumbnail": "./images/signImages/medical.jpg"
   },
   {
     "keyword": "KAKI",
     "animations": ["Kaki1", "Kaki2", "Kaki3"],
-    "english_keyword" : "FEET",
-    "category":"Medical"
+    "category":"Medical",
+    "contributor":"SARAWAK SOCIETY FOR THE DEAF (SSD)",
+    "thumbnail": "./images/signImages/medical.jpg"
   },
   {
     "keyword": "KECEMASAN",
     "animations": ["Kecemasan1", "Kecemasan2", "Kecemasan3"],
-    "english_keyword" : "EMERGENCY",
-    "category":"Medical"
+    "category":"Medical",
+    "contributor":"SARAWAK SOCIETY FOR THE DEAF (SSD)",
+    "thumbnail": "./images/signImages/medical.jpg"
   },
   {
     "keyword": "KERANA",
     "animations": ["Kerana1", "Kerana2"],
-    "english_keyword" : "BECAUSE",
-    "category":"Medical"
+    "category":"Medical",
+    "contributor":"SARAWAK SOCIETY FOR THE DEAF (SSD)",
+    "thumbnail": "./images/signImages/medical.jpg"
   },
   {
     "keyword": "KESAKITAN",
     "animations": ["Kesakitan1", "Kesakitan2"],
-    "english_keyword" : "PAIN",
-    "category":"Medical"
+    "category":"Medical",
+    "contributor":"SARAWAK SOCIETY FOR THE DEAF (SSD)",
+    "thumbnail": "./images/signImages/medical.jpg"
   },
   {
     "keyword": "KRIM",
     "animations": ["Krim1", "Krim2", "Krim3"],
-    "english_keyword" : "CREAM",
-    "category":"Medical"
+    "category":"Medical",
+    "contributor":"SARAWAK SOCIETY FOR THE DEAF (SSD)",
+    "thumbnail": "./images/signImages/medical.jpg"
   },
   {
     "keyword": "KULIT",
     "animations": ["Kulit1", "Kulit2", "Kulit3"],
-    "english_keyword" : "SKIN",
-    "category":"Medical"
+    "category":"Medical",
+    "contributor":"SARAWAK SOCIETY FOR THE DEAF (SSD)",
+    "thumbnail": "./images/signImages/medical.jpg"
   },
   {
     "keyword": "LEHER",
     "animations": ["Leher1", "Leher2", "Leher3"],
-    "english_keyword" : "NECK",
-    "category":"Medical"
+    "category":"Medical",
+    "contributor":"SARAWAK SOCIETY FOR THE DEAF (SSD)",
+    "thumbnail": "./images/signImages/medical.jpg"
   },
   {
     "keyword": "LEMAH",
     "animations": ["Lemah1", "Lemah2", "Lemah3"],
-    "english_keyword" : "WEAK",
-    "category":"Medical"
+    "category":"Medical",
+    "contributor":"SARAWAK SOCIETY FOR THE DEAF (SSD)",
+    "thumbnail": "./images/signImages/medical.jpg"
   },
   {
     "keyword": "LIDAH",
     "animations": ["Lidah1", "Lidah2", "Lidah3"],
-    "english_keyword" : "TONGUE",
-    "category":"Medical"
+    "category":"Medical",
+    "contributor":"SARAWAK SOCIETY FOR THE DEAF (SSD)",
+    "thumbnail": "./images/signImages/medical.jpg"
   },
   {
     "keyword": "MAHU",
     "animations": ["Mahu1", "Mahu2"],
-    "english_keyword" : "WANT",
-    "category":"Medical"
+    "category":"Medical",
+    "contributor":"SARAWAK SOCIETY FOR THE DEAF (SSD)",
+    "thumbnail": "./images/signImages/medical.jpg"
   },
   {
     "keyword": "MATA",
     "animations": ["Mata1", "Mata2"],
-    "english_keyword" : "EYES",
-    "category":"Medical"
+    "category":"Medical",
+    "contributor":"SARAWAK SOCIETY FOR THE DEAF (SSD)",
+    "thumbnail": "./images/signImages/medical.jpg"
   },
   {
     "keyword": "MENGANDUNG",
     "animations": ["Mengandung1", "Mengandung2"],
-    "english_keyword" : "PREGNANT",
-    "category":"Medical"
+    "category":"Medical",
+    "contributor":"SARAWAK SOCIETY FOR THE DEAF (SSD)",
+    "thumbnail": "./images/signImages/medical.jpg"
   },
   {
     "keyword": "MULUT",
     "animations": ["Mulut1", "Mulut2"],
-    "english_keyword" : "MOUTH",
-    "category":"Medical"
+    "category":"Medical",
+    "contributor":"SARAWAK SOCIETY FOR THE DEAF (SSD)",
+    "thumbnail": "./images/signImages/medical.jpg"
   },
   {
     "keyword": "MUNTAH",
     "animations": ["Muntah1", "Muntah2", "Muntah3"],
-    "english_keyword" : "VOMIT",
-    "category":"Medical"
+    "category":"Medical",
+    "contributor":"SARAWAK SOCIETY FOR THE DEAF (SSD)",
+    "thumbnail": "./images/signImages/medical.jpg"
   },
   {
     "keyword": "PENAT",
     "animations": ["Penat1", "Penat2", "Penat3"],
-    "english_keyword" : "TIRED",
-    "category":"Medical"
+    "category":"Medical",
+    "contributor":"SARAWAK SOCIETY FOR THE DEAF (SSD)",
+    "thumbnail": "./images/signImages/medical.jpg"
   },
   {
     "keyword": "PERGI",
     "animations": ["Pergi1", "Pergi2"],
-    "english_keyword" : "GO",
-    "category":"Medical"
+    "category":"Medical",
+    "contributor":"SARAWAK SOCIETY FOR THE DEAF (SSD)",
+    "thumbnail": "./images/signImages/medical.jpg"
   },
   {
     "keyword": "PERUT",
     "animations": ["Perut1", "Perut2"],
-    "english_keyword" : "STOMACH",
-    "category":"Medical"
+    "category":"Medical",
+    "contributor":"SARAWAK SOCIETY FOR THE DEAF (SSD)",
+    "thumbnail": "./images/signImages/medical.jpg"
   },
   {
     "keyword": "PIL",
     "animations": ["Pil1", "Pil2", "Pil3"],
-    "english_keyword" : "PILL",
-    "category":"Medical"
+    "category":"Medical",
+    "contributor":"SARAWAK SOCIETY FOR THE DEAF (SSD)",
+    "thumbnail": "./images/signImages/medical.jpg"
   },
   {
     "keyword": "SAKIT KEPALA",
     "animations": ["SakitKepala1", "SakitKepala2", "SakitKepala3", "SakitKepala4"],
-    "english_keyword" : "HEADACHE",
-    "category":"Medical"
+    "category":"Medical",
+    "contributor":"SARAWAK SOCIETY FOR THE DEAF (SSD)",
+    "thumbnail": "./images/signImages/medical.jpg"
   },
   {
     "keyword": "SAKIT PERUT",
     "animations": ["SakitPerut1", "SakitPerut2"],
-    "english_keyword" : "STOMACHACHE",
-    "category":"Medical"
+    "category":"Medical",
+    "contributor":"SARAWAK SOCIETY FOR THE DEAF (SSD)",
+    "thumbnail": "./images/signImages/medical.jpg"
   },
   {
     "keyword": "SAKIT PINGGANG",
     "animations": ["SakitPinggang1", "SakitPinggang2", "SakitPinggang3", "SakitPinggang4"],
-    "english_keyword" : "WAIST PAIN",
-    "category":"Medical"
+    "category":"Medical",
+    "contributor":"SARAWAK SOCIETY FOR THE DEAF (SSD)",
+    "thumbnail": "./images/signImages/medical.jpg"
   },
   {
     "keyword": "SAKIT TEKAK",
     "animations": ["SakitTekak1", "SakitTekak2", "SakitTekak3", "SakitTekak4"],
-    "english_keyword" : "SORE THROAT",
-    "category":"Medical"
+    "category":"Medical",
+    "contributor":"SARAWAK SOCIETY FOR THE DEAF (SSD)",
+    "thumbnail": "./images/signImages/medical.jpg"
   },
   {
     "keyword": "SELSEMA",
     "animations": ["Selsema1", "Selsema2", "Selsema3"],
-    "english_keyword" : "FLU",
-    "category":"Medical"
+    "category":"Medical",
+    "contributor":"SARAWAK SOCIETY FOR THE DEAF (SSD)",
+    "thumbnail": "./images/signImages/medical.jpg"
   },
   {
     "keyword": "SINAR-X",
     "animations": ["SinarX1", "SinarX2", "SinarX3", "SinarX4", "SinarX5", "SinarX6"],
-    "english_keyword" : "X-RAY",
-    "category":"Medical"
+    "category":"Medical",
+    "contributor":"SARAWAK SOCIETY FOR THE DEAF (SSD)",
+    "thumbnail": "./images/signImages/medical.jpg"
   },
   {
     "keyword": "TINGGI",
     "animations": ["Tinggi1", "Tinggi2"],
-    "english_keyword" : "HIGH",
-    "category":"Medical"
+    "category":"Medical",
+    "contributor":"SARAWAK SOCIETY FOR THE DEAF (SSD)",
+    "thumbnail": "./images/signImages/medical.jpg"
   },
   {
     "keyword": "TULANG",
     "animations": ["Tulang1", "Tulang2", "Tulang3"],
-    "english_keyword" : "BONE",
-    "category":"Medical"
+    "category":"Medical",
+    "contributor":"SARAWAK SOCIETY FOR THE DEAF (SSD)",
+    "thumbnail": "./images/signImages/medical.jpg"
   },
   {
     "keyword": "TULANG RUSUK",
     "animations": ["TulangRusuk1", "TulangRusuk2"],
-    "english_keyword" : "RIB CAGE",
-    "category":"Medical"
+    "category":"Medical",
+    "contributor":"SARAWAK SOCIETY FOR THE DEAF (SSD)",
+    "thumbnail": "./images/signImages/medical.jpg"
   },
   {
     "keyword": "SAYA",
     "animations": ["Saya1", "Saya2"],
-    "english_keyword" : "ME",
-    "category":"Conversation"
+    "category":"Conversation",
+    "contributor":"SARAWAK SOCIETY FOR THE DEAF (SSD)",
+    "thumbnail": "./images/signImages/medical.jpg"
   },
   {
     "keyword": "SATU",
     "animations": ["Satu"],
-    "english_keyword" : "ONE",
-    "category":"Numbers"
+    "category":"Numbers",
+    "contributor":"SARAWAK SOCIETY FOR THE DEAF (SSD)",
+    "thumbnail": "./images/signImages/medical.jpg"
   },
   {
     "keyword": "DUA",
     "animations": ["Dua"],
-    "english_keyword" : "TWO",
-    "category":"Numbers"
+    "category":"Numbers",
+    "contributor":"SARAWAK SOCIETY FOR THE DEAF (SSD)",
+    "thumbnail": "./images/signImages/medical.jpg"
   },
   {
     "keyword": "TIGA",
     "animations": ["Tiga"],
-    "english_keyword" : "THREE",
-    "category":"Numbers"
+    "category":"Numbers",
+    "contributor":"SARAWAK SOCIETY FOR THE DEAF (SSD)",
+    "thumbnail": "./images/signImages/medical.jpg"
   },
   {
     "keyword": "EMPAT",
     "animations": ["Empat"],
-    "english_keyword" : "FOUR",
-    "category":"Numbers"
+    "category":"Numbers",
+    "contributor":"SARAWAK SOCIETY FOR THE DEAF (SSD)",
+    "thumbnail": "./images/signImages/medical.jpg"
   },
   {
     "keyword": "LIMA",
     "animations": ["Lima"],
-    "english_keyword" : "FIVE",
-    "category":"Numbers"
+    "category":"Numbers",
+    "contributor":"SARAWAK SOCIETY FOR THE DEAF (SSD)",
+    "thumbnail": "./images/signImages/medical.jpg"
   },
   {
     "keyword": "ENAM",
     "animations": ["Enam"],
-    "english_keyword" : "SIX",
-    "category":"Numbers"
+    "category":"Numbers",
+    "contributor":"SARAWAK SOCIETY FOR THE DEAF (SSD)",
+    "thumbnail": "./images/signImages/medical.jpg"
   },
   {
     "keyword": "TUJUH",
     "animations": ["Tujuh"],
-    "english_keyword" : "SEVEN",
-    "category":"Numbers"
+    "category":"Numbers",
+    "contributor":"SARAWAK SOCIETY FOR THE DEAF (SSD)",
+    "thumbnail": "./images/signImages/medical.jpg"
   },
   {
     "keyword": "LAPAN",
     "animations": ["Lapan"],
-    "english_keyword" : "EIGHT",
-    "category":"Numbers"
+    "category":"Numbers",
+    "contributor":"SARAWAK SOCIETY FOR THE DEAF (SSD)",
+    "thumbnail": "./images/signImages/medical.jpg"
   },
   {
     "keyword": "SEMBILAN",
     "animations": ["Sembilan"],
-    "english_keyword" : "NINE",
-    "category":"Numbers"
+    "category":"Numbers",
+    "contributor":"SARAWAK SOCIETY FOR THE DEAF (SSD)",
+    "thumbnail": "./images/signImages/medical.jpg"
   },
   {
     "keyword": "SEPULUH",
     "animations": ["Sepuluh1", "Sepuluh2"],
-    "english_keyword" : "TEN",
-    "category":"Numbers"
-  },
-  {
-    "keyword": "1",
-    "animations": ["Satu"],
-    "category":"Numbers"
-  },
-  {
-    "keyword": "2",
-    "animations": ["Dua"],
-    "category":"Numbers"
-  },
-  {
-    "keyword": "3",
-    "animations": ["Tiga"],
-    "category":"Numbers"
-  },
-  {
-    "keyword": "4",
-    "animations": ["Empat"],
-    "category":"Numbers"
-  },
-  {
-    "keyword": "5",
-    "animations": ["Lima"],
-    "category":"Numbers"
-  },
-  {
-    "keyword": "6",
-    "animations": ["Enam"],
-    "category":"Numbers"
-  },
-  {
-    "keyword": "7",
-    "animations": ["Tujuh"],
-    "category":"Numbers"
-  },
-  {
-    "keyword": "8",
-    "animations": ["Lapan"],
-    "category":"Numbers"
-  },
-  {
-    "keyword": "9",
-    "animations": ["Sembilan"],
-    "category":"Numbers"
-  },
-  {
-    "keyword": "10",
-    "animations": ["Sepuluh1", "Sepuluh2"],
-    "category":"Numbers"
+    "category":"Numbers",
+    "contributor":"SARAWAK SOCIETY FOR THE DEAF (SSD)",
+    "thumbnail": "./images/signImages/medical.jpg"
   },
   {
     "keyword": "A",
     "animations": ["A"],
-    "category":"Alphabet"
+    "category":"Alphabet",
+    "contributor":"SARAWAK SOCIETY FOR THE DEAF (SSD)",
+    "thumbnail": "./images/signImages/medical.jpg"
   },
   {
     "keyword": "B",
     "animations": ["B"],
-    "category":"Alphabet"
+    "category":"Alphabet",
+    "contributor":"SARAWAK SOCIETY FOR THE DEAF (SSD)",
+    "thumbnail": "./images/signImages/medical.jpg"
   },
   {
     "keyword": "C",
     "animations": ["C"],
-    "category":"Alphabet"
+    "category":"Alphabet",
+    "contributor":"SARAWAK SOCIETY FOR THE DEAF (SSD)",
+    "thumbnail": "./images/signImages/medical.jpg"
   },
   {
     "keyword": "D",
     "animations": ["D"],
-    "category":"Alphabet"
+    "category":"Alphabet",
+    "contributor":"SARAWAK SOCIETY FOR THE DEAF (SSD)",
+    "thumbnail": "./images/signImages/medical.jpg"
   },
   {
     "keyword": "E",
     "animations": ["E"],
-    "category":"Alphabet"
+    "category":"Alphabet",
+    "contributor":"SARAWAK SOCIETY FOR THE DEAF (SSD)",
+    "thumbnail": "./images/signImages/medical.jpg"
   },
   {
     "keyword": "F",
     "animations": ["F"],
-    "category":"Alphabet"
+    "category":"Alphabet",
+    "contributor":"SARAWAK SOCIETY FOR THE DEAF (SSD)",
+    "thumbnail": "./images/signImages/medical.jpg"
   },
   {
     "keyword": "G",
     "animations": ["G"],
-    "category":"Alphabet"
+    "category":"Alphabet",
+    "contributor":"SARAWAK SOCIETY FOR THE DEAF (SSD)",
+    "thumbnail": "./images/signImages/medical.jpg"
   },
   {
     "keyword": "H",
     "animations": ["H"],
-    "category":"Alphabet"
+    "category":"Alphabet",
+    "contributor":"SARAWAK SOCIETY FOR THE DEAF (SSD)",
+    "thumbnail": "./images/signImages/medical.jpg"
   },
   {
     "keyword": "I",
     "animations": ["I"],
-    "category":"Alphabet"
+    "category":"Alphabet",
+    "contributor":"SARAWAK SOCIETY FOR THE DEAF (SSD)",
+    "thumbnail": "./images/signImages/medical.jpg"
   },
   {
     "keyword": "J",
     "animations": ["J"],
-    "category":"Alphabet"
+    "category":"Alphabet",
+    "contributor":"SARAWAK SOCIETY FOR THE DEAF (SSD)",
+    "thumbnail": "./images/signImages/medical.jpg"
   }
 ]
+

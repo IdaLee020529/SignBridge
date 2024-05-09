@@ -98,7 +98,7 @@ const DatasetFormService = {
             const form = await collection.findOne({ form_id: parseInt(formId) });
             await client.close();
             if (form) {
-                return form.video_link; // Assuming video_link is the field containing the video link
+                return { videoLink: form.video_link, videoName: form.video_name }; // Returning video_link and video_name as an object
             } else {
                 return null; // Or handle if form is not found
             }

@@ -46,8 +46,11 @@ app.use(feedbackRoutes);
 const faqRoutes = require("./routes/FaqRoutes")
 app.use(faqRoutes);
 
-const libraryRoutes = require("./routes/LibraryRoutes")
-app.use(libraryRoutes);
+const categoryRoutes = require("./routes/CategoryRoutes")
+app.use(categoryRoutes);
+
+const categorySignRoutes = require("./routes/CategorySignRoutes")
+app.use(categorySignRoutes);
 
 const notificationRoutes = require("./routes/NotificationRoutes")
 app.use(notificationRoutes);
@@ -57,11 +60,11 @@ app.use(formRoutes);
 // ------------------------------------------------------------------------------------------------------------
 const UserController = require("./controllers/UserController")
 const FaqController = require("./controllers/FaqController")
-const LibraryController = require("./controllers/LibraryController")
+const CategoryController = require("./controllers/CategoryController")
 app.listen(port, () => {
   console.log(`Server started at http://localhost:${port}`);
   UserController.insertPresetAccounts();
-  LibraryController.insertPresetSignCategories();
+  CategoryController.insertPresetSignCategories();
   UserController.insertPresetCountry();
   FaqController.insertFixFaq();
 });

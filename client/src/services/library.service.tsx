@@ -29,10 +29,24 @@ export const UpdateCategory = async (data: any) => {
 export const fetchCat = async () => {
     try {
         const response = await axios.get(
-            "http://localhost:3000/lib/fetch-lib"
+            "http://localhost:3000/lib/categories"
         );
         return response;
     } catch (err) {
         throw err;
     }
 };
+
+export const fetchSign = async (cat: string): Promise<any> => {
+    try {
+      console.log(cat);
+      const response = await axios.get(
+        `http://localhost:3000/lib/${cat}`
+      );
+  
+      console.log(response.data);
+      return response.data; // Assuming the forms are returned in the response data
+    } catch (err) {
+      throw err;
+    }
+  };
