@@ -20,6 +20,7 @@ import Man from "../../components/AvatarModels/Man";
 
 // SLR Imports
 import SLRInput from "../../components/SLRInput/SLRInput";
+import SLROutput from "../../components/SLROutput/SLROutput";
 
 function Communication() {
   // States to manage the application
@@ -37,6 +38,9 @@ function Communication() {
   const [isPaused, setPaused] = useState(false); // State to manage pause/play
   const [leftHandedMode, setLeftHandedMode] = useState(false); // State to manage left-handed mode
   const [fps, setFps] = useState(60); // State to hold FPS value
+
+  // SLR states
+  const [SLRResponse, setSLRResponse] = useState<string>("");
 
   //////////////////////////////////////////
   // General functions
@@ -183,6 +187,12 @@ function Communication() {
   // Define a variable to store the previous submitted text
   let previousSubmittedText = "";
 
+  //////////////////////////////////////////
+  // SLR functions
+  const handleSLRResponse = (data: string) => {
+    setSLRResponse(data);
+  };
+
   return (
     <div className={`communication-body ${leftHandedMode ? "left-handed" : ""}`}>
       <div className="container-wrapper">
@@ -234,9 +244,9 @@ function Communication() {
                     updateCurrentAnimationName={updateCurrentAnimationName}
                   />
                 </CharacterAnimationsProvider>
-        {/*<FPSCounter onUpdateFPS={updateFPS} />*/}
-        {/*// @ts-ignore*/}
-        <OrbitControls ref={controls} />
+                {/*<FPSCounter onUpdateFPS={updateFPS} />*/}
+                {/*// @ts-ignore*/}
+                <OrbitControls ref={controls} />
                 {handFocus && <HandFocusMode />}
               </Canvas>
             </div>
@@ -296,13 +306,10 @@ function Communication() {
         {activeButton === "SLR" && (
           <>
             <div className="content-wrapper">
-              <h1 className="slr-h1">SLR Output</h1>
+              <SLROutput responseData={SLRResponse} />
             </div>
             <div className="content-wrapper">
-              <h1 className="slr-h1">SLR Input</h1>
-              <div className="slr-content">
-                <SLRInput />
-              </div>
+              <SLRInput onResponsiveReceived={handleSLRResponse} />
             </div>
           </>
         )}

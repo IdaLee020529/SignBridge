@@ -1,40 +1,34 @@
-// SLRInput.tsx
 import './SLRInput.css';
-import React, { useRef, useState } from 'react';
+import { useRef, useState } from 'react';
+
 const mimeType = 'video/webm; codecs="opus,vp8"';
 
-const SLRInput = () => {
-    // State variables
-    const [selectedVideo, setSelectedVideo] = useState<File | null>(null); // Hold the selected local video file
-    const [permission, setPermission] = useState(false); // Camera permission
-    const [recordingStatus, setRecordingStatus] = useState<"inactive" | "recording">("inactive"); // Recording status
-    const [stream, setStream] = useState<MediaStream | null>(null); // Video stream
-    const [recordedVideo, setRecordedVideo] = useState<string | null>(null); // Recorded video
-    const [videoChunks, setVideoChunks] = useState<Blob[]>([]); // Recorded video chunks
+const SLRInput = ({ onResponsiveReceived }: { onResponsiveReceived: (data: string) => void }) => {
+    const [selectedVideo, setSelectedVideo] = useState<File | null>(null);
+    const [permission, setPermission] = useState(false);
+    const [recordingStatus, setRecordingStatus] = useState<"inactive" | "recording">("inactive");
+    const [stream, setStream] = useState<MediaStream | null>(null);
+    const [recordedVideo, setRecordedVideo] = useState<string | null>(null);
+    const [videoChunks, setVideoChunks] = useState<Blob[]>([]);
 
-    // Open camera
-    const videoInputRef = useRef<HTMLInputElement>(null); // Video input reference
-    const mediaRecorder = useRef<MediaRecorder | null>(null); // Media recorder reference
-    const liveVideoFeed = useRef<HTMLVideoElement>(null); // Live video feed reference
+    const videoInputRef = useRef<HTMLInputElement>(null);
+    const mediaRecorder = useRef<MediaRecorder | null>(null);
+    const liveVideoFeed = useRef<HTMLVideoElement>(null);
 
-    // Handle reset all state variables
     const handleResetAll = () => {
-        setSelectedVideo(null); // Reset the selected video
-        setPermission(false); // Reset the camera permission
-        setRecordingStatus("inactive"); // Reset the recording status
-        setStream(null); // Reset the video stream
-        setRecordedVideo(null); // Reset the recorded video
-        setVideoChunks([]); // Reset the recorded video chunks
+        setSelectedVideo(null);
+        setPermission(false);
+        setRecordingStatus("inactive");
+        setStream(null);
+        setRecordedVideo(null);
+        setVideoChunks([]);
 
-        // Stop the media recorder and video stream
         mediaRecorder.current?.stop();
 
-        // Stop the live video feed
         if (liveVideoFeed.current) {
             liveVideoFeed.current.srcObject = null;
         }
 
-        // Stop the video stream
         if (stream) {
             stream.getTracks().forEach((track) => {
                 track.stop();
@@ -42,33 +36,21 @@ const SLRInput = () => {
         }
     };
 
-    // Handle selected video change
-    const handleSelectedVideoChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const handleSelectedVideoChange = () => {
         handleResetAll();
-        const video = event.target.files && event.target.files[0];
+        const video = videoInputRef.current?.files && videoInputRef.current.files[0];
         if (video) {
             setSelectedVideo(video);
         }
-    };
+    }
 
-    // Handle camera permission
     const handleCameraPermission = async () => {
-        // Reset all state variables
         handleResetAll();
-
-        // Check if the browser supports the MediaRecorder API
         if ("MediaRecorder" in window) {
             try {
-                // Get the video constraints
-                const videoConstraints = {
-                    video: true
-                };
-
-                const videoStream = await navigator.mediaDevices.getUserMedia(videoConstraints); // Get the video stream
-                setPermission(true); // Set the camera permission to true
-                setStream(videoStream); // Set the video stream
-
-                //set videostream to live feed player
+                const videoStream = await navigator.mediaDevices.getUserMedia({ video: true });
+                setPermission(true);
+                setStream(videoStream);
                 if (liveVideoFeed.current) {
                     liveVideoFeed.current.srcObject = videoStream;
                 }
@@ -80,45 +62,33 @@ const SLRInput = () => {
         }
     };
 
-    // Start recording
     const handleStartRecording = async () => {
-        // Set the recording status to recording
         setRecordingStatus("recording");
-
-        // Check if the video stream is available
         if (stream) {
-            const media = new MediaRecorder(stream, { mimeType }); // Create a new media recorder
-            mediaRecorder.current = media; // Set the media recorder
-            let localVideoChunks: Blob[] = []; // Local video chunks
-
-            // Handle the data available event
+            const media = new MediaRecorder(stream, { mimeType });
+            mediaRecorder.current = media;
+            let localVideoChunks: Blob[] = [];
             media.ondataavailable = (event) => {
                 if (event.data.size) {
                     localVideoChunks.push(event.data);
                 }
             };
-
-            // Handle the stop event
             media.onstop = () => {
                 const videoBlob = new Blob(localVideoChunks, { type: mimeType });
                 const videoUrl = URL.createObjectURL(videoBlob);
                 setRecordedVideo(videoUrl);
             };
-
-            media.start(); // Start the media recorder
-            setVideoChunks(localVideoChunks); // Set the video chunks
+            media.start();
+            setVideoChunks(localVideoChunks);
         } else {
             console.error("Video stream is not available");
         }
     };
 
-    // Stop recording
     const handleStopRecording = () => {
-        setPermission(false); // Set the camera permission to false
-        setRecordingStatus("inactive"); // Set the recording status to inactive
-        mediaRecorder.current?.stop(); // Stop the media recorder
-
-        // Stop the video stream
+        setPermission(false);
+        setRecordingStatus("inactive");
+        mediaRecorder.current?.stop();
         if (stream) {
             stream.getTracks().forEach((track) => {
                 track.stop();
@@ -126,23 +96,15 @@ const SLRInput = () => {
         }
     };
 
-    // Handle upload
     const handleUpload = async () => {
-        // Create a new form data
         const formData = new FormData();
-
-        // Case 1: Using local video file
         if (selectedVideo) {
             formData.append("video", selectedVideo);
         }
-
-        // Case 2: Camera recorded video
         if (recordedVideo) {
             const videoBlob = new Blob(videoChunks, { type: mimeType });
             formData.append("video", videoBlob);
         }
-
-        // If there is a video file, send it to the server
         if (formData.get("video")) {
             try {
                 alert("Video uploaded successfully")
@@ -152,20 +114,21 @@ const SLRInput = () => {
                 });
                 if (response.ok) {
                     const data = await response.json();
+                    onResponsiveReceived(data['return']);
                     console.log("Video uploaded successfully: ", data);
                 } else {
                     console.error("Failed to send video to server");
                 }
             } catch (error) {
-                console.error("Error sending video to server: ", error)
+                console.error("Error sending video to server: ", error);
             }
         } else {
-            console.error("No video selected to upload")
+            console.error("No video selected to upload");
         }
     };
 
     return (
-        <div>
+        <div className="slr-input-container">
             <div className="slr-input-menu">
                 <input
                     type="file"
@@ -174,38 +137,48 @@ const SLRInput = () => {
                     accept=".mp4"
                     onChange={handleSelectedVideoChange}
                 />
-                <button className="slr-input-btn" onClick={() => videoInputRef.current?.click()}>
+                <button className="slr-input-btn get-video" onClick={() => videoInputRef.current?.click()}>
                     <i className="fa fa-file-video-o"></i>
                 </button>
 
                 {!permission && (
-                    <button className="slr-input-btn" onClick={handleCameraPermission} type="button">
+                    <button className="slr-input-btn get-video" onClick={handleCameraPermission} type="button">
                         <i className="fa fa-video"></i>
                     </button>
                 )}
 
                 {permission && recordingStatus === "inactive" && (
-                    <button className="slr-input-btn" onClick={handleStartRecording} type="button">
+                    <button className="slr-input-btn get-video" onClick={handleStartRecording} type="button">
                         <i className="fa fa-play"></i>
                     </button>
                 )}
 
                 {permission && recordingStatus === "recording" && (
-                    <button className="slr-input-btn" onClick={handleStopRecording} type="button">
+                    <button className="slr-input-btn get-video" onClick={handleStopRecording} type="button">
                         <i className="fa fa-stop"></i>
                     </button>
                 )}
 
-                <button className="slr-input-btn" onClick={handleResetAll} type="button">
+                <button
+                    className="slr-input-btn reset"
+                    onClick={handleResetAll}
+                    type="button"
+                    disabled={!recordedVideo && !selectedVideo}
+                >
                     <i className="fa fa-refresh"></i>
                 </button>
 
-                <button className="slr-input-btn" onClick={handleUpload} type="button">
+                <button
+                    className="slr-input-btn submit"
+                    onClick={handleUpload}
+                    type="button"
+                    disabled={!recordedVideo && !selectedVideo}
+                >
                     <i className="fa fa-upload"></i>
                 </button>
             </div>
-
-            <div className="video-container">
+            <h1>Video Preview</h1>
+            <div className="slr-video-container">
                 <video
                     ref={liveVideoFeed}
                     className={`slr-preview-video ${!recordedVideo && !selectedVideo ? 'active' : ''}`}
