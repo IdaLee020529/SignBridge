@@ -224,24 +224,25 @@
   box-shadow: black 0px 0px 4px 0px;
   margin-top: -4vh;
   position: absolute;
-  width: 91.5%;
+  width: 64vw;
   height: 6vh;
   background-color: #fcc003;
-  border-radius: 5px;
-  font-size: 0;
+  border-radius: 24px;
+  left: 50%;
+  transform: translateX(-50%);
 }
-.communication-menu a {
-  line-height: 6.5vh;
+.communication-menu button {
   height: 100%;
-  font-size: 15px;
   display: inline-block;
   position: relative;
   z-index: 1;
-  text-decoration: none;
+  font-size: 15px;
   text-transform: uppercase;
-  text-align: center;
   color: white;
   cursor: pointer;
+  background-color: transparent;
+  border: none;
+  border-radius: 25px;
 }
 .communication-menu .animation {
   position: absolute;
@@ -251,20 +252,20 @@
   transition: all .5s ease 0s;
   border-radius: 25px;
 }
-.communication-menu a:nth-child(1) {
-  width: 34vw;
+.communication-menu button:nth-child(1) {
+  width: 32vw;
 }
-.communication-menu a:nth-child(2) {
-  width: 34vw;
+.communication-menu button:nth-child(2) {
+  width: 32vw;
 }
-.communication-menu .start-home, a:nth-child(1):hover~.animation {
-  width: 35vw;
+.communication-menu .start-home, button:nth-child(1):hover~.animation {
+  width: 32vw;
   left: 0;
   background-color: #1abc9c;
 }
-.communication-menu .start-about, a:nth-child(2):hover~.animation {
-  width: 35vw;
-  left: 33.6vw;
+.communication-menu .start-about, button:nth-child(2):hover~.animation {
+  width: 32vw;
+  left: 32vw;
   background-color: #e74c3c;
 }
 
@@ -310,8 +311,3 @@ margin-top: 1vh;
 .left-handed .canvas-wrapper {
   transform: scaleX(-1);
 }
-
-
-
-      
-      
