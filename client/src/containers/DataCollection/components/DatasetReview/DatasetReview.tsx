@@ -112,6 +112,7 @@ const DatasetReview: React.FC<DatasetReviewProps> = ({ user }) => {
           video_link={form.video_link}
           avatar_link={form.avatar_link}
           user={user}
+          user_id={form.user_id}
           video_name={form.video_name}
           handleSubmit={handleSubmit}
         />

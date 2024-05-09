@@ -1,10 +1,15 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import "./CollapsibleForm.css";
 import { Button } from "../../../../components/Button/Button";
 import VideoInput from "../../../../components/VideoInput/VideoInput";
 import { Descriptions } from "antd";
 import { getDemoVidById } from "../../../../services/dataset.service";
 import { saveAs } from "file-saver";
+
+import { toast } from "react-hot-toast";
+import { CreateNotification, GetUserIdByEmail } from "../../../../services/notification.service";
+import Cookies from "js-cookie";
+
 interface CollapsibleFormProps {
   number: string;
   form_id: number;
@@ -16,6 +21,7 @@ interface CollapsibleFormProps {
   video_link: string;
   avatar_link?: string;
   user?: string;
+  user_id?: number;
   video_name: string;
   avatar_name?: string;
   handleSubmit: Function;
@@ -32,6 +38,7 @@ const CollapsibleForm: React.FC<CollapsibleFormProps> = ({
   video_link,
   avatar_link,
   user,
+  user_id,
   video_name,
   avatar_name,
   handleSubmit,
@@ -128,6 +135,143 @@ const CollapsibleForm: React.FC<CollapsibleFormProps> = ({
       ),
     },
   ];
+  
+  // For notification
+  const getemail = Cookies.get("email");
+  const [userIds, setUserIds] = useState("");
+
+  useEffect(() => {
+    const getUserId = async () => {
+      const res = await GetUserIdByEmail(getemail);
+      setUserIds(res.data);
+    };
+    getUserId();
+  }, []);
+
+  // for public (accept/reject) 
+  const handleSEAcceptPublicButtonClick = async () => {
+    console.log("Sign Expert Accept Public");
+    try {
+      const notificationData = {
+        receiver_id: user_id,
+        sender_id: parseInt(userIds),
+        message: "has accepted your text.",
+        sign_text: text,
+        status: 0,
+        type: "Text Verification",
+        type_value: "accepted",
+        created_at: new Date().toISOString(),
+      };
+      await CreateNotification(notificationData);
+      toast.success("Notification sent successfully!");
+    } catch (error) {
+      console.error("Error sending notification:", error);
+      toast.error("Failed to send notification.");
+    }
+    try {
+      const notificationData = {
+        receiver_id: 1,
+        sender_id: parseInt(userIds),
+        message: "has assigned new text.",
+        sign_text: text,
+        status: 0,
+        type: "New Task",
+        type_value: "newtask",
+        created_at: new Date().toISOString(),
+      };
+      await CreateNotification(notificationData);
+      toast.success("Notification sent successfully!");
+    } catch (error) {
+      console.error("Error sending notification:", error);
+      toast.error("Failed to send notification.");
+    }
+  };
+
+  const handleSERejectPublicButtonClick = async () => {
+    console.log("Sign Expert Reject Public");
+    try {
+      const notificationData = {
+        receiver_id: user_id,
+        sender_id: parseInt(userIds),
+        message: "has rejected your text.",
+        sign_text: text,
+        status: 0,
+        type: "Text Verification",
+        type_value: "rejected",
+        created_at: new Date().toISOString(),
+      };
+      await CreateNotification(notificationData);
+      toast.success("Notification sent successfully!");
+    } catch (error) {
+      console.error("Error sending notification:", error);
+      toast.error("Failed to send notification.");
+    }
+  };
+
+  // for admin (accept/reject) 
+  const handleSEAcceptAdminButtonClick = async () => {
+    console.log("Sign Expert Accept Admin");
+    try {
+      const notificationData = {
+        receiver_id: 1,
+        sender_id: parseInt(userIds),
+        message: "has accepted your avatar.",
+        sign_text: text,
+        status: 0,
+        type: "Task Confirmation",
+        type_value: "accepted",
+        created_at: new Date().toISOString(),
+      };
+      await CreateNotification(notificationData);
+      toast.success("Notification sent successfully!");
+    } catch (error) {
+      console.error("Error sending notification:", error);
+      toast.error("Failed to send notification.");
+    }
+  };
+
+  const handleSERejectAdminButtonClick = async () => {
+    console.log("Sign Expert Reject Admin");
+    try {
+      const notificationData = {
+        receiver_id: 1,
+        sender_id: parseInt(userIds),
+        message: "has rejected your avatar.",
+        sign_text: text,
+        status: 0,
+        type: "Task Confirmation",
+        type_value: "rejected",
+        created_at: new Date().toISOString(),
+      };
+      await CreateNotification(notificationData);
+      toast.success("Notification sent successfully!");
+    } catch (error) {
+      console.error("Error sending notification:", error);
+      toast.error("Failed to send notification.");
+    }
+  };
+
+  // For admin upload
+  const handleAdminButtonClick = async () => {
+    console.log("Admin upload");
+    try {
+      const notificationData = {
+        receiver_id: 2,
+        sender_id: parseInt(userIds),
+        message: "has uploaded the avatar.",
+        sign_text: text,
+        status: 0,
+        type: "Waiting for Verification",
+        type_value: "waitingforverification",
+        created_at: new Date().toISOString(),
+      };
+      await CreateNotification(notificationData);
+      toast.success("Notification sent successfully!");
+    } catch (error) {
+      console.error("Error sending notification:", error);
+      toast.error("Failed to send notification.");
+    }
+  };
 
   return (
     <div
@@ -211,6 +355,7 @@ const CollapsibleForm: React.FC<CollapsibleFormProps> = ({
                             status_Admin: "New",
                           };
                           handleSubmit(form_id, updateData);
+                          handleSEAcceptPublicButtonClick();
                         }}
                         buttonStyle="btn--accept" // Style for accept button
                         buttonSize="btn--large"
@@ -224,6 +369,7 @@ const CollapsibleForm: React.FC<CollapsibleFormProps> = ({
                             status_SE: "Cancelled",
                           };
                           handleSubmit(form_id, updateData);
+                          handleSERejectPublicButtonClick();
                         }}
                         buttonStyle="btn--cancel" // Style for cancel button
                         buttonSize="btn--large"
@@ -242,6 +388,7 @@ const CollapsibleForm: React.FC<CollapsibleFormProps> = ({
                             status_Admin: "Verified",
                           };
                           handleSubmit(form_id, updateData);
+                          handleSEAcceptAdminButtonClick();
                         }}
                         buttonStyle="btn--send"
                         buttonSize="btn--large"
@@ -256,6 +403,7 @@ const CollapsibleForm: React.FC<CollapsibleFormProps> = ({
                             status_Admin: "Rejected",
                           };
                           handleSubmit(form_id, updateData);
+                          handleSERejectAdminButtonClick();
                         }}
                         buttonStyle="btn--send"
                         buttonSize="btn--large"
@@ -296,6 +444,7 @@ const CollapsibleForm: React.FC<CollapsibleFormProps> = ({
                             status_Admin: "Awaiting Verification",
                           };
                           handleSubmit(form_id, updateData);
+                          handleAdminButtonClick();
                         }}
                         buttonStyle="btn--send"
                         buttonSize="btn--large"
@@ -314,6 +463,7 @@ const CollapsibleForm: React.FC<CollapsibleFormProps> = ({
                             status_Admin: "Awaiting Verification",
                           };
                           handleSubmit(form_id, updateData);
+                          handleAdminButtonClick();
                         }}
                         buttonStyle="btn--send"
                         buttonSize="btn--large"

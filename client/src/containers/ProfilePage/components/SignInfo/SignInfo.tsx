@@ -33,18 +33,18 @@ const SignInfo = () => {
   const [rejectedValue, setRejectedValue] = useState(0);
   const [publicTableData, setPublicTableData] = useState([]);
   // For sign expert
-  const [newTextValue, setNewTextValue] = useState(0);
-  const [inProgressValue, setInProgressValue] = useState(0);
-  const [awaitingVerificationValue, setAwaitingVerificationValue] = useState(0);
+  // const [newTextValue, setNewTextValue] = useState(0);
+  // const [inProgressValue, setInProgressValue] = useState(0);
+  // const [awaitingVerificationValue, setAwaitingVerificationValue] = useState(0);
   // For admin
-  const [newTaskValue, setNewTaskValue] = useState(0);
-  const [waitingVerificationValue, setWaitingVerificationValue] = useState(0);
+  // const [newTaskValue, setNewTaskValue] = useState(0);
+  // const [waitingVerificationValue, setWaitingVerificationValue] = useState(0);
 
-    const [sorting, setSorting] = useState<SortingState>([]);
-    const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]);
-    const [columnVisibility, setColumnVisibility] = useState<VisibilityState>({});
-    const [rowSelection, setRowSelection] = useState({});
-    const [pagination, setPagination] = useState({ pageIndex: 0, pageSize: 10 });
+  const [sorting, setSorting] = useState<SortingState>([]);
+  const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]);
+  const [columnVisibility, setColumnVisibility] = useState<VisibilityState>({});
+  const [rowSelection, setRowSelection] = useState({});
+  const [pagination, setPagination] = useState({ pageIndex: 0, pageSize: 10 });
 
 
   async function getSignInfoforPublic() {
@@ -75,40 +75,40 @@ const SignInfo = () => {
     );
   }
 
-  async function getSignInfoforSignExpert() {
-    const dataset = await FetchAllDataset();
+  // async function getSignInfoforSignExpert() {
+  //   const dataset = await FetchAllDataset();
 
-    setNewTextValue(
-      dataset.data.filter((data: any) => data.status_SE === "New").length
-    );
-    setInProgressValue(
-      dataset.data.filter((data: any) => data.status_SE === "In Progress")
-        .length
-    );
-    setAwaitingVerificationValue(
-      dataset.data.filter(
-        (data: any) => data.status_SE === "Awaiting Verification"
-      ).length
-    );
-  }
+  //   setNewTextValue(
+  //     dataset.data.filter((data: any) => data.status_SE === "New").length
+  //   );
+  //   setInProgressValue(
+  //     dataset.data.filter((data: any) => data.status_SE === "In Progress")
+  //       .length
+  //   );
+  //   setAwaitingVerificationValue(
+  //     dataset.data.filter(
+  //       (data: any) => data.status_SE === "Awaiting Verification"
+  //     ).length
+  //   );
+  // }
 
-  async function getSignInfoforAdmin() {
-    const dataset = await FetchAllDataset();
+  // async function getSignInfoforAdmin() {
+  //   const dataset = await FetchAllDataset();
 
-    setNewTaskValue(
-      dataset.data.filter((data: any) => data.status_Admin === "New").length
-    );
-    setWaitingVerificationValue(
-      dataset.data.filter(
-        (data: any) => data.status_Admin === "Awaiting Verification"
-      ).length
-    );
-  }
+  //   setNewTaskValue(
+  //     dataset.data.filter((data: any) => data.status_Admin === "New").length
+  //   );
+  //   setWaitingVerificationValue(
+  //     dataset.data.filter(
+  //       (data: any) => data.status_Admin === "Awaiting Verification"
+  //     ).length
+  //   );
+  // }
 
   useEffect(() => {
     getSignInfoforPublic();
-    getSignInfoforSignExpert();
-    getSignInfoforAdmin();
+    // getSignInfoforSignExpert();
+    // getSignInfoforAdmin();
   }, []);
 
   // For the table
@@ -196,7 +196,7 @@ const SignInfo = () => {
 
   return (
     <>
-      {roleAccess === "public" ? (
+      {/* {roleAccess === "public" ? (
         <div className={style.horizontalContainer}>
           <div className={style.signInfoContainer}>
             <div className={style.slot}>
@@ -253,9 +253,33 @@ const SignInfo = () => {
             </div>
           </div>
         </div>
-      ) : null}
+      ) : null} */}
 
-      {publicTableData.length === 0 && roleAccess === "public" && (
+      <div className={style.horizontalContainer}>
+        <div className={style.signInfoContainer}>
+          <div className={style.slot}>
+            <h1 className={style.title}>Submitted</h1>
+            <p className={style.number}>{submittedValue}</p>
+          </div>
+          <div className={style.divider}></div>
+          <div className={style.slot}>
+            <h1 className={style.title}>Pending</h1>
+            <p className={style.number}>{pendingValue}</p>
+          </div>
+          <div className={style.divider}></div>
+          <div className={style.slot}>
+            <h1 className={style.title}>Approved</h1>
+            <p className={style.number}>{acceptedValue}</p>
+          </div>
+          <div className={style.divider}></div>
+          <div className={style.slot}>
+            <h1 className={style.title}>Rejected</h1>
+            <p className={style.number}>{rejectedValue}</p>
+          </div>
+        </div>
+      </div>
+
+      {publicTableData.length === 0 && (roleAccess === "public" || roleAccess === "signexpert") && (
         <div className={style.signTextTableContainer}>
           <div>
             <p>
