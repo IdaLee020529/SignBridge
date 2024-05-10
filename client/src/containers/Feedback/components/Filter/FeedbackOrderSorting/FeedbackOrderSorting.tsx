@@ -2,6 +2,7 @@ import React, { useEffect } from "react";
 import { Select } from "antd";
 import style from "./FeedbackOrderSorting.module.css";
 import { useFeedbackSortFilterStore } from "../../../../../store/feedbackSortFilter";
+import { useTranslation } from "react-i18next";
 
 const { Option } = Select;
 
@@ -10,6 +11,7 @@ interface OrderFilterProps {
 }
 
 const OrderFilter: React.FC<OrderFilterProps> = ({ sortData }) => {
+  const { t, i18n } = useTranslation();
   const store = useFeedbackSortFilterStore();
 
   const handleSelectChange = (value: string) => {
@@ -41,31 +43,33 @@ const OrderFilter: React.FC<OrderFilterProps> = ({ sortData }) => {
   //   }
   // }, [selectedField]); // Run effect when selectedField changes
 
+  const selectWidth = i18n.language === "en" ? 140 : 200; // Adjust width based on language
+
   return (
     <div className={style.order_filter}>
       <Select
         value={store.sortBy !== "" ? store.sortBy : store.filterBy}
         onChange={handleSelectChange}
-        style={{ width: 140, height: 40 }}
+        style={{ width: selectWidth, height: 40 }}
         popupClassName={style.order_filter_dropdown}
         placeholder="Select order"
       >
         {/* Options based on selected field */}
         {store.field === "Category" ? (
           <>
-            <Option value="whole website">Whole Website</Option>
-            <Option value="game1">Game1</Option>
-            <Option value="game2">Game2</Option>
+            <Option value="whole website">{t('whole_website')}</Option>
+            <Option value="game1">{t('game1')}</Option>
+            <Option value="game2">{t('game2')}</Option>
           </>
         ) : store.field === "Status" ? (
           <>
-            <Option value="new">New</Option>
-            <Option value="viewed">Viewed</Option>
+            <Option value="new">{t('new')}</Option>
+            <Option value="viewed">{t('viewed')}</Option>
           </>
         ) : (
           <>
-            <Option value="asc">Ascending</Option>
-            <Option value="desc">Descending</Option>
+            <Option value="asc">{t('ascending')}</Option>
+            <Option value="desc">{t('descending')}</Option>
           </>
         )}
       </Select>

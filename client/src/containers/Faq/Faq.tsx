@@ -4,10 +4,13 @@ import * as Accordion from "@radix-ui/react-accordion";
 import classNames from "classnames";
 import { ChevronDownIcon } from "@radix-ui/react-icons";
 import { FetchFaq } from "../../services/faq.service";
+import { useTranslation } from "react-i18next";
 
 interface FaqData {
-    question: string;
-    answer: string;
+    question_en: string;
+    question_bm: string;
+    answer_en: string;
+    answer_bm: string;
     faq_id: number;
 }
 
@@ -23,58 +26,69 @@ interface AccordionContentProps
     className?: string;
 }
 
-const AccordionDemo = ({ faqs }: { faqs: FaqData[] }) => (
-    <Accordion.Root
-        className={styles.AccordionRoot}
-        type="single"
-        defaultValue={faqs[0]?.faq_id.toString()}
-        collapsible
-    >
-        {faqs.map((faq) => (
-            <Accordion.Item
-                className={styles.AccordionItem}
-                value={faq.faq_id.toString()}
-                key={faq.faq_id}
-            >
-                <AccordionTrigger>{faq.question}</AccordionTrigger>
-                <AccordionContent>{faq.answer}</AccordionContent>
-            </Accordion.Item>
-        ))}
-    </Accordion.Root>
-);
+export default function Faq() {
+    const { t, i18n } = useTranslation();
+    const [faqs, setFaqs] = useState<FaqData[]>([]);
+    const [loading, setLoading] = useState<boolean>(true);
+    const currentSelectedLanguage = localStorage.getItem("i18nextLng") || "en";
+    console.log(currentSelectedLanguage);
 
-const AccordionTrigger = React.forwardRef<
-    HTMLButtonElement,
-    AccordionTriggerProps
->(({ children, className, ...props }, forwardedRef) => (
-    <Accordion.Header className={styles.AccordionHeader}>
-        <Accordion.Trigger
-            className={classNames(styles.AccordionTrigger, className)}
+    const AccordionDemo = ({ faqs }: { faqs: FaqData[] }) => (
+        <Accordion.Root
+            className={styles.AccordionRoot}
+            type="single"
+            defaultValue={faqs[0]?.faq_id.toString()}
+            collapsible
+        >
+            {faqs.map((faq) => (
+                <Accordion.Item
+                    className={styles.AccordionItem}
+                    value={faq.faq_id.toString()}
+                    key={faq.faq_id}
+                >
+                    <AccordionTrigger>
+                        {currentSelectedLanguage === "en"
+                            ? faq.question_en
+                            : faq.question_bm}
+                    </AccordionTrigger>
+                    <AccordionContent>
+                        {currentSelectedLanguage === "en"
+                            ? faq.answer_en
+                            : faq.answer_bm}
+                    </AccordionContent>
+                </Accordion.Item>
+            ))}
+        </Accordion.Root>
+    );
+    
+    const AccordionTrigger = React.forwardRef<
+        HTMLButtonElement,
+        AccordionTriggerProps
+    >(({ children, className, ...props }, forwardedRef) => (
+        <Accordion.Header className={styles.AccordionHeader}>
+            <Accordion.Trigger
+                className={classNames(styles.AccordionTrigger, className)}
+                {...props}
+                ref={forwardedRef}
+            >
+                {children}
+                <ChevronDownIcon className={styles.AccordionChevron} aria-hidden />
+            </Accordion.Trigger>
+        </Accordion.Header>
+    ));
+    
+    const AccordionContent = React.forwardRef<
+        HTMLDivElement,
+        AccordionContentProps
+    >(({ children, className, ...props }, forwardedRef) => (
+        <Accordion.Content
+            className={classNames(styles.AccordionContent, className)}
             {...props}
             ref={forwardedRef}
         >
-            {children}
-            <ChevronDownIcon className={styles.AccordionChevron} aria-hidden />
-        </Accordion.Trigger>
-    </Accordion.Header>
-));
-
-const AccordionContent = React.forwardRef<
-    HTMLDivElement,
-    AccordionContentProps
->(({ children, className, ...props }, forwardedRef) => (
-    <Accordion.Content
-        className={classNames(styles.AccordionContent, className)}
-        {...props}
-        ref={forwardedRef}
-    >
-        <div className={styles.AccordionContentText}>{children}</div>
-    </Accordion.Content>
-));
-
-export default function Faq() {
-    const [faqs, setFaqs] = useState<FaqData[]>([]);
-    const [loading, setLoading] = useState<boolean>(true);
+            <div className={styles.AccordionContentText}>{children}</div>
+        </Accordion.Content>
+    ));
 
     useEffect(() => {
         const getFaqs = async () => {
@@ -95,7 +109,7 @@ export default function Faq() {
     }, []);
 
     if (loading) {
-        return <p>Loading FAQs...</p>;
+        return <p>{t("loading_faq")}</p>;
     }
 
     return (

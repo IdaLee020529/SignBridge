@@ -11,6 +11,10 @@ import "./DataSubmissionForm.css";
 import Cookies from "js-cookie";
 import { useTranslation } from "react-i18next";
 
+import { CreateNotification, GetUserIdByEmail } from "../../../../services/notification.service";
+import { toast } from "react-hot-toast";
+
+
 interface DataSubmissionFormProps {
   user: string;
 }
@@ -139,6 +143,26 @@ const DataSubmissionForm: React.FC<DataSubmissionFormProps> = ({ user }) => {
           }
           handleReset();
           await handleOpenModal();
+        }
+
+        // Send notification
+        try {
+          const notificationData = {
+            receiver_id: 2,
+            sender_id: user_id ? parseInt(user_id) : 0,
+            message: "has submitted new text.",
+            sign_text: text,
+            status: 0,
+            type: "New Text",
+            type_value: "newtext",
+            created_at: new Date().toISOString(),
+          };
+          console.log("notificationUserId", user_id);
+          await CreateNotification(notificationData);
+          toast.success("Notification sent successfully!");
+        } catch (error) {
+          console.error("Error sending notification:", error);
+          toast.error("Failed to send notification.");
         }
       }
     }

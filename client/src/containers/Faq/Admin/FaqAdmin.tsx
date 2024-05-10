@@ -14,10 +14,25 @@ import { toast } from "react-hot-toast";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEdit, faTrash } from "@fortawesome/free-solid-svg-icons";
 import InputField from "../../../components/InputField/InputField";
+import { useTranslation } from "react-i18next";
+import axios from "axios";
+
+const API_KEY = "";
+const API_URL = "";
+const translateText = async (text: string, targetLanguage: "ms" | "en") => {
+    const response = await axios.post(`${API_URL}?key=${API_KEY}`, {
+        q: text,
+        target: targetLanguage,
+    });
+
+    return response.data.data.translations[0].translatedText;
+};
 
 interface FaqData {
-    question: string;
-    answer: string;
+    question_en: string;
+    answer_en: string;
+    question_bm: string;
+    answer_bm: string;
     faq_id: number;
 }
 
@@ -33,7 +48,9 @@ interface AccordionContentProps
     className?: string;
 }
 
+
 export default function FaqAdmin() {
+    const { t, i18n } = useTranslation();
     const [faqs, setFaqs] = useState<FaqData[]>([]);
     const [loading, setLoading] = useState(true);
     const [open, setOpen] = useState(false);
@@ -43,6 +60,7 @@ export default function FaqAdmin() {
     const [faq, setFaq] = useState<FaqData | null>(null);
     const [openDeleteConfirm, setOpenDeleteConfirm] = useState(false);
     const [faqToDelete, setFaqToDelete] = useState<number | null>(null);
+    const currentSelectedLanguage = localStorage.getItem("i18nextLng") || "en";
 
     const AccordionDemo = ({ faqs }: { faqs: FaqData[] }) => (
         <Accordion.Root
@@ -56,9 +74,9 @@ export default function FaqAdmin() {
                     value={faq.faq_id.toString()}
                     key={faq.faq_id}
                 >
-                    <AccordionTrigger>{faq.question}</AccordionTrigger>
+                    <AccordionTrigger>{ currentSelectedLanguage === 'en' ? faq.question_en : faq.question_bm}</AccordionTrigger>
                     <AccordionContent>
-                        {faq.answer}
+                        {currentSelectedLanguage === 'en' ? faq.answer_en : faq.answer_bm}
                         <div className={styles.buttonsContainer}>
                             <button
                                 onClick={(e) => {
@@ -142,22 +160,41 @@ export default function FaqAdmin() {
     }, [open]);
 
     if (loading) {
-        return <p>Loading FAQs...</p>;
+        return <p>{t("loading_faq")}</p>;
     }
 
     async function addFaq(e: React.FormEvent<HTMLFormElement>) {
         e.preventDefault();
         if (!question.trim() || !answer.trim()) {
-            toast.error("Both question and answer fields are required.");
+            toast.error(t("questionAnswerRequired"));
             return;
         }
 
         try {
-            await CreateFaq({ question, answer });
-            toast.success("FAQ created successfully");
+            const data = {
+                question_en: "",
+                answer_en: "",
+                question_bm: "",
+                answer_bm: "",
+            }
+
+            if (currentSelectedLanguage === "en") {
+                data.question_en = question;
+                data.answer_en = answer;
+                data.question_bm = await translateText(question, "ms");
+                data.answer_bm = await translateText(answer, "ms");
+            } else if (currentSelectedLanguage === "ms") {
+                data.question_en = await translateText(question, "en");
+                data.answer_en = await translateText(answer, "en");
+                data.question_bm = question;
+                data.answer_bm = answer;
+            }
+
+            await CreateFaq(data);
+            toast.success(t("faqSuccess"));
             await getFaqs();
         } catch (error) {
-            toast.error("Error creating FAQ");
+            toast.error(t("faqError"));
         } finally {
             setOpen(false);
             setQuestion("");
@@ -179,10 +216,7 @@ export default function FaqAdmin() {
         }
     };
 
-    async function updateFaq(
-        e: React.FormEvent<HTMLFormElement>,
-        faq_id: number | undefined
-    ) {
+    async function updateFaq(e: React.FormEvent<HTMLFormElement>, faq_id: number | undefined) {
         e.preventDefault();
 
         if (!faq_id) return;
@@ -197,7 +231,27 @@ export default function FaqAdmin() {
         }
 
         try {
-            await UpdateFaq({ faq_id, question, answer });
+            const data = {
+                faq_id,
+                question_en: "",
+                answer_en: "",
+                question_bm: "",
+                answer_bm: "",
+            }
+
+            if (currentSelectedLanguage === "en") {
+                data.question_en = question;
+                data.answer_en = answer;
+                data.question_bm = await translateText(question, "ms");
+                data.answer_bm = await translateText(answer, "ms");
+            } else if (currentSelectedLanguage === "ms") {
+                data.question_en = await translateText(question, "en");
+                data.answer_en = await translateText(answer, "en");
+                data.question_bm = question;
+                data.answer_bm = answer;
+            }
+
+            await UpdateFaq(data);
             toast.success("FAQ updated successfully");
             await getFaqs();
         } catch (error) {
@@ -218,13 +272,15 @@ export default function FaqAdmin() {
             <div>
                 <Dialog.Root open={open} onOpenChange={setOpen}>
                     <Dialog.Trigger>
-                        <button className={styles.addFaqButton}>Add FAQ</button>
+                        <button className={styles.addFaqButton}>
+                            {t("add_faq")}
+                        </button>
                     </Dialog.Trigger>
                     <Dialog.Portal>
                         <Dialog.Overlay className={styles.dialog_overlay} />
                         <Dialog.Content className={styles.dialog_content}>
                             <Dialog.Title className={styles.dialog_title}>
-                                Create FAQ
+                                {t("create_faq")}
                                 <i
                                     className={`${styles.fa} fa fa-close`}
                                     onClick={() => setOpen(false)}
@@ -233,12 +289,12 @@ export default function FaqAdmin() {
                             <Dialog.Description
                                 className={styles.dialog_description}
                             >
-                                Please fill in the details:
+                                {t("please_fill")}
                             </Dialog.Description>
                             <form method="post" onSubmit={addFaq}>
                                 <fieldset className={styles.Fieldset_question}>
                                     <InputField
-                                        label="Question"
+                                        label={t("question")}
                                         name="question"
                                         value={question}
                                         onChange={(e) => {
@@ -250,7 +306,7 @@ export default function FaqAdmin() {
 
                                 <fieldset className={styles.Fieldset_answer}>
                                     <InputField
-                                        label="Answer"
+                                        label={t("answer")}
                                         name="answer"
                                         value={answer}
                                         onChange={(e) => {
@@ -272,7 +328,7 @@ export default function FaqAdmin() {
                                         className={styles.saveButton}
                                         type="submit"
                                     >
-                                        Save changes
+                                        {t("save_changes")}
                                     </button>
                                 </div>
                             </form>
@@ -300,7 +356,7 @@ export default function FaqAdmin() {
                         className={styles.dialog_content}
                     >
                         <Dialog.Title className={styles.dialog_title}>
-                            Update FAQ
+                            {t("update_faq")}
                             <i
                                 className={`${styles.fa} fa fa-close`}
                                 onClick={() => setOpenUpdate(false)}
@@ -309,46 +365,52 @@ export default function FaqAdmin() {
                         <Dialog.Description
                             className={styles.dialog_description}
                         >
-                            Please fill in the details
+                            {t("please_fill")}
                         </Dialog.Description>
                         <form
                             method="post"
                             onSubmit={(e) => updateFaq(e, faq?.faq_id)}
                         >
                             <fieldset className={styles.Fieldset_question}>
-                                <InputField
-                                    label="Question"
-                                    name="question"
-                                    value={faq?.question || ""}
-                                    onChange={(e) =>
-                                        setFaq((prevState) =>
-                                            prevState
-                                                ? {
-                                                      ...prevState,
-                                                      question: e.target.value,
-                                                  }
-                                                : null
-                                        )
-                                    }
-                                    error=""
-                                />
+                            <InputField
+                                label={t("question")}
+                                name="question"
+                                value={currentSelectedLanguage === 'en' ? (faq && faq.question_en) || "" : (faq && faq.question_bm) || ""}
+                                onChange={(e) => {
+                                    const newValue = e.target.value;
+                                    setFaq((prevState) => {
+                                        if (prevState) {
+                                            return {
+                                                ...prevState,
+                                                question_en: currentSelectedLanguage === 'en' ? newValue : prevState.question_en,
+                                                question_bm: currentSelectedLanguage === 'ms' ? newValue : prevState.question_bm
+                                            };
+                                        }
+                                        return null; 
+                                    });
+                                }}
+                                error=""
+                            />
                             </fieldset>
 
                             <fieldset className={styles.Fieldset_answer}>
                                 <InputField
-                                    label="Answer"
+                                    label={t("answer")}
                                     name="answer"
-                                    value={faq?.answer || ""}
-                                    onChange={(e) =>
-                                        setFaq((prevState) =>
-                                            prevState
-                                                ? {
-                                                      ...prevState,
-                                                      answer: e.target.value,
-                                                  }
-                                                : null
-                                        )
-                                    }
+                                    value={currentSelectedLanguage === 'en' ? faq?.answer_en || "" : faq?.answer_bm || ""}
+                                    onChange={(e) => {
+                                        const newValue = e.target.value;
+                                        setFaq((prevState) => {
+                                            if (prevState) {
+                                                return {
+                                                    ...prevState,
+                                                    answer_en: currentSelectedLanguage === 'en' ? newValue : prevState.answer_en,
+                                                    answer_bm: currentSelectedLanguage === 'ms' ? newValue : prevState.answer_bm
+                                                };
+                                            }
+                                            return null;
+                                        });
+                                    }}
                                     multipleLines={true}
                                     error=""
                                 />
@@ -365,7 +427,7 @@ export default function FaqAdmin() {
                                     className={styles.saveButton}
                                     type="submit"
                                 >
-                                    Save changes
+                                    {t("save_changes")}
                                 </button>
                             </div>
                         </form>
@@ -381,33 +443,30 @@ export default function FaqAdmin() {
                 </Dialog.Portal>
             </Dialog.Root>
 
-            <Dialog.Root
-                open={openDeleteConfirm}
-                onOpenChange={setOpenDeleteConfirm}
-            >
+            <Dialog.Root open={openDeleteConfirm} onOpenChange={setOpenDeleteConfirm}>
                 <Dialog.Portal>
                     <Dialog.Overlay className={styles.dialog_overlay} />
                     <Dialog.Content className={styles.dialog_content2}>
                         <Dialog.Title className={styles.dialog_title}>
-                            Confirm Delete
+                            {t("confirm_delete")}
                         </Dialog.Title>
                         <Dialog.Description
                             className={styles.dialog_description2}
                         >
-                            Are you sure you want to delete this FAQ?
+                            {t("sure_delete")}
                         </Dialog.Description>
                         <div className={styles.buttonsConfirmation}>
                             <button
                                 className={styles.noButton}
                                 onClick={() => setOpenDeleteConfirm(false)}
                             >
-                                No
+                                {t("no")}
                             </button>
                             <button
                                 className={styles.yesButton}
                                 onClick={confirmDeleteFaq}
                             >
-                                Yes
+                                {t("yes")}
                             </button>
                         </div>
                     </Dialog.Content>
