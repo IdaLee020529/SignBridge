@@ -1,9 +1,9 @@
-.fa-video, .fa-play, .fa-stop, .fa-upload{
+.fa_video, .fa_play, .fa_stop, .fa_upload{
     font-size: 30px;
     padding: 13px 0;
 }
 
-.open-cam-btn-pushable {
+.open_cam_btn_pushable {
     position: relative;
     border: none;
     background: transparent;
@@ -18,7 +18,7 @@
     margin-bottom: 10px;
   }
   
-.open-cam-btn-shadow {
+.open_cam_btn_shadow {
     position: absolute;
     top: 0;
     left: 0;
@@ -30,7 +30,7 @@
     transform: translateY(2px);
 }
   
-.open-cam-btn-edge {
+.open_cam_btn_edge {
     position: absolute;
     top: 0;
     left: 0;
@@ -46,7 +46,7 @@
     );
 }
   
-.open-cam-btn-front {
+.open_cam_btn_front {
     display: block;
     position: relative;
     border-radius: 15px;
@@ -62,12 +62,12 @@
       cubic-bezier(.3, .7, .4, 1);
 }
   
-.open-cam-btn-pushable:hover {
+.open_cam_btn_pushable:hover {
     filter: brightness(110%);
     -webkit-filter: brightness(110%);
 }
   
-.open-cam-btn-pushable:hover .open-cam-btn-front {
+.open_cam_btn_pushable:hover .open_cam_btn_front {
     transform: translateY(-6px);
     transition:
       transform
@@ -75,12 +75,12 @@
       cubic-bezier(.3, .7, .4, 1.5);
 }
   
-.open-cam-btn-pushable:active .open-cam-btn-front {
+.open_cam_btn_pushable:active .open_cam_btn_front {
     transform: translateY(-2px);
     transition: transform 34ms;
 }
   
-.open-cam-btn-pushable:hover .open-cam-btn-shadow {
+.open_cam_btn_pushable:hover .open_cam_btn_shadow {
     transform: translateY(4px);
     transition:
       transform
@@ -88,50 +88,49 @@
       cubic-bezier(.3, .7, .4, 1.5);
 }
   
-.open-cam-btn-pushable:active .open-cam-btn-shadow {
+.open_cam_btn_pushable:active .open_cam_btn_shadow {
     transform: translateY(1px);
     transition: transform 34ms;
 }
   
-.open-cam-btn-pushable:focus:not(:focus-visible) {
+.open_cam_btn_pushable:focus:not(:focus-visible) {
     outline: none;
 }
 
-.video-controls {
+.video_controls {
     display: flex; 
     margin-bottom: 0px;
     justify-content: center;
 }
 
-.video-controls button {
+.video_controls button {
     position: relative;
 }
 
-.audio-player,
-.video-player,
-.recorded-player {
+.video_player,
+.recorded_player {
 	display: flex;
 	flex-direction: column;
 	align-items: center;
 }
 
-.live-player {
+.livePlayer {
 	width: 100%;
     border-radius: 10px;
     margin-bottom: 80px;
 }
 
-.recorded-player .recorded {
+.recorded_player .recorded {
     width: 100%;
     border-radius: 10px;
     margin-bottom: 80px;
 }
 
-.initial-height{
+.initialHeight{
     height: 337.5px;
 }
 
-.upload-btn-pushable {
+.upload_btn_pushable {
     position: absolute;
     border: none;
     background: transparent;
@@ -147,7 +146,7 @@
     right: 0;
 }
   
-.upload-btn-shadow {
+.upload_btn_shadow {
     position: absolute;
     top: 0;
     left: 0;
@@ -159,7 +158,7 @@
     transform: translateY(2px);
 }
   
-.upload-btn-edge {
+.upload_btn_edge {
     position: absolute;
     top: 0;
     left: 0;
@@ -175,7 +174,7 @@
     );
 }
   
-.upload-btn-front {
+.upload_btn_front {
     display: block;
     position: relative;
     border-radius: 15px;
@@ -191,12 +190,12 @@
       cubic-bezier(.3, .7, .4, 1);
 }
   
-.upload-btn-pushable:hover {
+.upload_btn_pushable:hover {
     filter: brightness(110%);
     -webkit-filter: brightness(110%);
 }
   
-.upload-btn-pushable:hover .upload-btn-front {
+.upload_btn_pushable:hover .upload_btn_front {
     transform: translateY(-6px);
     transition:
       transform
@@ -204,12 +203,12 @@
       cubic-bezier(.3, .7, .4, 1.5);
 }
   
-.upload-btn-pushable:active .upload-btn-front {
+.upload_btn_pushable:active .upload_btn_front {
     transform: translateY(-2px);
     transition: transform 34ms;
 }
   
-.upload-btn-pushable:hover .upload-btn-shadow {
+.upload_btn_pushable:hover .upload_btn_shadow {
     transform: translateY(4px);
     transition:
       transform
@@ -217,16 +216,16 @@
       cubic-bezier(.3, .7, .4, 1.5);
 }
   
-.upload-btn-pushable:active .upload-btn-shadow {
+.upload_btn_pushable:active .upload_btn_shadow {
     transform: translateY(1px);
     transition: transform 34ms;
 }
   
-.upload-btn-pushable:focus:not(:focus-visible) {
+.upload_btn_pushable:focus:not(:focus-visible) {
     outline: none;
 }
 
-.upload-btn-pushable a{
+.upload_btn_pushable a{
     text-decoration: none;
     color: white;
     font-size: 17px;

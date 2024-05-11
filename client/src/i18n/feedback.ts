@@ -52,6 +52,7 @@ const feedback = {
         feedback_name: "Name",
         feedback_status: "Status",
         feedback_date: "Date",
+        feedback_age: "Age",
         feedback_email: "Email",
         feedback_category_filter: "Category",
         view_screenshot: "View Screenshot",
