@@ -155,7 +155,8 @@ const CollapsibleForm: React.FC<CollapsibleFormProps> = ({
       const notificationData = {
         receiver_id: user_id,
         sender_id: parseInt(userIds),
-        message: "has accepted your text.",
+        message_en: "has accepted your text.",
+        message_bm: "telah menerima teks anda.",
         sign_text: text,
         status: 0,
         type: "Text Verification",
@@ -172,7 +173,8 @@ const CollapsibleForm: React.FC<CollapsibleFormProps> = ({
       const notificationData = {
         receiver_id: 1,
         sender_id: parseInt(userIds),
-        message: "has assigned new text.",
+        message_en: "has assigned new text.",
+        message_bm: "telah menetapkan teks baru.",
         sign_text: text,
         status: 0,
         type: "New Task",
@@ -193,7 +195,8 @@ const CollapsibleForm: React.FC<CollapsibleFormProps> = ({
       const notificationData = {
         receiver_id: user_id,
         sender_id: parseInt(userIds),
-        message: "has rejected your text.",
+        message_en: "has rejected your text.",
+        message_bm: "telah menolak teks anda.",
         sign_text: text,
         status: 0,
         type: "Text Verification",
@@ -215,7 +218,8 @@ const CollapsibleForm: React.FC<CollapsibleFormProps> = ({
       const notificationData = {
         receiver_id: 1,
         sender_id: parseInt(userIds),
-        message: "has accepted your avatar.",
+        message_en: "has accepted your avatar.",
+        message_bm: "telah menerima avatar anda.",
         sign_text: text,
         status: 0,
         type: "Task Confirmation",
@@ -236,7 +240,8 @@ const CollapsibleForm: React.FC<CollapsibleFormProps> = ({
       const notificationData = {
         receiver_id: 1,
         sender_id: parseInt(userIds),
-        message: "has rejected your avatar.",
+        message_en: "has rejected your avatar.",
+        message_bm: "telah menolak avatar anda.",
         sign_text: text,
         status: 0,
         type: "Task Confirmation",
@@ -258,7 +263,8 @@ const CollapsibleForm: React.FC<CollapsibleFormProps> = ({
       const notificationData = {
         receiver_id: 2,
         sender_id: parseInt(userIds),
-        message: "has uploaded the avatar.",
+        message_en: "has uploaded the avatar.",
+        message_bm: "telah memuat naik avatar.",
         sign_text: text,
         status: 0,
         type: "Waiting for Verification",

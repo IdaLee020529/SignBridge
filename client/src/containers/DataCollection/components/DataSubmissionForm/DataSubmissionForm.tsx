@@ -169,7 +169,8 @@ const DataSubmissionForm: React.FC<DataSubmissionFormProps> = ({ user }) => {
                     const notificationData = {
                         receiver_id: 2,
                         sender_id: user_id ? parseInt(user_id) : 0,
-                        message: "has submitted new text.",
+                        message_en: "has submitted new text.",
+                        message_bm: "telah menghantar teks baru.",
                         sign_text: text,
                         status: 0,
                         type: "New Text",
@@ -178,10 +179,10 @@ const DataSubmissionForm: React.FC<DataSubmissionFormProps> = ({ user }) => {
                     };
                     console.log("notificationUserId", user_id);
                     await CreateNotification(notificationData);
-                    toast.success("Notification sent successfully!");
+                    toast.success(t("notifSuccess"));
                 } catch (error) {
                     console.error("Error sending notification:", error);
-                    toast.error("Failed to send notification.");
+                    toast.error(t("notifFailed"));
                 }
             }
         }

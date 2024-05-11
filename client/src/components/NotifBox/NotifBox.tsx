@@ -1,5 +1,6 @@
 import style from "./NotifBox.module.css";
 import Checkbox from '@mui/material/Checkbox';
+import { useTranslation } from "react-i18next";
 
 interface NotifBoxProps {
   sender_username: string;
@@ -22,6 +23,8 @@ const NotifBox: React.FC<NotifBoxProps> = ({
   checked,
   handleCheckboxChange,
 }) => {
+  const { t, i18n } = useTranslation();
+
   return (
     <div className={style.notifItem}>
       <div className={style.notifCheckbox}>
@@ -38,7 +41,7 @@ const NotifBox: React.FC<NotifBoxProps> = ({
           </p>
           <p className={style.notifDate}>{created_at}</p>
         </div>
-        <p className={style.notifText}>Text: {sign_text}</p>
+        <p className={style.notifText}>{t("notifText")}{sign_text}</p>
       </div>
       <div className={style.notifIcon}>
         <div
