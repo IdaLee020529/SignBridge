@@ -8,6 +8,7 @@ import {
   getAllFormsForAdmin,
   updateFormById,
   getFormById,
+  updateFormWithVideoById,
 } from "../../../../services/dataset.service";
 interface DatasetReviewProps {
   user: string;
@@ -29,10 +30,16 @@ const DatasetReview: React.FC<DatasetReviewProps> = ({ user }) => {
 
   const handleSubmit = async (
     formId: number,
-    updateData: Record<string, string>
+    updateData: Record<string, string>,
+    video?: any
   ) => {
     try {
-      const finishUpdate = await updateFormById(formId, updateData);
+      let finishUpdate;
+      if (video) {
+        finishUpdate = await updateFormWithVideoById(formId, updateData, video);
+      } else {
+        finishUpdate = await updateFormById(formId, updateData);
+      }
       // Fetch only the updated form data
       if (finishUpdate) {
         const updatedFormData = await getFormById(formId);
@@ -114,6 +121,7 @@ const DatasetReview: React.FC<DatasetReviewProps> = ({ user }) => {
           user={user}
           user_id={form.user_id}
           video_name={form.video_name}
+          avatar_name={form.avatar_name}
           handleSubmit={handleSubmit}
         />
       ));

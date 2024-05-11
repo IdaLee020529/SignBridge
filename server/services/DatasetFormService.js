@@ -107,6 +107,23 @@ const DatasetFormService = {
             throw error; // Re-throw for controller to handle
         }
     },
+
+    async GetAvatarVideoById(formId) {
+        const { client, database } = await connectDB();
+        try {
+            const collection = database.collection(DATABASE_COLLECTIONS.DATASET_COLLECTION);
+            const form = await collection.findOne({ form_id: parseInt(formId) });
+            await client.close();
+            if (form) {
+                return { videoLink: form.avatar_link, videoName: form.avatar_name }; // Returning video_link and video_name as an object
+            } else {
+                return null; // Or handle if form is not found
+            }
+        } catch (error) {
+            console.error("Error fetching form:", error);
+            throw error; // Re-throw for controller to handle
+        }
+    },
 }
 
 module.exports = DatasetFormService

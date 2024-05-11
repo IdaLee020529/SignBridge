@@ -1,14 +1,20 @@
 import React, { useState, useEffect } from "react";
 import "./CollapsibleForm.css";
 import { Button } from "../../../../components/Button/Button";
-import VideoInput from "../../../../components/VideoInput/VideoInput";
 import { Descriptions } from "antd";
-import { getDemoVidById } from "../../../../services/dataset.service";
+import {
+  getDemoVidById,
+  getAvatarVidById,
+} from "../../../../services/dataset.service";
 import { saveAs } from "file-saver";
 
 import { toast } from "react-hot-toast";
-import { CreateNotification, GetUserIdByEmail } from "../../../../services/notification.service";
+import {
+  CreateNotification,
+  GetUserIdByEmail,
+} from "../../../../services/notification.service";
 import Cookies from "js-cookie";
+import VideoUpload from "../VideoUpload/VideoUpload";
 
 interface CollapsibleFormProps {
   number: string;
@@ -43,9 +49,14 @@ const CollapsibleForm: React.FC<CollapsibleFormProps> = ({
   avatar_name,
   handleSubmit,
 }) => {
-  const downloadVideo = async () => {
+  const downloadVideo = async (type?: string) => {
     try {
-      const video = await getDemoVidById(form_id); // Assuming getDemoVidById returns a Promise
+      let video;
+      if (type === "demo") {
+        video = await getDemoVidById(form_id); // Assuming getDemoVidById returns a Promise
+      } else if (type === "avatar") {
+        video = await getAvatarVidById(form_id); // Assuming getDemoVidById returns a Promise
+      }
       const blob = new Blob([video.data], { type: "video/mp4" }); // Assuming video.data contains blob data and video.contentType contains the content type
       saveAs(blob, video_name);
     } catch (error) {
@@ -58,10 +69,6 @@ const CollapsibleForm: React.FC<CollapsibleFormProps> = ({
 
   //Video Control
   const [videoInfo, setVideoInfo] = useState(null);
-  const [resetVideo, setResetVideo] = useState(false);
-  const handleVideoReset = () => {
-    setResetVideo(true); // Reset resetVideo state
-  };
 
   const toggleOpen = () => {
     if (isOpen) {
@@ -94,7 +101,9 @@ const CollapsibleForm: React.FC<CollapsibleFormProps> = ({
       label: "Demonstration Video",
       children: (
         <span className="video-details-info">
-          <button onClick={() => downloadVideo()}>Download {video_name}</button>
+          <button onClick={() => downloadVideo("demo")}>
+            Download {video_name}
+          </button>
         </span>
       ),
     },
@@ -103,11 +112,7 @@ const CollapsibleForm: React.FC<CollapsibleFormProps> = ({
       label: "Avatar Video",
       children: (
         <span className="video-details-info">
-          <VideoInput
-            reset={resetVideo}
-            onReset={handleVideoReset}
-            setVideoInfo={setVideoInfo}
-          />
+          <VideoUpload videoInfo={videoInfo} setVideoInfo={setVideoInfo} />
         </span>
       ),
     },
@@ -119,7 +124,9 @@ const CollapsibleForm: React.FC<CollapsibleFormProps> = ({
       label: "Demonstration Video",
       children: (
         <span className="video-details-info">
-          <button onClick={() => downloadVideo()}>Download {video_name}</button>
+          <button onClick={() => downloadVideo("demo")}>
+            Download {video_name}
+          </button>
         </span>
       ),
     },
@@ -128,14 +135,13 @@ const CollapsibleForm: React.FC<CollapsibleFormProps> = ({
       label: "Avatar Video",
       children: (
         <span className="video-details-info">
-          <a href={avatar_link} download={avatar_name}>
-            {avatar_name}
-          </a>
+          <button onClick={() => downloadVideo("avatar")}>
+            Download {avatar_name}
+          </button>
         </span>
       ),
     },
   ];
-  
   // For notification
   const getemail = Cookies.get("email");
   const [userIds, setUserIds] = useState("");
@@ -148,7 +154,7 @@ const CollapsibleForm: React.FC<CollapsibleFormProps> = ({
     getUserId();
   }, []);
 
-  // for public (accept/reject) 
+  // for public (accept/reject)
   const handleSEAcceptPublicButtonClick = async () => {
     console.log("Sign Expert Accept Public");
     try {
@@ -211,7 +217,7 @@ const CollapsibleForm: React.FC<CollapsibleFormProps> = ({
     }
   };
 
-  // for admin (accept/reject) 
+  // for admin (accept/reject)
   const handleSEAcceptAdminButtonClick = async () => {
     console.log("Sign Expert Accept Admin");
     try {
@@ -322,16 +328,15 @@ const CollapsibleForm: React.FC<CollapsibleFormProps> = ({
                 <div className="col-md-6">
                   {user === "admin" && (
                     <>
-                      {avatar_link == "" && (
+                      {avatar_link != "" ? (
                         <Descriptions
-                          items={video_details_with_video_upload}
+                          items={video_details_with_information}
                           bordered
                           layout="vertical"
                         />
-                      )}
-                      {avatar_link != "" && (
+                      ) : (
                         <Descriptions
-                          items={video_details_with_information}
+                          items={video_details_with_video_upload}
                           bordered
                           layout="vertical"
                         />
@@ -386,6 +391,7 @@ const CollapsibleForm: React.FC<CollapsibleFormProps> = ({
                   )}
                   {status === "Awaiting Verification" && (
                     <div className="button-container">
+                      ``
                       <Button
                         type="button"
                         onClick={() => {
@@ -449,7 +455,7 @@ const CollapsibleForm: React.FC<CollapsibleFormProps> = ({
                             status_SE: "Awaiting Verification",
                             status_Admin: "Awaiting Verification",
                           };
-                          handleSubmit(form_id, updateData);
+                          handleSubmit(form_id, updateData, videoInfo);
                           handleAdminButtonClick();
                         }}
                         buttonStyle="btn--send"
