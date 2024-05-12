@@ -6,6 +6,7 @@ import ImageInput from "../../components/ImageInput/ImageInput";
 import { CreateFeedback } from "../../services/feedback.service";
 import { useTranslation } from "react-i18next";
 import axios from 'axios';
+import { useNavigate } from "react-router-dom";
 
 const API_KEY = "AIzaSyDbcbSEl15QUZXAsed4Rks4iW9-k47vqeA";
 const API_URL = 'https://translation.googleapis.com/language/translate/v2';
