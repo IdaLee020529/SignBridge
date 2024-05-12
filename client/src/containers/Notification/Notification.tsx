@@ -9,11 +9,15 @@ import Button from '@mui/material/Button';
 import Tooltip from '@mui/material/Tooltip';
 import { toast } from "react-hot-toast";
 import { CreateNotification, GetUserIdByEmail, GetNotificationsById, GetSenderInfoBySenderId, DeleteNotification, UpdateNotificationStatus } from "../../services/notification.service";
+import { useTranslation } from "react-i18next";
 
 let isUndoing = false
 
 const Notification: React.FC = () => {
-  const roleAccess = Cookies.get("role_access");
+  const { t, i18n } = useTranslation();
+  const currentSelectedLanguage = localStorage.getItem("i18nextLng");
+
+  // const roleAccess = Cookies.get("role_access");
   const email = Cookies.get("email");
   const [userIds, setUserIds] = useState("");
   const useFilterStore = useNotificationFilterStore();
@@ -22,7 +26,8 @@ const Notification: React.FC = () => {
   const [notification, setNotification] = useState({
     receiver_id: 2,
     sender_id: 0,
-    message: "",
+    message_en: "",
+    message_bm: "",
     sign_text: "",
     status: 0,
     type: "",
@@ -147,155 +152,155 @@ const Notification: React.FC = () => {
     }
   };
 
-  const handleAdminButtonClick = async () => {
-    console.log("Admin upload");
-    try {
-      const notificationData = {
-        receiver_id: 2,
-        sender_id: parseInt(userIds),
-        message: "has uploaded the avatar.",
-        sign_text: "acceptlala",
-        status: 0,
-        type: "Waiting for Verification",
-        type_value: "waitingforverification",
-        created_at: new Date().toISOString(),
-      };
-      console.log(userIds);
-      await CreateNotification(notificationData);
-      toast.success("Notification sent successfully!");
-    } catch (error) {
-      console.error("Error sending notification:", error);
-      toast.error("Failed to send notification.");
-    }
-  };
+  // const handleAdminButtonClick = async () => {
+  //   console.log("Admin upload");
+  //   try {
+  //     const notificationData = {
+  //       receiver_id: 2,
+  //       sender_id: parseInt(userIds),
+  //       message: "has uploaded the avatar.",
+  //       sign_text: "acceptlala",
+  //       status: 0,
+  //       type: "Waiting for Verification",
+  //       type_value: "waitingforverification",
+  //       created_at: new Date().toISOString(),
+  //     };
+  //     console.log(userIds);
+  //     await CreateNotification(notificationData);
+  //     toast.success("Notification sent successfully!");
+  //   } catch (error) {
+  //     console.error("Error sending notification:", error);
+  //     toast.error("Failed to send notification.");
+  //   }
+  // };
 
-  const handleSignExpertAcceptPublicButtonClick = async () => {
-    console.log("Sign Expert Accept Public");
-    try {
-      const notificationData = {
-        receiver_id: 4,
-        sender_id: parseInt(userIds),
-        message: "has accepted your text.",
-        sign_text: "acceptlala",
-        status: 0,
-        type: "Text Verification",
-        type_value: "accepted",
-        created_at: new Date().toISOString(),
-      };
-      console.log(userIds);
-      await CreateNotification(notificationData);
-      toast.success("Notification sent successfully!");
-    } catch (error) {
-      console.error("Error sending notification:", error);
-      toast.error("Failed to send notification.");
-    }
-    try {
-      const notificationData = {
-        receiver_id: 1,
-        sender_id: parseInt(userIds),
-        message: "has assigned new text.",
-        sign_text: "acceptlala",
-        status: 0,
-        type: "New Task",
-        type_value: "newtask",
-        created_at: new Date().toISOString(),
-      };
-      console.log(userIds);
-      await CreateNotification(notificationData);
-      toast.success("Notification sent successfully!");
-    } catch (error) {
-      console.error("Error sending notification:", error);
-      toast.error("Failed to send notification.");
-    }
-  };
+  // const handleSignExpertAcceptPublicButtonClick = async () => {
+  //   console.log("Sign Expert Accept Public");
+  //   try {
+  //     const notificationData = {
+  //       receiver_id: 4,
+  //       sender_id: parseInt(userIds),
+  //       message: "has accepted your text.",
+  //       sign_text: "acceptlala",
+  //       status: 0,
+  //       type: "Text Verification",
+  //       type_value: "accepted",
+  //       created_at: new Date().toISOString(),
+  //     };
+  //     console.log(userIds);
+  //     await CreateNotification(notificationData);
+  //     toast.success("Notification sent successfully!");
+  //   } catch (error) {
+  //     console.error("Error sending notification:", error);
+  //     toast.error("Failed to send notification.");
+  //   }
+  //   try {
+  //     const notificationData = {
+  //       receiver_id: 1,
+  //       sender_id: parseInt(userIds),
+  //       message: "has assigned new text.",
+  //       sign_text: "acceptlala",
+  //       status: 0,
+  //       type: "New Task",
+  //       type_value: "newtask",
+  //       created_at: new Date().toISOString(),
+  //     };
+  //     console.log(userIds);
+  //     await CreateNotification(notificationData);
+  //     toast.success("Notification sent successfully!");
+  //   } catch (error) {
+  //     console.error("Error sending notification:", error);
+  //     toast.error("Failed to send notification.");
+  //   }
+  // };
 
-  const handleSignExpertRejectPublicButtonClick = async () => {
-    console.log("Sign Expert Reject Public");
-    try {
-      const notificationData = {
-        receiver_id: 4,
-        sender_id: parseInt(userIds),
-        message: "has rejected your text.",
-        sign_text: "rejectlala",
-        status: 0,
-        type: "Text Verification",
-        type_value: "rejected",
-        created_at: new Date().toISOString(),
-      };
-      console.log(userIds);
-      await CreateNotification(notificationData);
-      toast.success("Notification sent successfully!");
-    } catch (error) {
-      console.error("Error sending notification:", error);
-      toast.error("Failed to send notification.");
-    }
-  };
+  // const handleSignExpertRejectPublicButtonClick = async () => {
+  //   console.log("Sign Expert Reject Public");
+  //   try {
+  //     const notificationData = {
+  //       receiver_id: 4,
+  //       sender_id: parseInt(userIds),
+  //       message: "has rejected your text.",
+  //       sign_text: "rejectlala",
+  //       status: 0,
+  //       type: "Text Verification",
+  //       type_value: "rejected",
+  //       created_at: new Date().toISOString(),
+  //     };
+  //     console.log(userIds);
+  //     await CreateNotification(notificationData);
+  //     toast.success("Notification sent successfully!");
+  //   } catch (error) {
+  //     console.error("Error sending notification:", error);
+  //     toast.error("Failed to send notification.");
+  //   }
+  // };
 
-  const handleSignExpertAcceptAdminButtonClick = async () => {
-    console.log("Sign Expert Accept Admin");
-    try {
-      const notificationData = {
-        receiver_id: 1,
-        sender_id: parseInt(userIds),
-        message: "has accepted your avatar.",
-        sign_text: "acceptlala",
-        status: 0,
-        type: "Task Confirmation",
-        type_value: "accepted",
-        created_at: new Date().toISOString(),
-      };
-      console.log(userIds);
-      await CreateNotification(notificationData);
-      toast.success("Notification sent successfully!");
-    } catch (error) {
-      console.error("Error sending notification:", error);
-      toast.error("Failed to send notification.");
-    }
-  };
+  // const handleSignExpertAcceptAdminButtonClick = async () => {
+  //   console.log("Sign Expert Accept Admin");
+  //   try {
+  //     const notificationData = {
+  //       receiver_id: 1,
+  //       sender_id: parseInt(userIds),
+  //       message: "has accepted your avatar.",
+  //       sign_text: "acceptlala",
+  //       status: 0,
+  //       type: "Task Confirmation",
+  //       type_value: "accepted",
+  //       created_at: new Date().toISOString(),
+  //     };
+  //     console.log(userIds);
+  //     await CreateNotification(notificationData);
+  //     toast.success("Notification sent successfully!");
+  //   } catch (error) {
+  //     console.error("Error sending notification:", error);
+  //     toast.error("Failed to send notification.");
+  //   }
+  // };
 
-  const handleSignExpertRejectAdminButtonClick = async () => {
-    console.log("Sign Expert Reject Admin");
-    try {
-      const notificationData = {
-        receiver_id: 1,
-        sender_id: parseInt(userIds),
-        message: "has rejected your avatar.",
-        sign_text: "rejectlala",
-        status: 0,
-        type: "Task Confirmation",
-        type_value: "rejected",
-        created_at: new Date().toISOString(),
-      };
-      console.log(userIds);
-      await CreateNotification(notificationData);
-      toast.success("Notification sent successfully!");
-    } catch (error) {
-      console.error("Error sending notification:", error);
-      toast.error("Failed to send notification.");
-    }
-  };
+  // const handleSignExpertRejectAdminButtonClick = async () => {
+  //   console.log("Sign Expert Reject Admin");
+  //   try {
+  //     const notificationData = {
+  //       receiver_id: 1,
+  //       sender_id: parseInt(userIds),
+  //       message: "has rejected your avatar.",
+  //       sign_text: "rejectlala",
+  //       status: 0,
+  //       type: "Task Confirmation",
+  //       type_value: "rejected",
+  //       created_at: new Date().toISOString(),
+  //     };
+  //     console.log(userIds);
+  //     await CreateNotification(notificationData);
+  //     toast.success("Notification sent successfully!");
+  //   } catch (error) {
+  //     console.error("Error sending notification:", error);
+  //     toast.error("Failed to send notification.");
+  //   }
+  // };
 
-  const handleSubmitButtonClick = async () => {
-    console.log("Public Submit");
-    try {
-      const notificationData = {
-        receiver_id: 2,
-        sender_id: parseInt(userIds),
-        message: "has submitted new text.",
-        sign_text: "kaki",
-        status: 0,
-        type: "New Text",
-        type_value: "newtext",
-        created_at: new Date().toISOString(),
-      };
-      console.log(userIds);
-      await CreateNotification(notificationData);
-      toast.success("Notification sent successfully!");
-    } catch (error) {
-      console.error("Error sending notification:", error);
-      toast.error("Failed to send notification.");
-    }
-  };
+  // const handleSubmitButtonClick = async () => {
+  //   console.log("Public Submit");
+  //   try {
+  //     const notificationData = {
+  //       receiver_id: 2,
+  //       sender_id: parseInt(userIds),
+  //       message: "has submitted new text.",
+  //       sign_text: "kaki",
+  //       status: 0,
+  //       type: "New Text",
+  //       type_value: "newtext",
+  //       created_at: new Date().toISOString(),
+  //     };
+  //     console.log(userIds);
+  //     await CreateNotification(notificationData);
+  //     toast.success("Notification sent successfully!");
+  //   } catch (error) {
+  //     console.error("Error sending notification:", error);
+  //     toast.error("Failed to send notification.");
+  //   }
+  // };
 
   const handleSelectAll = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.checked) {
@@ -318,13 +323,13 @@ const Notification: React.FC = () => {
       const updatedData = useFilterStore.modifiedData.filter(notification => !notificationIds.includes(notification.notification_id));
       useFilterStore.setModifiedData(updatedData);
 
-      toast.success((t) => (
+      toast.success((s) => (
         <span>
-          Notification deleted successfully!
+          {t('notifDeleteSuccess')}
           <Button onClick={() => {
             useFilterStore.setModifiedData(originalData);
             handleUndo();
-            toast.dismiss(t.id);
+            toast.dismiss(s.id);
           }}>
             UNDO
           </Button>
@@ -333,7 +338,7 @@ const Notification: React.FC = () => {
       
     } catch (error) {
       console.error("Error deleting notification:", error);
-      toast.error("Failed to delete notification.");
+      toast.error(t('notifDeleteFailed'));
     }
   };
 
@@ -360,10 +365,10 @@ const Notification: React.FC = () => {
   const handleMakeAsRead = async (notificationIds: number[]) => {
     try {
       await UpdateNotificationStatus(notificationIds, 1);
-      toast.success("Notification marked as read successfully!");
+      toast.success(t('notifReadSuccess'));
     } catch (error) {
       console.error("Error updating notification status:", error);
-      toast.error("Failed to mark notification as read.");
+      toast.error(t('notifReadFailed'));
     }
   };
 
@@ -371,7 +376,7 @@ const Notification: React.FC = () => {
     <>
       <div className={style.notifocationBigContainer}>
         {/* ---------- Button ---------- */}
-        {roleAccess === "admin" && (
+        {/* {roleAccess === "admin" && (
           <div className={style.buttonContainer}>
             <Button variant="contained" onClick={handleAdminButtonClick}>Upload</Button>
           </div>
@@ -388,10 +393,10 @@ const Notification: React.FC = () => {
           <div className={style.buttonContainer}>
             <Button variant="contained" onClick={handleSubmitButtonClick}>Submit</Button>
           </div>
-        )}
+        )} */}
         {/* ----------Dummy Buttons ---------- */}
         <div className={style.notifocationHeader}>
-          <h1 className={style.notifocationHeaderText}>Notification</h1>
+          <h1 className={style.notifocationHeaderText}>{t("notification")}</h1>
         </div>
         <div className={style.notifocationWholeContainer}>
           <NotifFilter/>
@@ -399,7 +404,7 @@ const Notification: React.FC = () => {
             {/* Tools container */}
             <div className={style.toolsContainer}>
               <div className={style.toolsItem}>
-                <Tooltip title="Select All" arrow followCursor>
+                <Tooltip title={t("selectAll")} arrow followCursor>
                   <Checkbox
                     checked={selectedNotifications.length === useFilterStore.modifiedData.length && useFilterStore.modifiedData.length > 0}
                     indeterminate={selectedNotifications.length > 0 && selectedNotifications.length < useFilterStore.modifiedData.length}
@@ -407,12 +412,12 @@ const Notification: React.FC = () => {
                   />
                 </Tooltip>
                 <div className={style.toolsIcon}>
-                  <Tooltip title="Delete" arrow followCursor>
+                  <Tooltip title={t("delete")} arrow followCursor>
                     <i className="fa-regular fa-trash-can" onClick={() => handleDeleteNotification(selectedNotifications)}></i>
                   </Tooltip>
                 </div>
                 <div className={style.toolsIcon}>
-                  <Tooltip title="Make as read" arrow followCursor>
+                  <Tooltip title={t("markAsRead")} arrow followCursor>
                     <i className="fa-regular fa-envelope-open" onClick={() => handleMakeAsRead(selectedNotifications)}></i>
                   </Tooltip>
                 </div>
@@ -424,7 +429,7 @@ const Notification: React.FC = () => {
                   key={index}
                   sender_username={notification.sender_username}
                   sender_avatar={notification.sender_avatar}
-                  message={notification.message}
+                  message={currentSelectedLanguage === "en" ? notification.message_en : notification.message_bm}
                   created_at={formatDate(notification.created_at)}
                   sign_text={notification.sign_text}
                   status={notification.status}
@@ -440,7 +445,7 @@ const Notification: React.FC = () => {
               ))
             ) : (
               <div className={style.noNotificationsContainer}>
-                <p>You don't have any notifications yet.</p>
+                <p>{t("noNotif")}</p>
               </div>
             )}
           </div>

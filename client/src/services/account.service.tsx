@@ -107,7 +107,7 @@ export const UserResetPassword = async (data: any) => {
 //  ---------- Get User by email ----------
 export const GetUserByEmail = async (email: string) => {
   try {
-    const response = await axios.get(`http://localhost:3000/users/${email}`);
+    const response = await axios.get(`http://localhost:3000/users/${email}/profile`);
     return response;
   } catch (err) {
     throw err;
@@ -115,10 +115,10 @@ export const GetUserByEmail = async (email: string) => {
 };
 
 // ---------- Update profile info by user_id ----------
-export const UpdateProfileInfo = async ( email:string,  data: FormData) => {
+export const UpdateProfileInfo = async ( userID:string,  data: FormData) => {
   try {
     const response = await axios.put(
-      `http://localhost:3000/users/${email}/profile`,
+      `http://localhost:3000/users/${userID}/profile`,
       data
     );
     return response;
@@ -131,6 +131,38 @@ export const UpdateProfileInfo = async ( email:string,  data: FormData) => {
 export const FetchAllCountries = async () => {
   try {
     const response = await axios.get("http://localhost:3000/users/countries");
+    return response;
+  } catch (err) {
+    throw err;
+  }
+};
+
+// ---------- Fetch dataset by user id ----------
+export const FetchDatasetByUserId = async (userID: string) => {
+  try {
+    const response = await axios.get(
+      `http://localhost:3000/users/${userID}/datasets`
+    );
+    return response;
+  } catch (err) {
+    throw err;
+  }
+};
+
+// ---------- Fetch all users ----------
+export const FetchAllUsers = async () => {
+  try {
+    const response = await axios.get("http://localhost:3000/users/all-users");
+    return response;
+  } catch (err) {
+    throw err;
+  }
+};
+
+// ---------- Fetch all dataset ----------
+export const FetchAllDataset = async () => {
+  try {
+    const response = await axios.get("http://localhost:3000/users/all-datasets");
     return response;
   } catch (err) {
     throw err;

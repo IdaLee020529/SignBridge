@@ -1,7 +1,7 @@
 const { ref, uploadBytesResumable, getDownloadURL, deleteObject} = require("firebase/storage");
 const {storage} = require('../config/firebase.config');
 const FirebaseService = {
-    async uploadVideoToStorageAndGetURL(videoFile) {
+    async uploadVideoToStorageAndGetURL(videoFile, storageName) {
         const timestamp = new Date();
         const year = timestamp.getFullYear();
         const month = ('0' + (timestamp.getMonth() + 1)).slice(-2); // Adding leading zero if needed
@@ -14,7 +14,7 @@ const FirebaseService = {
         // const filename = `${timestamp}_${videoFile.originalname}`; // Append timestamp to original filename
         const filename = `${formattedDateTime}`; // Append timestamp to original filename
         // Reference to the file in Firebase Storage
-        const fileRef = ref(storage, `demoVid/${filename}`);
+        const fileRef = ref(storage, `${storageName}/${filename}`);
         const metaData = {
             contentType: videoFile.mimetype,
         }
@@ -32,7 +32,7 @@ const FirebaseService = {
     async uploadImageToStorageAndGetURL(imageFile) {
         const timestamp = new Date().getTime();
         const filename = `${timestamp}_${imageFile.originalname}`;
-        const fileRef = ref(storage, `demoIssueScreenShot/${filename}`);
+        const fileRef = ref(storage, `feedbackIssueScreenShot/${filename}`);
         const metaData = {
             contentType: imageFile.mimetype,
         }
@@ -51,7 +51,7 @@ const FirebaseService = {
     async uploadProfileImageToStorageAndGetURL(imageFile) {
         const timestamp = new Date().getTime();
         const filename = `${timestamp}_${imageFile.originalname}`;
-        const fileRef = ref(storage, `demoProfileImage/${filename}`);
+        const fileRef = ref(storage, `userProfileImage/${filename}`);
         const metaData = {
             contentType: imageFile.mimetype,
         }

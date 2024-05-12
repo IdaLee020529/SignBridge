@@ -21,7 +21,6 @@ const PersonalInfo = () => {
     const fetchUser = async (email: string) => {
         try {
             const response = await GetUserByEmail(email);
-            console.log(response.data);
             setUser(response.data);
         } catch (err) {
             console.log(err);

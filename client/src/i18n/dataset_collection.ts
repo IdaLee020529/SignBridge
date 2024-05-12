@@ -13,6 +13,8 @@ const dataset_collection = {
         choose_a_video: "Choose a Video",
         reset_btn: "Reset",
         submit_btn: "Submit",
+        notifSuccess: "Notification sent successfully!",
+        notifFailed: "Failed to send notification.",
     },
     bm: {
         dataset_collection_form: "Borang Pengumpulan Dataset",
@@ -28,6 +30,8 @@ const dataset_collection = {
         choose_a_video: "Pilih Video",
         reset_btn: "Tetapkan semula",
         submit_btn: "Hantar",
+        notifSuccess: "Pemberitahuan berjaya dihantar!",
+        notifFailed: "Gagal menghantar pemberitahuan.",
     },
 };
 

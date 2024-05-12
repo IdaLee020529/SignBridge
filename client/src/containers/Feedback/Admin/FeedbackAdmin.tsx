@@ -7,8 +7,10 @@ import TablePagination from '@mui/material/TablePagination';
 import style from "./FeedbackAdmin.module.css";
 import { GetFeedback, UpdateFeedback } from "../../../services/feedback.service";
 import { useFeedbackSortFilterStore } from "../../../store/feedbackSortFilter";
+import { useTranslation } from "react-i18next";
 
 const FeedbackAdmin: React.FC = () => {
+  const { t, i18n } = useTranslation();
   const store = useFeedbackSortFilterStore();
 
   const [collapsibleData, setCollapsibleData] = useState<any[]>([]);
@@ -110,10 +112,10 @@ const FeedbackAdmin: React.FC = () => {
     <div className={style.feedbackAdmin_container}>
       
       {loading ? ( 
-        <p>Loading Feedback...</p>
+        <p>{t('loading_feedback')}</p>
       ) : (
         <>
-          <h1>Feedback Review</h1>
+          <h1>{t('feedback_review')}</h1>
           <div className={style.feedbackAdmin_containerbox}>
             <div className={style.feedbackAdmin_filterbox}>
               <FeedbackFieldsFilter sortData={sortData} />
@@ -135,9 +137,12 @@ const FeedbackAdmin: React.FC = () => {
                 friendliness={data.friendliness}
                 quality={data.quality}
                 recommended={data.recommended}
-                q1={data.question1}
-                q2={data.question2}
-                q3={data.question3}
+                q1_en={data.question1_en}
+                q2_en={data.question2_en}
+                q3_en={data.question3_en}
+                q1_bm={data.question1_bm}
+                q2_bm={data.question2_bm}
+                q3_bm={data.question3_bm}
                 image={data.imageURL}
                 created_at={formatDate(data.createdAt)}
                 status={data.status}

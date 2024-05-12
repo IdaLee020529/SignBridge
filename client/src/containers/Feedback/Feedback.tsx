@@ -3,13 +3,31 @@ import { useState, useEffect } from "react";
 import toast from "react-hot-toast";
 import RatingEmoji from "../../components/RatingEmoji/RatingEmoji";
 import ImageInput from "../../components/ImageInput/ImageInput";
-import { useNavigate } from "react-router-dom";
 import { CreateFeedback } from "../../services/feedback.service";
 import { useTranslation } from "react-i18next";
+import axios from 'axios';
+import { useNavigate } from "react-router-dom";
+
+const API_KEY = "AIzaSyDbcbSEl15QUZXAsed4Rks4iW9-k47vqeA";
+const API_URL = 'https://translation.googleapis.com/language/translate/v2';
+
+const translateText = async (text: string, targetLanguage: 'ms' | 'en') => {
+  const response = await axios.post(
+    `${API_URL}?key=${API_KEY}`,
+    {
+      q: text,
+      target: targetLanguage,
+    },
+  );
+
+  return response.data.data.translations[0].translatedText;
+};
+
+const currentLanguage = localStorage.getItem('i18nextLng') || 'en';
 
 const Feedback = () => {
-  const { t, i18n } = useTranslation();
   const navigate = useNavigate();
+  const { t, i18n } = useTranslation();
   
   const [formData, setFormData] = useState({
     firstName: "",
@@ -197,7 +215,7 @@ const Feedback = () => {
     const isRaceValid = validateRace(formData.race);
     const isEmailValid = validateEmail(formData.email);
 
-    if (isFirstNameValid && isLastNameValid && isAgeValid && isEmailValid && isRaceValid ) {
+    if (isFirstNameValid && isLastNameValid && isAgeValid && isEmailValid && isRaceValid) {
       const data = new FormData();
       data.append("firstName", formData.firstName);
       data.append("lastName", formData.lastName);
@@ -210,9 +228,52 @@ const Feedback = () => {
       data.append("friendliness", formData.friendliness.toString());
       data.append("quality", formData.quality.toString());
       data.append("recommended", formData.recommended.toString());
-      data.append("question1", formData.question1);
-      data.append("question2", formData.question2);
-      data.append("question3", formData.question3);
+
+      if (formData.question1) {
+        if (currentLanguage === 'bm') {
+          const translatedText = await translateText(formData.question1, 'en');
+          data.append("question1_en", translatedText);
+          data.append("question1_bm", formData.question1);
+        } else if (currentLanguage === 'en') {
+          const translatedText = await translateText(formData.question1, 'ms');
+          data.append("question1_bm", translatedText);
+          data.append("question1_en", formData.question1);
+        }
+      } else {
+        data.append("question1_en", "");
+        data.append("question1_bm", "");
+      }
+
+      if (formData.question2) {
+        if (currentLanguage === 'bm') {
+          const translatedText = await translateText(formData.question2, 'en');
+          data.append("question2_en", translatedText);
+          data.append("question2_bm", formData.question2);
+        } else if (currentLanguage === 'en') {
+          const translatedText = await translateText(formData.question2, 'ms');
+          data.append("question2_bm", translatedText);
+          data.append("question2_en", formData.question2);
+        }
+      } else {
+        data.append("question2_en", "");
+        data.append("question2_bm", "");
+      }
+
+      if (formData.question3) {
+        if (currentLanguage === 'bm') {
+          const translatedText = await translateText(formData.question3, 'en');
+          data.append("question3_en", translatedText);
+          data.append("question3_bm", formData.question3);
+        } else if (currentLanguage === 'en') {
+          const translatedText = await translateText(formData.question3, 'ms');
+          data.append("question3_bm", translatedText);
+          data.append("question3_en", formData.question3);
+        }
+      } else {
+        data.append("question3_en", "");
+        data.append("question3_bm", "");
+      }
+
       if (formData.screenshot) {
         data.append("image", formData.screenshot);
       } else {

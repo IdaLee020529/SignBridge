@@ -22,14 +22,13 @@ const AccountForm = () => {
     username: "",
     firstName: "",
     lastName: "",
-    // email: "",
+    user_id: "",
     age: "",
     gender: "",
     race: "",
     country: "",
     city: "",
     state: "",
-    // make the picture either File or string
     picture: null as File | null,
   });
 
@@ -45,6 +44,16 @@ const AccountForm = () => {
 
   const email = Cookies.get("email");
   const [countries, setCountries] = useState<Country[] | null>(null);
+  const [selectCountryOpen, setSelectCountryOpen] = useState(false);
+  const [selectCityOpen, setSelectCityOpen] = useState(false);
+  const [selectStateOpen, setSelectStateOpen] = useState(false);
+
+  const [selectedCountryOption, setSelectedCountryOption] = useState("");
+  const [selectedStateOption, setSelectedStateOption] = useState("");
+  const [selectedCityOption, setSelectedCityOption] = useState("");
+
+  const [image, setImage] = useState<string | null>(null);
+  const [customKey, setCustomKey] = useState(0);
 
   async function fetchCountry() {
     const response = await FetchAllCountries();
@@ -54,9 +63,9 @@ const AccountForm = () => {
   async function fetchUser() {
     const user = await GetUserByEmail(email ?? "");
 
-    // only set the user.data.email to form email
     setFormData((prevFormData) => ({
       ...prevFormData,
+      user_id: user.data.user_id,
       username: user.data.username,
       picture: user.data.picture,
       firstName: user.data.firstName,
@@ -79,17 +88,6 @@ const AccountForm = () => {
     fetchUser();
     fetchCountry();
   }, []);
-
-  const [selectCountryOpen, setSelectCountryOpen] = useState(false);
-  const [selectCityOpen, setSelectCityOpen] = useState(false);
-  const [selectStateOpen, setSelectStateOpen] = useState(false);
-
-  const [selectedCountryOption, setSelectedCountryOption] = useState("");
-  const [selectedStateOption, setSelectedStateOption] = useState("");
-  const [selectedCityOption, setSelectedCityOption] = useState("");
-
-  const [image, setImage] = useState<string | null>(null);
-  const [customKey, setCustomKey] = useState(0);
 
   const handleChange = (e: ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>) => {
     const { name, value, type } = e.target;
@@ -144,18 +142,16 @@ const AccountForm = () => {
     }));
 
     if (file) {
-        const reader = new FileReader();
+      const reader = new FileReader();
 
-        reader.onloadend = () => {
-            if (typeof reader.result === 'string') {
-                setImage(reader.result);
-            }
-        };
-        // Start reading the file as a data URL
-        reader.readAsDataURL(file);
+      reader.onloadend = () => {
+        if (typeof reader.result === 'string') {
+            setImage(reader.result);
+        }
+      };
+      reader.readAsDataURL(file);
     }
   };
-
 
   // ---------- Validation Functions ----------
   const validateFirstName = (value: string) => {
@@ -168,7 +164,7 @@ const AccountForm = () => {
   };
   
   const validateLastName = (value: string) => {
-    if (value && value.trim() !== "" && value.length < 3) { // Add a check for value
+    if (value && value.trim() !== "" && value.length < 3) {
       setError((prev) => ({ ...prev, lastName: "Last name must be at least 3 characters long" }));
       return false;
     }
@@ -202,7 +198,7 @@ const AccountForm = () => {
   };
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
-    console.log(formData);
+    // console.log(formData);
     e.preventDefault();
     const isFirstNameValid = validateFirstName(formData.firstName);
     const isLastNameValid = validateLastName(formData.lastName);
@@ -251,11 +247,9 @@ const AccountForm = () => {
         data.append('state', formData.state);
       }
 
-      UpdateProfileInfo(email ?? '', data);
-      console.log("Form Submitted", formData);
+      UpdateProfileInfo(formData.user_id ?? "", data);
       toast.success("Personal details updated successfully");
     } else {
-      console.log("Form Submission Failed", error);
       toast.error("Personal details update failed");
     }
   };
@@ -274,7 +268,6 @@ const AccountForm = () => {
           />
           <div className={style.inputGroup}>
             <AccountInputField
-              // key={formData.firstName}
               label="First Name"
               name="firstName"
               value={formData.firstName}
@@ -282,7 +275,6 @@ const AccountForm = () => {
               error={error.firstName}
             />
             <AccountInputField
-              // key={formData.lastName}
               label="Last Name"
               name="lastName"
               value={formData.lastName}
@@ -292,21 +284,12 @@ const AccountForm = () => {
           </div>
           <div className={style.inputGroup}>
             <AccountInputField
-              // key={formData.age}
               label="Age"
               name="age"
               value={formData.age}
               onChange={handleChange}
               error={error.age}
             />
-            {/* <AccountInputField
-              // key={formData.gender}
-              label="Gender"
-              name="gender"
-              value={formData.gender}
-              onChange={handleChange}
-              error={error.gender}
-            /> */}
             <div className={style.radio_group}>
               <label className={style.genderLabel}>Gender</label>
               <div className={style.gender}>
@@ -316,7 +299,6 @@ const AccountForm = () => {
             </div>   
           </div>
           <AccountInputField
-            // key={formData.race}
             label="Race"
             name="race"
             value={formData.race}
@@ -329,7 +311,7 @@ const AccountForm = () => {
                 setSelectCountryOpen(open)
               }}
               setValue={(value) => {
-                console.log(value)
+                // console.log(value)
                 setSelectedCountryOption(value)
               }}
               defaultValue={formData.country ?? ""}
@@ -448,7 +430,8 @@ const AccountForm = () => {
                 id="file"
                 className={style.uploadInput}
                 onChange={handleImageChange}
-                style={{ display: 'none'}} // Hide the input element
+                style={{ display: 'none'}} 
+                accept="image/jpeg, image/png, image/jpg"
               />
             </label>
           </div>
