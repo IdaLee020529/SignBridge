@@ -15,6 +15,8 @@ import {
 } from "../../../../services/notification.service";
 import Cookies from "js-cookie";
 import VideoUpload from "../VideoUpload/VideoUpload";
+import DownloadButton from "../../../../components/DownloadButton/DownloadButton";
+import moment from "moment";
 
 interface CollapsibleFormProps {
   number: string;
@@ -29,8 +31,9 @@ interface CollapsibleFormProps {
   user?: string;
   user_id?: number;
   video_name: string;
-  avatar_name?: string;
+  avatar_name?: string | null;
   handleSubmit: Function;
+  handleDelete: Function;
 }
 
 const CollapsibleForm: React.FC<CollapsibleFormProps> = ({
@@ -48,6 +51,7 @@ const CollapsibleForm: React.FC<CollapsibleFormProps> = ({
   video_name,
   avatar_name,
   handleSubmit,
+  handleDelete,
 }) => {
   const downloadVideo = async (type?: string) => {
     try {
@@ -69,6 +73,14 @@ const CollapsibleForm: React.FC<CollapsibleFormProps> = ({
 
   //Video Control
   const [videoInfo, setVideoInfo] = useState(null);
+  const [uploadedVideo, setUploadedVideo] = useState<string | null>("");
+
+  useEffect(() => {
+    if (avatar_link && avatar_link !== "" && avatar_name !== undefined) {
+      console.log(avatar_name);
+      setUploadedVideo(avatar_name);
+    }
+  }, []);
 
   const toggleOpen = () => {
     if (isOpen) {
@@ -101,9 +113,7 @@ const CollapsibleForm: React.FC<CollapsibleFormProps> = ({
       label: "Demonstration Video",
       children: (
         <span className="video-details-info">
-          <button onClick={() => downloadVideo("demo")}>
-            Download {video_name}
-          </button>
+          <DownloadButton downloadVideo={downloadVideo} type="demo" />
         </span>
       ),
     },
@@ -112,36 +122,44 @@ const CollapsibleForm: React.FC<CollapsibleFormProps> = ({
       label: "Avatar Video",
       children: (
         <span className="video-details-info">
-          <VideoUpload videoInfo={videoInfo} setVideoInfo={setVideoInfo} />
+          <VideoUpload
+            videoInfo={videoInfo}
+            setVideoInfo={setVideoInfo}
+            uploadedVideo={uploadedVideo}
+            setUploadedVideo={setUploadedVideo}
+          />
         </span>
       ),
     },
   ];
-
   const video_details_with_information = [
     {
       key: "1",
       label: "Demonstration Video",
       children: (
         <span className="video-details-info">
-          <button onClick={() => downloadVideo("demo")}>
-            Download {video_name}
-          </button>
+          <span className="video-details-info">
+            <DownloadButton downloadVideo={downloadVideo} type="demo" />
+          </span>
         </span>
       ),
     },
     {
       key: "2",
       label: "Avatar Video",
-      children: (
-        <span className="video-details-info">
-          <button onClick={() => downloadVideo("avatar")}>
-            Download {avatar_name}
-          </button>
-        </span>
-      ),
+      children:
+        avatar_link !== "" ? (
+          <span className="video-details-info">
+            <span className="video-details-info">
+              <DownloadButton downloadVideo={downloadVideo} type="avatar" />
+            </span>
+          </span>
+        ) : (
+          <span className="video-details-info">No Video Submitted</span>
+        ),
     },
   ];
+
   // For notification
   const getemail = Cookies.get("email");
   const [userIds, setUserIds] = useState("");
@@ -284,151 +302,158 @@ const CollapsibleForm: React.FC<CollapsibleFormProps> = ({
       toast.error("Failed to send notification.");
     }
   };
-
   return (
-    <div
-      className={`collapsible-content ${isOpen ? "opened" : "not-opened"}`}
-      onClick={closeForm}
-    >
+    <div className="collapsible-container ">
       <div
-        className={`collapsible-content-header ${user}`}
-        onClick={toggleOpen}
+        className={`collapsible-content ${isOpen ? "opened" : "not-opened"}`}
+        onClick={closeForm}
       >
-        <div className="header-content">
+        <div
+          className={`collapsible-content-header ${user}`}
+          onClick={toggleOpen}
+        >
           <h2 className="number">No: {number}</h2>
-          <h2 className="dateTime">Date & Time: {dateTime}</h2>
           <h2 className="status">Status: {status}</h2>
-        </div>
-        <div className="expand-icon">
-          {isOpen ? <span>&#9650;</span> : <span>&#9660;</span>}
-        </div>
-      </div>
-      {isOpen && (
-        <div className="collapsible-content-background">
-          <div className="collapsible-content-details">
-            <div className={`personal-details ${user}`}>
-              <h2>PERSONAL DETAILS</h2>
-              <div className="row">
-                <div className="col-md-6">
-                  <Descriptions items={personal_details} bordered column={1} />
-                </div>
-              </div>
-            </div>
-            <div className="sentence-details">
-              <h2>TEXT/ SENTENCE</h2>
-              <div className="sentence-details-content">
-                <p>{text}</p>
-              </div>
-            </div>
+          <h2 className="dateTime">
+            Date: {moment(dateTime).format("YYYY-MM-DD HH:mm:ss")}
+          </h2>
+          <div className="expand-icon">
+            {isOpen ? <span>&#9650;</span> : <span>&#9660;</span>}
           </div>
-          <div className="collapsible-content-footer">
-            <div className={`content-left ${user}`}>
-              <h2>VIDEO DETAILS</h2>
-              <div className="row">
-                <div className="col-md-6">
-                  {user === "admin" && (
-                    <>
-                      {avatar_link != "" ? (
-                        <Descriptions
-                          items={video_details_with_information}
-                          bordered
-                          layout="vertical"
-                        />
-                      ) : (
-                        <Descriptions
-                          items={video_details_with_video_upload}
-                          bordered
-                          layout="vertical"
-                        />
-                      )}
-                    </>
-                  )}
-                  {user === "signexpert" && (
-                    <Descriptions
-                      items={video_details_with_information}
-                      bordered
-                      layout="vertical"
-                    />
-                  )}
+        </div>
+        {isOpen && (
+          <div className="collapsible-content-background">
+            <div className="collapsible-content-details">
+              <div className={`personal-details ${user}`}>
+                <h2>PERSONAL DETAILS</h2>
+                <Descriptions items={personal_details} bordered column={1} />
+              </div>
+              <div className="sentence-details">
+                <h2>TEXT/ SENTENCE</h2>
+                <div className="sentence-details-content">
+                  <p>{text}</p>
                 </div>
               </div>
             </div>
-            <div className="buttons-right">
-              {user === "signexpert" && (
-                <>
-                  {status === "New" && (
-                    <div className="button-container">
-                      <Button
-                        type="button"
-                        onClick={() => {
-                          const updateData = {
-                            status_SE: "Awaiting Accept",
-                            status_Admin: "New",
-                          };
-                          handleSubmit(form_id, updateData);
-                          handleSEAcceptPublicButtonClick();
-                        }}
-                        buttonStyle="btn--accept" // Style for accept button
-                        buttonSize="btn--large"
-                      >
-                        Accept
-                      </Button>
-                      <Button
-                        type="button"
-                        onClick={() => {
-                          const updateData = {
-                            status_SE: "Cancelled",
-                          };
-                          handleSubmit(form_id, updateData);
-                          handleSERejectPublicButtonClick();
-                        }}
-                        buttonStyle="btn--cancel" // Style for cancel button
-                        buttonSize="btn--large"
-                      >
-                        Cancel
-                      </Button>
-                    </div>
-                  )}
-                  {status === "Awaiting Verification" && (
-                    <div className="button-container">
-                      <Button
-                        type="button"
-                        onClick={() => {
-                          const updateData = {
-                            status_SE: "Verified",
-                            status_Admin: "Verified",
-                          };
-                          handleSubmit(form_id, updateData);
-                          handleSEAcceptAdminButtonClick();
-                        }}
-                        buttonStyle="btn--send"
-                        buttonSize="btn--large"
-                      >
-                        Verify
-                      </Button>
-                      <Button
-                        type="button"
-                        onClick={() => {
-                          const updateData = {
-                            status_SE: "Rejected",
-                            status_Admin: "Rejected",
-                          };
-                          handleSubmit(form_id, updateData);
-                          handleSERejectAdminButtonClick();
-                        }}
-                        buttonStyle="btn--send"
-                        buttonSize="btn--large"
-                      >
-                        Reject
-                      </Button>
-                    </div>
-                  )}
-                </>
-              )}
-              {user === "admin" && (
-                <>
-                  {status === "New" && (
-                    <div className="button-container">
+            <div className="collapsible-content-footer">
+              <div className={`content-left ${user}`}>
+                <h2>VIDEO DETAILS</h2>
+                <div className="row">
+                  <div className="col-md-6">
+                    {user === "admin" && (
+                      <>
+                        {status === "Rejected" ? (
+                          <Descriptions
+                            items={video_details_with_video_upload}
+                            bordered
+                            column={1}
+                          />
+                        ) : status === "In Progress" ? (
+                          <Descriptions
+                            items={video_details_with_video_upload}
+                            bordered
+                            column={1}
+                          />
+                        ) : (
+                          <Descriptions
+                            items={video_details_with_information}
+                            bordered
+                            column={1}
+                          />
+                        )}
+                      </>
+                    )}
+
+                    {user === "signexpert" && (
+                      <Descriptions
+                        items={video_details_with_information}
+                        bordered
+                        column={1}
+                      />
+                    )}
+                  </div>
+                </div>
+              </div>
+              <div className="buttons-right">
+                {user === "signexpert" && (
+                  <>
+                    {status === "New" && (
+                      <div className="dataset-button-container">
+                        <div className="dataset-button-individual">
+                          <Button
+                            type="button"
+                            onClick={() => {
+                              const updateData = {
+                                status_SE: "Awaiting Accept",
+                                status_Admin: "New",
+                              };
+                              handleSubmit(form_id, updateData);
+                              handleSEAcceptPublicButtonClick();
+                            }}
+                            buttonStyle="btn--accept" // Style for accept button
+                            buttonSize="btn--large"
+                          >
+                            Accept
+                          </Button>
+                        </div>
+                        <div className="dataset-button-individual">
+                          <Button
+                            type="button"
+                            onClick={() => {
+                              handleDelete(form_id);
+                              handleSERejectPublicButtonClick();
+                            }}
+                            buttonStyle="btn--cancel" // Style for cancel button
+                            buttonSize="btn--large"
+                          >
+                            Cancel
+                          </Button>
+                        </div>
+                      </div>
+                    )}
+                    {status === "Awaiting Verification" && (
+                      <div className="dataset-button-container">
+                        <div className="dataset-button-individual">
+                          <Button
+                            type="button"
+                            onClick={() => {
+                              const updateData = {
+                                status_SE: "Verified",
+                                status_Admin: "Verified",
+                              };
+                              handleSubmit(form_id, updateData);
+                              handleSEAcceptAdminButtonClick();
+                            }}
+                            buttonStyle="btn--send"
+                            buttonSize="btn--large"
+                          >
+                            Verify
+                          </Button>
+                        </div>
+                        <div className="dataset-button-individual">
+                          <Button
+                            type="button"
+                            onClick={() => {
+                              const updateData = {
+                                status_SE: "Rejected",
+                                status_Admin: "Rejected",
+                              };
+                              handleSubmit(form_id, updateData);
+                              handleSERejectAdminButtonClick();
+                            }}
+                            buttonStyle="btn--cancel"
+                            buttonSize="btn--large"
+                          >
+                            Reject
+                          </Button>
+                        </div>
+                      </div>
+                    )}
+                  </>
+                )}
+                {user === "admin" && (
+                  <>
+                    {status === "New" && (
                       <Button
                         type="button"
                         onClick={() => {
@@ -443,10 +468,8 @@ const CollapsibleForm: React.FC<CollapsibleFormProps> = ({
                       >
                         Accept
                       </Button>
-                    </div>
-                  )}
-                  {status === "In Progress" && (
-                    <div className="button-container">
+                    )}
+                    {status === "In Progress" && (
                       <Button
                         type="button"
                         onClick={() => {
@@ -457,15 +480,13 @@ const CollapsibleForm: React.FC<CollapsibleFormProps> = ({
                           handleSubmit(form_id, updateData, videoInfo);
                           handleAdminButtonClick();
                         }}
-                        buttonStyle="btn--send"
+                        buttonStyle="btn--accept"
                         buttonSize="btn--large"
                       >
                         Submit
                       </Button>
-                    </div>
-                  )}
-                  {status === "Rejected" && (
-                    <div className="button-container">
+                    )}
+                    {status === "Rejected" && (
                       <Button
                         type="button"
                         onClick={() => {
@@ -473,22 +494,22 @@ const CollapsibleForm: React.FC<CollapsibleFormProps> = ({
                             status_SE: "Awaiting Verification",
                             status_Admin: "Awaiting Verification",
                           };
-                          handleSubmit(form_id, updateData);
+                          handleSubmit(form_id, updateData, videoInfo);
                           handleAdminButtonClick();
                         }}
-                        buttonStyle="btn--send"
+                        buttonStyle="btn--accept"
                         buttonSize="btn--large"
                       >
                         Submit
                       </Button>
-                    </div>
-                  )}
-                </>
-              )}
+                    )}
+                  </>
+                )}
+              </div>
             </div>
           </div>
-        </div>
-      )}
+        )}
+      </div>
     </div>
   );
 };

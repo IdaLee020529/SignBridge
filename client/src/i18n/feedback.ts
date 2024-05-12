@@ -68,6 +68,9 @@ const feedback = {
         view_recommended: "Recommended",
         screenshot: "Screenshot",
 
+        thankyouFeedback: "Thank you for your feedback!",
+        feedbckImportant: "Your feedback is important to us. We will use it to improve our services.",
+        backtoWebsite: "Back to our website",
     },
     bm: {
         website_question1: "Ciri laman web manakah yang anda paling suka?",
@@ -137,6 +140,10 @@ const feedback = {
         view_quality: "Kualiti",
         view_recommended: "Disyorkan",
         screenshot: "Tangkapan Skrin",
+
+        thankyouFeedback: "Terima kasih atas maklum balas anda!",
+        feedbckImportant: "Maklum balas anda penting bagi kami. Kami akan menggunakannya untuk memperbaiki perkhidmatan kami.",
+        backtoWebsite: "Kembali ke laman web kami",
     },
 };
 

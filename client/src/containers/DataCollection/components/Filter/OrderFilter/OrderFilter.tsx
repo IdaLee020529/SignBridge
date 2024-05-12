@@ -19,13 +19,12 @@ const OrderFilter: React.FC<OrderFilterProps> = ({
 
   return (
     <div className="order-filter">
-      <h3 style={{ marginLeft: 5 }}>Order:</h3>
       <Select
         value={sortOrder}
         onChange={handleSelectChange}
-        style={{ width: 200, height: 50 }}
         popupClassName="order-filter-dropdown"
         placeholder="Select order"
+        style={{ width: 140, height: 40 }}
       >
         <Option value="asc">Ascending</Option>
         <Option value="desc">Descending</Option>

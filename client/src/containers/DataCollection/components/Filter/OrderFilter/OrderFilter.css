@@ -1,17 +1,4 @@
-.order-filter {
-    margin: 10px
-}
-
-.order-filter h3 {
-    position: relative;
-    padding: 0;
-    margin: 0;
-    font-weight: 300;
-    font-size: 24px;
-    color: #080808;
-}
-
-.order-filter .ant-select-selector {
+/* .order-filter .ant-select-selector {
     font-size: 20px;
     padding: 12px 20px;
     border: 1px solid #838383 !important;
@@ -27,17 +14,11 @@
     font-size: 20px;
 }
 
-/* .order-filter-dropdown .ant-select-item-option-active {
-    background-color: #fafafa;
-} */
-
 .order-filter-dropdown .ant-select-item-option-selected:not(.ant-select-item-option-disabled) {
     background-color: #007ebd;
     color: white
-        /* Change this to the desired color */
 }
 
 .order-filter-dropdown .ant-select-item-option:hover {
     background-color: #dfdfdf;
-    /* Change this to the desired hover color */
-}
+} */

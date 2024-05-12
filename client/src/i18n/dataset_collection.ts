@@ -15,6 +15,7 @@ const dataset_collection = {
         submit_btn: "Submit",
         notifSuccess: "Notification sent successfully!",
         notifFailed: "Failed to send notification.",
+        datasetmsg: "Our dataset collection form encourages individuals to submit datasets, contributing valuable information for analysis, research, and insights"
     },
     bm: {
         dataset_collection_form: "Borang Pengumpulan Dataset",
@@ -32,6 +33,7 @@ const dataset_collection = {
         submit_btn: "Hantar",
         notifSuccess: "Pemberitahuan berjaya dihantar!",
         notifFailed: "Gagal menghantar pemberitahuan.",
+        datasetmsg: "Borang pengumpulan dataset kami mendorong individu untuk menghantar dataset, menyumbang maklumat berharga untuk analisis, penyelidikan, dan pandangan"
     },
 };
 

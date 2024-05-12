@@ -2,11 +2,7 @@ import React from "react";
 import DatasetReview from "../../components/DatasetReview/DatasetReview";
 
 const DatasetReviewSE = () => {
-  return (
-    <div>
-      <DatasetReview user="signexpert" />
-    </div>
-  );
+  return <DatasetReview user="signexpert" />;
 };
 
 export default DatasetReviewSE;

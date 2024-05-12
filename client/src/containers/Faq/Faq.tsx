@@ -31,7 +31,6 @@ export default function Faq() {
     const [faqs, setFaqs] = useState<FaqData[]>([]);
     const [loading, setLoading] = useState<boolean>(true);
     const currentSelectedLanguage = localStorage.getItem("i18nextLng") || "en";
-    console.log(currentSelectedLanguage);
 
     const AccordionDemo = ({ faqs }: { faqs: FaqData[] }) => (
         <Accordion.Root

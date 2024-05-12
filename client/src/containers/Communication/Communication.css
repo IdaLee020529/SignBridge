@@ -338,7 +338,6 @@ button:nth-child(2):hover ~ .animation {
     background-color: #1c2e4a;
 }
 
-
 /* Play Button */
 .avatarplay-btn {
     font-size: 3vh;
@@ -416,3 +415,37 @@ button:nth-child(2):hover ~ .animation {
 .gloss-box{
     width: 12vw !important;
 }
+
+.disabled {
+    opacity: 0.5; 
+    cursor: pointer;
+}
+
+.tooltip2 {
+    visibility: hidden;
+    background-color: black;
+    color: #fff;
+    text-align: center;
+    border-radius: 6px;
+    padding: 5px 0;
+    position: absolute;
+    z-index: 1;
+    width: 200px;
+}
+
+.avatar-microphone-btn:hover .tooltip2 {
+    visibility: visible;
+}
+
+
+.slr-content-wrapper{
+    margin-top: 5vh;
+    margin-left: 2vw;
+    height: 75vh;
+    width: 80%;
+    background-color: white;
+    box-shadow: black 0px 0px 4px 0px;
+    border-bottom: 3px solid rgba(69, 49, 36, 0.5);
+    border-radius: 5px 0px 5px 5px;
+  }
+

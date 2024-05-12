@@ -3,7 +3,7 @@ import React from "react";
 import { Select } from "antd";
 import StatusFilter from "../Filter/StatusFilter/StatusFilter"; // Importing StatusFilter component
 import OrderFilter from "../Filter/OrderFilter/OrderFilter";
-
+import "./DatasetFiltering.css";
 const { Option } = Select;
 
 interface DatasetFilteringProps {
@@ -30,32 +30,36 @@ const DatasetFiltering: React.FC<DatasetFilteringProps> = ({
   };
 
   return (
-    <div>
-      <label htmlFor="filterFunction"></label>
-      <Select
-        id="filterFunction"
-        value={filterFunction}
-        onChange={handleFilterFunctionChange}
-        style={{ width: 200 }}
-      >
-        <Option value="status">Status</Option>
-        <Option value="number">Number</Option>
-        <Option value="datetime">Date & Time</Option>
-      </Select>
-      {filterFunction === "status" ? (
-        // Render StatusFilter if filterFunction is "status"
-        <StatusFilter
-          filterStatus={filterStatus}
-          setFilterStatus={setFilterStatus}
-          user={user}
-        />
-      ) : filterFunction === "number" ? (
-        // Render OrderFilter if filterFunction is "number"
-        <OrderFilter sortOrder={sortOrder} setSortOrder={setSortOrder} />
-      ) : filterFunction === "datetime" ? (
-        // Render a JSX element for datetime
-        <OrderFilter sortOrder={sortOrder} setSortOrder={setSortOrder} />
-      ) : null}
+    <div className="dataset-filter-group">
+      <div className="dataset-filter-item">
+        <label htmlFor="filterFunction"></label>
+        <Select
+          id="filterFunction"
+          value={filterFunction}
+          onChange={handleFilterFunctionChange}
+          style={{ width: 140, height: 40 }}
+        >
+          <Option value="status">Status</Option>
+          <Option value="number">Number</Option>
+          <Option value="datetime">Date & Time</Option>
+        </Select>
+      </div>
+      <div className="dataset-filter-item">
+        {filterFunction === "status" ? (
+          // Render StatusFilter if filterFunction is "status"
+          <StatusFilter
+            filterStatus={filterStatus}
+            setFilterStatus={setFilterStatus}
+            user={user}
+          />
+        ) : filterFunction === "number" ? (
+          // Render OrderFilter if filterFunction is "number"
+          <OrderFilter sortOrder={sortOrder} setSortOrder={setSortOrder} />
+        ) : filterFunction === "datetime" ? (
+          // Render a JSX element for datetime
+          <OrderFilter sortOrder={sortOrder} setSortOrder={setSortOrder} />
+        ) : null}
+      </div>
     </div>
   );
 };

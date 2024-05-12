@@ -129,6 +129,21 @@ const DatasetFormController = {
             console.error("Error fetching video:", error);
             res.status(500).json({ error: "Internal Server Error" });
         }
+    },
+
+    async DeleteFormById(req, res) {
+        try {
+            const formId = req.params.id;
+            // Assuming you have a deleteById function that handles deletion
+            await DatasetFormService.DeleteFormByID(formId);
+
+            // Respond with success message
+            res.status(200).json({ message: `Form with ID ${formId} deleted successfully` });
+        } catch (error) {
+            console.error("Error deleting form:", error);
+            res.status(500).json({ error: "Internal Server Error" });
+        }
     }
+
 }
 module.exports = DatasetFormController

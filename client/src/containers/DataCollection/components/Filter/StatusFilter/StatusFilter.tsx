@@ -32,7 +32,6 @@ const StatusFilter: React.FC<StatusFilterProps> = ({
       { value: "Awaiting Verification", label: "Awaiting Verification" },
       { value: "Rejected", label: "Rejected" },
       { value: "Verified", label: "Verified" },
-      { value: "Cancelled", label: "Cancelled" },
     ];
   } else if (user === "admin") {
     options = [
@@ -47,12 +46,11 @@ const StatusFilter: React.FC<StatusFilterProps> = ({
 
   return (
     <div className="status-filter">
-      <h3 style={{ marginLeft: 5 }}>Status:</h3>
       <Select
         value={filterStatus}
         onChange={handleSelectChange}
-        style={{ width: 200, height: 50 }}
-        dropdownClassName="status-filter-dropdown"
+        style={{ width: 140, height: 40 }}
+        popupClassName="status-filter-dropdown"
       >
         {options.map((option) => (
           <Option key={option.value} value={option.value}>

@@ -31,9 +31,63 @@ const DataSubmissionForm: React.FC<DataSubmissionFormProps> = ({ user }) => {
     const { transcript, resetTranscript, browserSupportsSpeechRecognition } =
         useSpeechRecognition({});
 
-    if (!browserSupportsSpeechRecognition) {
-        return <span>Browser doesn't support speech recognition.</span>;
-    }
+    const renderMicrophoneButton = () => {
+        if (browserSupportsSpeechRecognition) {
+            return (
+                <button
+                    className="avatar-microphone-btn"
+                    onClick={() => {
+                        if (!isListening) {
+                            resetTranscript();
+                            setCustomTranscript("");
+                            SpeechRecognition.startListening({
+                                language: "ms-MY",
+                                continuous: true,
+                            });
+                            setIsListening(true);
+                            toast("Listening", {
+                                icon: "🎤",
+                                style: {
+                                    borderRadius: "10px",
+                                    background: "#333",
+                                    color: "#fff",
+                                },
+                            });
+                        } else {
+                            SpeechRecognition.stopListening();
+                            setIsListening(false);
+                            toast("Stopped", {
+                                icon: "✋",
+                                style: {
+                                    borderRadius: "10px",
+                                    background: "#333",
+                                    color: "#fff",
+                                },
+                            });
+                        }
+                    }}
+                >
+                    <i
+                        className={`fa ${
+                            isListening ? "fa-stop faStopBtn" : "fa-microphone"
+                        }`}
+                    ></i>
+                </button>
+            );
+        } else {
+            return (
+                <button
+                    className="avatar-microphone-btn disabled"
+                    disabled={true}
+                >
+                    <i className="fa fa-microphone"></i>
+                    <span className="tooltip2">
+                        Voice input isn't supported on this browser
+                    </span>
+                </button>
+            );
+        }
+    };
 
     const [customTranScript, setCustomTranscript] = useState("");
 
@@ -193,6 +247,7 @@ const DataSubmissionForm: React.FC<DataSubmissionFormProps> = ({ user }) => {
             <div className="dataForm-header-container">
                 <div className="dataForm-header">
                     <h1>{t("dataset_collection_form")}</h1>
+                    <p>{t("datasetmsg")}</p>
                 </div>
             </div>
             <div className="dataForm-cover">
@@ -246,49 +301,7 @@ const DataSubmissionForm: React.FC<DataSubmissionFormProps> = ({ user }) => {
                                         multipleLines={true}
                                         error={textError}
                                     />
-                                    <button
-                                        className="avatar-microphone-btn"
-                                        onClick={() => {
-                                            if (!isListening) {
-                                                resetTranscript();
-                                                setCustomTranscript("");
-                                                SpeechRecognition.startListening(
-                                                    {
-                                                        language: "ms-MY",
-                                                        continuous: true,
-                                                    }
-                                                );
-                                                setIsListening(true);
-                                                toast("Listening", {
-                                                    icon: "🎤",
-                                                    style: {
-                                                        borderRadius: "10px",
-                                                        background: "#333",
-                                                        color: "#fff",
-                                                    },
-                                                });
-                                            } else {
-                                                SpeechRecognition.stopListening();
-                                                setIsListening(false);
-                                                toast("Stopped", {
-                                                    icon: "✋",
-                                                    style: {
-                                                        borderRadius: "10px",
-                                                        background: "#333",
-                                                        color: "#fff",
-                                                    },
-                                                });
-                                            }
-                                        }}
-                                    >
-                                        <i
-                                            className={`fa ${
-                                                isListening
-                                                    ? "fa-stop faStopBtn"
-                                                    : "fa-microphone"
-                                            }`}
-                                        ></i>
-                                    </button>
+                                    {renderMicrophoneButton()}{" "}
                                 </div>
 
                                 <div className="video-container">

@@ -7,9 +7,10 @@ import AdminStatistic from './components/AdminStatistic/AdminStatistic';
 import * as Tabs from '@radix-ui/react-tabs';
 import Cookies from "js-cookie";
 import { GetUserByEmail, } from "../../services/account.service";
-
+import { useTranslation } from "react-i18next";
 
 const ProfilePage = () => {
+  const { t, i18n } = useTranslation();
   const email = Cookies.get("email");
   const [roleAccess, setRoleAccess] = useState("");
 
@@ -31,12 +32,12 @@ const ProfilePage = () => {
           <div className={style.SignInfoContainer}>
               <Tabs.Root defaultValue='account'>
                 <Tabs.List className={style.TabsList}>
-                  <Tabs.Trigger className={style.TabsTrigger} value='account'>Account</Tabs.Trigger>
+                  <Tabs.Trigger className={style.TabsTrigger} value='account'>{t("profile")}</Tabs.Trigger>
                   {(roleAccess === "public" || roleAccess === "signexpert") && (
-                    <Tabs.Trigger className={style.TabsTrigger} value='SignInfo'>Sign Text</Tabs.Trigger>
+                    <Tabs.Trigger className={style.TabsTrigger} value='SignInfo'>{t("signText")}</Tabs.Trigger>
                   )}
                   {roleAccess === "admin"  && (
-                    <Tabs.Trigger className={style.TabsTrigger} value='Statistic'>Statistic</Tabs.Trigger>
+                    <Tabs.Trigger className={style.TabsTrigger} value='Statistic'>{t("statistics")}</Tabs.Trigger>
                   )}
                   {/* <Tabs.Trigger className={style.TabsTrigger} value='form'>Form</Tabs.Trigger>
                   <Tabs.Trigger className={style.TabsTrigger} value='score'>Score</Tabs.Trigger>
@@ -51,21 +52,6 @@ const ProfilePage = () => {
                 <Tabs.Content value='Statistic'>
                   <AdminStatistic />
                 </Tabs.Content>
-                {/* <Tabs.Content value='form'>
-                  <div className={style.accountContent}>
-                    <h1>Form</h1>
-                  </div>
-                </Tabs.Content>
-                <Tabs.Content value='score'>
-                  <div className={style.accountContent}>
-                    <h1>Score</h1>
-                  </div>
-                </Tabs.Content>
-                <Tabs.Content value='notification'>
-                  <div className={style.accountContent}>
-                    <h1>Notification</h1>
-                  </div>
-                </Tabs.Content> */}
               </Tabs.Root>
           </div>
         </div>
