@@ -357,6 +357,28 @@ button:nth-child(2):hover ~ .animation {
     background-color: #1c2e4a;
 }
 
+.disabled {
+    opacity: 0.5; 
+    cursor: pointer;
+}
+
+.tooltip2 {
+    visibility: hidden;
+    background-color: black;
+    color: #fff;
+    text-align: center;
+    border-radius: 6px;
+    padding: 5px 0;
+    position: absolute;
+    z-index: 1;
+    width: 200px;
+}
+
+.avatar-microphone-btn:hover .tooltip2 {
+    visibility: visible;
+}
+
+
 .slr-content-wrapper{
     margin-top: 5vh;
     margin-left: 2vw;

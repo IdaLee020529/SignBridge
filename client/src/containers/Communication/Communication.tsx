@@ -33,9 +33,63 @@ function Communication() {
     const { transcript, resetTranscript, browserSupportsSpeechRecognition } =
         useSpeechRecognition({});
 
-    if (!browserSupportsSpeechRecognition) {
-        return <span>Browser doesn't support speech recognition.</span>;
-    }
+    const renderMicrophoneButton = () => {
+        if (browserSupportsSpeechRecognition) {
+            return (
+                <button
+                    className="avatar-microphone-btn"
+                    onClick={() => {
+                        if (!isListening) {
+                            resetTranscript();
+                            setCustomTranscript("");
+                            SpeechRecognition.startListening({
+                                language: "ms-MY",
+                                continuous: true,
+                            });
+                            setIsListening(true);
+                            toast("Listening", {
+                                icon: "🎤",
+                                style: {
+                                    borderRadius: "10px",
+                                    background: "#333",
+                                    color: "#fff",
+                                },
+                            });
+                        } else {
+                            SpeechRecognition.stopListening();
+                            setIsListening(false);
+                            toast("Stopped", {
+                                icon: "✋",
+                                style: {
+                                    borderRadius: "10px",
+                                    background: "#333",
+                                    color: "#fff",
+                                },
+                            });
+                        }
+                    }}
+                >
+                    <i
+                        className={`fa ${
+                            isListening ? "fa-stop faStopBtn" : "fa-microphone"
+                        }`}
+                    ></i>
+                </button>
+            );
+        } else {
+            return (
+                <button
+                    className="avatar-microphone-btn disabled"
+                    disabled={true}
+                >
+                    <i className="fa fa-microphone"></i>
+                    <span className="tooltip2">
+                        Voice input isn't supported on this browser
+                    </span>
+                </button>
+            );
+        }
+    };
 
     const [customTranScript, setCustomTranscript] = useState("");
 
@@ -392,51 +446,7 @@ function Communication() {
                                             placeholder="Enter text here"
                                             spellCheck="true"
                                         />
-                                        <button
-                                            className="avatar-microphone-btn"
-                                            onClick={() => {
-                                                if (!isListening) {
-                                                    resetTranscript();
-                                                    setCustomTranscript("");
-                                                    SpeechRecognition.startListening(
-                                                        {
-                                                            language: "ms-MY",
-                                                            continuous: true,
-                                                        }
-                                                    );
-                                                    setIsListening(true);
-                                                    toast("Listening", {
-                                                        icon: "🎤",
-                                                        style: {
-                                                            borderRadius:
-                                                                "10px",
-                                                            background: "#333",
-                                                            color: "#fff",
-                                                        },
-                                                    });
-                                                } else {
-                                                    SpeechRecognition.stopListening();
-                                                    setIsListening(false);
-                                                    toast("Stopped", {
-                                                        icon: "✋",
-                                                        style: {
-                                                            borderRadius:
-                                                                "10px",
-                                                            background: "#333",
-                                                            color: "#fff",
-                                                        },
-                                                    });
-                                                }
-                                            }}
-                                        >
-                                            <i
-                                                className={`fa ${
-                                                    isListening
-                                                        ? "fa-stop faStopBtn"
-                                                        : "fa-microphone"
-                                                }`}
-                                            ></i>
-                                        </button>
+                                        {renderMicrophoneButton()}
                                     </div>
 
                                     <div className="voice-text-button-group">

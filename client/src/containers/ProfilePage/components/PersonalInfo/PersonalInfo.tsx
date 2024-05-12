@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import style from './PersonalInfo.module.css';
 import Cookies from "js-cookie";
 import { GetUserByEmail } from '../../../../services/account.service';
+import { useTranslation } from "react-i18next";
 
 type User = {
     username: string;
@@ -15,6 +16,7 @@ type User = {
 };
 
 const PersonalInfo = () => {
+    const { t, i18n } = useTranslation();
     const email = Cookies.get("email") ?? "";
     const [user, setUser] = useState<User | null>(null);
 
@@ -48,7 +50,7 @@ const PersonalInfo = () => {
                     <h1 className={style.name}>{user?.username}</h1>
                     <p className={style.email}>{user?.email}</p>
                     {/* <button className={style.editButton}>Edit Profile</button> */}
-                    <p className={style.joined}>Joined on {formatDate(user?.created_at ?? '')}</p>
+                    <p className={style.joined}>{t("joinedOn")} {formatDate(user?.created_at ?? '')}</p>
                 </div>
             </div>
         </div>

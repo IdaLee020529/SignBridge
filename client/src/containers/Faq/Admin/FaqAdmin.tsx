@@ -17,8 +17,8 @@ import InputField from "../../../components/InputField/InputField";
 import { useTranslation } from "react-i18next";
 import axios from "axios";
 
-const API_KEY = "AIzaSyDbcbSEl15QUZXAsed4Rks4iW9-k47vqeA";
-const API_URL = "https://translation.googleapis.com/language/translate/v2";
+const API_KEY = "";
+const API_URL = '';
 const translateText = async (text: string, targetLanguage: "ms" | "en") => {
     const response = await axios.post(`${API_URL}?key=${API_KEY}`, {
         q: text,
@@ -183,7 +183,7 @@ export default function FaqAdmin() {
                 data.answer_en = answer;
                 data.question_bm = await translateText(question, "ms");
                 data.answer_bm = await translateText(answer, "ms");
-            } else if (currentSelectedLanguage === "ms") {
+            } else if (currentSelectedLanguage === "bm") {
                 data.question_en = await translateText(question, "en");
                 data.answer_en = await translateText(answer, "en");
                 data.question_bm = question;
@@ -244,7 +244,7 @@ export default function FaqAdmin() {
                 data.answer_en = answer;
                 data.question_bm = await translateText(question, "ms");
                 data.answer_bm = await translateText(answer, "ms");
-            } else if (currentSelectedLanguage === "ms") {
+            } else if (currentSelectedLanguage === "bm") {
                 data.question_en = await translateText(question, "en");
                 data.answer_en = await translateText(answer, "en");
                 data.question_bm = question;
