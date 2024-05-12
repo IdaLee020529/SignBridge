@@ -8,6 +8,7 @@ const STYLES = [
   "btn--submit",
   "btn--send",
   "btn--accept",
+  "btn--cancel",
 ];
 const SIZES = ["btn--medium", "btn--large"];
 

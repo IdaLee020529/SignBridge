@@ -15,7 +15,6 @@
 .videoinput-class .ant-btn:hover {
     background-color: #ffffff !important;
     color: #000 !important;
-    /* border: 1px groove #000 !important; */
 }
 
 .videoinput-class .ant-space {
@@ -25,9 +24,7 @@
     text-align: left;
 }
 
-/* .videoinput-class .ant-space span {
-    cursor: pointer;
-} */
+
 
 .videoinput-class .uploaded-text {
     color: red;

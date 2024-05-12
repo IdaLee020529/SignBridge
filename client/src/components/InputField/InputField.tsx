@@ -26,16 +26,6 @@ const InputField: React.FC<InputFieldProps> = ({
   id,
   multipleLines = false,
 }) => {
-  // const [error, setError] = useState<string | undefined>(undefined);
-
-  // const handleChange = (
-  //   e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
-  // ) => {
-  //   const { value } = e.target;
-  //   const validationError = validate ? validate(value) : undefined;
-  //   setError(validationError);
-  //   onChange(e);
-  // };
   const inputElement = multipleLines ? (
     <textarea
       className={`form-control ${error ? "is-invalid" : ""} multipleLines`}
@@ -65,7 +55,7 @@ const InputField: React.FC<InputFieldProps> = ({
     <div className={`form-group ${error ? "is-invalid" : ""}`}>
       {inputElement}
       <label className={`input-label ${multipleLines ? "multiple_label" : ""}`}>
-        {label}:
+        {label}
       </label>
       <div className={`form-error ${error ? "is-invalid" : ""}`}>{error}</div>
     </div>

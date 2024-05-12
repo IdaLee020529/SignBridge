@@ -8,8 +8,11 @@ import {
   updateFormById,
   getFormById,
   updateFormWithVideoById,
+  deleteFormById,
 } from "../../../../services/dataset.service";
 import DatasetFiltering from "../DatasetFiltering/DatasetFiltering";
+import TablePagination from "@mui/material/TablePagination";
+
 interface DatasetReviewProps {
   user: string;
 }
@@ -19,6 +22,9 @@ const DatasetReview: React.FC<DatasetReviewProps> = ({ user }) => {
   const [filterStatus, setFilterStatus] = useState("All");
   const [sortOrder, setSortOrder] = useState("asc");
   const [filterOption, setFilterOption] = useState("number");
+  // Pagination
+  const [page, setPage] = useState(0);
+  const [rowsPerPage, setRowsPerPage] = useState(10);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -31,16 +37,23 @@ const DatasetReview: React.FC<DatasetReviewProps> = ({ user }) => {
 
   const handleSubmit = async (
     formId: number,
-    updateData: Record<string, string>,
+    updateData?: Record<string, string>,
     video?: any
   ) => {
     try {
       let finishUpdate;
-      if (video) {
-        finishUpdate = await updateFormWithVideoById(formId, updateData, video);
-      } else {
-        finishUpdate = await updateFormById(formId, updateData);
+      if (updateData) {
+        if (video) {
+          finishUpdate = await updateFormWithVideoById(
+            formId,
+            updateData,
+            video
+          );
+        } else {
+          finishUpdate = await updateFormById(formId, updateData);
+        }
       }
+
       // Fetch only the updated form data
       if (finishUpdate) {
         const updatedFormData = await getFormById(formId);
@@ -51,6 +64,17 @@ const DatasetReview: React.FC<DatasetReviewProps> = ({ user }) => {
           )
         );
       }
+    } catch (error) {
+      console.error("Error updating form:", error);
+    }
+  };
+
+  const handleDelete = async (formId: number) => {
+    try {
+      await deleteFormById(formId);
+      setFormData((prevFormData) =>
+        prevFormData.filter((form) => form.form_id !== formId)
+      );
     } catch (error) {
       console.error("Error updating form:", error);
     }
@@ -112,36 +136,54 @@ const DatasetReview: React.FC<DatasetReviewProps> = ({ user }) => {
     return true; // Return true by default if filterOption is not "status"
   };
 
+  const handleChangePage = (
+    event: React.MouseEvent<HTMLButtonElement> | null,
+    newPage: number
+  ) => {
+    setPage(newPage);
+  };
+
+  const handleChangeRowsPerPage = (
+    event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+  ) => {
+    setRowsPerPage(parseInt(event.target.value, 10));
+    setPage(0);
+  };
+
+  const paginationCount = formData.length; // Use formData instead of store.modifiedData
+
   const FormDataRenderer: React.FC<{
     formData: any[];
     user: string;
     handleSubmit: (formId: number, updateData: Record<string, string>) => void;
   }> = ({ formData, user, handleSubmit }) => {
-    const filteredForms = formData.filter(filterForms).map((form, index) => (
-      <CollapsibleForm
-        key={form.form_id}
-        number={form.form_id} // Incremental value starting from 1
-        form_id={form.form_id}
-        dateTime={form.submitted_time}
-        status={user === "signexpert" ? form.status_SE : form.status_Admin}
-        name={form.name}
-        email={form.email}
-        text={form.text_sentence}
-        video_link={form.video_link}
-        avatar_link={form.avatar_link}
-        user={user}
-        user_id={form.user_id}
-        video_name={form.video_name}
-        avatar_name={form.avatar_name}
-        handleSubmit={handleSubmit}
-      />
-    ));
-
-    return <div>{filteredForms}</div>;
+    return formData
+      .filter(filterForms)
+      .map((form, index) => (
+        <CollapsibleForm
+          key={form.form_id}
+          number={form.form_id}
+          form_id={form.form_id}
+          dateTime={form.submitted_time}
+          status={user === "signexpert" ? form.status_SE : form.status_Admin}
+          name={form.name}
+          email={form.email}
+          text={form.text_sentence}
+          video_link={form.video_link}
+          avatar_link={form.avatar_link}
+          user={user}
+          user_id={form.user_id}
+          video_name={form.video_name}
+          avatar_name={form.avatar_name}
+          handleSubmit={handleSubmit}
+          handleDelete={handleDelete}
+        />
+      ));
   };
 
   return (
     <div className="dataCollection-bg">
+      <h1>Dataset Collection Review</h1>
       <div className="filter-container">
         <DatasetFiltering
           filterFunction={filterOption}
@@ -152,8 +194,6 @@ const DatasetReview: React.FC<DatasetReviewProps> = ({ user }) => {
           setSortOrder={setSortOrder}
           user={user}
         />
-      </div>
-      <div>
         {formData ? (
           <FormDataRenderer
             formData={sortForms(formData)} // Apply sorting to formData
@@ -161,6 +201,14 @@ const DatasetReview: React.FC<DatasetReviewProps> = ({ user }) => {
             handleSubmit={handleSubmit}
           />
         ) : null}
+        <TablePagination
+          component="div"
+          count={paginationCount}
+          page={page}
+          onPageChange={handleChangePage}
+          rowsPerPage={rowsPerPage}
+          onRowsPerPageChange={handleChangeRowsPerPage}
+        />
       </div>
     </div>
   );

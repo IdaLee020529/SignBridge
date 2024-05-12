@@ -127,3 +127,12 @@ export const getAvatarVidById = async (formId: number): Promise<any> => {
     throw err;
   }
 };
+
+export const deleteFormById = async (formId: number): Promise<void> => {
+  try {
+    await axios.delete(`http://localhost:3000/datasetForms/${formId}`);
+    console.log(`Deleted form with ID ${formId}`);
+  } catch (err) {
+    throw err;
+  }
+};
