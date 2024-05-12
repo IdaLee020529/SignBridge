@@ -356,3 +356,14 @@ button:nth-child(2):hover ~ .animation {
     height: 1px;
     background-color: #1c2e4a;
 }
+
+.slr-content-wrapper{
+    margin-top: 5vh;
+    margin-left: 2vw;
+    height: 75vh;
+    width: 80%;
+    background-color: white;
+    box-shadow: black 0px 0px 4px 0px;
+    border-bottom: 3px solid rgba(69, 49, 36, 0.5);
+    border-radius: 5px 0px 5px 5px;
+  }
