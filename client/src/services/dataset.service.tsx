@@ -59,6 +59,36 @@ export const updateFormById = async (
     throw err;
   }
 };
+
+export const updateFormWithVideoById = async (
+  formId: number,
+  updatedFormData: Record<string, string>,
+  video: File
+): Promise<any> => {
+  try {
+    const formData = new FormData();
+    formData.append("video", video);
+
+    for (const key in updatedFormData) {
+      formData.append(key, updatedFormData[key]);
+    }
+    console.log("1111");
+    console.log(formData);
+    const response = await axios.put(
+      `http://localhost:3000/datasetForms/avatarVideo/${formId}`,
+      formData,
+      {
+        headers: {
+          "Content-Type": "multipart/form-data", // Use multipart form data for file uploads
+        },
+      }
+    );
+    return response.data; // Return the response data
+  } catch (err) {
+    throw err;
+  }
+};
+
 export const getFormById = async (formId: number): Promise<any> => {
   try {
     console.log(formId);
@@ -80,6 +110,28 @@ export const getDemoVidById = async (formId: number): Promise<any> => {
     );
     console.log(response);
     return response; // Return the raw binary data
+  } catch (err) {
+    throw err;
+  }
+};
+
+export const getAvatarVidById = async (formId: number): Promise<any> => {
+  try {
+    const response = await axios.get(
+      `http://localhost:3000/datasetForms/avatarVid/${formId}`,
+      { responseType: "arraybuffer" } // Set responseType to 'arraybuffer' to receive raw binary data
+    );
+    console.log(response);
+    return response; // Return the raw binary data
+  } catch (err) {
+    throw err;
+  }
+};
+
+export const deleteFormById = async (formId: number): Promise<void> => {
+  try {
+    await axios.delete(`http://localhost:3000/datasetForms/${formId}`);
+    console.log(`Deleted form with ID ${formId}`);
   } catch (err) {
     throw err;
   }

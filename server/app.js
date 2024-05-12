@@ -60,11 +60,13 @@ app.use(formRoutes);
 // ------------------------------------------------------------------------------------------------------------
 const UserController = require("./controllers/UserController")
 const FaqController = require("./controllers/FaqController")
-const CategoryController = require("./controllers/CategoryController")
+const CategoryController = require("./controllers/CategoryController");
+const CategorySignController = require('./controllers/CategorySignController');
 app.listen(port, () => {
   console.log(`Server started at http://localhost:${port}`);
   UserController.insertPresetAccounts();
   CategoryController.insertPresetSignCategories();
+  CategorySignController.updateAvatarSigns();
   UserController.insertPresetCountry();
   FaqController.insertFixFaq();
 });

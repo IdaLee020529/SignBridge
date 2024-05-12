@@ -3,13 +3,13 @@ import { useState, useEffect } from "react";
 import toast from "react-hot-toast";
 import RatingEmoji from "../../components/RatingEmoji/RatingEmoji";
 import ImageInput from "../../components/ImageInput/ImageInput";
-import { useNavigate } from "react-router-dom";
 import { CreateFeedback } from "../../services/feedback.service";
 import { useTranslation } from "react-i18next";
 import axios from 'axios';
+import { useNavigate } from "react-router-dom";
 
-const API_KEY = "";
-const API_URL = '';
+const API_KEY = "AIzaSyDbcbSEl15QUZXAsed4Rks4iW9-k47vqeA";
+const API_URL = 'https://translation.googleapis.com/language/translate/v2';
 
 const translateText = async (text: string, targetLanguage: 'ms' | 'en') => {
   const response = await axios.post(
@@ -26,6 +26,7 @@ const translateText = async (text: string, targetLanguage: 'ms' | 'en') => {
 const currentLanguage = localStorage.getItem('i18nextLng') || 'en';
 
 const Feedback = () => {
+  const navigate = useNavigate();
   const { t, i18n } = useTranslation();
   
   const [formData, setFormData] = useState({
@@ -281,7 +282,7 @@ const Feedback = () => {
 
       await CreateFeedback(data);
       handleFormReset();
-      // navigate("/feedback-success");
+      navigate("/feedback-success");
       
       toast.success(t('feedback_toast_success'));
     } else {

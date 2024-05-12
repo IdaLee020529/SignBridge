@@ -6,7 +6,8 @@ interface Notification {
     sender_id: number;
     sender_username: string;
     sender_avatar: string;
-    message: string;
+    message_en: string;
+    message_bm: string;
     sign_text: string;
     status: number;
     type: string;

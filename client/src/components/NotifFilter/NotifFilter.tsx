@@ -5,8 +5,10 @@ import Checkbox from '@mui/material/Checkbox';
 import Box from '@mui/material/Box';
 import Cookies from "js-cookie";
 import { useNotificationFilterStore } from "../../store/notificationFilter"
+import { useTranslation } from "react-i18next";
 
 const NotifFilter: React.FC = () => {
+  const { t, i18n } = useTranslation();
   const roleAccess = Cookies.get("role_access");
   const [checked, setChecked] = React.useState([true, true]);
   const [newTaskChecked, setNewTaskChecked] = React.useState(true);
@@ -166,11 +168,11 @@ const NotifFilter: React.FC = () => {
         return (
           <>
             <FormControlLabel
-              label="New Task"
+              label={t("newTask")}
               control={<Checkbox value="newtask" checked={newTaskChecked} onChange={handleNewTaskChange}/>}
             />
             <FormControlLabel
-              label="Task Confirmation"
+              label={t("taskConfirmation")}
               control={
                 <Checkbox
                   checked={checked[0] && checked[1]}
@@ -182,11 +184,11 @@ const NotifFilter: React.FC = () => {
             {/* @ts-ignore */}
             <Box sx={{ display: 'flex', flexDirection: 'column', ml: 3 }}>
               <FormControlLabel
-                label="Accepted"
+                label={t("accepted")}
                 control={<Checkbox checked={checked[0]} value="accepted" onChange={handleChange2} />}
               />
               <FormControlLabel
-                label="Rejected"
+                label={t("rejected")}
                 control={<Checkbox checked={checked[1]} value="rejected" onChange={handleChange3} />}
               />
             </Box>
@@ -196,11 +198,11 @@ const NotifFilter: React.FC = () => {
         return (
           <>
             <FormControlLabel
-              label="New Text"
+              label={t("newText")}
               control={<Checkbox value="newtext" checked={newTaskChecked} onChange={handleNewTaskChange} />}
             />
             <FormControlLabel
-              label="Waiting for Verification"
+              label={t("waitingForVerification")}
               control={<Checkbox value="waitingforverification" checked={waitingForVerificationChecked} onChange={handleWaitingForVerificationChange}/>}
             />
           </>
@@ -209,7 +211,7 @@ const NotifFilter: React.FC = () => {
         return (
           <>
             <FormControlLabel
-              label="Text Verification"
+              label={t("textVerification")}
               control={
                 <Checkbox
                   checked={checked[0] && checked[1]}
@@ -220,11 +222,11 @@ const NotifFilter: React.FC = () => {
             />
             <Box sx={{ display: 'flex', flexDirection: 'column', ml: 3 }}>
               <FormControlLabel
-                label="Accepted"
+                label={t("accepted")}
                 control={<Checkbox checked={checked[0]} value="accepted" onChange={handleChange2} />}
               />
               <FormControlLabel
-                label="Rejected"
+                label={t("rejected")}
                 control={<Checkbox checked={checked[1]} value="rejected" onChange={handleChange3} />}
               />
             </Box>
@@ -238,7 +240,7 @@ const NotifFilter: React.FC = () => {
   return (
     <div className={style.notifFilterContainer}>
       <div className={style.notifFilterHeader}>
-        <p className={style.notifFilterHeaderText}>Filter</p>
+        <p className={style.notifFilterHeaderText}>{t("filter")}</p>
       </div>
       <div className={style.notifFilterItem}>
         <FormGroup>

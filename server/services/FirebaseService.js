@@ -1,7 +1,7 @@
-const { ref, uploadBytesResumable, getDownloadURL } = require("firebase/storage");
-const { storage } = require('../config/firebase.config');
+const { ref, uploadBytesResumable, getDownloadURL, deleteObject} = require("firebase/storage");
+const {storage} = require('../config/firebase.config');
 const FirebaseService = {
-    async uploadVideoToStorageAndGetURL(videoFile) {
+    async uploadVideoToStorageAndGetURL(videoFile, storageName) {
         const timestamp = new Date();
         const year = timestamp.getFullYear();
         const month = ('0' + (timestamp.getMonth() + 1)).slice(-2); // Adding leading zero if needed
@@ -14,7 +14,7 @@ const FirebaseService = {
         // const filename = `${timestamp}_${videoFile.originalname}`; // Append timestamp to original filename
         const filename = `${formattedDateTime}`; // Append timestamp to original filename
         // Reference to the file in Firebase Storage
-        const fileRef = ref(storage, `demoVid/${filename}`);
+        const fileRef = ref(storage, `${storageName}/${filename}`);
         const metaData = {
             contentType: videoFile.mimetype,
         }
@@ -66,6 +66,38 @@ const FirebaseService = {
             throw error;
         }
     },
+
+    async uploadLibraryImageToStorageAndGetURL(imageFile) {
+        const timestamp = new Date().getTime();
+        const filename = `${timestamp}_${imageFile.originalname}`;
+        const fileRef = ref(storage, `library/${filename}`);
+        const metaData = {
+            contentType: imageFile.mimetype,
+        }
+
+        const uploadTask = uploadBytesResumable(fileRef, imageFile.buffer, metaData);
+
+        try {
+            await uploadTask;
+            const downloadURL = await getDownloadURL(uploadTask.snapshot.ref);
+            return downloadURL;
+        } catch (error) {
+            throw error;
+        }
+    },
+
+
+    async deleteLibraryImageInStorage(imageUrl) {
+    const fileRef = ref(storage, imageUrl); // Use the `storage` object directly from the Firebase configuration
+    
+    try {
+        await deleteObject(fileRef); // Delete the file
+        console.log(`File "${imageUrl}" deleted successfully from Firebase Storage.`);
+    } catch (error) {
+        console.error(`No file found`);
+    }
+}
+
 };
 
 module.exports = FirebaseService

@@ -149,6 +149,16 @@ export const FetchDatasetByUserId = async (userID: string) => {
   }
 };
 
+// ---------- Fetch all users ----------
+export const FetchAllUsers = async () => {
+  try {
+    const response = await axios.get("http://localhost:3000/users/all-users");
+    return response;
+  } catch (err) {
+    throw err;
+  }
+};
+
 // ---------- Fetch all dataset ----------
 export const FetchAllDataset = async () => {
   try {

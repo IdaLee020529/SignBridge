@@ -11,7 +11,7 @@
   width: 100%;
   max-width: 100%;
   margin-bottom: 20px;
-  box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
   border-radius: 8px;
   transition: width 0.2s;
   background-color: #FFF;
@@ -80,7 +80,7 @@
   font-size: 18px;
 }
 
-.screenshotImage{
+.screenshotImage {
   width: 50%;
   height: auto;
   margin: 10px 0;

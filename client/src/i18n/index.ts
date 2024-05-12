@@ -7,6 +7,7 @@ import datasetCollectionTranslations from './dataset_collection';
 import feedbackTranslations from "./feedback";
 import educationTranslations from "./education";
 import faqTransaction from "./faq";
+import notificationTransaction from "./notification";
 
 const resources = {
     en: {
@@ -20,6 +21,7 @@ const resources = {
             ...feedbackTranslations.en,
             ...educationTranslations.en,
             ...faqTransaction.en,
+            ...notificationTransaction.en,
         },
     },
     bm: {
@@ -33,6 +35,7 @@ const resources = {
             ...feedbackTranslations.bm,
             ...educationTranslations.bm,
             ...faqTransaction.bm,
+            ...notificationTransaction.bm,
         },
     },
 };
