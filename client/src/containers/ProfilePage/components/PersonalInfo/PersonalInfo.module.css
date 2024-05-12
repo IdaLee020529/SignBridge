@@ -15,7 +15,6 @@
     padding: 40px;
     border-radius: 10px;
     background-color: white;
-
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     transition: box-shadow 0.3s ease-in-out;
 }
@@ -56,4 +55,64 @@
     margin-top: 40px;
     font-weight: 400;
     color: #8d4e1393;
+}
+
+@media screen and (max-width: 1100px) {
+    .personalInfoBox {
+        padding: 20px;
+    }
+
+    .profilePicture {
+        width: 80px;
+        height: 80px;
+        margin-bottom: 15px;
+    }
+
+    .name {
+        font-size: 24px;
+    }
+
+    .email {
+        font-size: 16px;
+    }
+
+    .editButton {
+        padding: 8px 16px;
+        font-size: 14px;
+        margin-top: 15px;
+    }
+
+    .joined {
+        margin-top: 15px;
+    }
+}
+
+@media screen and (max-width: 850px) {
+    .personalInfoContainer {
+        margin-top: 50px;
+    }
+
+    .profilePicture {
+        width: 100px;
+        height: 100px;
+        margin-bottom: 10px;
+    }
+
+    .name {
+        font-size: 32px;
+    }
+
+    .email {
+        font-size: 20px;
+    }
+
+    .editButton {
+        padding: 6px 12px;
+        font-size: 12px;
+        margin-top: 10px;
+    }
+
+    .joined {
+        margin-top: 20px;
+    }
 }

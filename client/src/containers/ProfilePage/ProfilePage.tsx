@@ -51,21 +51,6 @@ const ProfilePage = () => {
                 <Tabs.Content value='Statistic'>
                   <AdminStatistic />
                 </Tabs.Content>
-                {/* <Tabs.Content value='form'>
-                  <div className={style.accountContent}>
-                    <h1>Form</h1>
-                  </div>
-                </Tabs.Content>
-                <Tabs.Content value='score'>
-                  <div className={style.accountContent}>
-                    <h1>Score</h1>
-                  </div>
-                </Tabs.Content>
-                <Tabs.Content value='notification'>
-                  <div className={style.accountContent}>
-                    <h1>Notification</h1>
-                  </div>
-                </Tabs.Content> */}
               </Tabs.Root>
           </div>
         </div>
