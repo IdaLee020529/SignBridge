@@ -497,10 +497,10 @@ function Communication() {
                 )}
                 {activeButton === "SLR" && (
                     <>
-                        <div className="content-wrapper">
+                        <div className="slr-content-wrapper">
                             <SLROutput responseData={SLRResponse} />
                         </div>
-                        <div className="content-wrapper">
+                        <div className="slr-content-wrapper">
                             <SLRInput
                                 onResponsiveReceived={handleSLRResponse}
                             />
