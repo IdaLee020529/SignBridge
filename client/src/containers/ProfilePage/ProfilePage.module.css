@@ -20,8 +20,7 @@
     /* width: 724px; */
     width: 100%;
     /* flex: auto; */
-    margin: 100px;
-    margin-right: 0;
+    margin: 100px 0 100px 100px;
 }
 
 .TabsList {
@@ -58,5 +57,25 @@
     /* background-color: #a6bdf050; */
     color: black;
     transition: all 0.3s ease-in-out;  
+}
+
+@media screen and (max-width: 1100px) {
+    .SignInfoContainer {
+        margin-left: 50px ;
+    }
+}
+
+@media screen and (max-width: 850px) {
+    .profileContentContainer {
+        flex-direction: column;
+    }
+
+    .SignInfoContainer {
+        margin: 10px 0 50px 0;
+    }
+
+    .TabsList {
+        justify-content: center;
+    }
 }
 

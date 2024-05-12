@@ -2,7 +2,6 @@
     display: flex;
     flex-direction: column;
     gap: 25px;
-    
 }
 
 .accountFormContainer {
@@ -27,6 +26,12 @@
 .label {
     text-align: left;
     margin-bottom: 8px;
+}
+
+.radioGroup {
+    display: flex;
+    gap: 12px;
+    width: 100%;
 }
 
 .genderLabel {
@@ -147,9 +152,9 @@
 }
 
 .uploadButton {
-    display: flex; /* Add flex display */
-    align-items: center; /* Vertically center the content */
-    justify-content: center; /* Horizontally center the content */
+    display: flex; 
+    align-items: center; 
+    justify-content: center; 
     margin-top: 0.25rem;
     height: 48px;
     font-size: 15px;
@@ -179,4 +184,23 @@
     border-radius: 12px;
     border: none;
     cursor: pointer;
+}
+
+@media screen and (max-width: 1100px) {
+   .accountContent h1 {
+        font-size: 1.5rem;
+    }
+
+    .genderLabel {
+        margin-left: -85%;
+    }
+
+    .gender {
+        width: 12rem;
+    }
+
+    /* resize all font */
+    .label {
+        font-size: 0.875rem;
+    }
 }
