@@ -1,5 +1,6 @@
 const { connectDB, DATABASE_COLLECTIONS } = require("../config/database");
-const PRESET_SIGN_CATEGORIES = require("../constants/PresetSignCategories")
+const PRESET_SIGN_CATEGORIES = require("../constants/PresetSignCategories");
+const CategoryCounterService = require("./CategoryCounterService");
 
 const CategoryService = {
 
@@ -20,6 +21,13 @@ const CategoryService = {
         const presetSignsCategories = PRESET_SIGN_CATEGORIES.PRESET_SIGN_CATEGORIES;
         try{
             const collection = database.collection(DATABASE_COLLECTIONS.CATEGORY);
+
+            const countersCollection = database.collection(DATABASE_COLLECTIONS.CATEGORY_COUNTER);
+            const collections = await database.listCollections({ name: DATABASE_COLLECTIONS.CATEGORY_COUNTER }).toArray();
+            if (collections.length === 0) {
+                await database.createCollection(DATABASE_COLLECTIONS.CATEGORY_COUNTER);
+                await countersCollection.insertOne({ _id: "catId", value: 5 });
+            }
 
             const existingsigncategories = await collection
                 .find({ $or: [{ category_id : 1 }, {  category_id : 2}, {  category_id : 3} , {  category_id : 4}] })
@@ -42,7 +50,53 @@ const CategoryService = {
         } finally {
             client.close();
         }
-    }
+    },
+
+    async CreateCat(data) {
+        try {
+            const { client, database } = await connectDB();
+            const collection = database.collection(DATABASE_COLLECTIONS.CATEGORY);
+            const id = await CategoryCounterService.getNextValue('catId')
+            
+            data.category_id = id;
+            
+            const result = await collection.insertOne(data);
+            client.close();
+            return result;
+        } catch (error) {
+            throw new Error(`Error creating category: ${error.message}`);
+        }
+    }, 
+
+    async UpdateCat(id, data) {
+        try {
+            const { client, database } = await connectDB();
+            const collection = database.collection(DATABASE_COLLECTIONS.CATEGORY);
+
+            const result = await  collection.updateOne(
+                { category_id: id },
+                { $set: data }
+            );
+            client.close();
+            return result;
+        }
+        catch (error) {
+            throw new Error(`Error updating category: ${error.message}`);
+        }
+    },
+
+    async DeleteCat(id) {
+        try {
+            const { client, database } = await connectDB();
+            const collection = database.collection(DATABASE_COLLECTIONS.CATEGORY);
+
+            const result = await collection.deleteOne({ category_id: id });
+            client.close();
+            return result;
+        } catch (error) {
+            throw new Error(`Error deleting category: ${error.message}`);
+        }
+    },
 };
 
 module.exports = CategoryService;

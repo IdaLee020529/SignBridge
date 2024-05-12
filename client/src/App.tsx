@@ -32,6 +32,7 @@ import FeedbackAdmin from "./containers/Feedback/Admin/FeedbackAdmin";
 import FeedbackSuccess from "./containers/Feedback/FeedbackSuccess";
 import FaqAdmin from "./containers/Faq/Admin/FaqAdmin";
 import ProfilePage from "./containers/ProfilePage/ProfilePage";
+import LibraryAdmin from "./containers/Library/Admin/LibraryAdmin";
 import Cookies from "js-cookie";
 import i18n from "i18next";
 import { initReactI18next } from "react-i18next";
@@ -57,6 +58,7 @@ function App() {
     }
     gapi.load("client:auth2", initGapi);
   });
+  
 
   const [feedbackComponent, setFeedbackComponent] = useState<React.ReactNode>();
   useEffect(() => {
@@ -122,6 +124,27 @@ function App() {
         break;
     }
   }, [location.pathname]);
+
+  const [libraryComponent, setLibraryComponent] = useState<React.ReactNode>();
+  useEffect(() => {
+    const roleAccess = document.cookie
+      .split("; ")
+      .find((row) => row.startsWith("role_access="))
+      ?.split("=")[1];
+
+    switch (roleAccess) {
+      case "admin":
+        setLibraryComponent(<LibraryAdmin />);
+        break;
+      case "signexpert":
+        setLibraryComponent(<Library />);
+        break;
+      default:
+        setLibraryComponent(<Library />);
+        break;
+    }
+  }, [location.pathname]);
+
   useEffect(() => {
     if (
       location.pathname !== "/education" &&
@@ -144,7 +167,7 @@ function App() {
       <Routes>
         <Route element={<HomeLayout />}>
           <Route path="/" element={<Home />} />
-          <Route path="/library" element={<Library />} />
+          <Route path="/library" element={libraryComponent} />
           <Route path="/communication" element={<Communication />} />
           <Route path="/education" element={<Education />} />
           <Route path="/dataset-collection" element={datasetComponent} />
