@@ -391,7 +391,6 @@ const CollapsibleForm: React.FC<CollapsibleFormProps> = ({
                   )}
                   {status === "Awaiting Verification" && (
                     <div className="button-container">
-                      ``
                       <Button
                         type="button"
                         onClick={() => {
