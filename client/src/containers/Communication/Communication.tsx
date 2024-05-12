@@ -18,6 +18,8 @@ import { CharacterAnimationsProvider } from "../../components/SLP/CharacterAnima
 import Experience from "../../components/SLP/Experience";
 // @ts-ignore
 import Man from "../../components/AvatarModels/Man";
+import Checkbox from '@mui/material/Checkbox';
+import FormControlLabel from '@mui/material/FormControlLabel';
 
 // SLR Imports
 import SLRInput from "../../components/SLRInput/SLRInput";
@@ -59,7 +61,7 @@ function Communication() {
     const [currentAnimationName, setCurrentAnimationName] = useState(""); // State to hold the current animation name
     const [isPaused, setPaused] = useState(false); // State to manage pause/play
     const [leftHandedMode, setLeftHandedMode] = useState(false); // State to manage left-handed mode
-    const [fps, setFps] = useState(60); // State to hold FPS value
+    const [fps, setFps] = useState("  FPS:   60"); // State to hold FPS value
 
     // SLR states
     const [SLRResponse, setSLRResponse] = useState<string>("");
@@ -245,7 +247,7 @@ function Communication() {
                 </div>
                 {activeButton === "SLP" && (
                     <>
-                        <nav className="sidebar-navigation">
+                        {/* <nav className="sidebar-navigation">
                             <ul>
                                 <li
                                     onClick={handleHandFocus}
@@ -275,7 +277,7 @@ function Communication() {
                                     <span className="tooltip">None</span>
                                 </li>
                             </ul>
-                        </nav>
+                        </nav> */}
                         <div className="canvas-wrapper">
                             <Canvas camera={{ position: [0, 0, 225], fov: 55 }}>
                                 <directionalLight
@@ -318,35 +320,35 @@ function Communication() {
                                     Avatar Control
                                 </h1>
                                 <div className="communication-toprow">
-                                    <button
-                                        onClick={toggleLeftHandedMode}
-                                        className="avatarcontrol-btn"
-                                    >
-                                        Left-Hand Mode
-                                        <img
-                                            src="./images/lefthandmode.png"
-                                            className="avatarcontrol-img"
-                                        />
-                                    </button>
-                                    <button
-                                        className="avatarcontrol-btn"
-                                        onClick={() =>
-                                            setShowSkeleton(
-                                                (prevState) => !prevState
-                                            )
-                                        }
-                                    >
-                                        {showSkeleton
-                                            ? "Hide Skeleton"
-                                            : "Show Skeleton"}
-                                        <img
-                                            src="./images/skeleton.png"
-                                            className="avatarcontrol-img"
-                                        />
-                                    </button>
-                                    <button className="avatarcontrol-btn">
-                                        Ambient
-                                    </button>
+<FormControlLabel
+    control={
+        <Checkbox
+            checked={leftHandedMode}
+            onChange={() => setLeftHandedMode(prevMode => !prevMode)}
+            color="primary"
+            inputProps={{ 'aria-label': 'Left-Hand Mode' }}
+        />
+    }
+    label="Left-Hand Mode"
+/>
+
+
+<FormControlLabel
+    control={
+        <Checkbox
+            checked={showSkeleton}
+            onChange={() => setShowSkeleton(prevState => !prevState)}
+            color="primary"
+            inputProps={{ 'aria-label': 'Show Skeleton' }}
+        />
+    }
+    label={showSkeleton ? "Hide Skeleton" : "Show Skeleton"}
+/>
+
+<Checkbox
+
+/>
+
                                 </div>
                                 <div className="speed-control">
                                     <div>
@@ -461,34 +463,30 @@ function Communication() {
                             <div>
                                 <h1 className="communication-h1">Stats</h1>
                                 <div className="communication-bottomrow">
-                                    <span>FPS : </span>
                                     <input
                                         className="fps-box"
                                         type="text"
                                         value={fps}
                                         readOnly
                                     />
-                                    <span>Sign / Frame : </span>
                                     <input
                                         className="frame-box"
                                         type="text"
-                                        placeholder="0 / 15"
+                                        placeholder="   Sign / Frame:  0 / 15"
                                     />
-                                    <span>Gloss : </span>
                                     <input
                                         className="gloss-box"
                                         type="text"
-                                        placeholder="None"
+                                        placeholder="  Gloss: None"
                                         value={currentAnimationName}
                                         readOnly
                                     />
                                 </div>
                                 <div className="status-row">
-                                    <span>Status : </span>
                                     <input
                                         className="status-box"
                                         type="text"
-                                        placeholder="Playing Sign"
+                                        placeholder="  Status:  Playing Sign"
                                     />
                                 </div>
                             </div>
