@@ -293,101 +293,99 @@ const SignInfo = () => {
         </div>
       )}
 
-        {publicTableData.length !== 0 && (
-            <div className={style.signTextTableContainer}>
-                <div className={style.searchBox}>
-                    <div className={style.searchBox}>
-                        <Search className={style.searchIcon} />
-                        <input
-                            placeholder="Search by sign text"
-                            value={(table.getColumn("text_sentence")?.getFilterValue() as string) ?? ""}
-                            onChange={event => table.getColumn("text_sentence")?.setFilterValue(event.target.value)}
-                            className={style.searchInputBox}
-                        />
-                    </div>
-                </div>
-                <div className={style.table}>
-                    {/* Table header */}
-                    {table.getHeaderGroups().map((headerGroup) => (
-                    <div key={headerGroup.id} className={style.tableRow}>
-                        {headerGroup.headers.map((header) => (
-                        <div key={header.id} className={style.tableColumn}>
-                            {header.isPlaceholder ? null : (
-                            <div
-                                className={style.tableHeader}
-                                {...{
-                                onClick: header.column.getToggleSortingHandler(),
-                                }}
-                            >
-                                {flexRender(header.column.columnDef.header, header.getContext())}
-                                {header.column.id === "no" ? null : {
-                                    asc: <ChevronUp className={style.sortIcon} />,
-                                    desc: <ChevronDown className={style.sortIcon} />,
-                                    false: <ChevronsUpDown className={style.sortIcon} />,
-                                }[header.column.getIsSorted() as string] ?? null}
-                            </div>
-                            )}
-                        </div>
-                        ))}
-                    </div>
-                    ))}
-
-                    {/* Table body */}
-                    {table.getRowModel().rows.map((row) => (
-                    <div key={row.id} className={style.tableRow}>
-                        {row.getVisibleCells().map((cell) => (
-                        <div key={cell.id} className={style.tableColumn}>
-                            {flexRender(cell.column.columnDef.cell, cell.getContext())}
-                        </div>
-                        ))}
-                    </div>
-                    ))}
-                </div>
-
-                <div className={style.pagination}>
-					<span>Rows per page: {' '}</span>
-					<select
-						value={table.getState().pagination.pageSize}
-						onChange={e => {
-							table.setPageSize(Number(e.target.value))
-						}}
-						>
-						{[10, 25, 50, 100].map(pageSize => (
-							<option key={pageSize} value={pageSize}>
-							{pageSize}
-							</option>
-						))}
-					</select>
-				
-					{/* Show current number of data in format "Showing (first index in that page) - (last index of that page) of (length of the data)", such as "Showing 1 - 10 of 50" */}
-					<div className={style.dataNumber}>
-						{table.getRowModel().rows.length === 0
-						? 0
-						: table.getRowModel().rows[0].index + 1}{' '}
-						-{' '}
-						{table.getRowModel().rows.length === 0
-						? 0
-						: table.getRowModel().rows[table.getRowModel().rows.length - 1].index + 1}{' '}
-						of {publicTableData.length}
-					</div>
-
-					<button onClick={() => table.firstPage()} disabled={!table.getCanPreviousPage()}>
-						<ChevronFirst className={style.paginationIcon}/>
-					</button>
-					<button onClick={() => table.previousPage()} disabled={!table.getCanPreviousPage()}>
-						<ChevronLeft className={style.paginationIcon}/>
-					</button>
-					<button onClick={() => table.nextPage()} disabled={!table.getCanNextPage()}>
-						<ChevronRight className={style.paginationIcon}/>
-					</button>
-					<button onClick={() => table.lastPage()} disabled={!table.getCanNextPage()}>
-						<ChevronLast className={style.paginationIcon}/>
-					</button>
-				</div>
+      {publicTableData.length !== 0 && (
+        <div className={style.signTextTableContainer}>
+          <div className={style.searchBox}>
+            <div className={style.searchBox}>
+              <Search className={style.searchIcon} />
+              <input
+                placeholder="Search by sign text"
+                value={(table.getColumn("text_sentence")?.getFilterValue() as string) ?? ""}
+                onChange={event => table.getColumn("text_sentence")?.setFilterValue(event.target.value)}
+                className={style.searchInputBox}
+              />
             </div>
-        )}        
+          </div>
+          <div className={style.table}>
+            {/* Table header */}
+            {table.getHeaderGroups().map((headerGroup) => (
+            <div key={headerGroup.id} className={style.tableRow}>
+                {headerGroup.headers.map((header) => (
+                <div key={header.id} className={style.tableColumn}>
+                    {header.isPlaceholder ? null : (
+                    <div
+                      className={`${style.tableHeader} ${header.column.id === "no" ? style.noCursor : ""}`}
+                      onClick={header.column.id !== "no" ? header.column.getToggleSortingHandler() : undefined}
+                    >
+                        {flexRender(header.column.columnDef.header, header.getContext())}
+                        {header.column.id === "no" ? null : {
+                            asc: <ChevronUp className={style.sortIcon} />,
+                            desc: <ChevronDown className={style.sortIcon} />,
+                            false: <ChevronsUpDown className={style.sortIcon} />,
+                        }[header.column.getIsSorted() as string] ?? null}
+                    </div>
+                    )}
+                </div>
+                ))}
+            </div>
+            ))}
+
+            {/* Table body */}
+            {table.getRowModel().rows.map((row) => (
+            <div key={row.id} className={style.tableRow}>
+                {row.getVisibleCells().map((cell) => (
+                <div key={cell.id} className={style.tableColumn}>
+                    {flexRender(cell.column.columnDef.cell, cell.getContext())}
+                </div>
+                ))}
+            </div>
+            ))}
+          </div>
+
+          <div className={style.pagination}>
+            <span>Rows per page: {' '}</span>
+            <select
+              value={table.getState().pagination.pageSize}
+              onChange={e => {
+                table.setPageSize(Number(e.target.value))
+              }}
+              >
+              {[10, 25, 50, 100].map(pageSize => (
+                <option key={pageSize} value={pageSize}>
+                {pageSize}
+                </option>
+              ))}
+            </select>
+          
+            {/* Show current number of data in format "Showing (first index in that page) - (last index of that page) of (length of the data)", such as "Showing 1 - 10 of 50" */}
+            <div className={style.dataNumber}>
+              {table.getRowModel().rows.length === 0
+              ? 0
+              : table.getRowModel().rows[0].index + 1}{' '}
+              -{' '}
+              {table.getRowModel().rows.length === 0
+              ? 0
+              : table.getRowModel().rows[table.getRowModel().rows.length - 1].index + 1}{' '}
+              of {publicTableData.length}
+            </div>
+
+            <button onClick={() => table.firstPage()} disabled={!table.getCanPreviousPage()}>
+              <ChevronFirst className={style.paginationIcon}/>
+            </button>
+            <button onClick={() => table.previousPage()} disabled={!table.getCanPreviousPage()}>
+              <ChevronLeft className={style.paginationIcon}/>
+            </button>
+            <button onClick={() => table.nextPage()} disabled={!table.getCanNextPage()}>
+              <ChevronRight className={style.paginationIcon}/>
+            </button>
+            <button onClick={() => table.lastPage()} disabled={!table.getCanNextPage()}>
+              <ChevronLast className={style.paginationIcon}/>
+            </button>
+          </div>
+        </div>
+      )}        
     </>
-    );
+  );
 };
 
 export default SignInfo;

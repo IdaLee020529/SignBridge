@@ -25,6 +25,7 @@ const translateText = async (text: string, targetLanguage: 'ms' | 'en') => {
 const currentLanguage = localStorage.getItem('i18nextLng') || 'en';
 
 const Feedback = () => {
+  const navigate = useNavigate();
   const { t, i18n } = useTranslation();
   
   const [formData, setFormData] = useState({
@@ -280,7 +281,7 @@ const Feedback = () => {
 
       await CreateFeedback(data);
       handleFormReset();
-      // navigate("/feedback-success");
+      navigate("/feedback-success");
       
       toast.success(t('feedback_toast_success'));
     } else {
