@@ -14,4 +14,5 @@ router.put("/datasetForms/avatarVideo/:id", uploadVideo, DatasetFormController.U
 router.get("/datasetForms/:id", DatasetFormController.GetFormById)
 router.get("/datasetForms/demoVid/:id", DatasetFormController.GetDemoVideoById)
 router.get("/datasetForms/avatarVid/:id", DatasetFormController.GetAvatarVideoById)
+router.delete("/datasetForms/:id", DatasetFormController.DeleteFormById)
 module.exports = router;

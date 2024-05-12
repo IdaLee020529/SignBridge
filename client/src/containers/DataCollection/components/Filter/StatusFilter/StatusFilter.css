@@ -1,4 +1,4 @@
-.status-filter {
+/* .status-filter {
     margin: 10px
 }
 
@@ -28,18 +28,11 @@
     font-size: 20px;
 }
 
-/* 
-.status-filter-dropdown .ant-select-item-option-active {
-    background-color: #fafafa;
-} */
-
 .status-filter-dropdown .ant-select-item-option-selected:not(.ant-select-item-option-disabled) {
     background-color: #007ebd;
     color: white
-        /* Change this to the desired color */
 }
 
 .status-filter-dropdown .ant-select-item-option:hover {
     background-color: #dfdfdf;
-    /* Change this to the desired hover color */
-}
+} */

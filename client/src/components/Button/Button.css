@@ -26,7 +26,8 @@
 .btn--reset,
 .btn--submit,
 .btn--send,
-.btn--accept {
+.btn--accept,
+.btn--cancel {
     display: inline-block;
     padding: 10px 20px;
     border: none;
@@ -44,10 +45,10 @@
 }
 
 .btn--accept,
-.btn--send {
-    background-color: rgb(231, 231, 231);
-    box-shadow: 2px 5px 5px rgba(0, 0, 0, 0.2);
-
+.btn--send,
+.btn--cancel {
+    background-color: rgb(231, 231, 231) !important;
+    box-shadow: 2px 5px 5px rgba(0, 0, 0, 0.2) !important;
 }
 
 .btn--send:hover {
@@ -56,6 +57,11 @@
 }
 
 .btn--accept:hover {
+    background-color: #2ecc71 !important;
+    color: #fff !important;
+}
+
+.btn--cancel:hover {
     background-color: #ff4d4d !important;
     color: #fff !important;
 }
