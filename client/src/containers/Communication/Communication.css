@@ -111,8 +111,11 @@
 
 .communication-toprow {
     display: flex;
-    justify-content: space-between;
     height: 6vh;
+}
+
+.skeleton-checkbox{
+    margin-left: 100px;
 }
 
 .communication-bottomrow {

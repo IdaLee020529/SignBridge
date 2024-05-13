@@ -6,6 +6,7 @@ import animationsData from "../../../public/glosses/gloss.json";
 
 const Man = ({ props, animationKeyword, speed, showSkeleton, repeat, isPaused, updateCurrentAnimationName  = () => {} }) => {
   const group = useRef();
+  const skeletonHelperRef = useRef(null);
   const { nodes, materials, animations } = useGLTF("../../../public/models/man.glb");
   const { actions, names } = useAnimations(animations, group);
 
@@ -103,13 +104,27 @@ const Man = ({ props, animationKeyword, speed, showSkeleton, repeat, isPaused, u
     return Math.round(duration * frameRate);
   }
 
+  // useEffect(() => {
+  //   const helper = new THREE.SkeletonHelper(group.current);
+  //   if (showSkeleton) {
+  //     helper.position.set(0, 100, 0); // Set the helper position coordinates (x, y, z)
+  //     group.current.add(helper);
+  //   } else if (!showSkeleton) {
+  //     group.current.remove(helper);
+  //   }
+  // }, [showSkeleton]);
+
   useEffect(() => {
-    const helper = new THREE.SkeletonHelper(group.current);
-    if (showSkeleton) {
-      helper.position.set(0, 100, 0); // Set the helper position coordinates (x, y, z)
+    if (showSkeleton && !skeletonHelperRef.current) {
+      // Only add the skeleton if it does not already exist
+      const helper = new THREE.SkeletonHelper(group.current);
+      helper.position.set(0, 100, 0); // Adjust position as needed
       group.current.add(helper);
-    } else if (!showSkeleton) {
-      group.current.remove(helper);
+      skeletonHelperRef.current = helper;
+    } else if (!showSkeleton && skeletonHelperRef.current) {
+      // Remove the skeleton if it exists
+      group.current.remove(skeletonHelperRef.current);
+      skeletonHelperRef.current = null;
     }
   }, [showSkeleton]);
 
