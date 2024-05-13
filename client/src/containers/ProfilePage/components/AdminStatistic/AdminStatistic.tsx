@@ -7,6 +7,7 @@ import { Card, Icon } from '@tremor/react';
 import Chart from "chart.js/auto";
 import { CategoryScale } from "chart.js";
 import { Bar, Doughnut } from "react-chartjs-2";
+import { useTranslation } from "react-i18next";
 
 Chart.register(CategoryScale);
 
@@ -27,6 +28,7 @@ type Feedback = {
 let totalFeedbackCount = 0;
 
 const AdminStatistic = () => {
+    const { t, i18n } = useTranslation();
     const [usersAmount, setUsersAmount] = useState(0);
     const [datasetAmount, setDatasetAmount] = useState(0);
     const [feedbackAmount, setFeedbackAmount] = useState(0);
@@ -120,21 +122,21 @@ const AdminStatistic = () => {
     // For Dataset Collection Status Graph
     const categories = [
         {
-            title: "Users",
+            title: t("users"),
             metric: usersAmount,
             icon: UsersRound,
             color: "red",
             backgroundColor: "#FEE2E2",
         },
         {
-            title: "Dataset Collection",
+            title: t("datasetCollection"),
             metric: datasetAmount,
             icon: SquareLibrary,
             color: "#E9B309",
             backgroundColor: "#FEF9C3",
         },
         {
-            title: "Feedbacks",
+            title: t("feedbacks"),
             metric: feedbackAmount,
             icon: MessageSquareText,
             color: "blue",
@@ -145,10 +147,10 @@ const AdminStatistic = () => {
     const chartLabels = ["New", "In Progress", "Awaiting Verification", "Rejected", "Verified"];
 
     const chartData = {
-        labels: chartLabels,
+        labels: [t("new"), t("inProgress"), t("awaitingVerify"), t("rejected"), t("verified")],
         datasets: [
             {
-                label: "Status Amount",
+                label: t("statusAmount"),
                 data: chartLabels.map(label => {
                     const dataItem = statusData.find(item => item.status === label);
                     return dataItem ? dataItem.amount : 0;
@@ -181,10 +183,10 @@ const AdminStatistic = () => {
 
     // Data for the doughnut graph
     const doughnutData = {
-        labels: [ 'Very Satisfied', 'Satisfied', 'Neutral', 'Unsatisfied', 'Very Unsatisfied'],
+        labels: [ t("verySatisfied"), t("satisfied"), t("neutral"), t("unsatisfied"), t("veryUnsatisfied")],
         datasets: [
             {
-                label: 'Feedback Counts',
+                label: t("feedbackCounts"),
                 data: Object.values(aggregatedFeedbackData),
                 backgroundColor: [
                     'rgba(107, 191, 103, 0.6)',
@@ -222,11 +224,11 @@ const AdminStatistic = () => {
                 <Card className={style.Cards}>
                     <div className={style.GraphTitleContainer}>
                         <div className={style.Rectangle}></div>
-                        <h2 className={style.GraphTitle}>Dataset Collection Status</h2>
+                        <h2 className={style.GraphTitle}>{t("datasetStatus")}</h2>
                     </div>
                     {chartNoData ? (
                         <div className={style.NoFeedback}>
-                            <p>No dataset data available. Wait for sign expert to assign new task.</p>
+                            <p>{t("noDataset")}</p>
                         </div>
                     ) : (
                         <Bar
@@ -254,7 +256,7 @@ const AdminStatistic = () => {
                                     x: {
                                         title: {
                                             display: true,
-                                            text: 'Status',
+                                            text: t("status"),
                                             font: {
                                                 weight: 'bold',
                                                 size: 15,
@@ -264,7 +266,7 @@ const AdminStatistic = () => {
                                         ticks: {
                                             callback: function(value, index, values) {
                                                 // Display only the specified labels
-                                                const labels = ["New", "In Progress", "Awaiting Verification", "Rejected", "Verified"];
+                                                const labels = [t("new"), t("inProgress"), t("awaitingVerify"), t("rejected"), t("verified")];
                                                 return labels[index];
                                             },
                                             font: {
@@ -275,7 +277,7 @@ const AdminStatistic = () => {
                                     y: {
                                         title: {
                                             display: true,
-                                            text: 'Amount',
+                                            text: t("amount"),
                                             font: {
                                                 weight: 'bold',
                                                 size: 15,
@@ -295,7 +297,7 @@ const AdminStatistic = () => {
                 <Card className={style.Cards}>
                     <div className={style.GraphTitleContainer}>
                         <div className={style.Rectangle} style={{ backgroundColor:"#DAE9FD" }}></div>
-                        <h2 className={style.GraphTitle}>Customer Statisfaction</h2>
+                        <h2 className={style.GraphTitle}>{t("customerSatisfaction")}</h2>
                     </div>
                     {feedbackData.length > 0 ? (
                         <Doughnut
@@ -333,7 +335,7 @@ const AdminStatistic = () => {
                                             label: (context: any) => {
                                                 const currentlabel = doughnutData.labels[context.dataIndex];
 
-                                                if (currentlabel === "Very Satisfied") {
+                                                if (currentlabel === t("verySatisfied")) {
                                                     let wholeWebsite = 0;
                                                     let game1 = 0;
                                                     let game2 = 0;
@@ -349,15 +351,15 @@ const AdminStatistic = () => {
                                                     });
 
                                                     return [
-                                                        `• Game 1: ${game1}`,
-                                                        `• Game 2: ${game2}`,
-                                                        `• Whole Website: ${wholeWebsite}`,
+                                                        `${t("game1")}: ${game1}`,
+                                                        `${t("game2")}: ${game2}`,
+                                                        `${t("wholeWebsite")}: ${wholeWebsite}`,
                                                         `` ,
-                                                        `Total: ${wholeWebsite + game1 + game2}`
+                                                        `${t("total")}: ${wholeWebsite + game1 + game2}`
                                                     ];
                                                 }
 
-                                                if (currentlabel === "Satisfied") {
+                                                if (currentlabel === t("satisfied")) {
                                                     let wholeWebsite = 0;
                                                     let game1 = 0;
                                                     let game2 = 0;
@@ -373,15 +375,15 @@ const AdminStatistic = () => {
                                                     });
 
                                                     return [
-                                                        `• Game 1: ${game1}`,
-                                                        `• Game 2: ${game2}`,
-                                                        `• Whole Website: ${wholeWebsite}`,
+                                                        `${t("game1")}: ${game1}`,
+                                                        `${t("game2")}: ${game2}`,
+                                                        `${t("wholeWebsite")}: ${wholeWebsite}`,
                                                         `` ,
-                                                        `Total: ${wholeWebsite + game1 + game2}`
+                                                        `${t("total")}: ${wholeWebsite + game1 + game2}`
                                                     ];
                                                 }
 
-                                                if (currentlabel === "Neutral") {
+                                                if (currentlabel === t("neutral")) {
                                                     let wholeWebsite = 0;
                                                     let game1 = 0;
                                                     let game2 = 0;
@@ -397,15 +399,15 @@ const AdminStatistic = () => {
                                                     });
 
                                                     return [
-                                                        `• Game 1: ${game1}`,
-                                                        `• Game 2: ${game2}`,
-                                                        `• Whole Website: ${wholeWebsite}`,
+                                                        `${t("game1")}: ${game1}`,
+                                                        `${t("game2")}: ${game2}`,
+                                                        `${t("wholeWebsite")}: ${wholeWebsite}`,
                                                         `` ,
-                                                        `Total: ${wholeWebsite + game1 + game2}`
+                                                        `${t("total")}: ${wholeWebsite + game1 + game2}`
                                                     ];
                                                 }
 
-                                                if (currentlabel === "Unsatisfied") {
+                                                if (currentlabel === t("unsatisfied")) {
                                                     let wholeWebsite = 0;
                                                     let game1 = 0;
                                                     let game2 = 0;
@@ -421,15 +423,15 @@ const AdminStatistic = () => {
                                                     });
 
                                                     return [
-                                                        `• Game 1: ${game1}`,
-                                                        `• Game 2: ${game2}`,
-                                                        `• Whole Website: ${wholeWebsite}`,
+                                                        `${t("game1")}: ${game1}`,
+                                                        `${t("game2")}: ${game2}`,
+                                                        `${t("wholeWebsite")}: ${wholeWebsite}`,
                                                         `` ,
-                                                        `Total: ${wholeWebsite + game1 + game2}`
+                                                        `${t("total")}: ${wholeWebsite + game1 + game2}`
                                                     ];
                                                 }
 
-                                                if (currentlabel === "Very Unsatisfied") {
+                                                if (currentlabel === t("veryUnsatisfied")) {
                                                     let wholeWebsite = 0;
                                                     let game1 = 0;
                                                     let game2 = 0;
@@ -445,11 +447,11 @@ const AdminStatistic = () => {
                                                     });
 
                                                     return [
-                                                        `• Game 1: ${game1}`,
-                                                        `• Game 2: ${game2}`,
-                                                        `• Whole Website: ${wholeWebsite}`,
+                                                        `${t("game1")}: ${game1}`,
+                                                        `${t("game2")}: ${game2}`,
+                                                        `${t("wholeWebsite")}: ${wholeWebsite}`,
                                                         `` ,
-                                                        `Total: ${wholeWebsite + game1 + game2}`
+                                                        `${t("total")}: ${wholeWebsite + game1 + game2}`
                                                     ];
                                                 }
 
@@ -470,7 +472,7 @@ const AdminStatistic = () => {
                                     const fontSize = Math.round(height / 25);
                                     ctx.font = `${fontSize}px "Roboto", sans-serif`;
                                     ctx.textBaseline = "middle";
-                                    const text = "Total Feedbacks";
+                                    const text = t("totalFeedbacks");
                                     const textX = Math.round((width - ctx.measureText(text).width) / 2);
                                     const textY = height / 2;
                                     ctx.fillText(text, textX, textY);
@@ -491,7 +493,7 @@ const AdminStatistic = () => {
                         />
                     ):(
                         <div className={style.NoFeedback}>
-                            <p>No feedback data available.</p>
+                            <p>{t("totalFeedbacks")}</p>
                         </div>
                     )}
                 </Card>

@@ -26,7 +26,7 @@
 .content-wrapper {
     margin-top: 5vh;
     margin-left: 2vw;
-    padding: 2rem;
+    padding: 1rem 2rem 2rem 2rem;
     height: 75vh;
     width: 80%;
     background-color: white;
@@ -118,7 +118,7 @@
 .communication-bottomrow {
     display: flex;
     justify-content: space-between;
-    margin-top: 2vh;
+    margin-top: 0.5vh;
     margin-left: 2vw;
     margin-right: 2vw;
     height: 6vh;
@@ -126,24 +126,20 @@
 
 .communication-bottomrow input {
     width: 5vw;
-    border: 1px solid red;
+    background-color: #f3f3f3;
     height: 3vh;
 }
 
 .status-row {
-    margin-top: 2vh;
     margin-left: 2vw;
-    margin-right: 2vw;
 }
 
 .status-box {
-    border: 1px solid red;
-    width: 25vw;
-    margin-left: 1vw;
+    height: 5vh;
+    background-color: #f3f3f3;
+    width: 33.25vw;
 }
-.avatarcontrol-btn,
-.avatarplay-btn,
-.avatarpause-btn {
+.avatarcontrol-btn{
     width: 10vw;
     padding: 10px 20px;
     border: none;
@@ -161,22 +157,6 @@
     width: 2vw;
     margin-top: -0.5vh;
     margin-left: 0.5vw;
-}
-
-.avatarplay-btn {
-    font-size: 3vh;
-    background-color: #2ecc71;
-    color: #fff;
-    text-align: center;
-    padding: 1rem 0.5rem;
-}
-
-.avatarpause-btn {
-    font-size: 3vh;
-    background-color: #ff4d4d;
-    color: #fff;
-    text-align: center;
-    padding: 1rem 0.5rem;
 }
 
 .avatarcontrol-btn:hover {
@@ -265,7 +245,7 @@ button:nth-child(2):hover ~ .animation {
     padding-bottom: 1rem;
     font-size: 2.5vw;
     font-weight: bold;
-    color: #1c2e4a;
+    color: rgb(0, 0, 0);
     font-size: 1.5vw;
 }
 
@@ -344,9 +324,10 @@ button:nth-child(2):hover ~ .animation {
 }
 
 .voice-text-button-group {
+    margin-left: 1.75vw;
     display: flex;
     flex-direction: column;
-    gap: 1rem;
+    gap: 2rem;
     justify-content: center;
 }
 
@@ -356,3 +337,115 @@ button:nth-child(2):hover ~ .animation {
     height: 1px;
     background-color: #1c2e4a;
 }
+
+/* Play Button */
+.avatarplay-btn {
+    font-size: 3vh;
+    text-align: center;
+    padding: 1rem 0.5rem;
+    appearance: none;
+    border-radius: 4px;
+    align-items: center;
+    border: none;
+    box-shadow: rgba(0, 0, 0, 0.2) 0 3px 5px -1px,
+        rgba(0, 0, 0, 0.14) 0 6px 10px 0, rgba(0, 0, 0, 0.12) 0 1px 18px 0;
+    box-sizing: border-box;
+    background-color: #2ecc71;
+    color: #172808;
+    cursor: pointer;
+    font-weight: 500;
+
+    letter-spacing: 0.25px;
+    line-height: normal;
+    overflow: visible;
+    transition: box-shadow 280ms cubic-bezier(0.4, 0, 0.2, 1),
+        opacity 15ms linear 30ms, transform 270ms cubic-bezier(0, 0, 0.2, 1) 0ms;
+    user-select: none;
+    -webkit-user-select: none;
+    touch-action: manipulation;
+    width: 7vw;
+}
+
+.avatarplay-btn:not([disabled]):hover {
+    color: #fff;
+    box-shadow: 0 0 0.25rem rgba(0, 0, 0, 0.5),
+        -0.125rem -0.125rem 1rem rgba(50, 154, 107, 0.5),
+        0.125rem 0.125rem 1rem rgba(117, 209, 148, 0.5);
+}
+
+/* Pause Button */
+.avatarpause-btn {
+    font-size: 3vh;
+    text-align: center;
+    padding: 1rem 0.5rem;
+    appearance: none;
+    border-radius: 4px;
+    align-items: center;
+    border: none;
+    box-shadow: rgba(0, 0, 0, 0.2) 0 3px 5px -1px,
+        rgba(0, 0, 0, 0.14) 0 6px 10px 0, rgba(0, 0, 0, 0.12) 0 1px 18px 0;
+    box-sizing: border-box;
+    background-color: #ff4d4d;
+    color: rgb(82, 1, 1);
+    cursor: pointer;
+    font-weight: 500;
+    letter-spacing: 0.25px;
+    line-height: normal;
+    overflow: visible;
+    transition: box-shadow 280ms cubic-bezier(0.4, 0, 0.2, 1),
+        opacity 15ms linear 30ms, transform 270ms cubic-bezier(0, 0, 0.2, 1) 0ms;
+    user-select: none;
+    -webkit-user-select: none;
+    touch-action: manipulation;
+    width: 7vw;
+
+}
+
+.avatarpause-btn:not([disabled]):hover {
+    color: #fff;
+    box-shadow: 0 0 0.25rem rgba(0, 0, 0, 0.5),
+        -0.125rem -0.125rem 1rem rgba(299, 42, 42, 0.5),
+        0.125rem 0.125rem 1rem rgba(198, 159, 159, 0.5);
+}
+
+.frame-box{
+    width: 9.5vw !important;
+}
+
+.gloss-box{
+    width: 12vw !important;
+}
+
+.disabled {
+    opacity: 0.5; 
+    cursor: pointer;
+}
+
+.tooltip2 {
+    visibility: hidden;
+    background-color: black;
+    color: #fff;
+    text-align: center;
+    border-radius: 6px;
+    padding: 5px 0;
+    position: absolute;
+    z-index: 1;
+    width: 200px;
+}
+
+.avatar-microphone-btn:hover .tooltip2 {
+    visibility: visible;
+}
+
+
+.slr-content-wrapper{
+    margin-top: 5vh;
+    margin-left: 2vw;
+    height: 75vh;
+    width: 80%;
+    background-color: white;
+    box-shadow: black 0px 0px 4px 0px;
+    border-bottom: 3px solid rgba(69, 49, 36, 0.5);
+    border-radius: 5px 0px 5px 5px;
+  }
+

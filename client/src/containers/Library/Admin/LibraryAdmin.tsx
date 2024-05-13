@@ -1,13 +1,13 @@
 import React, { useRef, useState, useEffect } from "react";
-import "../Library.css";
+import styles from "./LibraryAdmin.module.css";
 import { Card, CardContent, Typography, Button, Grid, Dialog, DialogTitle, DialogContent, DialogContentText, DialogActions } from "@mui/material"; // Import Material-UI components
 import { fetchCat, fetchSign, createCat, updateCat, deleteCat, updateSign } from "../../../services/library.service";
-import { Canvas, useFrame } from "@react-three/fiber";
+import { Canvas } from "@react-three/fiber";
 import { OrbitControls } from "@react-three/drei";
-import { useThree } from "@react-three/fiber";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEdit, faTrash, faImage } from "@fortawesome/free-solid-svg-icons";
 import { toast } from "react-hot-toast";
+import { ChevronDownIcon, Cross2Icon } from "@radix-ui/react-icons";
 // @ts-ignore
 import { CharacterAnimationsProvider } from "../../../components/SLP/CharacterAnimations";
 // @ts-ignore
@@ -24,7 +24,7 @@ interface LibraryCategories {
 }
 
 interface LibrarySigns {
-  signId: number;  
+  signId: number;
   keyword: string;
   animations: Array<string>;
   contributor: string;
@@ -210,7 +210,7 @@ export default function Library() {
     }
   }
 
-  
+
   async function editSign(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
     if (signtoupdate === null) return;
@@ -265,64 +265,72 @@ export default function Library() {
       <Typography variant="h4" gutterBottom>
         Library
       </Typography>
-      <Grid container spacing={2}>
+      <Grid container spacing={5}>
         {categories.map((category) => (
-          <Grid key={category.category_id} item xs={12} sm={6} md={4} lg={3}>
-           <Card onClick={() => handleCategoryClick(category.category_name)}>
+          <Grid className={styles.grid} key={category.category_id} item xs={12} sm={6} md={4} lg={3}>
+           <Card className={styles.card} onClick={() => handleCategoryClick(category.category_name)}>
               <CardContent>
                 <img
                   src={category.category_thumbnail}
                   alt={category.category_name}
                   style={{ maxWidth: "100%" }}
                 />
-                <div
-                  style={{
-                    display: "flex",
-                    justifyContent: "space-between",
-                    marginTop: "1rem",
-                  }}
-                >
-                  <Button
+              
+              </CardContent>
+            </Card>
+            <div className ={styles.buttonAdmin}>
+                  <button
+                  className={styles.dltFaqButton}
                     onClick={() => {
                       setcattodelete(category.category_id);
                       setOpenDeleteConfirm(true); // Open the delete confirmation dialog
                     }}
                   >
                     <FontAwesomeIcon icon={faTrash} />
-                  </Button>
-                  <Button onClick={() => {
+                  </button>
+                  <button className={styles.updateFaqButton} onClick={() => {
                     setcattoupdate(category.category_id);
                     setOpenUpdateConfirm(true);
                   }}>
                     <FontAwesomeIcon icon={faEdit} />
-                  </Button>
+                  </button>
                 </div>
-              </CardContent>
-            </Card>
           </Grid>
         ))}
       </Grid>
 
       {/* Delete confirmation dialog */}
-      <Dialog open={openDeleteConfirm} onClose={() => setOpenDeleteConfirm(false)}>
-        <DialogTitle>Confirm Delete</DialogTitle>
-        <DialogContent>
-          <DialogContentText>
+      <Dialog className={styles.dialog_overlay} open={openDeleteConfirm} onClose={() => setOpenDeleteConfirm(false)}>
+        <DialogContent className={styles.dialog_content2}>
+          <DialogTitle className={styles.dialog_title}>Confirm Delete</DialogTitle>
+          <DialogContentText className={styles.dialog_description2}>
             Are you sure you want to delete this Category?
           </DialogContentText>
         </DialogContent>
         <DialogActions>
-          <Button onClick={() => setOpenDeleteConfirm(false)}>No</Button>
-          <Button onClick={confirmDeleteCategory}>Yes</Button>
+          <div className={styles.buttonsConfirmation}>
+            <button
+              className={styles.noButton}
+              onClick={() => setOpenDeleteConfirm(false)}>No</button>
+            <button
+              className={styles.yesButton}
+              onClick={confirmDeleteCategory}>Yes</button>
+          </div>
         </DialogActions>
       </Dialog>
 
-      <Dialog open={openUpdateConfirm} onClose={() => setOpenUpdateConfirm(false)}>
-        <DialogTitle>Update Category</DialogTitle>
-        <DialogContent>
-          <DialogContentText>Please fill in the details:</DialogContentText>
+      {/* Update confirmation dialog */}
+      <Dialog  open={openUpdateConfirm} onClose={() => setOpenUpdateConfirm(false)}>
+        <DialogContent className={styles.dialog_content}>
+
+          <DialogTitle className={styles.dialog_title}>Update Category</DialogTitle>
+          <DialogContentText
+            className={styles.dialog_description}
+          >
+            Please fill in the details:
+          </DialogContentText>
           <form method="post" onSubmit={editCat}>
-            <fieldset>
+            <fieldset className={styles.Fieldset_name}>
               <InputField
                 label="Category Name"
                 name="category_name"
@@ -333,29 +341,42 @@ export default function Library() {
                 error=""
               />
             </fieldset>
-            <fieldset>
+            <fieldset className={styles.Fieldset_thumbnail}>
               <ImageInput reset={resetImage} onReset={handleImageReset} setImageInfo={setCategoryThumbnail} />
             </fieldset>
-            <div>
-              <Button type="submit">Save</Button>
+            <div
+                                    style={{
+                                        display: "flex",
+                                        marginTop: 75,
+                                        justifyContent: "flex-end",
+                                    }}
+                                >
+              <button
+              className={styles.saveButton}
+              type="submit">Save changes</button>
             </div>
           </form>
-        </DialogContent>
         <DialogActions>
-          <Button onClick={() => {setOpenUpdateConfirm(false);
-             resetForm(); // Reset the form details
-          }}>Close</Button>
+          <button                                 className={styles.icon_button}
+                                aria-label="Close"
+                                onClick={() => {
+ 
+            setOpenUpdateConfirm(false);
+            resetForm(); // Reset the form details
+          }}>    <Cross2Icon className="icon"/></button>
         </DialogActions>
+        </DialogContent>
       </Dialog>
 
       <>
-        <Button onClick={() => setOpen(true)}>Open Create Category Dialog</Button>
-        <Dialog open={open} onClose={() => setOpen(false)}>
-          <DialogTitle>Create Category</DialogTitle>
-          <DialogContent>
-            <DialogContentText>Please fill in the details:</DialogContentText>
+        <button onClick={() => setOpen(true)}>Open Create Category Dialog</button>
+        <Dialog open={open} onClose={() => setOpen(false)}>     
+          <DialogContent className={styles.dialog_content}>
+          <DialogTitle className={styles.dialog_title}>Create Category</DialogTitle>
+            <DialogContentText className={styles.dialog_description}
+          >Please fill in the details:</DialogContentText>
             <form method="post" onSubmit={addCat}>
-              <fieldset>
+              <fieldset className={styles.Fieldset_name}>
                 <InputField
                   label="Category Name"
                   name="category_name"
@@ -366,19 +387,28 @@ export default function Library() {
                   error=""
                 />
               </fieldset>
-              <fieldset>
+              <fieldset className={styles.Fieldset_thumbnail}>
                 <ImageInput reset={resetImage} onReset={handleImageReset} setImageInfo={setCategoryThumbnail} />
               </fieldset>
-              <div>
-                <Button type="submit">Save changes</Button>
+              <div                                    style={{
+                                        display: "flex",
+                                        marginTop: 75,
+                                        justifyContent: "flex-end",
+                                    }}
+                                >
+                <button className={styles.saveButton} type="submit">Save changes</button>
               </div>
             </form>
-          </DialogContent>
           <DialogActions>
-            <Button onClick={() => {setOpen(false);
-               resetForm(); // Reset the form details
-            }}>Close</Button>
+          <button                                 className={styles.icon_button}
+                                aria-label="Close"
+                                onClick={() => {
+ 
+                                  setOpen(false);
+            resetForm(); // Reset the form details
+          }}>    <Cross2Icon className="icon"/></button>
           </DialogActions>
+          </DialogContent>
         </Dialog>
       </>
 
@@ -413,32 +443,33 @@ export default function Library() {
                 </Typography>
 
                 <Button onClick={() => {
-                    setsigntoupdate(sign.signId);
-                    setOpenUpdateSignConfirm(true);
-                  }}>
-                    <FontAwesomeIcon icon={faImage} />
-                  </Button>
+                  setsigntoupdate(sign.signId);
+                  setOpenUpdateSignConfirm(true);
+                }}>
+                  <FontAwesomeIcon icon={faImage} />
+                </Button>
               </CardContent>
             </Card>
             <Dialog open={openUpdateSignConfirm} onClose={() => setOpenUpdateSignConfirm(false)}>
- <DialogTitle>Update Sign Thumbnail</DialogTitle>
- <DialogContent>
-   <DialogContentText>Please upload an image:</DialogContentText>
-   <form method="post" onSubmit={editSign}>      
-     <fieldset>
-       <ImageInput reset={resetImage} onReset={handleImageReset} setImageInfo={setSignThumbnail} />
-     </fieldset>
-     <div>
-       <Button type="submit">Save</Button>
-     </div>
-   </form>
- </DialogContent>
- <DialogActions>
-   <Button onClick={() => {setOpenUpdateSignConfirm(false);
-      resetForm();
-   }}>Close</Button>
- </DialogActions>
-</Dialog>
+              <DialogTitle>Update Sign Thumbnail</DialogTitle>
+              <DialogContent>
+                <DialogContentText>Please upload an image:</DialogContentText>
+                <form method="post" onSubmit={editSign}>
+                  <fieldset>
+                    <ImageInput reset={resetImage} onReset={handleImageReset} setImageInfo={setSignThumbnail} />
+                  </fieldset>
+                  <div>
+                    <Button type="submit">Save</Button>
+                  </div>
+                </form>
+              </DialogContent>
+              <DialogActions>
+                <Button onClick={() => {
+                  setOpenUpdateSignConfirm(false);
+                  resetForm();
+                }}>Close</Button>
+              </DialogActions>
+            </Dialog>
           </Grid>
         ))}
       </Grid>
