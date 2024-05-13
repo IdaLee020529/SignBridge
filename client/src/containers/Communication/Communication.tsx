@@ -18,8 +18,8 @@ import { CharacterAnimationsProvider } from "../../components/SLP/CharacterAnima
 import Experience from "../../components/SLP/Experience";
 // @ts-ignore
 import Man from "../../components/AvatarModels/Man";
-import Checkbox from '@mui/material/Checkbox';
-import FormControlLabel from '@mui/material/FormControlLabel';
+import Checkbox from "@mui/material/Checkbox";
+import FormControlLabel from "@mui/material/FormControlLabel";
 
 // SLR Imports
 import SLRInput from "../../components/SLRInput/SLRInput";
@@ -269,7 +269,7 @@ function Communication() {
     // SLR functions
     const handleSLRResponse = (data: string) => {
         setSLRResponse(data);
-    };
+    };  
 
     return (
         <div
@@ -358,7 +358,7 @@ function Communication() {
                                 {handFocus && <HandFocusMode />}
                             </Canvas>
                         </div>
-                        {isLoggedIn ? (
+                        {/* {isLoggedIn ? (
                             <button className="communicationlog-btn">
                                 <img
                                     src="./images/history.png"
@@ -367,42 +367,59 @@ function Communication() {
                             </button>
                         ) : (
                             <a></a>
-                        )}
+                        )} */}
                         <div className="content-wrapper">
                             <div>
                                 <h1 className="communication-h1">
                                     Avatar Control
                                 </h1>
                                 <div className="communication-toprow">
-<FormControlLabel
-    control={
-        <Checkbox
-            checked={leftHandedMode}
-            onChange={() => setLeftHandedMode(prevMode => !prevMode)}
-            color="primary"
-            inputProps={{ 'aria-label': 'Left-Hand Mode' }}
-        />
-    }
-    label="Left-Hand Mode"
-/>
+                                    <FormControlLabel
+                                        control={
+                                            <Checkbox
+                                                checked={leftHandedMode}
+                                                onChange={() =>
+                                                    setLeftHandedMode(
+                                                        (prevMode) => !prevMode
+                                                    )
+                                                }
+                                                color="primary"
+                                                inputProps={{
+                                                    "aria-label":
+                                                        "Left-Hand Mode",
+                                                }}
+                                            />
+                                        }
+                                        label="Left-Hand Mode"
+                                    />
 
+                                    <FormControlLabel
+                                        control={
+                                            <div className="skeleton-checkbox">
+                                            <Checkbox
+                                                checked={showSkeleton}
+                                                onChange={() =>
+                                                    setShowSkeleton(
+                                                        (prevState) =>
+                                                            !prevState
+                                                    )
+                                                }
+                                                color="primary"
+                                                inputProps={{
+                                                    "aria-label":
+                                                        "Show Skeleton",
+                                                }}
+                                            />
+                                            </div>
+                                        }
+                                        label={
+                                            showSkeleton
+                                                ? "Hide Skeleton"
+                                                : "Show Skeleton"
+                                        }
+                                    />
 
-<FormControlLabel
-    control={
-        <Checkbox
-            checked={showSkeleton}
-            onChange={() => setShowSkeleton(prevState => !prevState)}
-            color="primary"
-            inputProps={{ 'aria-label': 'Show Skeleton' }}
-        />
-    }
-    label={showSkeleton ? "Hide Skeleton" : "Show Skeleton"}
-/>
-
-<Checkbox
-
-/>
-
+                                    {/* <Checkbox /> */}
                                 </div>
                                 <div className="speed-control">
                                     <div>
@@ -470,7 +487,7 @@ function Communication() {
                                 <hr className="separator" />
                             </div>
 
-                            <div>
+                            <div className="bottomrow">
                                 <h1 className="communication-h1">Stats</h1>
                                 <div className="communication-bottomrow">
                                     <input
