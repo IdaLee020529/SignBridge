@@ -9,11 +9,11 @@
     display: flex;
     margin-left: 12.5%; /* Add spacing between the elements */
     width: 75vw;
-    height: 90vh;
+    height: 98vh;
 }
 
 .canvas-wrapper {
-    margin-top: 5vh;
+    margin-top: 13vh;
     width: 50%;
     height: 75vh;
     background-color: white;
@@ -24,7 +24,7 @@
 }
 
 .content-wrapper {
-    margin-top: 5vh;
+    margin-top: 13vh;
     margin-left: 2vw;
     padding: 1rem 2rem 2rem 2rem;
     height: 75vh;
@@ -122,8 +122,7 @@
     display: flex;
     justify-content: space-between;
     margin-top: 0.5vh;
-    margin-left: 2vw;
-    margin-right: 2vw;
+    margin: 0 0.5vw;
     height: 6vh;
 }
 
@@ -133,15 +132,22 @@
     height: 3vh;
 }
 
+.bottomrow{
+    width: 100%;
+}
+
 .status-row {
-    margin-left: 2vw;
+    margin: 0 0.5vw;
 }
 
 .status-box {
+    border-radius: 5px;
     height: 5vh;
+    width: 100%;
     background-color: #f3f3f3;
-    width: 33.25vw;
+    border: 1px solid #353535;
 }
+
 .avatarcontrol-btn{
     width: 10vw;
     padding: 10px 20px;
@@ -195,23 +201,22 @@
 
 .communication-menu {
     box-shadow: black 0px 0px 4px 0px;
-    margin-top: -4vh;
     position: absolute;
     width: 64vw;
-    height: 6vh;
-    background-color: #fcc003;
-    border-radius: 24px;
+    height: 8vh;
+    background-color: #000;
+    border-radius: 15px;
     left: 50%;
     transform: translateX(-50%);
 }
 .communication-menu button {
+    font-weight: 600;
     height: 100%;
     display: inline-block;
     position: relative;
     z-index: 1;
-    font-size: 15px;
-    text-transform: uppercase;
-    color: white;
+    font-size: 20px;
+    color: #fff;
     cursor: pointer;
     background-color: transparent;
     border: none;
@@ -223,7 +228,7 @@
     top: 0;
     z-index: 0;
     transition: all 0.5s ease 0s;
-    border-radius: 25px;
+    border-radius: 15px;
 }
 .communication-menu button:nth-child(1) {
     width: 32vw;
@@ -235,13 +240,13 @@
 button:nth-child(1):hover ~ .animation {
     width: 32vw;
     left: 0;
-    background-color: #1abc9c;
+    background-color: #3d648d;
 }
 .communication-menu .start-about,
 button:nth-child(2):hover ~ .animation {
     width: 32vw;
     left: 32vw;
-    background-color: #e74c3c;
+    background-color: #3d648d;
 }
 
 .communication-h1 {
@@ -411,11 +416,20 @@ button:nth-child(2):hover ~ .animation {
         0.125rem 0.125rem 1rem rgba(198, 159, 159, 0.5);
 }
 
+.fps-box{
+    border: 1px solid #353535;
+    border-radius: 5px;
+}
+
 .frame-box{
+    border: 1px solid #353535;
+    border-radius: 5px;
     width: 9.5vw !important;
 }
 
 .gloss-box{
+    border: 1px solid #353535;
+    border-radius: 5px;
     width: 12vw !important;
 }
 
@@ -442,7 +456,7 @@ button:nth-child(2):hover ~ .animation {
 
 
 .slr-content-wrapper{
-    margin-top: 5vh;
+    margin-top: 13vh;
     margin-left: 2vw;
     height: 75vh;
     width: 80%;

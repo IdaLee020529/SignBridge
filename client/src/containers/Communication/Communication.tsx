@@ -358,7 +358,7 @@ function Communication() {
                                 {handFocus && <HandFocusMode />}
                             </Canvas>
                         </div>
-                        {isLoggedIn ? (
+                        {/* {isLoggedIn ? (
                             <button className="communicationlog-btn">
                                 <img
                                     src="./images/history.png"
@@ -367,7 +367,7 @@ function Communication() {
                             </button>
                         ) : (
                             <a></a>
-                        )}
+                        )} */}
                         <div className="content-wrapper">
                             <div>
                                 <h1 className="communication-h1">
@@ -487,7 +487,7 @@ function Communication() {
                                 <hr className="separator" />
                             </div>
 
-                            <div>
+                            <div className="bottomrow">
                                 <h1 className="communication-h1">Stats</h1>
                                 <div className="communication-bottomrow">
                                     <input
