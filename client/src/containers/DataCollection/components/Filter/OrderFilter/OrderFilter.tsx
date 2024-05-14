@@ -1,6 +1,7 @@
 import React from "react";
 import { Select } from "antd";
 import "./OrderFilter.css";
+import { useTranslation } from "react-i18next";
 
 const { Option } = Select;
 
@@ -13,6 +14,7 @@ const OrderFilter: React.FC<OrderFilterProps> = ({
   sortOrder,
   setSortOrder,
 }) => {
+  const { t, i18n } = useTranslation();
   const handleSelectChange = (value: string) => {
     setSortOrder(value);
   };
@@ -26,8 +28,8 @@ const OrderFilter: React.FC<OrderFilterProps> = ({
         placeholder="Select order"
         style={{ width: 140, height: 40 }}
       >
-        <Option value="asc">Ascending</Option>
-        <Option value="desc">Descending</Option>
+        <Option value="asc">{t("ascending")}</Option>
+        <Option value="desc">{t("descending")}</Option>
       </Select>
     </div>
   );

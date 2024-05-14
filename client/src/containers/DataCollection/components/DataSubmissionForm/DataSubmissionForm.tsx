@@ -45,7 +45,7 @@ const DataSubmissionForm: React.FC<DataSubmissionFormProps> = ({ user }) => {
                 continuous: true,
               });
               setIsListening(true);
-              toast("Listening", {
+              toast(t("listening"), {
                 icon: "🎤",
                 style: {
                   borderRadius: "10px",
@@ -56,7 +56,7 @@ const DataSubmissionForm: React.FC<DataSubmissionFormProps> = ({ user }) => {
             } else {
               SpeechRecognition.stopListening();
               setIsListening(false);
-              toast("Stopped", {
+              toast(t("stopped"), {
                 icon: "✋",
                 style: {
                   borderRadius: "10px",
@@ -79,7 +79,7 @@ const DataSubmissionForm: React.FC<DataSubmissionFormProps> = ({ user }) => {
         <button className="avatar-microphone-btn disabled" disabled={true}>
           <i className="fa fa-microphone"></i>
           <span className="tooltip2">
-            Voice input isn't supported on this browser
+            {t("voice_input_not_supported")}
           </span>
         </button>
       );

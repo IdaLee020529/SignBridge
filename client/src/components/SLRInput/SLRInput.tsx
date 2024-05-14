@@ -1,9 +1,11 @@
 import './SLRInput.css';
 import { useRef, useState } from 'react';
+import { useTranslation } from "react-i18next";
 
 const mimeType = 'video/webm; codecs="opus,vp8"';
 
 const SLRInput = ({ onResponsiveReceived }: { onResponsiveReceived: (data: string) => void }) => {
+    const { t, i18n } = useTranslation();
     const [selectedVideo, setSelectedVideo] = useState<File | null>(null);
     const [permission, setPermission] = useState(false);
     const [recordingStatus, setRecordingStatus] = useState<"inactive" | "recording">("inactive");
@@ -177,7 +179,7 @@ const SLRInput = ({ onResponsiveReceived }: { onResponsiveReceived: (data: strin
                     <i className="fa fa-upload"></i>
                 </button>
             </div>
-            <h1>Video Preview</h1>
+            <h1>{t("video_preview")}</h1>
             <div className="slr-video-container">
                 <video
                     ref={liveVideoFeed}

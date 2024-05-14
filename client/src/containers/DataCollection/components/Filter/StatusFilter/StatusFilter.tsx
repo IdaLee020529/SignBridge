@@ -1,6 +1,7 @@
 import React from "react";
 import { Select } from "antd";
 import "./StatusFilter.css";
+import { useTranslation } from "react-i18next";
 
 const { Option } = Select;
 
@@ -15,6 +16,7 @@ const StatusFilter: React.FC<StatusFilterProps> = ({
   setFilterStatus,
   user,
 }) => {
+  const { t, i18n } = useTranslation();
   const handleSelectChange = (value: string) => {
     setFilterStatus(value);
   };
@@ -25,22 +27,22 @@ const StatusFilter: React.FC<StatusFilterProps> = ({
   // Assign options based on user
   if (user === "signexpert") {
     options = [
-      { value: "All", label: "All" },
-      { value: "New", label: "New" },
-      { value: "Awaiting Accept", label: "Awaiting Accept" },
-      { value: "In Progress", label: "In Progress" },
-      { value: "Awaiting Verification", label: "Awaiting Verification" },
-      { value: "Rejected", label: "Rejected" },
-      { value: "Verified", label: "Verified" },
+      { value: "All", label: t("all") },
+      { value: "New", label: t("new") },
+      { value: "Awaiting Accept", label: t("awaitingAccept") },
+      { value: "In Progress", label: t("inProgress") },
+      { value: "Awaiting Verification", label: t("awaitingVerify") },
+      { value: "Rejected", label: t("rejected") },
+      { value: "Verified", label: t("verified") },
     ];
   } else if (user === "admin") {
     options = [
-      { value: "All", label: "All" },
-      { value: "New", label: "New" },
-      { value: "In Progress", label: "In Progress" },
-      { value: "Awaiting Verification", label: "Awaiting Verification" },
-      { value: "Rejected", label: "Rejected" },
-      { value: "Verified", label: "Verified" },
+      { value: "All", label: t("all") },
+      { value: "New", label: t("new") },
+      { value: "In Progress", label: t("inProgress") },
+      { value: "Awaiting Verification", label: t("awaitingVerify") },
+      { value: "Rejected", label: t("rejected") },
+      { value: "Verified", label: t("verified") },
     ];
   }
 
@@ -49,7 +51,7 @@ const StatusFilter: React.FC<StatusFilterProps> = ({
       <Select
         value={filterStatus}
         onChange={handleSelectChange}
-        style={{ width: 140, height: 40 }}
+        style={{ width: 180, height: 40 }}
         popupClassName="status-filter-dropdown"
       >
         {options.map((option) => (

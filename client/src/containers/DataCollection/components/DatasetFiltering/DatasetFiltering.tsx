@@ -4,6 +4,7 @@ import { Select } from "antd";
 import StatusFilter from "../Filter/StatusFilter/StatusFilter"; // Importing StatusFilter component
 import OrderFilter from "../Filter/OrderFilter/OrderFilter";
 import "./DatasetFiltering.css";
+import { useTranslation } from "react-i18next";
 const { Option } = Select;
 
 interface DatasetFilteringProps {
@@ -25,6 +26,7 @@ const DatasetFiltering: React.FC<DatasetFilteringProps> = ({
   setSortOrder,
   user,
 }) => {
+  const { t, i18n } = useTranslation();
   const handleFilterFunctionChange = (value: string) => {
     setFilterFunction(value);
   };
@@ -39,9 +41,9 @@ const DatasetFiltering: React.FC<DatasetFilteringProps> = ({
           onChange={handleFilterFunctionChange}
           style={{ width: 140, height: 40 }}
         >
-          <Option value="status">Status</Option>
-          <Option value="number">Number</Option>
-          <Option value="datetime">Date & Time</Option>
+          <Option value="status">{t("dc_status")}</Option>
+          <Option value="number">{t("dc_number")}</Option>
+          <Option value="datetime">{t("dc_datetime")}</Option>
         </Select>
       </div>
       <div className="dataset-filter-item">

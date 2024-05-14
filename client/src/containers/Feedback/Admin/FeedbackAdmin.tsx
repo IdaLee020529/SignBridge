@@ -145,7 +145,8 @@ const FeedbackAdmin: React.FC = () => {
                 q3_bm={data.question3_bm}
                 image={data.imageURL}
                 created_at={formatDate(data.createdAt)}
-                status={data.status}
+                status_en={data.status_en}
+                status_bm={data.status_bm}
               />
             ))}
 

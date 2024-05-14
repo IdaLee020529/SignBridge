@@ -24,8 +24,9 @@ interface CollapsibleContainerProps {
   q3_bm: string;
   image: string;
   created_at: string;
-  status: string;
-  updateStatus: (feedbackId: string, status: string) => void;
+  status_en: string;
+  status_bm: string;
+  updateStatus: (feedbackId: string, status_en: string, status_bm: string) => void;
 }
 
 const CollapsibleContainer: React.FC<CollapsibleContainerProps> = ({
@@ -48,7 +49,8 @@ const CollapsibleContainer: React.FC<CollapsibleContainerProps> = ({
   q3_bm,
   image,
   created_at,
-  status,
+  status_en,
+  status_bm,
   updateStatus,
 }) => {
   const { t, i18n } = useTranslation();
@@ -58,7 +60,7 @@ const CollapsibleContainer: React.FC<CollapsibleContainerProps> = ({
   const toggleOpen = async () => {
     setIsOpen(!isOpen);
     if (!isOpen) {
-      updateStatus(id.toString(), "viewed");
+      updateStatus(id.toString(), "viewed", "dilihat");
     }
 
     for (let i = 0; i < useStore.modifiedData.length; i++) {
@@ -67,7 +69,8 @@ const CollapsibleContainer: React.FC<CollapsibleContainerProps> = ({
           ...useStore.modifiedData.slice(0, i),
           {
             ...useStore.modifiedData[i],
-            status: "viewed",
+            status_en: "viewed",
+            status_bm: "dilihat",
           },
           ...useStore.modifiedData.slice(i + 1),
         ]);
@@ -126,7 +129,7 @@ const CollapsibleContainer: React.FC<CollapsibleContainerProps> = ({
             {t("feedback_name")}: {name}
           </h2>
           <h2>
-            {t("feedback_status")}: {status}
+            {t("feedback_status")}: {i18n.language === "en" ? status_en : status_bm}
           </h2>
           <h2>
             {t("feedback_date")}: {created_at}

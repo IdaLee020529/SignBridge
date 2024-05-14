@@ -12,12 +12,14 @@ import {
 } from "../../../../services/dataset.service";
 import DatasetFiltering from "../DatasetFiltering/DatasetFiltering";
 import TablePagination from "@mui/material/TablePagination";
+import { useTranslation } from "react-i18next";
 
 interface DatasetReviewProps {
   user: string;
 }
 
 const DatasetReview: React.FC<DatasetReviewProps> = ({ user }) => {
+  const { t, i18n } = useTranslation();
   const [formData, setFormData] = useState<any[]>([]);
   const [filterStatus, setFilterStatus] = useState("All");
   const [sortOrder, setSortOrder] = useState("asc");
@@ -183,7 +185,7 @@ const DatasetReview: React.FC<DatasetReviewProps> = ({ user }) => {
 
   return (
     <div className="dataCollection-bg">
-      <h1>Dataset Collection Review</h1>
+      <h1>{t("dc_review")}</h1>
       <div className="filter-container">
         <DatasetFiltering
           filterFunction={filterOption}

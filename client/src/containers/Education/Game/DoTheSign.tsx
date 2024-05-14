@@ -137,7 +137,7 @@ const DoTheSign: React.FC = () => {
                         />
                     )}
                     <div className="box-container">
-                        <div className="left-box">Badan</div>
+                        <div className="left-box">Mata</div>
                         <div className="right-box">
                             <VideoRecorder
                                 onStartRecording={startCountdown}

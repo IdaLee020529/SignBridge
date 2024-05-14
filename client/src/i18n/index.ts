@@ -9,6 +9,7 @@ import educationTranslations from "./education";
 import faqTransaction from "./faq";
 import notificationTransaction from "./notification";
 import profileTransaction from "./profile";
+import communicationTransaction from "./communication";
 
 const resources = {
     en: {
@@ -24,6 +25,7 @@ const resources = {
             ...faqTransaction.en,
             ...notificationTransaction.en,
             ...profileTransaction.en,
+            ...communicationTransaction.en,
         },
     },
     bm: {
@@ -39,6 +41,7 @@ const resources = {
             ...faqTransaction.bm,
             ...notificationTransaction.bm,
             ...profileTransaction.bm,
+            ...communicationTransaction.bm,
         },
     },
 };
