@@ -38,13 +38,13 @@ const VideoUpload: React.FC<VideoUploadProps> = ({
   };
 
   return (
-    <div className="videoinput-class">
+    <div>
       {videoInfo ? (
         <Space>
           <p>
-            <span className="uploaded-text">{uploadedVideo}</span>
+            <span>{uploadedVideo}</span>
           </p>
-          <span onClick={handleRemove} className="close-outline-button">
+          <span onClick={handleRemove}>
             <CloseOutlined />
           </span>
         </Space>
@@ -67,7 +67,12 @@ const VideoUpload: React.FC<VideoUploadProps> = ({
             }, 1000);
           }}
         >
-          <Button icon={<UploadOutlined />} size="large" loading={uploading}>
+          <Button
+            icon={<UploadOutlined />}
+            size="large"
+            loading={uploading}
+            style={{ width: "175px", height: "40px" }}
+          >
             {uploading ? t("uploading") : t("choose_a_video")}
           </Button>
         </Upload>

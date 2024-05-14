@@ -63,7 +63,6 @@ const DatasetFormService = {
     async DeleteFormByID(id) {
         const { client, database } = await connectDB();
         try {
-            console.log(id)
             const collection = database.collection(DATABASE_COLLECTIONS.DATASET_COLLECTION); // Assuming FORMS is the collection name
             await collection.deleteOne({ form_id: parseInt(id) });
             await client.close();
