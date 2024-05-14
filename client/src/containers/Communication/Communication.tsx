@@ -246,7 +246,7 @@ function Communication() {
 
                 if (previousSubmittedText === submittedText) {
                     // If the current submitted text is the same as the previous one, append "#" to the returned text
-                    setInputText(data["return"] + "#");
+                    setInputText(data["return"] + "+");
                 } else {
                     // If they are different, update the inputText directly
                     setInputText(data["return"]);
@@ -345,7 +345,7 @@ function Communication() {
                                         animationKeyword={inputText}
                                         speed={speed}
                                         showSkeleton={showSkeleton}
-                                        repeat={"Yes"}
+                                        repeat={"No"}
                                         isPaused={isPaused}
                                         updateCurrentAnimationName={
                                             updateCurrentAnimationName

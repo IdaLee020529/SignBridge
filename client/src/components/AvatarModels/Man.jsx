@@ -1,40 +1,47 @@
 import React, { useEffect, useRef, useState } from "react";
 import { useGLTF, useAnimations } from "@react-three/drei";
-import { useCharacterAnimations } from "../SLP/CharacterAnimations";
 import * as THREE from "three";
 import animationsData from "../../../public/glosses/gloss.json";
 
-const Man = ({ props, animationKeyword, speed, showSkeleton, repeat, isPaused, updateCurrentAnimationName  = () => {} }) => {
+const Man = ({
+  props,
+  animationKeyword,
+  speed = 1,
+  showSkeleton,
+  repeat,
+  isPaused,
+  updateCurrentAnimationName = () => {},
+}) => {
   const group = useRef();
   const skeletonHelperRef = useRef(null);
   const { nodes, materials, animations } = useGLTF("../../../public/models/man.glb");
-  const { actions, names } = useAnimations(animations, group);
+  const { actions } = useAnimations(animations, group);
 
   const [animationQueue, setAnimationQueue] = useState([]);
   const [currentAnimationIndex, setCurrentAnimationIndex] = useState(0);
   const [prevAnimationKeyword, setPrevAnimationKeyword] = useState(null);
+  const [currentAction, setCurrentAction] = useState(null);
   useEffect(() => {
     if (animationKeyword && animationKeyword !== prevAnimationKeyword) {
-      const animationKeywords = animationKeyword.split(" "); // Split into individual words
+      // Replace any "+" with whitespace
+      const sanitizedAnimationKeyword = animationKeyword.replace(/\+/g, ' ');
+      const animationKeywords = sanitizedAnimationKeyword.split(" ");
       let newAnimationQueue = [];
   
       for (let i = animationKeywords.length; i >= 1; i--) {
         const combinedKeyword = animationKeywords.slice(0, i).join(" ").toUpperCase();
-        const animationData = animationsData.find(item => item.keyword === combinedKeyword);
-        
+        const animationData = animationsData.find((item) => item.keyword === combinedKeyword);
+  
         if (animationData) {
           newAnimationQueue.push(...animationData.animations);
-          // Remove the used keywords from animationKeywords array
           animationKeywords.splice(0, i);
-          // Reset i to the length of the remaining keywords
           i = animationKeywords.length + 1;
         }
       }
   
-      // Add remaining single keywords
-      animationKeywords.forEach(keyword => {
+      animationKeywords.forEach((keyword) => {
         const singleKeyword = keyword.toUpperCase();
-        const animationData = animationsData.find(item => item.keyword === singleKeyword);
+        const animationData = animationsData.find((item) => item.keyword === singleKeyword);
         if (animationData) {
           newAnimationQueue.push(...animationData.animations);
         }
@@ -45,11 +52,11 @@ const Man = ({ props, animationKeyword, speed, showSkeleton, repeat, isPaused, u
       setPrevAnimationKeyword(animationKeyword);
     }
   }, [animationKeyword, prevAnimationKeyword]);
-    
+  
 
   const onAnimationFinished = () => {
     if (currentAnimationIndex < animationQueue.length - 1) {
-      setCurrentAnimationIndex(prevIndex => prevIndex + 1);
+      setCurrentAnimationIndex((prevIndex) => prevIndex + 1);
     } else if (repeat === "Yes") {
       setTimeout(() => {
         setAnimationQueue([]);
@@ -58,71 +65,56 @@ const Man = ({ props, animationKeyword, speed, showSkeleton, repeat, isPaused, u
       }, 2000);
     }
   };
+
   useEffect(() => {
-  
     const playNextAnimation = () => {
       const animationName = animationQueue[currentAnimationIndex];
-      const currentAction = actions[animationName];
-  
-      if (currentAction) {
-        // // Apply pause or unpause to all actions
-        // Object.values(actions).forEach(action => {
-        //   action.paused = true;
-        // });
-  
-        // if (!isPaused) {
-        //   Object.values(actions).forEach(action => {
-        //     action.paused = false;
-        //   });
-          if (speed) {
-            currentAction.setEffectiveTimeScale(speed);
-          }
-          currentAction.reset().fadeIn(0.5).play();
-          currentAction.setLoop(THREE.LoopOnce, 1);
-          currentAction.getMixer().addEventListener("finished", onAnimationFinished);
-          currentAction.clampWhenFinished = true;
-  
-          updateCurrentAnimationName(animationName);
-        // }
+      const nextAction = actions[animationName];
+
+      if (nextAction) {
+        if (currentAction) {
+          currentAction.fadeOut(0.5);
+          currentAction.getMixer().removeEventListener("finished", onAnimationFinished);
+        }
+
+        if (speed) {
+          nextAction.setEffectiveTimeScale(speed);
+        }
+
+        nextAction.reset().fadeIn(0.5).play();
+        nextAction.setLoop(THREE.LoopOnce);
+        nextAction.clampWhenFinished = true;
+        nextAction.getMixer().addEventListener("finished", onAnimationFinished);
+
+        setCurrentAction(nextAction);
+        updateCurrentAnimationName(animationName);
       }
     };
-  
-    playNextAnimation();
-  
+
+    if (!isPaused && animationQueue.length > 0) {
+      playNextAnimation();
+    }
+
     return () => {
-      const animationName = animationQueue[currentAnimationIndex];
-      const currentAction = actions[animationName];
       if (currentAction) {
-        currentAction.fadeOut(0.5);
         currentAction.getMixer().removeEventListener("finished", onAnimationFinished);
       }
     };
-  }, [animationQueue, actions, currentAnimationIndex, speed, isPaused, repeat, updateCurrentAnimationName]);
-  
-  function getNumberOfFrames(action, frameRate) {
-    const duration = action.getClip().duration; // Duration of the clip in seconds
-    return Math.round(duration * frameRate);
-  }
+  }, [animationQueue, currentAnimationIndex, actions, speed, isPaused, updateCurrentAnimationName]);
 
-  // useEffect(() => {
-  //   const helper = new THREE.SkeletonHelper(group.current);
-  //   if (showSkeleton) {
-  //     helper.position.set(0, 100, 0); // Set the helper position coordinates (x, y, z)
-  //     group.current.add(helper);
-  //   } else if (!showSkeleton) {
-  //     group.current.remove(helper);
-  //   }
-  // }, [showSkeleton]);
+  useEffect(() => {
+    if (currentAction) {
+      currentAction.paused = isPaused;
+    }
+  }, [isPaused, currentAction]);
 
   useEffect(() => {
     if (showSkeleton && !skeletonHelperRef.current) {
-      // Only add the skeleton if it does not already exist
       const helper = new THREE.SkeletonHelper(group.current);
-      helper.position.set(0, 100, 0); // Adjust position as needed
+      helper.position.set(0, 100, 0);
       group.current.add(helper);
       skeletonHelperRef.current = helper;
     } else if (!showSkeleton && skeletonHelperRef.current) {
-      // Remove the skeleton if it exists
       group.current.remove(skeletonHelperRef.current);
       skeletonHelperRef.current = null;
     }
@@ -140,14 +132,14 @@ const Man = ({ props, animationKeyword, speed, showSkeleton, repeat, isPaused, u
               geometry={nodes.Mesh003.geometry}
               material={materials["rp_manuel_animated_001_mat.005"]}
               skeleton={nodes.Mesh003.skeleton}
-              frustumCulled={false} // Set frustumCulled to false
+              frustumCulled={false}
             />
             <skinnedMesh
               name="Mesh003_1"
               geometry={nodes.Mesh003_1.geometry}
               material={materials.Tongue}
               skeleton={nodes.Mesh003_1.skeleton}
-              frustumCulled={false} // Set frustumCulled to false
+              frustumCulled={false}
             />
           </group>
         </group>
