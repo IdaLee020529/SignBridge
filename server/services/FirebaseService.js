@@ -1,7 +1,7 @@
-const { ref, uploadBytesResumable, getDownloadURL, deleteObject} = require("firebase/storage");
-const {storage} = require('../config/firebase.config');
+const { ref, uploadBytesResumable, getDownloadURL, deleteObject } = require("firebase/storage");
+const { storage } = require('../config/firebase.config');
 const FirebaseService = {
-    async uploadVideoToStorageAndGetURL(videoFile, storageName) {
+    async uploadVideoToStorageAndGetURL(videoFile, storageName, type) {
         const timestamp = new Date();
         const year = timestamp.getFullYear();
         const month = ('0' + (timestamp.getMonth() + 1)).slice(-2); // Adding leading zero if needed
@@ -12,7 +12,7 @@ const FirebaseService = {
 
         const formattedDateTime = `${year}${month}${day}${hours}${minutes}${seconds}`;
         // const filename = `${timestamp}_${videoFile.originalname}`; // Append timestamp to original filename
-        const filename = `${formattedDateTime}`; // Append timestamp to original filename
+        const filename = `${type}-${formattedDateTime}`; // Append timestamp to original filename
         // Reference to the file in Firebase Storage
         const fileRef = ref(storage, `${storageName}/${filename}`);
         const metaData = {
@@ -88,15 +88,27 @@ const FirebaseService = {
 
 
     async deleteLibraryImageInStorage(imageUrl) {
-    const fileRef = ref(storage, imageUrl); // Use the `storage` object directly from the Firebase configuration
-    
-    try {
-        await deleteObject(fileRef); // Delete the file
-        console.log(`File "${imageUrl}" deleted successfully from Firebase Storage.`);
-    } catch (error) {
-        console.error(`No file found`);
+        const fileRef = ref(storage, imageUrl); // Use the `storage` object directly from the Firebase configuration
+
+        try {
+            await deleteObject(fileRef); // Delete the file
+            console.log(`File "${imageUrl}" deleted successfully from Firebase Storage.`);
+        } catch (error) {
+            console.error(`No file found`);
+        }
+    },
+
+    async deleteVideoFromStorage(videoURl) {
+        const fileRef = ref(storage, videoURl); // Use the `storage` object directly from the Firebase configuration
+
+        try {
+            await deleteObject(fileRef); // Delete the file
+            console.log(`File "${videoURl}" deleted successfully from Firebase Storage.`);
+        } catch (error) {
+            console.error(`No file found`);
+        }
     }
-}
+
 
 };
 

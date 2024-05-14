@@ -21,7 +21,7 @@ const UserService = {
             userData.created_at = new Date().toISOString();
 
             const newFormId = await UserCounterService.getNextValue('userId');
-            userData.user_id = newFormId; 
+            userData.user_id = newFormId;
 
             const token = jwt.sign({ email: userData.email }, process.env.JWT_SECRET, { expiresIn: "1h" });
 
@@ -57,12 +57,12 @@ const UserService = {
             const { client, database } = await connectDB();
             const collection = database.collection(DATABASE_COLLECTIONS.USERS);
             const existingUser = await collection.findOne({ email: userData.email });
-            
+
             if (existingUser) {
                 return existingUser;
             }
 
-            userData.acc_type = "google";   
+            userData.acc_type = "google";
             userData.role_access = "public";
             // Get the count of existing users to determine the next id
             const newFormId = await UserCounterService.getNextValue('userId');
@@ -125,7 +125,7 @@ const UserService = {
             res.status(500).json({ error: "Internal Server Error" });
         }
     },
-    
+
     async LoginUser(userData) {
         try {
             const { client, database } = await connectDB();
@@ -184,7 +184,7 @@ const UserService = {
             } else {
                 return { message: "Failed to send password reset email" };
             }
-            
+
         } catch (error) {
             console.error("Error forgetting password:", error);
             throw new Error("Failed to forget password");
@@ -202,7 +202,7 @@ const UserService = {
 
             const user = await collection.findOneAndUpdate(
                 { email: decodedToken.email },
-                { $set: { password: hashPassword }, $unset: { reset_password_token: "" }}
+                { $set: { password: hashPassword }, $unset: { reset_password_token: "" } }
             );
 
             client.close();
@@ -218,7 +218,7 @@ const UserService = {
         const presetAccounts = PRESET_ACCOUNTS.PRESET_ACCOUNTS;
         try {
             const collection = database.collection(DATABASE_COLLECTIONS.USERS);
-    
+
             // Check if the collection exists and insert preset accounts if it doesn't
             const countersCollection = database.collection(DATABASE_COLLECTIONS.USERS_COUNTER);
             const collections = await database.listCollections({ name: DATABASE_COLLECTIONS.USERS_COUNTER }).toArray();
@@ -230,7 +230,7 @@ const UserService = {
             const existingAccounts = await collection
                 .find({ $or: [{ username: "admin" }, { username: "signexpert" }] })
                 .toArray();
-    
+
             if (existingAccounts.length === 0) {
                 // Generate IDs for preset accounts and insert them into the collection
                 const presetAccountsWithIds = presetAccounts.map((account, index) => ({
@@ -238,7 +238,7 @@ const UserService = {
                     created_at: new Date().toISOString(),
                     user_id: index + 1 // Increment index to start from 1
                 }));
-    
+
                 const result = await collection.insertMany(presetAccountsWithIds);
                 console.log(`${result.insertedCount} preset accounts inserted`);
             } else {
@@ -261,7 +261,7 @@ const UserService = {
             return users;
         } catch (error) {
             console.error("Error fetching users:", error);
-            throw error; 
+            throw error;
         }
     },
 
@@ -287,13 +287,13 @@ const UserService = {
         try {
             const { client, database } = await connectDB();
             const collection = database.collection(DATABASE_COLLECTIONS.USERS);
-    
+
             const result = await collection.updateOne(
                 { user_id: parseInt(user_id) },
                 { $set: updatedData }
             );
             console.log(`${result.modifiedCount} user profile updated`);
-    
+
             client.close();
             return result;
         } catch (error) {
@@ -308,14 +308,14 @@ const UserService = {
         const presetData = PRESET_DATA.PRESET_DATA;
         try {
             const collection = database.collection(DATABASE_COLLECTIONS.COUNTRY);
-    
+
             const collections = await database.listCollections({ name: DATABASE_COLLECTIONS.COUNTRY }).toArray();
             if (collections.length === 0) {
                 await database.createCollection(DATABASE_COLLECTIONS.COUNTRY);
             }
-    
+
             const existingData = await collection.find().toArray();
-    
+
             if (existingData.length === 0) {
                 const result = await collection.insertMany(presetData);
                 console.log(`${result.insertedCount} preset country data inserted`);
@@ -335,11 +335,11 @@ const UserService = {
         try {
             const collection = database.collection(DATABASE_COLLECTIONS.COUNTRY);
             const countries = await collection.find().toArray();
-            client.close();            
+            client.close();
             return countries;
         } catch (error) {
             console.error("Error fetching countries:", error);
-            throw error; 
+            throw error;
         }
     },
 
@@ -359,7 +359,7 @@ const UserService = {
             console.error("Error fetching dataset by id:", error);
             throw error;
         }
-    },  
+    },
 
     // Fetch all datasetcollection 
     async GetAllUserDatasetCollection() {

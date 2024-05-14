@@ -7,7 +7,7 @@ const DatasetFormController = {
             const { user_id, name, email, text_sentence, status_SE, status_Admin } = req.body;
             const avatar_link = "";
             const videoInfo = req.file;
-            const videoContent = await FirebaseService.uploadVideoToStorageAndGetURL(videoInfo, "demoVid");
+            const videoContent = await FirebaseService.uploadVideoToStorageAndGetURL(videoInfo, "demoVid", "demo");
             if (videoContent) {
                 const video_link = videoContent.downloadURL
                 const submitted_time = videoContent.timestamp
@@ -56,12 +56,10 @@ const DatasetFormController = {
         try {
             const formId = req.params.id;
             const updatedFormData = req.body;
-            console.log(formId)
-            console.log(updatedFormData)
 
             // Handle the uploaded video file
             const videoInfo = req.file;
-            const videoContent = await FirebaseService.uploadVideoToStorageAndGetURL(videoInfo, "avatarVid");
+            const videoContent = await FirebaseService.uploadVideoToStorageAndGetURL(videoInfo, "avatarVid", "avatar");
             if (videoContent) {
                 const video_link = videoContent.downloadURL
                 const video_name = videoContent.formattedDateTime
@@ -135,8 +133,10 @@ const DatasetFormController = {
         try {
             const formId = req.params.id;
             // Assuming you have a deleteById function that handles deletion
+            const form = DatasetFormService.GetFormById(formId);
+            const videoUrl = form.video_link;
+            await FirebaseService.deleteVideoFromStorage(videoUrl);
             await DatasetFormService.DeleteFormByID(formId);
-
             // Respond with success message
             res.status(200).json({ message: `Form with ID ${formId} deleted successfully` });
         } catch (error) {

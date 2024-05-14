@@ -75,13 +75,6 @@ const CollapsibleForm: React.FC<CollapsibleFormProps> = ({
   const [videoInfo, setVideoInfo] = useState(null);
   const [uploadedVideo, setUploadedVideo] = useState<string | null>("");
 
-  useEffect(() => {
-    if (avatar_link && avatar_link !== "" && avatar_name !== undefined) {
-      console.log(avatar_name);
-      setUploadedVideo(avatar_name);
-    }
-  }, []);
-
   const toggleOpen = () => {
     if (isOpen) {
       setIsOpen(false);

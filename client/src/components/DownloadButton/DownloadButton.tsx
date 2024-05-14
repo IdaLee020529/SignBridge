@@ -11,7 +11,10 @@ const DownloadButton: React.FC<DownloadButtonProps> = ({
   downloadVideo,
 }) => {
   return (
-    <Button onClick={() => downloadVideo(type)}>
+    <Button
+      style={{ width: "175px", height: "40px" }}
+      onClick={() => downloadVideo(type)}
+    >
       <span>
         <DownloadOutlined />
       </span>
