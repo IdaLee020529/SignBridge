@@ -343,7 +343,7 @@ function Navbar() {
 
                                 <li className="nav-item dropdown">
                                     <img
-                                        src={picture}
+                                        src={picture} referrerPolicy="no-referrer"
                                         alt="Profile"
                                         className="profileimg"
                                     />
