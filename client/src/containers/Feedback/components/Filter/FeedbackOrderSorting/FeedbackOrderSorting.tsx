@@ -16,7 +16,7 @@ const OrderFilter: React.FC<OrderFilterProps> = ({ sortData }) => {
 
   const handleSelectChange = (value: string) => {
     if (store.field === "Category" || store.field === "Status") {
-      // console.log("Filter by", value);
+      console.log("Filter by", value);
       store.setFilterBy(value);
       store.setSortBy("");
     } else {
@@ -43,7 +43,7 @@ const OrderFilter: React.FC<OrderFilterProps> = ({ sortData }) => {
   //   }
   // }, [selectedField]); // Run effect when selectedField changes
 
-  const selectWidth = i18n.language === "en" ? 140 : 200; // Adjust width based on language
+  const selectWidth = i18n.language === "en" ? 140 : 200; 
 
   return (
     <div className={style.order_filter}>
@@ -52,7 +52,7 @@ const OrderFilter: React.FC<OrderFilterProps> = ({ sortData }) => {
         onChange={handleSelectChange}
         style={{ width: selectWidth, height: 40 }}
         popupClassName={style.order_filter_dropdown}
-        placeholder="Select order"
+        placeholder={t('selectOrder')}
       >
         {/* Options based on selected field */}
         {store.field === "Category" ? (
@@ -63,8 +63,8 @@ const OrderFilter: React.FC<OrderFilterProps> = ({ sortData }) => {
           </>
         ) : store.field === "Status" ? (
           <>
-            <Option value="new">{t('new')}</Option>
-            <Option value="viewed">{t('viewed')}</Option>
+            <Option value='new'>{t('new')}</Option>
+            <Option value='viewed'>{t('viewed')}</Option>
           </>
         ) : (
           <>

@@ -25,8 +25,8 @@ const OrderFilter: React.FC<OrderFilterProps> = ({
         value={sortOrder}
         onChange={handleSelectChange}
         popupClassName="order-filter-dropdown"
-        placeholder="Select order"
-        style={{ width: 180, height: 40 }}
+        placeholder={t('selectOrder')}
+        style={{ width: 140, height: 40 }}
       >
         <Option value="asc">{t("ascending")}</Option>
         <Option value="desc">{t("descending")}</Option>

@@ -59,7 +59,7 @@ const feedback = {
         game1: "Game 1",
         gamee2: "Game 2",
         new: "New",
-        viewed: "Viewed",
+        viewed: "Viewed",   
         ascending: "Ascending",
         descending: "Descending",
         view_experience: "Experience",
@@ -71,6 +71,7 @@ const feedback = {
         thankyouFeedback: "Thank you for your feedback!",
         feedbckImportant: "Your feedback is important to us. We will use it to improve our services.",
         backtoWebsite: "Back to our website",
+        selectOrder: "Select order",
     },
     bm: {
         website_question1: "Ciri laman web manakah yang anda paling suka?",
@@ -144,6 +145,7 @@ const feedback = {
         thankyouFeedback: "Terima kasih atas maklum balas anda!",
         feedbckImportant: "Maklum balas anda penting bagi kami. Kami akan menggunakannya untuk memperbaiki perkhidmatan kami.",
         backtoWebsite: "Kembali ke laman web kami",
+        selectOrder: "Pilih urutan",
     },
 };
 

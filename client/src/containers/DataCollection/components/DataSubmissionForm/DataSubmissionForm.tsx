@@ -189,7 +189,7 @@ const DataSubmissionForm: React.FC<DataSubmissionFormProps> = ({ user }) => {
     validateEmail(email);
     validateText(text);
     if (videoInfo == null) {
-      toast.error("You must upload a video");
+      toast.error(t("mustUploadVideo"));
       return;
     }
     if (

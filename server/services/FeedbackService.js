@@ -12,8 +12,8 @@ const FeedbackService = {
             const feedbackWithTimestamp = {
                 ...feedbackData,
                 createdAt: new Date(),
-                status_en: "new",
-                status_bm: "baru",
+                status_en: "New",
+                status_bm: "Baru",
                 feedback_id: newFormId
             };
             
@@ -42,7 +42,7 @@ const FeedbackService = {
             const { client, database } = await connectDB();
             const collection = database.collection(DATABASE_COLLECTIONS.FEEDBACKS);
             const numericFeedbackId = Number(feedbackId); // Convert receiverId to a number
-            const result = await collection.updateOne({ feedback_id: numericFeedbackId }, { $set: { status_en: "viewed", status_bm: "dilihat"} });
+            const result = await collection.updateOne({ feedback_id: numericFeedbackId }, { $set: { status_en: "Viewed", status_bm: "Dilihat"} });
             client.close();
             return result;
         } catch (error) {

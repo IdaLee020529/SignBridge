@@ -116,7 +116,7 @@ const SLRInput = ({ onResponsiveReceived }: { onResponsiveReceived: (data: strin
         }
         if (formData.get("video")) {
             try {
-                alert("Video uploaded successfully")
+                alert(t("videoSuceess"))
                 const response = await fetch("http://localhost:5000/api/sentence_SLR", {
                     method: "POST",
                     body: formData,

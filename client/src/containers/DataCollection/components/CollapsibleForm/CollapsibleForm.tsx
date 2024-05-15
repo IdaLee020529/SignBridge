@@ -186,10 +186,10 @@ const CollapsibleForm: React.FC<CollapsibleFormProps> = ({
         created_at: new Date().toISOString(),
       };
       await CreateNotification(notificationData);
-      toast.success("Notification sent successfully!");
+      toast.success(t("notifSuccess"));
     } catch (error) {
       console.error("Error sending notification:", error);
-      toast.error("Failed to send notification.");
+      toast.error(t("notifFailed"));
     }
     try {
       const notificationData = {
@@ -204,10 +204,10 @@ const CollapsibleForm: React.FC<CollapsibleFormProps> = ({
         created_at: new Date().toISOString(),
       };
       await CreateNotification(notificationData);
-      toast.success("Notification sent successfully!");
+      toast.success(t("notifSuccess"));
     } catch (error) {
       console.error("Error sending notification:", error);
-      toast.error("Failed to send notification.");
+      toast.error(t("notifFailed"));
     }
   };
 
@@ -226,10 +226,10 @@ const CollapsibleForm: React.FC<CollapsibleFormProps> = ({
         created_at: new Date().toISOString(),
       };
       await CreateNotification(notificationData);
-      toast.success("Notification sent successfully!");
+      toast.success(t("notifSuccess"));
     } catch (error) {
       console.error("Error sending notification:", error);
-      toast.error("Failed to send notification.");
+      toast.error(t("notifFailed"));
     }
   };
 
@@ -249,10 +249,10 @@ const CollapsibleForm: React.FC<CollapsibleFormProps> = ({
         created_at: new Date().toISOString(),
       };
       await CreateNotification(notificationData);
-      toast.success("Notification sent successfully!");
+      toast.success(t("notifSuccess"));
     } catch (error) {
       console.error("Error sending notification:", error);
-      toast.error("Failed to send notification.");
+      toast.error(t("notifFailed"));
     }
   };
 
@@ -271,10 +271,10 @@ const CollapsibleForm: React.FC<CollapsibleFormProps> = ({
         created_at: new Date().toISOString(),
       };
       await CreateNotification(notificationData);
-      toast.success("Notification sent successfully!");
+      toast.success(t("notifSuccess"));
     } catch (error) {
       console.error("Error sending notification:", error);
-      toast.error("Failed to send notification.");
+      toast.error(t("notifFailed"));
     }
   };
   // For admin upload
@@ -293,10 +293,10 @@ const CollapsibleForm: React.FC<CollapsibleFormProps> = ({
         created_at: new Date().toISOString(),
       };
       await CreateNotification(notificationData);
-      toast.success("Notification sent successfully!");
+      toast.success(t("notifSuccess"));
     } catch (error) {
       console.error("Error sending notification:", error);
-      toast.error("Failed to send notification.");
+      toast.error(t("notifFailed"));
     }
   };
   return (
@@ -493,7 +493,7 @@ const CollapsibleForm: React.FC<CollapsibleFormProps> = ({
                               handleSubmit(form_id, updateData, videoInfo);
                               handleAdminButtonClick();
                             } else {
-                              toast.error("You must upload an avatar video");
+                              toast.error(t("mustUploadAvatar"));
                             }
                           }}
                           buttonStyle="btn--accept"
@@ -516,7 +516,7 @@ const CollapsibleForm: React.FC<CollapsibleFormProps> = ({
                             handleSubmit(form_id, updateData, videoInfo);
                             handleAdminButtonClick();
                           } else {
-                            toast.error("You must upload an avatar video");
+                            toast.error(t("mustUploadAvatar"));
                           }
                         }}
                         buttonStyle="btn--accept"
