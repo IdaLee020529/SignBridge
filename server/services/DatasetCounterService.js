@@ -10,7 +10,7 @@ const DatasetCounterService = {
         if (collections.length === 0) {
             await database.createCollection(DATABASE_COLLECTIONS.DATASET_COUNTER);
             // Insert a document with the initial value (modify 1 to your desired value)
-            await countersCollection.insertOne({ _id: counterName, value: 0 });
+            await countersCollection.insertOne({ _id: counterName, value: 1 });
         }
         const result = await countersCollection.findOneAndUpdate(
             { _id: counterName },
