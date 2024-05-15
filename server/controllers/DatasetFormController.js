@@ -13,7 +13,7 @@ const DatasetFormController = {
             if (videoContent) {
                 const video_link = videoContent.downloadURL
                 const submitted_time = videoContent.timestamp
-                const video_name = videoContent.formattedDateTime
+                const video_name = videoContent.filename
                 const result = await DatasetFormService.SubmitForm({ ...data, submitted_time, video_link, video_name, avatar_link })
                 res.status(201).json(result);
             }
@@ -58,13 +58,17 @@ const DatasetFormController = {
         try {
             const formId = req.params.id;
             const updatedFormData = req.body;
-
+            const form = await DatasetFormService.GetFormById(formId)
+            const avatar_link = form.avatar_link
+            if (avatar_link != "") {
+                await FirebaseService.deleteVideoFromStorage(avatar_link);
+            }
             // Handle the uploaded video file
             const videoInfo = req.file;
             const videoContent = await FirebaseService.uploadVideoToStorageAndGetURL(videoInfo, "avatarVid", "avatar");
             if (videoContent) {
                 const video_link = videoContent.downloadURL
-                const video_name = videoContent.formattedDateTime
+                const video_name = videoContent.filename
                 updatedFormData.avatar_link = video_link;
                 updatedFormData.avatar_name = video_name;
                 await DatasetFormService.UpdateFormByID(formId, updatedFormData);

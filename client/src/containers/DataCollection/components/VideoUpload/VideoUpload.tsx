@@ -6,17 +6,15 @@ import { useTranslation } from "react-i18next";
 interface VideoUploadProps {
   videoInfo: any;
   setVideoInfo: any;
-  uploadedVideo: any;
-  setUploadedVideo: any;
 }
 
 const VideoUpload: React.FC<VideoUploadProps> = ({
   videoInfo,
   setVideoInfo,
-  uploadedVideo,
-  setUploadedVideo,
 }) => {
   const { t, i18n } = useTranslation();
+  const [uploadedVideo, setUploadedVideo] = useState<string | null>("");
+
   const [uploading, setUploading] = useState<boolean>(false);
 
   const handleChange = (info: any) => {
