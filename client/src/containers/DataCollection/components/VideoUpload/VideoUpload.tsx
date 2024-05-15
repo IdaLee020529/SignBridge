@@ -14,7 +14,6 @@ const VideoUpload: React.FC<VideoUploadProps> = ({
 }) => {
   const { t, i18n } = useTranslation();
   const [uploadedVideo, setUploadedVideo] = useState<string | null>("");
-
   const [uploading, setUploading] = useState<boolean>(false);
 
   const handleChange = (info: any) => {
@@ -35,6 +34,16 @@ const VideoUpload: React.FC<VideoUploadProps> = ({
     setVideoInfo(null);
   };
 
+  const [isHovered, setIsHovered] = useState(false);
+
+  const handleMouseEnter = () => {
+    setIsHovered(true);
+  };
+
+  const handleMouseLeave = () => {
+    setIsHovered(false);
+  };
+
   return (
     <div>
       {videoInfo ? (
@@ -42,7 +51,15 @@ const VideoUpload: React.FC<VideoUploadProps> = ({
           <p>
             <span>{uploadedVideo}</span>
           </p>
-          <span onClick={handleRemove}>
+          <span
+            onClick={handleRemove}
+            style={{
+              cursor: "pointer",
+              color: isHovered ? "red" : "black",
+            }}
+            onMouseEnter={handleMouseEnter}
+            onMouseLeave={handleMouseLeave}
+          >
             <CloseOutlined />
           </span>
         </Space>

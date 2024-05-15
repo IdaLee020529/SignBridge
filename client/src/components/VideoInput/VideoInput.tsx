@@ -6,27 +6,20 @@ import "./VideoInput.css";
 import { useTranslation } from "react-i18next";
 
 interface VideoInputProps {
-  reset: boolean;
-  onReset: () => void;
   setVideoInfo: any;
+  uploadedVideo: any;
+  setUploadedVideo: any;
+  onRemove: () => void;
 }
 
 const VideoInput: React.FC<VideoInputProps> = ({
-  reset,
-  onReset,
   setVideoInfo,
+  onRemove,
+  uploadedVideo,
+  setUploadedVideo,
 }) => {
   const { t, i18n } = useTranslation();
-  const [uploadedVideo, setUploadedVideo] = useState<string | null>(null);
   const [uploading, setUploading] = useState<boolean>(false);
-
-  useEffect(() => {
-    if (reset) {
-      setUploadedVideo(null);
-      onReset(); // Notify parent component that the reset is completed
-    }
-  }, [reset, onReset]);
-
   const handleChange = (info: any) => {
     if (info.file.status !== "uploading") {
     }
@@ -41,8 +34,7 @@ const VideoInput: React.FC<VideoInputProps> = ({
   };
 
   const handleRemove = () => {
-    setUploadedVideo(null);
-    setVideoInfo(null);
+    onRemove();
   };
 
   return (
