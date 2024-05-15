@@ -138,9 +138,13 @@ const DatasetReview: React.FC<DatasetReviewProps> = ({ user }) => {
         }
       } else if (user === "admin") {
         if (currentSelectedLanguage === "en") {
-          return filterStatus === "All" || form.status_Admin_en === filterStatus;
+          return (
+            filterStatus === "All" || form.status_Admin_en === filterStatus
+          );
         } else if (currentSelectedLanguage === "bm") {
-          return filterStatus === "All" || form.status_Admin_bm === filterStatus;
+          return (
+            filterStatus === "All" || form.status_Admin_bm === filterStatus
+          );
         }
       }
     }
@@ -162,7 +166,6 @@ const DatasetReview: React.FC<DatasetReviewProps> = ({ user }) => {
   };
 
   const paginationCount = formData.length; // Use formData instead of store.modifiedData
-
   const FormDataRenderer: React.FC<{
     formData: any[];
     user: string;
@@ -176,8 +179,12 @@ const DatasetReview: React.FC<DatasetReviewProps> = ({ user }) => {
           number={form.form_id}
           form_id={form.form_id}
           dateTime={form.submitted_time}
-          status_en={user === "signexpert" ? form.status_SE_en : form.status_Admin_en}
-          status_bm={user === "signexpert" ? form.status_SE_bm : form.status_Admin_bm}
+          status_en={
+            user === "signexpert" ? form.status_SE_en : form.status_Admin_en
+          }
+          status_bm={
+            user === "signexpert" ? form.status_SE_bm : form.status_Admin_bm
+          }
           name={form.name}
           email={form.email}
           text={form.text_sentence}

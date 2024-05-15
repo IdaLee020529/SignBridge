@@ -78,9 +78,7 @@ const DataSubmissionForm: React.FC<DataSubmissionFormProps> = ({ user }) => {
       return (
         <button className="avatar-microphone-btn disabled" disabled={true}>
           <i className="fa fa-microphone"></i>
-          <span className="tooltip2">
-            {t("voice_input_not_supported")}
-          </span>
+          <span className="tooltip2">{t("voice_input_not_supported")}</span>
         </button>
       );
     }
@@ -185,10 +183,20 @@ const DataSubmissionForm: React.FC<DataSubmissionFormProps> = ({ user }) => {
     e: React.FormEvent<HTMLFormElement>
   ): Promise<void> => {
     e.preventDefault(); // Prevent default form submission behavior
+    validateName(name);
+    validateEmail(email);
+    validateText(text);
+    if (videoInfo == null) {
+      toast.error("You must upload a video");
+      return;
+    }
     if (
       nameError.length === 0 &&
       emailError.length === 0 &&
       textError.length === 0 &&
+      name.length !== 0 &&
+      email.length !== 0 &&
+      text.length !== 0 &&
       videoInfo != null
     ) {
       const user_id = Cookies.get("user_id");
@@ -205,7 +213,9 @@ const DataSubmissionForm: React.FC<DataSubmissionFormProps> = ({ user }) => {
         if (user === "signexpert") {
           status_SE_en = "Awaiting Accept";
           status_SE_bm = "Menunggu Kelulusan";
-          (status_Admin_en = "New", status_Admin_bm = "Baru"), formData.append("user_id", user_id);
+          status_Admin_en = "New";
+          status_Admin_bm = "Baru";
+          formData.append("user_id", user_id);
           formData.append("name", name);
           formData.append("email", email);
           formData.append("text_sentence", text);

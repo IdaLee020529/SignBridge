@@ -51,7 +51,7 @@ const DatasetFormService = {
         const { client, database } = await connectDB();
         try {
             const collection = database.collection(DATABASE_COLLECTIONS.DATASET_COLLECTION);
-            const users = await collection.find({ status_Admin: { $ne: "-" } }).toArray(); // Filter for not "-"
+            const users = await collection.find({ status_Admin_en: { $ne: "-" }, status_Admin_bm: { $ne: "-" } }).toArray(); // Filter for not "-"
             await client.close();
             return users;
         } catch (error) {

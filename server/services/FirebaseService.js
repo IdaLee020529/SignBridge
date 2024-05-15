@@ -22,7 +22,7 @@ const FirebaseService = {
         try {
             await uploadTask;
             const downloadURL = await getDownloadURL(uploadTask.snapshot.ref);
-            return { downloadURL, timestamp, formattedDateTime };
+            return { downloadURL, timestamp, filename };
         } catch (error) {
             throw error;
         }
@@ -99,8 +99,7 @@ const FirebaseService = {
     },
 
     async deleteVideoFromStorage(videoURl) {
-        const fileRef = ref(storage, videoURl); // Use the `storage` object directly from the Firebase configuration
-
+        const fileRef = ref(storage, videoURl);
         try {
             await deleteObject(fileRef); // Delete the file
             console.log(`File "${videoURl}" deleted successfully from Firebase Storage.`);
