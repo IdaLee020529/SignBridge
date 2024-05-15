@@ -2,7 +2,7 @@
 // General Imports
 import "regenerator-runtime/runtime";
 import "./Communication.css";
-import { useRef, useState, useEffect } from "react";
+import { useRef, useState, useEffect, SetStateAction } from "react";
 import Cookies from "js-cookie";
 
 // SLP Imports
@@ -118,7 +118,7 @@ function Communication() {
     const [isPaused, setPaused] = useState(false); // State to manage pause/play
     const [leftHandedMode, setLeftHandedMode] = useState(false); // State to manage left-handed mode
     const [fps, setFps] = useState("  FPS:   60"); // State to hold FPS value
-
+    const [currentStatus, setCurrentStatus] = useState(""); // State to hold the current animation name
     // SLR states
     const [SLRResponse, setSLRResponse] = useState<string>("");
 
@@ -151,6 +151,10 @@ function Communication() {
     // @ts-ignore
     const updateCurrentAnimationName = (animationName) => {
         setCurrentAnimationName(animationName);
+    };
+
+    const updateStatus = (status: SetStateAction<string>) => {
+        setCurrentStatus(status);
     };
 
     const toggleSkeleton = () => {
@@ -352,6 +356,9 @@ function Communication() {
                                         updateCurrentAnimationName={
                                             updateCurrentAnimationName
                                         }
+                                        updateCurrentStatus={
+                                            updateStatus
+                                        }
                                     />
                                 </CharacterAnimationsProvider>
                                 {/*<FPSCounter onUpdateFPS={updateFPS} />*/}
@@ -516,6 +523,7 @@ function Communication() {
                                         className="status-box"
                                         type="text"
                                         placeholder={t("status_row")}
+                                        value={currentStatus}
                                     />
                                 </div>
                             </div>
