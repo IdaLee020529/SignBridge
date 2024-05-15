@@ -28,6 +28,12 @@ describe("Test Collapsible Form", () => {
     text: "Aku mahu makan nasi",
     video_link: "testing123.mp4",
     avatar_link: "",
+    user: "admin",
+    user_id: 1,
+    video_name: "testing123",
+    avatar_name: "testing123",
+    handleSubmit: jest.fn(),
+    handleDelete: jest.fn(),
   };
   it("should render correctly", () => {
     const { container, getByText } = render(<CollapsibleForm {...props} />);

@@ -17,12 +17,14 @@ import Cookies from "js-cookie";
 import VideoUpload from "../VideoUpload/VideoUpload";
 import DownloadButton from "../../../../components/DownloadButton/DownloadButton";
 import moment from "moment";
+import { useTranslation } from "react-i18next";
 
 interface CollapsibleFormProps {
   number: string;
   form_id: number;
   dateTime: string;
-  status: string;
+  status_en: string;
+  status_bm: string;
   name: string;
   email: string;
   text: string;
@@ -31,7 +33,7 @@ interface CollapsibleFormProps {
   user?: string;
   user_id?: number;
   video_name: string;
-  avatar_name?: string | null;
+  avatar_name: string;
   handleSubmit: Function;
   handleDelete: Function;
 }
@@ -40,7 +42,8 @@ const CollapsibleForm: React.FC<CollapsibleFormProps> = ({
   number,
   form_id,
   dateTime,
-  status,
+  status_en,
+  status_bm,
   name,
   email,
   text,
@@ -53,16 +56,22 @@ const CollapsibleForm: React.FC<CollapsibleFormProps> = ({
   handleSubmit,
   handleDelete,
 }) => {
+  const { t, i18n } = useTranslation();
+  const currentSelectedLanguage = localStorage.getItem("i18nextLng") || "en";
   const downloadVideo = async (type?: string) => {
     try {
       let video;
       if (type === "demo") {
         video = await getDemoVidById(form_id); // Assuming getDemoVidById returns a Promise
+        const blob = new Blob([video.data], { type: "video/mp4" }); // Assuming video.data contains blob data and video.contentType contains the content type
+
+        saveAs(blob, video_name);
       } else if (type === "avatar") {
         video = await getAvatarVidById(form_id); // Assuming getDemoVidById returns a Promise
+        const blob = new Blob([video.data], { type: "video/mp4" }); // Assuming video.data contains blob data and video.contentType contains the content type
+
+        saveAs(blob, avatar_name);
       }
-      const blob = new Blob([video.data], { type: "video/mp4" }); // Assuming video.data contains blob data and video.contentType contains the content type
-      saveAs(blob, video_name);
     } catch (error) {
       console.error("Error downloading video:", error);
       // Handle download errors gracefully (e.g., display error message)
@@ -74,13 +83,6 @@ const CollapsibleForm: React.FC<CollapsibleFormProps> = ({
   //Video Control
   const [videoInfo, setVideoInfo] = useState(null);
   const [uploadedVideo, setUploadedVideo] = useState<string | null>("");
-
-  useEffect(() => {
-    if (avatar_link && avatar_link !== "" && avatar_name !== undefined) {
-      console.log(avatar_name);
-      setUploadedVideo(avatar_name);
-    }
-  }, []);
 
   const toggleOpen = () => {
     if (isOpen) {
@@ -97,12 +99,12 @@ const CollapsibleForm: React.FC<CollapsibleFormProps> = ({
   const personal_details = [
     {
       key: "1",
-      label: "Name",
+      label: t("dc_name"),
       children: <span className="personal-details-info">{name}</span>,
     },
     {
       key: "2",
-      label: "Email",
+      label: t("dc_email"),
       children: <span className="personal-details-info">{email}</span>,
     },
   ];
@@ -110,7 +112,7 @@ const CollapsibleForm: React.FC<CollapsibleFormProps> = ({
   const video_details_with_video_upload = [
     {
       key: "1",
-      label: "Demonstration Video",
+      label: t("dc_demo_video"),
       children: (
         <span className="video-details-info">
           <DownloadButton downloadVideo={downloadVideo} type="demo" />
@@ -119,23 +121,19 @@ const CollapsibleForm: React.FC<CollapsibleFormProps> = ({
     },
     {
       key: "2",
-      label: "Avatar Video",
+      label: t("dc_avatar_video"),
       children: (
         <span className="video-details-info">
-          <VideoUpload
-            videoInfo={videoInfo}
-            setVideoInfo={setVideoInfo}
-            uploadedVideo={uploadedVideo}
-            setUploadedVideo={setUploadedVideo}
-          />
+          <VideoUpload videoInfo={videoInfo} setVideoInfo={setVideoInfo} />
         </span>
       ),
     },
   ];
+
   const video_details_with_information = [
     {
       key: "1",
-      label: "Demonstration Video",
+      label: t("dc_demo_video"),
       children: (
         <span className="video-details-info">
           <span className="video-details-info">
@@ -146,7 +144,7 @@ const CollapsibleForm: React.FC<CollapsibleFormProps> = ({
     },
     {
       key: "2",
-      label: "Avatar Video",
+      label: t("dc_avatar_video"),
       children:
         avatar_link !== "" ? (
           <span className="video-details-info">
@@ -155,7 +153,7 @@ const CollapsibleForm: React.FC<CollapsibleFormProps> = ({
             </span>
           </span>
         ) : (
-          <span className="video-details-info">No Video Submitted</span>
+          <span className="video-details-info">{t("no_video_submitted")}</span>
         ),
     },
   ];
@@ -279,7 +277,6 @@ const CollapsibleForm: React.FC<CollapsibleFormProps> = ({
       toast.error("Failed to send notification.");
     }
   };
-
   // For admin upload
   const handleAdminButtonClick = async () => {
     console.log("Admin upload");
@@ -313,9 +310,11 @@ const CollapsibleForm: React.FC<CollapsibleFormProps> = ({
           onClick={toggleOpen}
         >
           <h2 className="number">No: {number}</h2>
-          <h2 className="status">Status: {status}</h2>
+          <h2 className="status">
+            Status: {currentSelectedLanguage === "en" ? status_en : status_bm}
+          </h2>
           <h2 className="dateTime">
-            Date: {moment(dateTime).format("YYYY-MM-DD HH:mm:ss")}
+            {t("dc_date")}: {moment(dateTime).format("YYYY-MM-DD HH:mm:ss")}
           </h2>
           <div className="expand-icon">
             {isOpen ? <span>&#9650;</span> : <span>&#9660;</span>}
@@ -325,11 +324,11 @@ const CollapsibleForm: React.FC<CollapsibleFormProps> = ({
           <div className="collapsible-content-background">
             <div className="collapsible-content-details">
               <div className={`personal-details ${user}`}>
-                <h2>PERSONAL DETAILS</h2>
+                <h2>{t("dc_personal_details")}</h2>
                 <Descriptions items={personal_details} bordered column={1} />
               </div>
               <div className="sentence-details">
-                <h2>TEXT/ SENTENCE</h2>
+                <h2>{t("dc_text_sentence")}</h2>
                 <div className="sentence-details-content">
                   <p>{text}</p>
                 </div>
@@ -337,18 +336,19 @@ const CollapsibleForm: React.FC<CollapsibleFormProps> = ({
             </div>
             <div className="collapsible-content-footer">
               <div className={`content-left ${user}`}>
-                <h2>VIDEO DETAILS</h2>
+                <h2>{t("dc_video_details")}</h2>
                 <div className="row">
                   <div className="col-md-6">
                     {user === "admin" && (
                       <>
-                        {status === "Rejected" ? (
+                        {status_en === "Rejected" && status_bm === "Ditolak" ? (
                           <Descriptions
                             items={video_details_with_video_upload}
                             bordered
                             column={1}
                           />
-                        ) : status === "In Progress" ? (
+                        ) : status_en === "In Progress" &&
+                          status_bm === "Dalam Proses" ? (
                           <Descriptions
                             items={video_details_with_video_upload}
                             bordered
@@ -377,15 +377,17 @@ const CollapsibleForm: React.FC<CollapsibleFormProps> = ({
               <div className="buttons-right">
                 {user === "signexpert" && (
                   <>
-                    {status === "New" && (
+                    {status_en === "New" && status_bm === "Baru" && (
                       <div className="dataset-button-container">
                         <div className="dataset-button-individual">
                           <Button
                             type="button"
                             onClick={() => {
                               const updateData = {
-                                status_SE: "Awaiting Accept",
-                                status_Admin: "New",
+                                status_SE_en: "Awaiting Accept",
+                                status_SE_bm: "Menunggu Penerimaan",
+                                status_Admin_en: "New",
+                                status_Admin_bm: "Baru",
                               };
                               handleSubmit(form_id, updateData);
                               handleSEAcceptPublicButtonClick();
@@ -393,7 +395,7 @@ const CollapsibleForm: React.FC<CollapsibleFormProps> = ({
                             buttonStyle="btn--accept" // Style for accept button
                             buttonSize="btn--large"
                           >
-                            Accept
+                            {t("dc_accept")}
                           </Button>
                         </div>
                         <div className="dataset-button-individual">
@@ -406,101 +408,121 @@ const CollapsibleForm: React.FC<CollapsibleFormProps> = ({
                             buttonStyle="btn--cancel" // Style for cancel button
                             buttonSize="btn--large"
                           >
-                            Cancel
+                            {t("dc_cancel")}
                           </Button>
                         </div>
                       </div>
                     )}
-                    {status === "Awaiting Verification" && (
-                      <div className="dataset-button-container">
-                        <div className="dataset-button-individual">
-                          <Button
-                            type="button"
-                            onClick={() => {
-                              const updateData = {
-                                status_SE: "Verified",
-                                status_Admin: "Verified",
-                              };
-                              handleSubmit(form_id, updateData);
-                              handleSEAcceptAdminButtonClick();
-                            }}
-                            buttonStyle="btn--send"
-                            buttonSize="btn--large"
-                          >
-                            Verify
-                          </Button>
+                    {status_en === "Awaiting Verification" &&
+                      status_bm === "Menunggu Pengesahan" && (
+                        <div className="dataset-button-container">
+                          <div className="dataset-button-individual">
+                            <Button
+                              type="button"
+                              onClick={() => {
+                                const updateData = {
+                                  status_SE_en: "Verified",
+                                  status_SE_bm: "Disahkan",
+                                  status_Admin_en: "Verified",
+                                  status_Admin_bm: "Disahkan",
+                                };
+                                handleSubmit(form_id, updateData);
+                                handleSEAcceptAdminButtonClick();
+                              }}
+                              buttonStyle="btn--send"
+                              buttonSize="btn--large"
+                            >
+                              {t("dc_verify")}
+                            </Button>
+                          </div>
+                          <div className="dataset-button-individual">
+                            <Button
+                              type="button"
+                              onClick={() => {
+                                const updateData = {
+                                  status_SE_en: "Rejected",
+                                  status_SE_bm: "Ditolak",
+                                  status_Admin_en: "Rejected",
+                                  status_Admin_bm: "Ditolak",
+                                };
+                                handleSubmit(form_id, updateData);
+                                handleSERejectAdminButtonClick();
+                              }}
+                              buttonStyle="btn--cancel"
+                              buttonSize="btn--large"
+                            >
+                              {t("dc_reject")}
+                            </Button>
+                          </div>
                         </div>
-                        <div className="dataset-button-individual">
-                          <Button
-                            type="button"
-                            onClick={() => {
-                              const updateData = {
-                                status_SE: "Rejected",
-                                status_Admin: "Rejected",
-                              };
-                              handleSubmit(form_id, updateData);
-                              handleSERejectAdminButtonClick();
-                            }}
-                            buttonStyle="btn--cancel"
-                            buttonSize="btn--large"
-                          >
-                            Reject
-                          </Button>
-                        </div>
-                      </div>
-                    )}
+                      )}
                   </>
                 )}
                 {user === "admin" && (
                   <>
-                    {status === "New" && (
+                    {status_en === "New" && status_bm === "Baru" && (
                       <Button
                         type="button"
                         onClick={() => {
                           const updateData = {
-                            status_SE: "In Progress",
-                            status_Admin: "In Progress",
+                            status_SE_en: "In Progress",
+                            status_SE_bm: "Dalam Proses",
+                            status_Admin_en: "In Progress",
+                            status_Admin_bm: "Dalam Proses",
                           };
                           handleSubmit(form_id, updateData);
                         }}
                         buttonStyle="btn--accept" // Style for accept button
                         buttonSize="btn--large"
                       >
-                        Accept
+                        {t("dc_accept")}
                       </Button>
                     )}
-                    {status === "In Progress" && (
+                    {status_en === "In Progress" &&
+                      status_bm === "Dalam Proses" && (
+                        <Button
+                          type="button"
+                          onClick={() => {
+                            if (videoInfo) {
+                              const updateData = {
+                                status_SE_en: "Awaiting Verification",
+                                status_SE_bm: "Menunggu Pengesahan",
+                                status_Admin_en: "Awaiting Verification",
+                                status_Admin_bm: "Menunggu Pengesahan",
+                              };
+                              handleSubmit(form_id, updateData, videoInfo);
+                              handleAdminButtonClick();
+                            } else {
+                              toast.error("You must upload an avatar video");
+                            }
+                          }}
+                          buttonStyle="btn--accept"
+                          buttonSize="btn--large"
+                        >
+                          {t("dc_submit")}
+                        </Button>
+                      )}
+                    {status_en === "Rejected" && status_bm === "Ditolak" && (
                       <Button
                         type="button"
                         onClick={() => {
-                          const updateData = {
-                            status_SE: "Awaiting Verification",
-                            status_Admin: "Awaiting Verification",
-                          };
-                          handleSubmit(form_id, updateData, videoInfo);
-                          handleAdminButtonClick();
+                          if (videoInfo) {
+                            const updateData = {
+                              status_SE_en: "Awaiting Verification",
+                              status_SE_bm: "Menunggu Pengesahan",
+                              status_Admin_en: "Awaiting Verification",
+                              status_Admin_bm: "Menunggu Pengesahan",
+                            };
+                            handleSubmit(form_id, updateData, videoInfo);
+                            handleAdminButtonClick();
+                          } else {
+                            toast.error("You must upload an avatar video");
+                          }
                         }}
                         buttonStyle="btn--accept"
                         buttonSize="btn--large"
                       >
-                        Submit
-                      </Button>
-                    )}
-                    {status === "Rejected" && (
-                      <Button
-                        type="button"
-                        onClick={() => {
-                          const updateData = {
-                            status_SE: "Awaiting Verification",
-                            status_Admin: "Awaiting Verification",
-                          };
-                          handleSubmit(form_id, updateData, videoInfo);
-                          handleAdminButtonClick();
-                        }}
-                        buttonStyle="btn--accept"
-                        buttonSize="btn--large"
-                      >
-                        Submit
+                        {t("dc_submit")}
                       </Button>
                     )}
                   </>

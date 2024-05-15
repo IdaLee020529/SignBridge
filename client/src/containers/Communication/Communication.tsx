@@ -29,8 +29,10 @@ import SpeechRecognition, {
     useSpeechRecognition,
 } from "react-speech-recognition";
 import toast from "react-hot-toast";
+import { useTranslation } from "react-i18next";
 
 function Communication() {
+    const { t, i18n } = useTranslation();
     const [isListening, setIsListening] = useState(false);
     const { transcript, resetTranscript, browserSupportsSpeechRecognition } =
         useSpeechRecognition({});
@@ -49,7 +51,7 @@ function Communication() {
                                 continuous: true,
                             });
                             setIsListening(true);
-                            toast("Listening", {
+                            toast(t("listening"), {
                                 icon: "🎤",
                                 style: {
                                     borderRadius: "10px",
@@ -60,7 +62,7 @@ function Communication() {
                         } else {
                             SpeechRecognition.stopListening();
                             setIsListening(false);
-                            toast("Stopped", {
+                            toast(t("stopped"), {
                                 icon: "✋",
                                 style: {
                                     borderRadius: "10px",
@@ -86,7 +88,7 @@ function Communication() {
                 >
                     <i className="fa fa-microphone"></i>
                     <span className="tooltip2">
-                        Voice input isn't supported on this browser
+                        {t("voice_input_not_supported")}
                     </span>
                 </button>
             );
@@ -246,7 +248,7 @@ function Communication() {
 
                 if (previousSubmittedText === submittedText) {
                     // If the current submitted text is the same as the previous one, append "#" to the returned text
-                    setInputText(data["return"] + "#");
+                    setInputText(data["return"] + "+");
                 } else {
                     // If they are different, update the inputText directly
                     setInputText(data["return"]);
@@ -269,7 +271,7 @@ function Communication() {
     // SLR functions
     const handleSLRResponse = (data: string) => {
         setSLRResponse(data);
-    };  
+    };
 
     return (
         <div
@@ -284,14 +286,14 @@ function Communication() {
                         onClick={handleButtonValue}
                         className={isButtonActive("SLP") ? "active" : ""}
                     >
-                        Sign Language Production (SLP)
+                        {t("slp")}
                     </button>
                     <button
                         value="SLR"
                         onClick={handleButtonValue}
                         className={isButtonActive("SLR") ? "active" : ""}
                     >
-                        Sign Language Recognition (SLR)
+                        {t("slr")}
                     </button>
                     <div
                         className={`animation ${
@@ -345,7 +347,7 @@ function Communication() {
                                         animationKeyword={inputText}
                                         speed={speed}
                                         showSkeleton={showSkeleton}
-                                        repeat={"Yes"}
+                                        repeat={"No"}
                                         isPaused={isPaused}
                                         updateCurrentAnimationName={
                                             updateCurrentAnimationName
@@ -371,7 +373,7 @@ function Communication() {
                         <div className="content-wrapper">
                             <div>
                                 <h1 className="communication-h1">
-                                    Avatar Control
+                                    {t("avatar_control")}
                                 </h1>
                                 <div className="communication-toprow">
                                     <FormControlLabel
@@ -390,32 +392,32 @@ function Communication() {
                                                 }}
                                             />
                                         }
-                                        label="Left-Hand Mode"
+                                        label={t("left_hand_mode")}
                                     />
 
                                     <FormControlLabel
                                         control={
                                             <div className="skeleton-checkbox">
-                                            <Checkbox
-                                                checked={showSkeleton}
-                                                onChange={() =>
-                                                    setShowSkeleton(
-                                                        (prevState) =>
-                                                            !prevState
-                                                    )
-                                                }
-                                                color="primary"
-                                                inputProps={{
-                                                    "aria-label":
-                                                        "Show Skeleton",
-                                                }}
-                                            />
+                                                <Checkbox
+                                                    checked={showSkeleton}
+                                                    onChange={() =>
+                                                        setShowSkeleton(
+                                                            (prevState) =>
+                                                                !prevState
+                                                        )
+                                                    }
+                                                    color="primary"
+                                                    inputProps={{
+                                                        "aria-label":
+                                                            "Show Skeleton",
+                                                    }}
+                                                />
                                             </div>
                                         }
                                         label={
                                             showSkeleton
-                                                ? "Hide Skeleton"
-                                                : "Show Skeleton"
+                                                ? t("hide_skeleton")
+                                                : t("show_skeleton")
                                         }
                                     />
 
@@ -424,7 +426,7 @@ function Communication() {
                                 <div className="speed-control">
                                     <div>
                                         <span className="speed-span">
-                                            Speed :{" "}
+                                            {t("speed")} :{" "}
                                         </span>
                                         <input
                                             type="range"
@@ -462,7 +464,7 @@ function Communication() {
                                             className="avatar-textbox"
                                             id="sigmlUrl"
                                             name="sigmlUrl"
-                                            placeholder="Enter text here"
+                                            placeholder={t("enter_text_here")}
                                             spellCheck="true"
                                         />
                                         {renderMicrophoneButton()}
@@ -473,14 +475,14 @@ function Communication() {
                                             className="avatarplay-btn"
                                             type="submit"
                                         >
-                                            Play
+                                            {t("play")}
                                         </button>
                                         <button
                                             className="avatarpause-btn"
                                             onClick={togglePause}
                                             type="button"
                                         >
-                                            {isPaused ? "Unpause" : "Pause"}
+                                            {isPaused ? t("unpause") : t("pause")}
                                         </button>
                                     </div>
                                 </form>
@@ -488,7 +490,7 @@ function Communication() {
                             </div>
 
                             <div className="bottomrow">
-                                <h1 className="communication-h1">Stats</h1>
+                                <h1 className="communication-h1">{t("stats")}</h1>
                                 <div className="communication-bottomrow">
                                     <input
                                         className="fps-box"
@@ -499,12 +501,12 @@ function Communication() {
                                     <input
                                         className="frame-box"
                                         type="text"
-                                        placeholder="   Sign / Frame:  0 / 15"
+                                        placeholder={t("sign_frame")}
                                     />
                                     <input
                                         className="gloss-box"
                                         type="text"
-                                        placeholder="  Gloss: None"
+                                        placeholder={t("gloss")}
                                         value={currentAnimationName}
                                         readOnly
                                     />
@@ -513,7 +515,7 @@ function Communication() {
                                     <input
                                         className="status-box"
                                         type="text"
-                                        placeholder="  Status:  Playing Sign"
+                                        placeholder={t("status_row")}
                                     />
                                 </div>
                             </div>

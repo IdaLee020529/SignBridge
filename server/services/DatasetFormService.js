@@ -51,7 +51,7 @@ const DatasetFormService = {
         const { client, database } = await connectDB();
         try {
             const collection = database.collection(DATABASE_COLLECTIONS.DATASET_COLLECTION);
-            const users = await collection.find({ status_Admin: { $ne: "-" } }).toArray(); // Filter for not "-"
+            const users = await collection.find({ status_Admin_en: { $ne: "-" }, status_Admin_bm: { $ne: "-" } }).toArray(); // Filter for not "-"
             await client.close();
             return users;
         } catch (error) {
@@ -63,7 +63,6 @@ const DatasetFormService = {
     async DeleteFormByID(id) {
         const { client, database } = await connectDB();
         try {
-            console.log(id)
             const collection = database.collection(DATABASE_COLLECTIONS.DATASET_COLLECTION); // Assuming FORMS is the collection name
             await collection.deleteOne({ form_id: parseInt(id) });
             await client.close();

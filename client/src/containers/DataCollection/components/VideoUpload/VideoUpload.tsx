@@ -6,17 +6,15 @@ import { useTranslation } from "react-i18next";
 interface VideoUploadProps {
   videoInfo: any;
   setVideoInfo: any;
-  uploadedVideo: any;
-  setUploadedVideo: any;
 }
 
 const VideoUpload: React.FC<VideoUploadProps> = ({
   videoInfo,
   setVideoInfo,
-  uploadedVideo,
-  setUploadedVideo,
 }) => {
   const { t, i18n } = useTranslation();
+  const [uploadedVideo, setUploadedVideo] = useState<string | null>("");
+
   const [uploading, setUploading] = useState<boolean>(false);
 
   const handleChange = (info: any) => {
@@ -38,13 +36,13 @@ const VideoUpload: React.FC<VideoUploadProps> = ({
   };
 
   return (
-    <div className="videoinput-class">
+    <div>
       {videoInfo ? (
         <Space>
           <p>
-            <span className="uploaded-text">{uploadedVideo}</span>
+            <span>{uploadedVideo}</span>
           </p>
-          <span onClick={handleRemove} className="close-outline-button">
+          <span onClick={handleRemove}>
             <CloseOutlined />
           </span>
         </Space>
@@ -67,7 +65,12 @@ const VideoUpload: React.FC<VideoUploadProps> = ({
             }, 1000);
           }}
         >
-          <Button icon={<UploadOutlined />} size="large" loading={uploading}>
+          <Button
+            icon={<UploadOutlined />}
+            size="large"
+            loading={uploading}
+            style={{ width: "175px", height: "40px" }}
+          >
             {uploading ? t("uploading") : t("choose_a_video")}
           </Button>
         </Upload>

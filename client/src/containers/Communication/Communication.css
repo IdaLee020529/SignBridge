@@ -141,6 +141,7 @@
 }
 
 .status-box {
+    padding: 5px;
     border-radius: 5px;
     height: 5vh;
     width: 100%;
@@ -422,12 +423,14 @@ button:nth-child(2):hover ~ .animation {
 }
 
 .frame-box{
+    padding: 5px;
     border: 1px solid #353535;
     border-radius: 5px;
     width: 9.5vw !important;
 }
 
 .gloss-box{
+    padding: 5px;
     border: 1px solid #353535;
     border-radius: 5px;
     width: 12vw !important;

@@ -1,16 +1,18 @@
 import './SLROutput.css';
+import { useTranslation } from "react-i18next";
 
 const SLROutput = ({ responseData }: { responseData: string | null }) => {
+    const { t, i18n } = useTranslation();
     return (
         <div className="slr-output-container">
-            <h1>SLR Model Output</h1>
+            <h1>{t("slr_model_output")}</h1>
             {responseData ? (
                 <div className="output-content">
-                    <p>Received Output: {responseData}</p>
+                    <p>{t("received_output")}: {responseData}</p>
                 </div>
             ) : (
                 <div className="output-content">
-                    <p>No Output Available</p>
+                    <p>{t("no_output_available")}</p>
                 </div>
             )}
         </div>

@@ -1,0 +1,48 @@
+const communicate = {
+    en: {
+        slp: "Sign Language Production (SLP)",
+        slr: "Sign Language Recognition (SLR)",
+        avatar_control: "Avatar Control",
+        left_hand_mode: "Left-Hand Mode",
+        hide_skeleton: "Hide Skeleton",
+        show_skeleton: "Show Skeleton",
+        speed: "Speed",
+        play: "Play",
+        enter_text_here: "Enter text here",
+        unpause: "Unpause",
+        pause: "Pause",
+        stats: "Stats",
+        sign_frame: "Sign / Frame:  0 / 15",
+        gloss: "Gloss: None",
+        status_row: "Status:  Playing Sign",
+
+        video_preview: "Video Preview",
+        slr_model_output: "SLR Model Output",
+        received_output: "Received Output", 
+        no_output_available: "No Output Available",
+    },
+    bm: {
+        slp: "Pengeluaran Bahasa Isyarat (SLP)",
+        slr: "Pengiktirafan Bahasa Isyarat (SLR)",
+        avatar_control: "Kawalan Avatar",
+        left_hand_mode: "Mod Tangan Kiri",
+        hide_skeleton: "Sembunyikan Skeletal",
+        show_skeleton: "Tunjukkan Skeletal",
+        speed: "Kelajuan",
+        play: "Main",
+        enter_text_here: "Masukkan teks di sini",
+        unpause: "Buka kunci",
+        pause: "Jeda",
+        stats: "Statistik",
+        sign_frame: "Isyarat / Bingkai:  0 / 15",
+        gloss: "Glosari: Tiada",
+        status_row: "Status:  Memainkan Isyarat",
+
+        video_preview: "Pratonton Video",
+        slr_model_output: "Output Model SLR",
+        received_output: "Output Diterima",
+        no_output_available: "Tiada Output Tersedia",
+    },
+};
+
+export default communicate;

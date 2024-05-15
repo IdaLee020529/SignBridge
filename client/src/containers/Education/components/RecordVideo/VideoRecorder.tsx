@@ -103,6 +103,14 @@ const VideoRecorder = ({
         setRecordingStatus("inactive");
         mediaRecorder.current?.stop();
 
+        // Stop the media stream
+        if (stream) {
+            stream.getTracks().forEach((track) => {
+                track.stop();
+            });
+            setStream(null); // Reset the stream state to null
+        }
+
         if (mediaRecorder.current) {
             mediaRecorder.current.onstop = () => {
                 const videoBlob = new Blob(videoChunks, { type: mimeType });
@@ -214,7 +222,9 @@ const VideoRecorder = ({
                     <video
                         ref={liveVideoFeed}
                         autoPlay
-                        className={`${styles.livePlayer} ${!permission ? styles.initialHeight : ''}`}
+                        className={`${styles.livePlayer} ${
+                            !permission ? styles.initialHeight : ""
+                        }`}
                     ></video>
                 ) : null}
                 {recordedVideo ? (
