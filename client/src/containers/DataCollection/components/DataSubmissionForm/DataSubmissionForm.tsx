@@ -197,16 +197,23 @@ const DataSubmissionForm: React.FC<DataSubmissionFormProps> = ({ user }) => {
         console.log("Please login");
       } else {
         const formData = new FormData();
-        let status_SE = "";
-        let status_Admin = "";
+        let status_SE_en = "";
+        let status_SE_bm = "";
+        let status_Admin_en = "";
+        let status_Admin_bm = "";
+
         if (user === "signexpert") {
-          status_SE = "Awaiting Accept";
-          (status_Admin = "New"), formData.append("user_id", user_id);
+          status_SE_en = "Awaiting Accept";
+          status_SE_bm = "Menunggu Kelulusan";
+          (status_Admin_en = "New", status_Admin_bm = "Baru"), formData.append("user_id", user_id);
           formData.append("name", name);
           formData.append("email", email);
           formData.append("text_sentence", text);
-          formData.append("status_SE", status_SE);
-          formData.append("status_Admin", status_Admin);
+          formData.append("status_SE_en", status_SE_en);
+          formData.append("status_SE_bm", status_SE_bm);
+          formData.append("status_Admin_en", status_Admin_en);
+          formData.append("status_Admin_bm", status_Admin_bm);
+
           if (videoInfo) {
             formData.append("video", videoInfo);
             try {
@@ -218,14 +225,19 @@ const DataSubmissionForm: React.FC<DataSubmissionFormProps> = ({ user }) => {
             await handleOpenModal();
           }
         } else if (user === "public") {
-          status_SE = "New";
-          status_Admin = "-";
+          status_SE_en = "New";
+          status_SE_bm = "Baru";
+          status_Admin_en = "-";
+          status_Admin_bm = "-";
           formData.append("user_id", user_id);
           formData.append("name", name);
           formData.append("email", email);
           formData.append("text_sentence", text);
-          formData.append("status_SE", status_SE);
-          formData.append("status_Admin", status_Admin);
+          formData.append("status_SE_en", status_SE_en);
+          formData.append("status_SE_bm", status_SE_bm);
+          formData.append("status_Admin_en", status_Admin_en);
+          formData.append("status_Admin_bm", status_Admin_bm);
+
           if (videoInfo) {
             formData.append("video", videoInfo);
             try {

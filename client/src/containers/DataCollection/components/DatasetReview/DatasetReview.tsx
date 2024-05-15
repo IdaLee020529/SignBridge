@@ -13,7 +13,6 @@ import {
 import DatasetFiltering from "../DatasetFiltering/DatasetFiltering";
 import TablePagination from "@mui/material/TablePagination";
 import { useTranslation } from "react-i18next";
-
 interface DatasetReviewProps {
   user: string;
 }
@@ -27,6 +26,8 @@ const DatasetReview: React.FC<DatasetReviewProps> = ({ user }) => {
   // Pagination
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(10);
+
+  const currentSelectedLanguage = localStorage.getItem("i18nextLng");
 
   useEffect(() => {
     const fetchData = async () => {
@@ -130,9 +131,17 @@ const DatasetReview: React.FC<DatasetReviewProps> = ({ user }) => {
   const filterForms = (form: any) => {
     if (filterOption === "status") {
       if (user === "signexpert") {
-        return filterStatus === "All" || form.status_SE === filterStatus;
+        if (currentSelectedLanguage === "en") {
+          return filterStatus === "All" || form.status_SE_en === filterStatus;
+        } else if (currentSelectedLanguage === "bm") {
+          return filterStatus === "All" || form.status_SE_bm === filterStatus;
+        }
       } else if (user === "admin") {
-        return filterStatus === "All" || form.status_Admin === filterStatus;
+        if (currentSelectedLanguage === "en") {
+          return filterStatus === "All" || form.status_Admin_en === filterStatus;
+        } else if (currentSelectedLanguage === "bm") {
+          return filterStatus === "All" || form.status_Admin_bm === filterStatus;
+        }
       }
     }
     return true; // Return true by default if filterOption is not "status"
@@ -167,7 +176,8 @@ const DatasetReview: React.FC<DatasetReviewProps> = ({ user }) => {
           number={form.form_id}
           form_id={form.form_id}
           dateTime={form.submitted_time}
-          status={user === "signexpert" ? form.status_SE : form.status_Admin}
+          status_en={user === "signexpert" ? form.status_SE_en : form.status_Admin_en}
+          status_bm={user === "signexpert" ? form.status_SE_bm : form.status_Admin_bm}
           name={form.name}
           email={form.email}
           text={form.text_sentence}

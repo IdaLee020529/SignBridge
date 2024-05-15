@@ -4,7 +4,9 @@ const FirebaseService = require("../services/FirebaseService")
 const DatasetFormController = {
     async ProcessVideoAndSubmitFormData(req, res, next) {
         try {
-            const { user_id, name, email, text_sentence, status_SE, status_Admin } = req.body;
+            // const { user_id, name, email, text_sentence, status_SE, status_Admin } = req.body;
+            const data = req.body;
+            data.user_id = parseInt(data.user_id);
             const avatar_link = "";
             const videoInfo = req.file;
             const videoContent = await FirebaseService.uploadVideoToStorageAndGetURL(videoInfo, "demoVid", "demo");
@@ -12,7 +14,7 @@ const DatasetFormController = {
                 const video_link = videoContent.downloadURL
                 const submitted_time = videoContent.timestamp
                 const video_name = videoContent.formattedDateTime
-                const result = await DatasetFormService.SubmitForm({ user_id: parseInt(user_id), name, email, text_sentence, submitted_time, status_SE, status_Admin, video_link, video_name, avatar_link })
+                const result = await DatasetFormService.SubmitForm({ ...data, submitted_time, video_link, video_name, avatar_link })
                 res.status(201).json(result);
             }
         } catch (error) {
