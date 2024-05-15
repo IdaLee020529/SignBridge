@@ -27,22 +27,22 @@ const StatusFilter: React.FC<StatusFilterProps> = ({
   // Assign options based on user
   if (user === "signexpert") {
     options = [
-      { value: "All", label: t("all") },
-      { value: "New", label: t("new") },
-      { value: "Awaiting Accept", label: t("awaitingAccept") },
-      { value: "In Progress", label: t("inProgress") },
-      { value: "Awaiting Verification", label: t("awaitingVerify") },
-      { value: "Rejected", label: t("rejected") },
-      { value: "Verified", label: t("verified") },
+      { value: t("all"), label: t("all") },
+      { value: t("new"), label: t("new") },
+      { value: t("awaitingAccept"), label: t("awaitingAccept") },
+      { value: t("inProgress"), label: t("inProgress") },
+      { value: t("awaitingVerify"), label: t("awaitingVerify") },
+      { value: t("rejected"), label: t("rejected") },
+      { value: t("verified"), label: t("verified") },
     ];
   } else if (user === "admin") {
     options = [
-      { value: "All", label: t("all") },
-      { value: "New", label: t("new") },
-      { value: "In Progress", label: t("inProgress") },
-      { value: "Awaiting Verification", label: t("awaitingVerify") },
-      { value: "Rejected", label: t("rejected") },
-      { value: "Verified", label: t("verified") },
+      { value: t("all"), label: t("all") },
+      { value: t("new"), label: t("new") },
+      { value: t("inProgress"), label: t("inProgress") },
+      { value: t("awaitingVerify"), label: t("awaitingVerify") },
+      { value: t("rejected"), label: t("rejected") },
+      { value: t("verified"), label: t("verified") },
     ];
   }
 

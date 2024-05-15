@@ -17,6 +17,8 @@ const dataset_collection = {
         notifFailed: "Failed to send notification.",
         datasetmsg: "Our dataset collection form encourages individuals to submit datasets, contributing valuable information for analysis, research, and insights",
         voice_input_not_supported: "Voice input isn't supported on this browser",
+        mustUploadAvatar: "You must upload an avatar video",
+        mustUploadVideo: "You must upload a video",
         listening: "Listening",
         stopped: "Stopped",
         dc_status: "Status",
@@ -40,6 +42,8 @@ const dataset_collection = {
         dc_reject: "Reject",
         dc_submit: "Submit",
         download_btn: "Download",
+        fileUploadSuccess: "file uploaded successfully",
+        fileUploadFailed: "file upload failed",
     },
     bm: {
         dataset_collection_form: "Borang Pengumpulan Dataset",
@@ -59,6 +63,8 @@ const dataset_collection = {
         notifFailed: "Gagal menghantar pemberitahuan.",
         datasetmsg: "Borang pengumpulan dataset kami mendorong individu untuk menghantar dataset, menyumbang maklumat berharga untuk analisis, penyelidikan, dan pandangan",
         voice_input_not_supported: "Input suara tidak disokong pada pelayar ini",
+        mustUploadAvatar: "Anda mesti muat naik video avatar",
+        mustUploadVideo: "Anda mesti muat naik video",
         listening: "Mendengar",
         stopped: "Berhenti",
         dc_status: "Status",
@@ -82,6 +88,8 @@ const dataset_collection = {
         dc_reject: "Tolak",
         dc_submit: "Hantar",
         download_btn: "Muat turun",
+        fileUploadSuccess: "fail dimuat naik dengan berjaya",
+        fileUploadFailed: "fail muat naik gagal",
     },
 };
 

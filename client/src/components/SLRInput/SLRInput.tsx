@@ -50,9 +50,16 @@ const SLRInput = ({ onResponsiveReceived }: { onResponsiveReceived: (data: strin
         handleResetAll();
         if ("MediaRecorder" in window) {
             try {
-                const videoStream = await navigator.mediaDevices.getUserMedia({ video: true });
+                const videoConstraints = {
+                    audio: false,
+                    video: true,
+                };
+                const audioConstraints = { audio: true };
+                const videoStream = await navigator.mediaDevices.getUserMedia(videoConstraints);
+                const audioStream = await navigator.mediaDevices.getUserMedia(audioConstraints);
                 setPermission(true);
-                setStream(videoStream);
+                const combinedStream = new MediaStream([...videoStream.getTracks(), ...audioStream.getTracks()]);
+                setStream(combinedStream);
                 if (liveVideoFeed.current) {
                     liveVideoFeed.current.srcObject = videoStream;
                 }
@@ -109,7 +116,7 @@ const SLRInput = ({ onResponsiveReceived }: { onResponsiveReceived: (data: strin
         }
         if (formData.get("video")) {
             try {
-                alert("Video uploaded successfully")
+                alert(t("videoSuceess"))
                 const response = await fetch("http://localhost:5000/api/sentence_SLR", {
                     method: "POST",
                     body: formData,

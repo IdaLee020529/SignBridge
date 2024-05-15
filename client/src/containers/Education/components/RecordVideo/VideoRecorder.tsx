@@ -237,7 +237,10 @@ const VideoRecorder = ({
                         <button
                             className={styles.upload_btn_pushable}
                             type="button"
-                            onClick={handleUpload}
+                            onClick={() => {
+                                handleUpload();
+                                playButtonClickedSound();
+                            }}
                         >
                             <span className={styles.upload_btn_shadow}></span>
                             <span className={styles.upload_btn_edge}></span>

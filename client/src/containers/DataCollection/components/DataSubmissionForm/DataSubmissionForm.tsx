@@ -101,9 +101,11 @@ const DataSubmissionForm: React.FC<DataSubmissionFormProps> = ({ user }) => {
   };
   //Video Control
   const [videoInfo, setVideoInfo] = useState(null);
-  const [resetVideo, setResetVideo] = useState(false);
+  const [uploadedVideo, setUploadedVideo] = useState<string | null>(null);
+
   const handleVideoReset = () => {
-    setResetVideo(true); // Reset resetVideo state
+    setVideoInfo(null);
+    setUploadedVideo(null);
   };
 
   const handleReset = () => {
@@ -113,7 +115,7 @@ const DataSubmissionForm: React.FC<DataSubmissionFormProps> = ({ user }) => {
     setNameError("");
     setEmailError("");
     setTextError("");
-    setResetVideo(true); // Set resetVideo to true to trigger video input reset
+    handleVideoReset();
   };
 
   //Validation Control
@@ -187,7 +189,7 @@ const DataSubmissionForm: React.FC<DataSubmissionFormProps> = ({ user }) => {
     validateEmail(email);
     validateText(text);
     if (videoInfo == null) {
-      toast.error("You must upload a video");
+      toast.error(t("mustUploadVideo"));
       return;
     }
     if (
@@ -348,9 +350,10 @@ const DataSubmissionForm: React.FC<DataSubmissionFormProps> = ({ user }) => {
 
                 <div className="video-container">
                   <VideoInput
-                    reset={resetVideo}
-                    onReset={handleVideoReset}
                     setVideoInfo={setVideoInfo}
+                    uploadedVideo={uploadedVideo}
+                    setUploadedVideo={setUploadedVideo}
+                    onRemove={handleVideoReset}
                   />
                 </div>
                 <div className="button-container">

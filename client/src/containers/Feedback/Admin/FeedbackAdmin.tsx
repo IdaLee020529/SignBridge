@@ -61,7 +61,9 @@ const FeedbackAdmin: React.FC = () => {
       } else if (store.field === "Age") { 
         store.setModifiedData(collapsibleData.sort((a: any, b: any) => parseInt(a.age) - parseInt(b.age)));
       }
-    } else if (store.sortBy === "desc") {
+    } 
+    
+    else if (store.sortBy === "desc") {
       // console.log("This is desc");
       if (store.field === "ID") {
         store.setModifiedData(collapsibleData.sort((a: any, b: any) => b.feedback_id - a.feedback_id));
@@ -84,10 +86,11 @@ const FeedbackAdmin: React.FC = () => {
     }
     
     else if (store.field === "Status") {
+      console.log(collapsibleData);
       if (store.filterBy === "new") {
-        store.setModifiedData(collapsibleData.filter((data: any) => data.status === "new"));
+        store.setModifiedData(collapsibleData.filter((data: any) => data.status_en === "New"));
       } else if (store.filterBy === "viewed") {
-        store.setModifiedData(collapsibleData.filter((data: any) => data.status === "viewed"));
+        store.setModifiedData(collapsibleData.filter((data: any) => data.status_en === "Viewed"));
       }
     }
   };

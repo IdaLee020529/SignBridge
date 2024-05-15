@@ -6,43 +6,35 @@ import "./VideoInput.css";
 import { useTranslation } from "react-i18next";
 
 interface VideoInputProps {
-  reset: boolean;
-  onReset: () => void;
   setVideoInfo: any;
+  uploadedVideo: any;
+  setUploadedVideo: any;
+  onRemove: () => void;
 }
 
 const VideoInput: React.FC<VideoInputProps> = ({
-  reset,
-  onReset,
   setVideoInfo,
+  onRemove,
+  uploadedVideo,
+  setUploadedVideo,
 }) => {
   const { t, i18n } = useTranslation();
-  const [uploadedVideo, setUploadedVideo] = useState<string | null>(null);
   const [uploading, setUploading] = useState<boolean>(false);
-
-  useEffect(() => {
-    if (reset) {
-      setUploadedVideo(null);
-      onReset(); // Notify parent component that the reset is completed
-    }
-  }, [reset, onReset]);
-
   const handleChange = (info: any) => {
     if (info.file.status !== "uploading") {
     }
     if (info.file.status === "done") {
-      message.success(`${info.file.name} file uploaded successfully`);
+      message.success(`${info.file.name} ` + t("fileUploadSuccess"));
       setUploadedVideo(info.file.name); // Set the uploaded video name
       setVideoInfo(info.file.originFileObj); // Set video info when upload is successful
     } else if (info.file.status === "error") {
-      message.error(`${info.file.name} file upload failed.`);
+      message.error(`${info.file.name} ` + t("fileUploadFailed"));
       setUploadedVideo(null); // Reset uploaded video name on error
     }
   };
 
   const handleRemove = () => {
-    setUploadedVideo(null);
-    setVideoInfo(null);
+    onRemove();
   };
 
   return (

@@ -60,7 +60,7 @@ const CollapsibleContainer: React.FC<CollapsibleContainerProps> = ({
   const toggleOpen = async () => {
     setIsOpen(!isOpen);
     if (!isOpen) {
-      updateStatus(id.toString(), "viewed", "dilihat");
+      updateStatus(id.toString(), "Viewed", "Dilihat");
     }
 
     for (let i = 0; i < useStore.modifiedData.length; i++) {
@@ -69,8 +69,8 @@ const CollapsibleContainer: React.FC<CollapsibleContainerProps> = ({
           ...useStore.modifiedData.slice(0, i),
           {
             ...useStore.modifiedData[i],
-            status_en: "viewed",
-            status_bm: "dilihat",
+            status_en: "Viewed",
+            status_bm: "Dilihat",
           },
           ...useStore.modifiedData.slice(i + 1),
         ]);

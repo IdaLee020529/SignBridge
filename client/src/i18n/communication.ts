@@ -20,6 +20,7 @@ const communicate = {
         slr_model_output: "SLR Model Output",
         received_output: "Received Output", 
         no_output_available: "No Output Available",
+        videoSuceess: "Video uploaded successfully",
     },
     bm: {
         slp: "Pengeluaran Bahasa Isyarat (SLP)",
@@ -42,6 +43,7 @@ const communicate = {
         slr_model_output: "Output Model SLR",
         received_output: "Output Diterima",
         no_output_available: "Tiada Output Tersedia",
+        videoSuceess: "Video berjaya dimuat naik",
     },
 };
 

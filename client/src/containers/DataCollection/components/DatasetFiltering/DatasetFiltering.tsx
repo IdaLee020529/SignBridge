@@ -41,8 +41,8 @@ const DatasetFiltering: React.FC<DatasetFilteringProps> = ({
           onChange={handleFilterFunctionChange}
           style={{ width: 140, height: 40 }}
         >
-          <Option value="status">{t("dc_status")}</Option>
           <Option value="number">{t("dc_number")}</Option>
+          <Option value="status">{t("dc_status")}</Option>
           <Option value="datetime">{t("dc_datetime")}</Option>
         </Select>
       </div>
