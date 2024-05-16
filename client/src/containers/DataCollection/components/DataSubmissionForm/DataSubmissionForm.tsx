@@ -214,7 +214,7 @@ const DataSubmissionForm: React.FC<DataSubmissionFormProps> = ({ user }) => {
 
         if (user === "signexpert") {
           status_SE_en = "Awaiting Accept";
-          status_SE_bm = "Menunggu Kelulusan";
+          status_SE_bm = "Menunggu Pengesahan";
           status_Admin_en = "New";
           status_Admin_bm = "Baru";
           formData.append("user_id", user_id);
