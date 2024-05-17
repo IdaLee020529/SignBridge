@@ -1,5 +1,7 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
+exports[`Test Feedback should be able to submit 1`] = `[Function]`;
+
 exports[`Test Feedback should render correctly 1`] = `
 [
   <div>
@@ -28,6 +30,7 @@ exports[`Test Feedback should render correctly 1`] = `
                 first_name
               </label>
               <input
+                data-testid="test_firstName"
                 id="firstName"
                 maxLength={25}
                 name="firstName"
@@ -43,6 +46,7 @@ exports[`Test Feedback should render correctly 1`] = `
                 last_name
               </label>
               <input
+                data-testid="test_lastName"
                 id="lastName"
                 maxLength={25}
                 name="lastName"
@@ -58,6 +62,7 @@ exports[`Test Feedback should render correctly 1`] = `
                 age
               </label>
               <input
+                data-testid="test_age"
                 id="age"
                 max={150}
                 min={2}
@@ -74,6 +79,7 @@ exports[`Test Feedback should render correctly 1`] = `
               <div>
                 <input
                   checked={true}
+                  data-testid="test_male"
                   id="male"
                   name="gender"
                   onChange={[Function]}
@@ -88,6 +94,7 @@ exports[`Test Feedback should render correctly 1`] = `
                 </label>
                 <input
                   className="female"
+                  data-testid="test_female"
                   id="female"
                   name="gender"
                   onChange={[Function]}
@@ -109,6 +116,7 @@ exports[`Test Feedback should render correctly 1`] = `
                 email_address
               </label>
               <input
+                data-testid="test_email"
                 id="email"
                 name="email"
                 onChange={[Function]}
@@ -121,6 +129,7 @@ exports[`Test Feedback should render correctly 1`] = `
                 race
               </label>
               <input
+                data-testid="test_race"
                 id="race"
                 maxLength={15}
                 name="race"
@@ -144,6 +153,7 @@ exports[`Test Feedback should render correctly 1`] = `
               </label>
               <div>
                 <select
+                  data-testid="test_fcategory"
                   id="fcategory"
                   onChange={[Function]}
                   onClick={[Function]}
@@ -767,6 +777,7 @@ exports[`Test Feedback should render correctly 1`] = `
           </button>
           <br />
           <button
+            data-testid="test_submit"
             id="submit_button"
             name="submit_button"
             type="submit"

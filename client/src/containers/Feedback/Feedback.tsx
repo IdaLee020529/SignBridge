@@ -369,6 +369,7 @@ const Feedback = () => {
                                     <input
                                         type="text"
                                         id="firstName"
+                                        data-testid="test_firstName"
                                         name="firstName"
                                         maxLength={25}
                                         value={formData.firstName}
@@ -388,6 +389,7 @@ const Feedback = () => {
                                     <input
                                         type="text"
                                         id="lastName"
+                                        data-testid="test_lastName"
                                         name="lastName"
                                         maxLength={25}
                                         value={formData.lastName}
@@ -407,6 +409,7 @@ const Feedback = () => {
                                     <input
                                         type="text"
                                         id="age"
+                                        data-testid="test_age"
                                         name="age"
                                         max={150}
                                         min={2}
@@ -427,6 +430,7 @@ const Feedback = () => {
                                             type="radio"
                                             name="gender"
                                             id="male"
+                                            data-testid="test_male"
                                             value="male"
                                             onChange={handleFormChange}
                                             checked={formData.gender === "male"}
@@ -438,6 +442,7 @@ const Feedback = () => {
                                         <input
                                             type="radio"
                                             name="gender"
+                                            data-testid="test_female"
                                             id="female"
                                             value="female"
                                             className="female"
@@ -457,6 +462,7 @@ const Feedback = () => {
                                     <input
                                         type="text"
                                         name="email"
+                                        data-testid="test_email"
                                         id="email"
                                         value={formData.email}
                                         onChange={handleFormChange}
@@ -473,6 +479,7 @@ const Feedback = () => {
                                     <input
                                         type="text"
                                         id="race"
+                                        data-testid="test_race"
                                         name="race"
                                         maxLength={15}
                                         value={formData.race}
@@ -501,6 +508,7 @@ const Feedback = () => {
                                     <div className={style.select_wrapper}>
                                         <select
                                             id="fcategory"
+                                            data-testid="test_fcategory"
                                             className={style.fcategory}
                                             onChange={handleSelectChange}
                                             onClick={handleDropdownClick}
@@ -808,6 +816,7 @@ const Feedback = () => {
                             <button
                                 type="submit"
                                 id="submit_button"
+                                data-testid="test_submit"
                                 className={style.submit}
                                 name="submit_button"
                             >
