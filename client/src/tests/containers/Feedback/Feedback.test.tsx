@@ -1,6 +1,7 @@
 import { create } from "react-test-renderer";
-import { render } from "@testing-library/react";
+import { render, fireEvent, cleanup, screen, waitFor } from "@testing-library/react";
 import Feedback from "../,./../../../containers/Feedback/Feedback";
+import {userEvent} from '@testing-library/user-event';
 
 const mockedUsedNavigate = jest.fn();
 jest.mock("react-router-dom", () => ({
@@ -21,4 +22,20 @@ describe("Test Feedback", () => {
     const tree = create(<Feedback />).toJSON();
     expect(tree).toMatchSnapshot();
   });
+
+  it("should be able to submit", async () => {
+    const { asFragment } = render(<Feedback />);
+    // Fill in the form fields
+    userEvent.type(screen.getByTestId("test_firstName"), "John");
+    userEvent.type(screen.getByTestId("test_lastName"), "Doe");
+    userEvent.type(screen.getByTestId("test_age"), "5");
+    userEvent.click(screen.getByTestId("test_male"));
+    userEvent.type(screen.getByTestId("test_email"), "john@BiLogoGmail.com");
+    userEvent.type(screen.getByTestId("test_race"), "Asian");
+
+    // Click the submit button
+    fireEvent.click(screen.getByTestId("test_submit"));
+    expect(asFragment).toMatchSnapshot();
+  });
+
 });
