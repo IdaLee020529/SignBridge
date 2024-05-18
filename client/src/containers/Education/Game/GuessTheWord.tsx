@@ -68,23 +68,21 @@ const GuessTheWord: React.FC = () => {
     const [lives, setLives] = useState(3);
     const [gameOver, setGameOver] = useState(false);
 
-    showScore;
-
     function CameraControl() {
         const { camera } = useThree();
-      
+
         const x = -7.5; // Adjust these values according to your requirements
         const y = 140;
         const z = 215;
         const decimal = 1; // Adjust this value to control the speed of lerping
-      
+
         useFrame(() => {
-          camera.position.lerp({ x, y, z }, decimal);
-          camera.lookAt(x, y, z);
+            camera.position.lerp({ x, y, z }, decimal);
+            camera.lookAt(x, y, z);
         });
-      
+
         return null;
-      }
+    }
 
     // Function to render hearts for lives
     const renderLives = () => {
@@ -314,14 +312,14 @@ const GuessTheWord: React.FC = () => {
                     </button>
                     <h1 className="level-title">
                         {questionList.length > 0 &&
-                            questionList[currentQuestionIndex]
-                            ? `${t("level")} ${questionList[currentQuestionIndex].level
-                            }`
+                        questionList[currentQuestionIndex]
+                            ? `${t("level")} ${
+                                  questionList[currentQuestionIndex].level
+                              }`
                             : t("loading")}
                     </h1>
                     <h2 className="score-title">
-                        {t("score")}
-                        {score}
+                        {t("score")}: {score}
                     </h2>
                     <button
                         className="shared-btn setting-btn2"
@@ -415,23 +413,22 @@ const GuessTheWord: React.FC = () => {
             )}
         </div>
     );
-
 };
 
 function CameraControl() {
     const { camera } = useThree();
-  
+
     const x = -7.5; // Adjust these values according to your requirements
     const y = 140;
     const z = 215;
     const decimal = 1; // Adjust this value to control the speed of lerping
-  
+
     useFrame(() => {
-      camera.position.lerp({ x, y, z }, decimal);
-      camera.lookAt(x, y, z);
+        camera.position.lerp({ x, y, z }, decimal);
+        camera.lookAt(x, y, z);
     });
-  
+
     return null;
-  }
+}
 
 export default GuessTheWord;

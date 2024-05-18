@@ -241,7 +241,7 @@
   },
   {
     "keyword": "MATA",
-    "animations": ["Mata1", "Mata2"],
+    "animations": ["Mata1"],
     "category":"Medical",
     "contributor":"SARAWAK SOCIETY FOR THE DEAF (SSD)",
     "thumbnail": "./images/signImages/medical.jpg",

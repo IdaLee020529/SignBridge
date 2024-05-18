@@ -14,9 +14,11 @@ const playButtonClickedSound = () => {
 const VideoRecorder = ({
     onStartRecording,
     onStopRecording,
+    onVideoData,
 }: {
     onStartRecording: () => void;
     onStopRecording: () => void;
+    onVideoData: (data: { return: string }) => void;
 }) => {
     const { t, i18n } = useTranslation();
     const [permission, setPermission] = useState(false);
@@ -139,6 +141,10 @@ const VideoRecorder = ({
                 if (response.ok) {
                     const data = await response.json();
                     console.log("Video uploaded successfully: ", data);
+
+                    if (onVideoData) {
+                        onVideoData(data);
+                    }
                 } else {
                     console.error("Failed to send video to server");
                 }

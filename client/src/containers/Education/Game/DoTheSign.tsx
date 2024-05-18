@@ -1,24 +1,72 @@
 import React, { useState, useRef, useEffect } from "react";
 import RulesPopup from "../components/RulesPopup/RulesPopup";
+import HintPopup from "../components/HintPopup/HintPopup";
 import InnerSetting from "../components/InnerSetting/InnerSetting";
 import VideoRecorder from "../components/RecordVideo/VideoRecorder";
 import "./DoTheSign.css";
 import backgroundMusic from "/music/gameMusic2.mp3";
 import buttonClickedSound from "/music/btnClicked.wav";
+import correctAnswerSound from "/music/correctMusic.mp3";
+import wrongAnswerSound from "/music/wrongMusic.mp3";
 import { useTranslation } from "react-i18next";
+import toast from "react-hot-toast";
 
-// Function to play button clicked sound
+interface GlossAnimation {
+    keyword: string;
+    animations: string[];
+    category: string;
+}
+
 const playButtonClickedSound = () => {
     const audio = new Audio(buttonClickedSound);
     audio.play();
 };
 
-// Function to update background music volume
-const updateBackgroundMusicVolume = (volume: number) => {
-    const audioRef = useRef<HTMLAudioElement>(null);
-    if (audioRef.current) {
-        audioRef.current.volume = volume;
-        updateBackgroundMusicVolume(volume);
+const playCorrectAnswerSound = () => {
+    const audio = new Audio(correctAnswerSound);
+    audio.play();
+};
+
+const playWrongAnswerSound = () => {
+    const audio = new Audio(wrongAnswerSound);
+    audio.play();
+};
+
+const loadAnimationKeywords = async (): Promise<GlossAnimation[] | null> => {
+    try {
+        const response = await fetch("/glosses/gloss.json");
+        if (!response.ok) {
+            throw new Error(
+                `Failed to fetch: ${response.status} ${response.statusText}`
+            );
+        }
+        const data: GlossAnimation[] = await response.json();
+        return data;
+    } catch (error) {
+        console.error("Failed to load animation keywords:", error);
+        return null;
+    }
+};
+
+const pickRandomKeyword = async (
+    setAnimationKeyword: React.Dispatch<React.SetStateAction<string>>
+) => {
+    const data = await loadAnimationKeywords();
+
+    if (data) {
+        const randomIndex = Math.floor(Math.random() * data.length);
+        const randomKeyword = data[randomIndex].keyword;
+
+        // Format each word to have the first letter capitalized
+        const formattedKeyword = randomKeyword
+            .split(" ")
+            .map(
+                (word) =>
+                    word.charAt(0).toUpperCase() + word.slice(1).toLowerCase()
+            )
+            .join(" ");
+
+        setAnimationKeyword(formattedKeyword); // Set the formatted keyword in state
     }
 };
 
@@ -26,13 +74,18 @@ const DoTheSign: React.FC = () => {
     const { t, i18n } = useTranslation();
     const [isInnerSettingOpen, setIsInnerSettingOpen] = useState(false);
     const [showRules, setShowRules] = useState(false);
+    const [showHint, setShowHint] = useState(false);
     const [recordingStarted, setRecordingStarted] = useState(false); // State to track if recording has started
     const [countdown, setCountdown] = useState(20);
+    const [score, setScore] = useState(0);
+    const [level, setLevel] = useState(1);
+    const [isCameraVisible, setIsCameraVisible] = useState(true); // State to control camera visibility
     const timerRef = useRef<NodeJS.Timeout | null>(null);
+    const [animationKeyword, setAnimationKeyword] = useState<string>("");
+    const [hintUsedCount, setHintUsedCount] = useState(0); // State to track the number of times hint has been used
 
     // Function to start countdown timer
     const startCountdown = () => {
-        recordingStarted;
         setRecordingStarted(true); // Set recording started flag
         timerRef.current = setInterval(() => {
             setCountdown((prevCountdown) => {
@@ -76,7 +129,38 @@ const DoTheSign: React.FC = () => {
         }
     };
 
+    const handleVideoData = (data: { return: string }) => {
+        console.log("Received data from VideoRecorder:", data);
+
+        // Extract the relevant part of the data
+        const dataString = data.return;
+        const keywords = dataString.split(",").map((word) => word.trim());
+
+        if (keywords.includes(animationKeyword)) {
+            setScore((prevScore) => prevScore + 2);
+            playCorrectAnswerSound();
+            toast.success(t("correctSign"))
+        } else {
+            setScore((prevScore) => prevScore - 2);
+            playWrongAnswerSound();
+            toast.error(t("wrongSign"))
+        }
+
+        // Increase level and pick a new random keyword
+        setLevel((prevLevel) => prevLevel + 1);
+        pickRandomKeyword(setAnimationKeyword);
+
+        // Reset the timer, camera, and hint used state
+        setCountdown(20);
+        setIsCameraVisible(false);
+        setHintUsedCount(0); // Reset hint used count
+        setTimeout(() => {
+            setIsCameraVisible(true);
+        }, 100); // Adjust the timeout duration if needed
+    };
+
     useEffect(() => {
+        pickRandomKeyword(setAnimationKeyword);
         updateBackgroundMusicVolume(1);
     }, []);
 
@@ -98,13 +182,21 @@ const DoTheSign: React.FC = () => {
                         className="shared-btn2 hint-btn2"
                         type="button"
                         onClick={() => {
-                            playButtonClickedSound();
+                            if (hintUsedCount < 2) {
+                                setShowHint(true);
+                                setHintUsedCount(hintUsedCount + 1);
+                                playButtonClickedSound();
+                            } else {
+                                toast(t("hintError"), {
+                                    icon: "🤪",
+                                });
+                            }
                         }}
                     >
                         {t("hint")}
                     </button>
-                    <h1 className="level-title">{t("level")}</h1>
-                    <h2 className="score-title">{t("score")}</h2>
+                    <h1 className="level-title">{t("level")}: {level}</h1>
+                    <h2 className="score-title">{t("score")}: {score}</h2>
                     <h3 className="timer-title">{formatTime(countdown)}</h3>
                     <button
                         className="shared-btn setting-btn3"
@@ -133,16 +225,28 @@ const DoTheSign: React.FC = () => {
                                 t("dts_rules5"),
                                 t("dts_rules6"),
                                 t("dts_rules7"),
+                                t("dts_rules8"),
+                                t("dts_rules9"),
                             ]}
                         />
                     )}
+                    {showHint && (
+                        <HintPopup
+                            onClose={() => setShowHint(false)}
+                            title={t("game_hint")}
+                            animationKeyword={animationKeyword}
+                        />
+                    )}
                     <div className="box-container">
-                        <div className="left-box">Mata</div>
+                        <div className="left-box">{animationKeyword}</div>
                         <div className="right-box">
-                            <VideoRecorder
-                                onStartRecording={startCountdown}
-                                onStopRecording={stopCountdown}
-                            />
+                            {isCameraVisible && (
+                                <VideoRecorder
+                                    onStartRecording={startCountdown}
+                                    onStopRecording={stopCountdown}
+                                    onVideoData={handleVideoData}
+                                />
+                            )}
                         </div>
                     </div>
                 </div>
