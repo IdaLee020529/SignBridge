@@ -10,6 +10,7 @@ import correctAnswerSound from "/music/correctMusic.mp3";
 import wrongAnswerSound from "/music/wrongMusic.mp3";
 import { useTranslation } from "react-i18next";
 import toast from "react-hot-toast";
+import { useSessionStorage } from "usehooks-ts";
 
 interface GlossAnimation {
     keyword: string;
@@ -71,33 +72,61 @@ const pickRandomKeyword = async (
 };
 
 const DoTheSign: React.FC = () => {
+    const [score, setScore] = useSessionStorage("doTheSignScore", 0);
+    const [level, setLevel] = useSessionStorage("doTheSignCurrentLevel", 1);
+    const [hintUsedCount, setHintUsedCount] = useSessionStorage("doTheSignHintUsedCount", 0);
+
     const { t, i18n } = useTranslation();
     const [isInnerSettingOpen, setIsInnerSettingOpen] = useState(false);
     const [showRules, setShowRules] = useState(false);
     const [showHint, setShowHint] = useState(false);
     const [recordingStarted, setRecordingStarted] = useState(false); // State to track if recording has started
-    const [countdown, setCountdown] = useState(20);
-    const [score, setScore] = useState(0);
-    const [level, setLevel] = useState(1);
+    const [countdown, setCountdown] = useState(5);
+
     const [isCameraVisible, setIsCameraVisible] = useState(true); // State to control camera visibility
     const timerRef = useRef<NodeJS.Timeout | null>(null);
     const [animationKeyword, setAnimationKeyword] = useState<string>("");
-    const [hintUsedCount, setHintUsedCount] = useState(0); // State to track the number of times hint has been used
 
     // Function to start countdown timer
     const startCountdown = () => {
-        setRecordingStarted(true); // Set recording started flag
+        setRecordingStarted(true); 
         timerRef.current = setInterval(() => {
             setCountdown((prevCountdown) => {
                 if (prevCountdown === 0) {
-                    clearInterval(timerRef.current!); // Clear timer when countdown reaches 0
-                    return 20; // Reset countdown value
+                    clearInterval(timerRef.current!); 
+                    return 5; 
                 } else {
-                    return prevCountdown - 1; // Decrement countdown
+                    return prevCountdown - 1; 
                 }
             });
         }, 1000);
     };
+
+    const stopVideoStream = () => {
+        const videoElement = document.querySelector('video');
+        if (videoElement) {
+            const stream = videoElement.srcObject as MediaStream;
+            const tracks = stream.getTracks();
+            tracks.forEach(track => track.stop());
+        }
+    };
+
+    useEffect(() => {
+        if (countdown === 0) {
+            setLevel((prev) => prev + 1);
+            setScore((prev) => prev - 2);
+            pickRandomKeyword(setAnimationKeyword);
+            stopCountdown();
+            setRecordingStarted(false);
+            setCountdown(5);
+            setIsCameraVisible(false);
+            stopVideoStream();
+            setHintUsedCount(0);
+            setTimeout(() => {
+                setIsCameraVisible(true);
+            }, 100);
+        }
+    }, [countdown]);
 
     // Function to stop countdown timer
     const stopCountdown = () => {
@@ -130,20 +159,17 @@ const DoTheSign: React.FC = () => {
     };
 
     const handleVideoData = (data: { return: string }) => {
-        console.log("Received data from VideoRecorder:", data);
-
-        // Extract the relevant part of the data
         const dataString = data.return;
         const keywords = dataString.split(",").map((word) => word.trim());
 
         if (keywords.includes(animationKeyword)) {
             setScore((prevScore) => prevScore + 2);
             playCorrectAnswerSound();
-            toast.success(t("correctSign"))
+            toast.success(t("correctSign"));
         } else {
             setScore((prevScore) => prevScore - 2);
             playWrongAnswerSound();
-            toast.error(t("wrongSign"))
+            toast.error(t("wrongSign"));
         }
 
         // Increase level and pick a new random keyword
@@ -151,12 +177,13 @@ const DoTheSign: React.FC = () => {
         pickRandomKeyword(setAnimationKeyword);
 
         // Reset the timer, camera, and hint used state
-        setCountdown(20);
+        setCountdown(5);
         setIsCameraVisible(false);
-        setHintUsedCount(0); // Reset hint used count
+        setHintUsedCount(0);
+        stopVideoStream();
         setTimeout(() => {
             setIsCameraVisible(true);
-        }, 100); // Adjust the timeout duration if needed
+        }, 100);
     };
 
     useEffect(() => {
@@ -195,8 +222,12 @@ const DoTheSign: React.FC = () => {
                     >
                         {t("hint")}
                     </button>
-                    <h1 className="level-title">{t("level")}: {level}</h1>
-                    <h2 className="score-title">{t("score")}: {score}</h2>
+                    <h1 className="level-title">
+                        {t("level")}: {level}
+                    </h1>
+                    <h2 className="score-title">
+                        {t("score")}: {score}
+                    </h2>
                     <h3 className="timer-title">{formatTime(countdown)}</h3>
                     <button
                         className="shared-btn setting-btn3"

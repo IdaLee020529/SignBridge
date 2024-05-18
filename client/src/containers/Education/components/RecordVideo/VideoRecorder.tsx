@@ -1,7 +1,6 @@
 import { useState, useRef } from "react";
 import styles from "./VideoRecorder.module.css";
 import buttonClickedSound from "/music/btnClicked.wav";
-import { useTranslation } from "react-i18next";
 
 const mimeType = 'video/webm; codecs="opus,vp8"';
 
@@ -20,7 +19,6 @@ const VideoRecorder = ({
     onStopRecording: () => void;
     onVideoData: (data: { return: string }) => void;
 }) => {
-    const { t, i18n } = useTranslation();
     const [permission, setPermission] = useState(false);
     const mediaRecorder = useRef<MediaRecorder | null>(null);
     const liveVideoFeed = useRef<HTMLVideoElement>(null);
@@ -49,17 +47,11 @@ const VideoRecorder = ({
                 );
 
                 setPermission(true);
-
-                //combine both audio and video streams
-
                 const combinedStream = new MediaStream([
                     ...videoStream.getVideoTracks(),
                     ...audioStream.getAudioTracks(),
                 ]);
-
                 setStream(combinedStream);
-
-                //set videostream to live feed player
                 if (liveVideoFeed.current) {
                     liveVideoFeed.current.srcObject = videoStream;
                 }

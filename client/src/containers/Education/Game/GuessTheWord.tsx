@@ -17,9 +17,9 @@ import buttonClickedSound from "/music/btnClicked.wav";
 import correctAnswerSound from "/music/correctMusic.mp3";
 import wrongAnswerSound from "/music/wrongMusic.mp3";
 import { useTranslation } from "react-i18next";
+import { useSessionStorage } from 'usehooks-ts'
 
 interface Question {
-    level: number;
     question: string;
     options: string[];
     correctAnswer: string;
@@ -46,15 +46,21 @@ const playWrongAnswerSound = () => {
     audio.play();
 };
 
-const questionList: Question[] = [];
-let level = 1;
+// const questionList: Question[] = [];
+// let level = parseInt(sessionStorage.getItem("level") ?? "1");
+let staticLevel = 1;
 
 const GuessTheWord: React.FC = () => {
+    const [lives, setLives, removeLives] = useSessionStorage('guessLives', 3)
+    const [currentLevel, setCurrentLevel, removeCurrentLevel] = useSessionStorage('guessCurrentLevel', 1)
+    // const [questionLevel, setQuestionLevel, removeQuestionLevel] = useSessionStorage('questionLevel', 1)
+    const [questionList, setQuestionList, removeQuestionList] = useSessionStorage<Question[]>('guessQuestionList', [])
+    const [score, setScore, removeScore] = useSessionStorage('guessScore', 0)
+
     const { t, i18n } = useTranslation();
     const [isInnerSettingOpen, setIsInnerSettingOpen] = useState(false);
     const audioRef = useRef<HTMLAudioElement>(null);
     const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
-    const [score, setScore] = useState(0);
     const [showScore, setShowScore] = useState(false);
     const [showRules, setShowRules] = useState(false);
     const [correctAnswerIndex, setCorrectAnswerIndex] = useState(-1);
@@ -65,7 +71,7 @@ const GuessTheWord: React.FC = () => {
     const [clickedOptions, setClickedOptions] = useState<boolean[]>(
         new Array(4).fill(false)
     );
-    const [lives, setLives] = useState(3);
+    // const [lives, setLives] = useState(parseInt(sessionStorage.getItem("lives") ?? "3"));
     const [gameOver, setGameOver] = useState(false);
 
     function CameraControl() {
@@ -118,17 +124,40 @@ const GuessTheWord: React.FC = () => {
             const randomQuestion = data[randomIndex];
 
             const newQuestion = {
-                level: level++,
                 question: randomQuestion.category,
                 options: [],
                 correctAnswer: randomQuestion.keyword,
             };
+            
+            // setAnimationKeyword(randomQuestion.keyword);
+            // console.log("currentLevel", currentLevel)
+            // if (currentLevel) {
+            //     setAnimationKeyword(questionList[currentLevel].correctAnswer);
+            //     setQuestion(questionList[currentLevel]);
+            // }
+            
+            // else {
+            //     setQuestion(newQuestion);
+            //     console.log(newQuestion);
+            // }
 
-            setAnimationKeyword(randomQuestion.keyword);
-            setQuestion(newQuestion);
-            questionList.push(newQuestion);
+            setQuestionList(prev => [...prev, newQuestion]);
+
+            if (lives === 0) {
+                setGameOver(true);
+                // removeCurrentLevel();
+                // removeLives();
+                // removeQuestionList();
+            }
         }
     };
+
+    useEffect(() => {
+        if (questionList.length > 0) {
+            setAnimationKeyword(questionList[currentLevel].correctAnswer);
+            setQuestion(questionList[currentLevel]);
+        }
+    }, [questionList]);
 
     useEffect(() => {
         pickRandomKeyword();
@@ -217,6 +246,8 @@ const GuessTheWord: React.FC = () => {
             setClickedOptions(disabledOptions);
 
             if (glossData && question) {
+                setCurrentLevel(currentLevel + 1);
+
                 const correctAnswer = question.correctAnswer;
                 const correctAnswerFormatted = correctAnswer
                     .toLowerCase()
@@ -245,6 +276,9 @@ const GuessTheWord: React.FC = () => {
                     setLives(lives - 1);
                     if (lives === 1) {
                         setGameOver(true);
+                        // removeCurrentLevel();
+                        // removeLives();
+                        // removeQuestionList();
                     }
                 }
 
@@ -314,7 +348,8 @@ const GuessTheWord: React.FC = () => {
                         {questionList.length > 0 &&
                         questionList[currentQuestionIndex]
                             ? `${t("level")} ${
-                                  questionList[currentQuestionIndex].level
+                                //   questionList[currentQuestionIndex].level
+                                  currentLevel
                               }`
                             : t("loading")}
                     </h1>

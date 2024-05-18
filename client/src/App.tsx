@@ -159,6 +159,19 @@ function App() {
         localStorage.setItem("volumeValue", "100");
       }
     }
+
+    if (location.pathname !== "/guess-the-word") {
+      sessionStorage.removeItem("guessLives");
+      sessionStorage.removeItem("guessCurrentLevel");
+      sessionStorage.removeItem("guessQuestionList");
+      sessionStorage.removeItem("guessScore");
+    }
+
+    if (location.pathname !== "/do-the-sign") {
+      sessionStorage.removeItem("doTheSignCurrentLevel");
+      sessionStorage.removeItem("doTheSignScore");
+      sessionStorage.removeItem("doTheSignHintUsedCount");
+    }
   }, [location.pathname]);
 
   return (
