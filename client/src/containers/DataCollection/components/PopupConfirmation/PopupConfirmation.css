@@ -8,8 +8,9 @@
     text-align: center;
     box-shadow: 2px 5px 10px rgba(0, 0, 0, 0.5);
     display: none;
-    z-index: 2;
+    z-index: 3;
     width: 600px;
+    border-radius: 15px;
 }
 
 .popup-confirmation.open {

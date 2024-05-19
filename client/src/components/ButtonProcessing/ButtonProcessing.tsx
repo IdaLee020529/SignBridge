@@ -8,6 +8,8 @@ interface ButtonProcessingProps {
   buttonStyle: string;
   buttonSize: string;
   children: React.ReactNode;
+  isLoading: boolean;
+  setIsLoading: any;
 }
 
 const ButtonProcessing: React.FC<ButtonProcessingProps> = ({
@@ -16,32 +18,34 @@ const ButtonProcessing: React.FC<ButtonProcessingProps> = ({
   buttonStyle,
   buttonSize,
   children,
+  isLoading,
+  setIsLoading,
 }) => {
-  const [isLoading, setIsLoading] = useState(false);
-  const handleClick = async () => {
-    if (onClick) {
-      setIsLoading(true);
-      try {
-        const response = await onClick();
-        if (response) {
-          setIsLoading(false);
-        }
-      } catch (error) {
-        setIsLoading(false);
-        console.error("Error:", error);
-      }
-    }
-  };
-
+  // const [isLoading, setIsLoading] = useState(false);
+  // const handleClick = async () => {
+  //   if (onClick) {
+  //     setIsLoading(true);
+  //     try {
+  //       const response = await onClick();
+  //       if (response) {
+  //         setIsLoading(false);
+  //       }
+  //     } catch (error) {
+  //       setIsLoading(false);
+  //       console.error("Error:", error);
+  //     }
+  //   }
+  // };
   return (
     <Button
       className={`${buttonStyle} ${buttonSize}`}
-      onClick={handleClick}
+      onClick={onClick}
       type={type}
       loading={isLoading}
-      style={{ height: "auto", width: "120px" }}
+      style={{ height: "auto", fontSize: "20px", position: "relative" }}
     >
-      {isLoading ? "" : children}
+      {isLoading}
+      {children}
     </Button>
   );
 };

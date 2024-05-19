@@ -1,0 +1,117 @@
+.instruction-popup {
+    width: 1000px;
+    height: 600px;
+    background-color: #f9f9f9;
+    border: 1px solid #ccc;
+    border-radius: 15px;
+    display: none;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    /* Optional: Adds a shadow for depth */
+    font-size: 18px;
+    /* Font size of the content */
+    color: #333;
+    padding: 30px 40px 40px 40px;
+    /* Text color */
+    z-index: 3;
+    position: absolute;
+
+}
+
+.instruction-popup.shown {
+    display: block;
+}
+
+.instruction-popup-header {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.instruction-title {
+    margin: 0 auto;
+}
+
+.instruction-popup-details {
+    height: 90%;
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+    margin-top: 10px;
+
+    &::-webkit-scrollbar {
+        width: 10px;
+    }
+
+    &::-webkit-scrollbar-thumb {
+        background: #ccc;
+    }
+
+    &::-webkit-scrollbar-thumb:hover {
+        background: #888;
+    }
+}
+
+.line-separator {
+    width: 95%;
+    height: 1px;
+    background-color: #ccc;
+    margin: 20px 0;
+}
+
+.instruction-popup-details {
+    margin-top: 30px;
+}
+
+.instruction-popup-details-section1 p {
+    font-size: 20px;
+}
+
+.instruction-popup-details-section1 p strong {
+    font-size: 26px;
+}
+
+
+.instruction-popup-details-section2 p {
+    font-size: 26px;
+    font-weight: bold;
+
+}
+
+.instruction-popup-content {
+    padding: 10px 20px;
+    /* Add padding to the content area */
+}
+
+.instruction-popup-content ul {
+    list-style-type: disc;
+    /* Use disc bullets */
+}
+
+.instruction-popup-content li {
+    margin-bottom: 5px;
+    /* Add space between list items */
+}
+
+.instruction-popup-details-image {
+    display: flex;
+    justify-content: center;
+    /* Horizontally center the image */
+    align-items: center;
+    /* Vertically center the image */
+    margin: 30px auto;
+}
+
+.instruction-image {
+    width: 90%;
+    height: auto;
+}
+
+.close-icon {
+    cursor: pointer;
+}
+
+.close-icon:hover {
+    color: red;
+    /* Change color to red on hover */
+}

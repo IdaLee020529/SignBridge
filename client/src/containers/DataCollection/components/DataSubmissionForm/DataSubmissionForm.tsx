@@ -20,14 +20,24 @@ import SpeechRecognition, {
   useSpeechRecognition,
 } from "react-speech-recognition";
 import PopupConfirmation from "../PopupConfirmation/PopupConfirmation";
-import ButtonProcessing from "../../../../components/ButtonProcessing/ButtonProcessing";
+import InstructionPopup from "../InstructionPopup/InstructionPopup";
 interface DataSubmissionFormProps {
   user: string;
+  isSubmitModalOpen: boolean;
+  showPopup: boolean;
+  setShowPopup: any;
+  showInstructionPopup: boolean;
+  setShowInstructionPopup: any;
   onOpenModal: () => void;
 }
 
 const DataSubmissionForm: React.FC<DataSubmissionFormProps> = ({
   user,
+  isSubmitModalOpen,
+  showPopup,
+  setShowPopup,
+  showInstructionPopup,
+  setShowInstructionPopup,
   onOpenModal,
 }) => {
   const { t, i18n } = useTranslation();
@@ -180,7 +190,7 @@ const DataSubmissionForm: React.FC<DataSubmissionFormProps> = ({
     return Cookies.get("token") ? true : false;
   };
   const isLoggedIn = isUserLoggedIn();
-  const [showPopup, setShowPopup] = useState(false);
+
   const handleShowPopup = () => {
     const isNameValid = validateName(name);
     const isEmailValid = validateEmail(email);
@@ -213,6 +223,16 @@ const DataSubmissionForm: React.FC<DataSubmissionFormProps> = ({
   const handleClosePopup = () => {
     setShowPopup(false);
   };
+
+  const handleShowInstructionPopup = () => {
+    setShowInstructionPopup(true);
+  };
+
+  const handleCloseInstructionPopup = () => {
+    setShowInstructionPopup(false);
+  };
+
+  const [isLoading, setIsLoading] = useState(false);
   //Submit Control
   const handleSubmit = async (
     e: React.FormEvent<HTMLFormElement>
@@ -221,7 +241,7 @@ const DataSubmissionForm: React.FC<DataSubmissionFormProps> = ({
       toast.error(t("mustUploadVideo"));
       return;
     }
-
+    setIsLoading(true);
     const user_id = Cookies.get("user_id");
 
     const formData = new FormData();
@@ -229,7 +249,6 @@ const DataSubmissionForm: React.FC<DataSubmissionFormProps> = ({
     let status_SE_bm = "";
     let status_Admin_en = "";
     let status_Admin_bm = "";
-    handleClosePopup();
     if (user === "signexpert" && user_id) {
       status_SE_en = "Awaiting Accept";
       status_SE_bm = "Menunggu Pengesahan";
@@ -252,9 +271,12 @@ const DataSubmissionForm: React.FC<DataSubmissionFormProps> = ({
         } catch (error: any) {
           console.error("Error");
         }
-        handleReset();
-        await onOpenModal();
-        return response;
+        if (response) {
+          setIsLoading(false);
+          handleReset();
+          handleClosePopup();
+          await onOpenModal();
+        }
       }
     } else if (user === "public" && user_id) {
       let response;
@@ -278,9 +300,12 @@ const DataSubmissionForm: React.FC<DataSubmissionFormProps> = ({
         } catch (error: any) {
           console.error("Error");
         }
-        handleReset();
-        await onOpenModal();
-        return response;
+        if (response) {
+          setIsLoading(false);
+          handleReset();
+          handleClosePopup();
+          await onOpenModal();
+        }
       }
     }
 
@@ -315,8 +340,18 @@ const DataSubmissionForm: React.FC<DataSubmissionFormProps> = ({
         isOpen={showPopup}
         onSubmit={handleSubmit}
         onClose={handleClosePopup}
+        isLoading={isLoading}
+        setIsLoading={setIsLoading}
       />
-      <div className={`dataForm ${showPopup ? "dimmed" : ""}`}>
+      <InstructionPopup
+        showInstructionPopup={showInstructionPopup}
+        onClose={handleCloseInstructionPopup}
+      />
+      <div
+        className={`dataForm  ${isSubmitModalOpen ? "dimmed" : ""} ${
+          showPopup ? "dimmed" : ""
+        } ${showInstructionPopup ? "dimmed" : ""}`}
+      >
         <div className="dataForm-header-container">
           <div className="dataForm-header">
             <h1>{t("dataset_collection_form")}</h1>
@@ -345,7 +380,7 @@ const DataSubmissionForm: React.FC<DataSubmissionFormProps> = ({
           </div>
           <div className="dataForm-container">
             <div className="dataForm-info-block">
-              <InfoIcon />
+              <InfoIcon onClick={handleShowInstructionPopup} />
             </div>
             <div className="row justify-content-center input-container">
               <div className="col-md-8">
