@@ -69,6 +69,15 @@ const DatasetFormController = {
                         message: datasetTemplate(request_details.message1, request_details.message2, request_details.message3)
                     }
                     await sendEmail(mailOption);
+                    const message2 = "New_Request_Accepted_2"
+                    const request2 = REQUEST[message2]
+                    const request_details2 = request2.type(formId)
+                    const mailOption2 = {
+                        email: request2.receiver,
+                        subject: request_details2.subject,
+                        message: datasetTemplate(request_details2.message1, request_details2.message2, request_details2.message3)
+                    }
+                    await sendEmail(mailOption2);
                 }
                 else {
                     const request_details = request.type(formId)

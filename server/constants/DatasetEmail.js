@@ -5,7 +5,7 @@ require('dotenv').config();
 const request_accepted = (userName) => {
     return {
         subject: "Request Accepted",
-        message1: `Dear ${userName}`,
+        message1: `Dear ${userName},`,
         message2: "We are pleased to inform you that the sign expert has accepted your request. Thank you for your submission. We will now proceed with processing your request.",
         message3: ""
     }
@@ -14,7 +14,7 @@ const request_accepted = (userName) => {
 //send to admin
 const request_accepted_by_sign_expert = (requestId) => {
     return {
-        subject: `Request Accepted by Sign Expert (ID: ${requestId})`,
+        subject: `Request Accepted/Submitted by Sign Expert (ID: ${requestId})`,
         message1: `Dear Admin,`,
         message2: "We are pleased to inform you that the sign expert has accepted/submitted a new request.",
         message3: `The request id is ${requestId}.`
@@ -25,7 +25,7 @@ const request_accepted_by_sign_expert = (requestId) => {
 const request_cancelled = (userName) => {
     return {
         subject: "Request Cancelled",
-        message1: `Dear ${userName}`,
+        message1: `Dear ${userName},`,
         message2: "We regret to inform you that the sign expert has cancelled your request. This may be due to inaccuracies or redundancy with existing requests. If you any further enquiries please contact us through our feedback section.",
         message3: ""
     }
