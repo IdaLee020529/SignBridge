@@ -1,7 +1,7 @@
 import React, { useEffect, useRef, useState } from "react";
 import { useGLTF, useAnimations } from "@react-three/drei";
 import * as THREE from "three";
-import animationsData from "../../../public/glosses/gloss.json";
+import glosses from "../../../public/glosses/gloss.json";
 
 const Man = ({
   props,
@@ -11,8 +11,8 @@ const Man = ({
   repeat,
   isPaused,
   updateCurrentAnimationName = () => {},
-  signFrame = 0,
-  updateStatus = () => {}, // Default value "Avatar Idle"
+  updateCurrentSignFrame = () => {},
+  updateStatus = () => {},
 }) => {
   const group = useRef();
   const skeletonHelperRef = useRef(null);
@@ -23,56 +23,61 @@ const Man = ({
   const [currentAnimationIndex, setCurrentAnimationIndex] = useState(0);
   const [prevAnimationKeyword, setPrevAnimationKeyword] = useState(null);
   const [currentAction, setCurrentAction] = useState(null);
+  // let timerShouldRun = true; // Flag to control timer execution
+  const frameRate = 30;
 
   useEffect(() => {
     if (animationKeyword && animationKeyword !== prevAnimationKeyword) {
-      // Replace any "+" with whitespace
       const sanitizedAnimationKeyword = animationKeyword.replace(/\+/g, ' ');
       const animationKeywords = sanitizedAnimationKeyword.split(" ");
       let newAnimationQueue = [];
-  
+      let newSignFrames = [];
+
       for (let i = animationKeywords.length; i >= 1; i--) {
         const combinedKeyword = animationKeywords.slice(0, i).join(" ").toUpperCase();
-        const animationData = animationsData.find((item) => item.keyword === combinedKeyword);
-  
+        const animationData = glosses.find((item) => item.keyword === combinedKeyword);
+
         if (animationData) {
-          console.log(animationData.animations);
           newAnimationQueue.push(...animationData.animations);
+          newSignFrames.push(animationData.frames);
           animationKeywords.splice(0, i);
           i = animationKeywords.length + 1;
         }
       }
-  
+
       animationKeywords.forEach((keyword) => {
         const singleKeyword = keyword.toUpperCase();
-        const animationData = animationsData.find((item) => item.keyword === singleKeyword);
+        const animationData = glosses.find((item) => item.keyword === singleKeyword);
         if (animationData) {
           newAnimationQueue.push(...animationData.animations);
+          newSignFrames.push(animationData.frames);
         }
       });
-  
+
       setAnimationQueue(newAnimationQueue);
       setCurrentAnimationIndex(0);
       setPrevAnimationKeyword(animationKeyword);
+
+      if (newSignFrames.length > 0) {
+        updateCurrentSignFrame(newSignFrames[0]);
+      }
     }
-  }, [animationKeyword, prevAnimationKeyword]);
+  }, [animationKeyword, prevAnimationKeyword, updateCurrentSignFrame]);
 
   useEffect(() => {
     if (animationQueue.length === 0) {
-      updateStatus("Error: no sign found");
+      updateStatus("Status: Avatar Idle");
     } else if (isPaused) {
-      updateStatus("Paused");
-    } else if (animationQueue.length > 0 && currentAction) {
-      updateStatus("Playing animation");
+      updateStatus("Status: Paused");
+    } else if (animationQueue.length > 0) {
+      updateStatus("Status: Playing animation");
     }
-    else{
-      updateStatus("Avatar Idle");
-    }
-  }, [animationQueue, isPaused, currentAction, updateStatus]);
+  }, [animationQueue, isPaused, updateStatus]);
 
   const onAnimationFinished = () => {
     if (currentAnimationIndex < animationQueue.length - 1) {
       setCurrentAnimationIndex((prevIndex) => prevIndex + 1);
+      // stopTimer();
     } else if (repeat === "Yes") {
       setTimeout(() => {
         setAnimationQueue([]);
@@ -80,26 +85,40 @@ const Man = ({
         setPrevAnimationKeyword(null);
       }, 2000);
     }
+    // else if(currentAnimationIndex === animationQueue.length - 1){
+    //   timerShouldRun = false; // Stop the timer
+    //   stopTimer();
+    // }
   };
 
- useEffect(() => {
+  useEffect(() => {
     const playNextAnimation = () => {
       const animationName = animationQueue[currentAnimationIndex];
       const nextAction = actions[animationName];
 
       if (nextAction) {
-
+        
         if (speed) {
           nextAction.setEffectiveTimeScale(speed);
         }
+        // if(timerShouldRun){
+        //   startTimer(); // Start the timer
+        // }
 
         nextAction.reset().fadeIn(0.5).play();
         nextAction.setLoop(THREE.LoopOnce);
         nextAction.getMixer().addEventListener("finished", onAnimationFinished);
         nextAction.clampWhenFinished = true;
-        
+
         setCurrentAction(nextAction);
+
         updateCurrentAnimationName(animationName);
+
+        const animationData = glosses.find((item) => item.animations.includes(animationName));
+        if (animationData) {
+
+          updateCurrentSignFrame(animationData.frames);
+        }
       }
     };
 
@@ -116,14 +135,13 @@ const Man = ({
         nextAction.getMixer().removeEventListener("finished", onAnimationFinished);
       }
     };
-  }, [animationQueue, currentAnimationIndex, actions, speed, isPaused, updateCurrentAnimationName]);
+  }, [animationQueue, currentAnimationIndex, actions, speed, isPaused, updateCurrentAnimationName, updateCurrentSignFrame]);
 
   useEffect(() => {
     if (currentAction) {
       currentAction.paused = isPaused;
     }
   }, [isPaused, currentAction]);
-  
 
   useEffect(() => {
     if (showSkeleton && !skeletonHelperRef.current) {
@@ -137,6 +155,29 @@ const Man = ({
     }
   }, [showSkeleton]);
 
+  // async function startTimer() {
+  //   return new Promise((resolve) => {
+  //     let startTime = Date.now();
+    
+  //     const timerInterval = setInterval(() => {
+  //       if (!timerShouldRun) {
+  //         clearInterval(timerInterval); // Stop the timer if flag is false
+  //         resolve(); // Resolve the promise
+  //         return;
+  //       }
+  //       const elapsedTime = Date.now() - startTime;
+  //       const seconds = Math.floor(elapsedTime / 1000);
+  //       const milliseconds = Math.floor(elapsedTime % 1000);
+  //       console.log(`Time elapsed: ${seconds}.${milliseconds} seconds`);
+  //     }, 100); // Update the counter every 100 milliseconds (0.1 second)
+  //   });
+  // }
+  
+  // async function stopTimer(timerInterval) {
+  //   clearInterval(timerInterval);
+  // }
+  
+
   return (
     <group ref={group} {...props} position={[0, 0, 0]} dispose={null}>
       <group name="Scene">
@@ -144,7 +185,7 @@ const Man = ({
           <primitive object={nodes.root} />
           <primitive object={nodes.Bone} />
           <group name="rp_manuel_animated_001_dancing_geo">
-          <skinnedMesh name="Mesh003" geometry={nodes.Mesh003.geometry} material={materials['rp_manuel_animated_001_mat.005']} skeleton={nodes.Mesh003.skeleton} />
+            <skinnedMesh name="Mesh003" geometry={nodes.Mesh003.geometry} material={materials['rp_manuel_animated_001_mat.005']} skeleton={nodes.Mesh003.skeleton} />
             <skinnedMesh name="Mesh003_1" geometry={nodes.Mesh003_1.geometry} material={materials.Tongue} skeleton={nodes.Mesh003_1.skeleton} />
           </group>
         </group>

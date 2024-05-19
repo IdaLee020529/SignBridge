@@ -52,6 +52,9 @@ app.use(categoryRoutes);
 const categorySignRoutes = require("./routes/CategorySignRoutes")
 app.use(categorySignRoutes);
 
+const communicationRoutes = require("./routes/CommunicationRoutes")
+app.use(communicationRoutes);
+
 const notificationRoutes = require("./routes/NotificationRoutes")
 app.use(notificationRoutes);
 
