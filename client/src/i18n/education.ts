@@ -33,8 +33,6 @@ const eductaion = {
         dts_rules5: "Perform sign language gestures accurately to earn points.",
         dts_rules6: "Do the correct sign to add 2 points, Incorrect signs will deduct 2 points.",
         dts_rules7: "Progress to the next level by correctly performing signs.",
-        dts_rules8: "Incorrect signs end the game.",
-        dts_rules9: "Your score is displayed at the end of the game.",
     },
     bm: {
         setting: "Tetapan",
@@ -70,8 +68,6 @@ const eductaion = {
         dts_rules5: "Lakukan isyarat bahasa isyarat dengan tepat untuk mendapatkan mata.",
         dts_rules6: "Lakukan isyarat yang betul untuk menambah 2 mata, Isyarat yang salah akan mengurangkan 2 mata.",
         dts_rules7: "Maju ke tahap seterusnya dengan melakukan isyarat dengan betul.",
-        dts_rules8: "Isyarat yang salah akan mengakhiri permainan.",
-        dts_rules9: "Markah anda dipaparkan pada akhir permainan.",
     },
 };
 

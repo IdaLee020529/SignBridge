@@ -256,8 +256,6 @@ const DoTheSign: React.FC = () => {
                                 t("dts_rules5"),
                                 t("dts_rules6"),
                                 t("dts_rules7"),
-                                t("dts_rules8"),
-                                t("dts_rules9"),
                             ]}
                         />
                     )}
