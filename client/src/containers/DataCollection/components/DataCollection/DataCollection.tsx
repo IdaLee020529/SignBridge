@@ -11,6 +11,9 @@ interface DataCollectionProps {
 const DataCollection: React.FC<DataCollectionProps> = ({ user }) => {
   //Modal Control (Onsubmit popup)
   const [isSubmitModalOpen, setIsSubmitModalOpen] = useState(false);
+  const [showPopup, setShowPopup] = useState(false);
+  const [showInstructionPopup, setShowInstructionPopup] = useState(false);
+
   const handleOpenModal = () => {
     setIsSubmitModalOpen(true);
   };
@@ -18,13 +21,25 @@ const DataCollection: React.FC<DataCollectionProps> = ({ user }) => {
   const handleCloseModal = () => {
     setIsSubmitModalOpen(false);
   };
+
   return (
-    <>
-      <div className={`dataForm-bg ${isSubmitModalOpen ? "dimmed" : ""}`}>
-        <DataSubmissionForm user={user} onOpenModal={handleOpenModal} />
+    <div>
+      {isSubmitModalOpen && <div className="dimmed-overlay"></div>}
+      {showPopup && <div className="dimmed-overlay"></div>}
+      {showInstructionPopup && <div className="dimmed-overlay"></div>}
+      <div className={`dataForm-bg`}>
+        <DataSubmissionForm
+          user={user}
+          isSubmitModalOpen={isSubmitModalOpen}
+          onOpenModal={handleOpenModal}
+          showPopup={showPopup}
+          setShowPopup={setShowPopup}
+          showInstructionPopup={showInstructionPopup}
+          setShowInstructionPopup={setShowInstructionPopup}
+        />
       </div>
       <PopupModal isOpen={isSubmitModalOpen} onClose={handleCloseModal} />
-    </>
+    </div>
   );
 };
 

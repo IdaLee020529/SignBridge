@@ -72,6 +72,7 @@ const DatasetReview: React.FC<DatasetReviewProps> = ({ user }) => {
             form.form_id === formId ? { ...form, ...updatedFormData } : form
           )
         );
+        return true;
       }
     } catch (error) {
       console.error("Error updating form:", error);

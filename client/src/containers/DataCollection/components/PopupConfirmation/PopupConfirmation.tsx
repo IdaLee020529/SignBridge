@@ -20,6 +20,8 @@ interface PopupConfirmationProps {
   isOpen: boolean;
   onClose: () => void;
   onSubmit: any;
+  isLoading: boolean;
+  setIsLoading: any;
 }
 
 const PopupConfirmation: React.FC<PopupConfirmationProps> = ({
@@ -30,6 +32,8 @@ const PopupConfirmation: React.FC<PopupConfirmationProps> = ({
   isOpen,
   onClose,
   onSubmit,
+  isLoading,
+  setIsLoading,
 }) => {
   const { t, i18n } = useTranslation();
 
@@ -163,6 +167,8 @@ const PopupConfirmation: React.FC<PopupConfirmationProps> = ({
             onClick={onSubmit}
             buttonStyle="btn-submit"
             buttonSize="btn-large"
+            isLoading={isLoading}
+            setIsLoading={setIsLoading}
           >
             {t("submit_btn")}
           </ButtonProcessing>
