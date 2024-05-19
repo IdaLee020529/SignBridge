@@ -16,15 +16,20 @@ import {
 } from "../../../../services/notification.service";
 import { useTranslation } from "react-i18next";
 import { toast } from "react-hot-toast";
-
 import SpeechRecognition, {
   useSpeechRecognition,
 } from "react-speech-recognition";
+import PopupConfirmation from "../PopupConfirmation/PopupConfirmation";
+import ButtonProcessing from "../../../../components/ButtonProcessing/ButtonProcessing";
 interface DataSubmissionFormProps {
   user: string;
+  onOpenModal: () => void;
 }
 
-const DataSubmissionForm: React.FC<DataSubmissionFormProps> = ({ user }) => {
+const DataSubmissionForm: React.FC<DataSubmissionFormProps> = ({
+  user,
+  onOpenModal,
+}) => {
   const { t, i18n } = useTranslation();
   const [isListening, setIsListening] = useState(false);
 
@@ -90,15 +95,6 @@ const DataSubmissionForm: React.FC<DataSubmissionFormProps> = ({ user }) => {
     setText(transcript);
   }, [transcript]);
 
-  //Modal Control (Onsubmit popup)
-  const [isModalOpen, setIsModalOpen] = useState(false);
-  const handleOpenModal = () => {
-    setIsModalOpen(true);
-  };
-
-  const handleCloseModal = () => {
-    setIsModalOpen(false);
-  };
   //Video Control
   const [videoInfo, setVideoInfo] = useState(null);
   const [uploadedVideo, setUploadedVideo] = useState<string | null>(null);
@@ -180,147 +176,179 @@ const DataSubmissionForm: React.FC<DataSubmissionFormProps> = ({ user }) => {
     validateText(e.target.value);
   };
 
-  //Submit Control
-  const handleSubmit = async (
-    e: React.FormEvent<HTMLFormElement>
-  ): Promise<void> => {
-    e.preventDefault(); // Prevent default form submission behavior
-    validateName(name);
-    validateEmail(email);
-    validateText(text);
-    if (videoInfo == null) {
-      toast.error(t("mustUploadVideo"));
+  const isUserLoggedIn = () => {
+    return Cookies.get("token") ? true : false;
+  };
+  const isLoggedIn = isUserLoggedIn();
+  const [showPopup, setShowPopup] = useState(false);
+  const handleShowPopup = () => {
+    const isNameValid = validateName(name);
+    const isEmailValid = validateEmail(email);
+    const isTextValid = validateText(text);
+    if (!isLoggedIn) {
+      toast.error("You must login before submitting the form");
       return;
     }
     if (
-      nameError.length === 0 &&
-      emailError.length === 0 &&
-      textError.length === 0 &&
+      isNameValid != undefined ||
+      isEmailValid != undefined ||
+      isTextValid != undefined
+    ) {
+      toast.error("Please fill in the form correctly!");
+      return;
+    }
+    if (
+      isNameValid == undefined &&
+      isEmailValid == undefined &&
+      isTextValid == undefined &&
       name.length !== 0 &&
       email.length !== 0 &&
       text.length !== 0 &&
       videoInfo != null
     ) {
-      const user_id = Cookies.get("user_id");
+      setShowPopup(true);
+    }
+  };
 
-      if (!user_id) {
-        console.log("Please login");
-      } else {
-        const formData = new FormData();
-        let status_SE_en = "";
-        let status_SE_bm = "";
-        let status_Admin_en = "";
-        let status_Admin_bm = "";
+  const handleClosePopup = () => {
+    setShowPopup(false);
+  };
+  //Submit Control
+  const handleSubmit = async (
+    e: React.FormEvent<HTMLFormElement>
+  ): Promise<any> => {
+    if (videoInfo == null) {
+      toast.error(t("mustUploadVideo"));
+      return;
+    }
 
-        if (user === "signexpert") {
-          status_SE_en = "Awaiting Accept";
-          status_SE_bm = "Menunggu Pengesahan";
-          status_Admin_en = "New";
-          status_Admin_bm = "Baru";
-          formData.append("user_id", user_id);
-          formData.append("name", name);
-          formData.append("email", email);
-          formData.append("text_sentence", text);
-          formData.append("status_SE_en", status_SE_en);
-          formData.append("status_SE_bm", status_SE_bm);
-          formData.append("status_Admin_en", status_Admin_en);
-          formData.append("status_Admin_bm", status_Admin_bm);
+    const user_id = Cookies.get("user_id");
 
-          if (videoInfo) {
-            formData.append("video", videoInfo);
-            try {
-              await submitForm(formData);
-            } catch (error: any) {
-              console.error("Error");
-            }
-            handleReset();
-            await handleOpenModal();
-          }
-        } else if (user === "public") {
-          status_SE_en = "New";
-          status_SE_bm = "Baru";
-          status_Admin_en = "-";
-          status_Admin_bm = "-";
-          formData.append("user_id", user_id);
-          formData.append("name", name);
-          formData.append("email", email);
-          formData.append("text_sentence", text);
-          formData.append("status_SE_en", status_SE_en);
-          formData.append("status_SE_bm", status_SE_bm);
-          formData.append("status_Admin_en", status_Admin_en);
-          formData.append("status_Admin_bm", status_Admin_bm);
-
-          if (videoInfo) {
-            formData.append("video", videoInfo);
-            try {
-              await submitForm(formData);
-            } catch (error: any) {
-              console.error("Error");
-            }
-            handleReset();
-            await handleOpenModal();
-          }
-        }
-
-        // Send notification
+    const formData = new FormData();
+    let status_SE_en = "";
+    let status_SE_bm = "";
+    let status_Admin_en = "";
+    let status_Admin_bm = "";
+    handleClosePopup();
+    if (user === "signexpert" && user_id) {
+      status_SE_en = "Awaiting Accept";
+      status_SE_bm = "Menunggu Pengesahan";
+      status_Admin_en = "New";
+      status_Admin_bm = "Baru";
+      formData.append("user_id", user_id);
+      formData.append("name", name);
+      formData.append("email", email);
+      formData.append("text_sentence", text);
+      formData.append("status_SE_en", status_SE_en);
+      formData.append("status_SE_bm", status_SE_bm);
+      formData.append("status_Admin_en", status_Admin_en);
+      formData.append("status_Admin_bm", status_Admin_bm);
+      formData.append("updatedMessage", "New_Request_Accepted_2");
+      if (videoInfo) {
+        let response;
+        formData.append("video", videoInfo);
         try {
-          const notificationData = {
-            receiver_id: 2,
-            sender_id: user_id ? parseInt(user_id) : 0,
-            message_en: "has submitted new text.",
-            message_bm: "telah menghantar teks baru.",
-            sign_text: text,
-            status: 0,
-            type: "New Text",
-            type_value: "newtext",
-            created_at: new Date().toISOString(),
-          };
-          console.log("notificationUserId", user_id);
-          await CreateNotification(notificationData);
-          toast.success(t("notifSuccess"));
-        } catch (error) {
-          console.error("Error sending notification:", error);
-          toast.error(t("notifFailed"));
+          response = await submitForm(formData);
+        } catch (error: any) {
+          console.error("Error");
         }
+        handleReset();
+        await onOpenModal();
+        return response;
       }
+    } else if (user === "public" && user_id) {
+      let response;
+      status_SE_en = "New";
+      status_SE_bm = "Baru";
+      status_Admin_en = "-";
+      status_Admin_bm = "-";
+      formData.append("user_id", user_id);
+      formData.append("name", name);
+      formData.append("email", email);
+      formData.append("text_sentence", text);
+      formData.append("status_SE_en", status_SE_en);
+      formData.append("status_SE_bm", status_SE_bm);
+      formData.append("status_Admin_en", status_Admin_en);
+      formData.append("status_Admin_bm", status_Admin_bm);
+      formData.append("updatedMessage", "Submitted_by_Public");
+      if (videoInfo) {
+        formData.append("video", videoInfo);
+        try {
+          response = await submitForm(formData);
+        } catch (error: any) {
+          console.error("Error");
+        }
+        handleReset();
+        await onOpenModal();
+        return response;
+      }
+    }
+
+    // Send notification
+    try {
+      const notificationData = {
+        receiver_id: 2,
+        sender_id: user_id ? parseInt(user_id) : 0,
+        message_en: "has submitted new text.",
+        message_bm: "telah menghantar teks baru.",
+        sign_text: text,
+        status: 0,
+        type: "New Text",
+        type_value: "newtext",
+        created_at: new Date().toISOString(),
+      };
+      await CreateNotification(notificationData);
+      toast.success(t("notifSuccess"));
+    } catch (error) {
+      console.error("Error sending notification:", error);
+      toast.error(t("notifFailed"));
     }
   };
 
   return (
-    <div className="dataForm">
-      <div className="dataForm-header-container">
-        <div className="dataForm-header">
-          <h1>{t("dataset_collection_form")}</h1>
-          <p>{t("datasetmsg")}</p>
-        </div>
-      </div>
-      <div className="dataForm-cover">
-        <div className={`dataForm-card ${user}`}>
-          <h1>{t("in_touch")}</h1>
-          <h3>{t("more_suggestions")}</h3>
-          <div className={"dataForm-card-content"}>
-            <div className="dataForm-card-info">
-              <LocationIcon />
-              <p> {t("neoun_address")}</p>
-            </div>
-            <div className="dataForm-card-info2">
-              <PhoneIcon />
-              <p>{t("neoun_phone")}</p>
-            </div>
-            <div className="dataForm-card-info2">
-              <EmailIcon />
-              <p>{t("neoun_email")}</p>
-            </div>
-            <div className="dataForm-card-info"></div>
+    <>
+      <PopupConfirmation
+        name={name}
+        email={email}
+        text={text}
+        video={uploadedVideo}
+        isOpen={showPopup}
+        onSubmit={handleSubmit}
+        onClose={handleClosePopup}
+      />
+      <div className={`dataForm ${showPopup ? "dimmed" : ""}`}>
+        <div className="dataForm-header-container">
+          <div className="dataForm-header">
+            <h1>{t("dataset_collection_form")}</h1>
+            <p>{t("datasetmsg")}</p>
           </div>
         </div>
-        <div className="dataForm-container">
-          <div className="dataForm-info-block">
-            <InfoIcon />
+        <div className="dataForm-cover">
+          <div className={`dataForm-card ${user}`}>
+            <h1>{t("in_touch")}</h1>
+            <h3>{t("more_suggestions")}</h3>
+            <div className={"dataForm-card-content"}>
+              <div className="dataForm-card-info">
+                <LocationIcon />
+                <p> {t("neoun_address")}</p>
+              </div>
+              <div className="dataForm-card-info2">
+                <PhoneIcon />
+                <p>{t("neoun_phone")}</p>
+              </div>
+              <div className="dataForm-card-info2">
+                <EmailIcon />
+                <p>{t("neoun_email")}</p>
+              </div>
+              <div className="dataForm-card-info"></div>
+            </div>
           </div>
-          <div className="row justify-content-center input-container">
-            <div className="col-md-8">
-              <form onSubmit={handleSubmit} noValidate>
+          <div className="dataForm-container">
+            <div className="dataForm-info-block">
+              <InfoIcon />
+            </div>
+            <div className="row justify-content-center input-container">
+              <div className="col-md-8">
                 <InputField
                   label={t("name_input")}
                   name="name"
@@ -367,18 +395,19 @@ const DataSubmissionForm: React.FC<DataSubmissionFormProps> = ({ user }) => {
                   </Button>
                   <Button
                     type="submit"
+                    onClick={handleShowPopup}
                     buttonStyle="btn--submit"
                     buttonSize="btn--large"
                   >
                     {t("submit_btn")}
                   </Button>
                 </div>
-              </form>
+              </div>
             </div>
           </div>
         </div>
       </div>
-    </div>
+    </>
   );
 };
 

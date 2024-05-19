@@ -92,7 +92,6 @@ const FirebaseService = {
 
         try {
             await deleteObject(fileRef); // Delete the file
-            console.log(`File "${imageUrl}" deleted successfully from Firebase Storage.`);
         } catch (error) {
             console.error(`No file found`);
         }
@@ -102,7 +101,6 @@ const FirebaseService = {
         const fileRef = ref(storage, videoURl);
         try {
             await deleteObject(fileRef); // Delete the file
-            console.log(`File "${videoURl}" deleted successfully from Firebase Storage.`);
         } catch (error) {
             console.error(`No file found`);
         }

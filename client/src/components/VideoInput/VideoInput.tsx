@@ -64,7 +64,6 @@ const VideoInput: React.FC<VideoInputProps> = ({
       {uploadedVideo && (
         <Space>
           <p>
-            {/* <span className="uploaded-text">Uploaded Video:</span>{" "} */}
             <span className="uploaded-text">{uploadedVideo}</span>
           </p>
           <span onClick={handleRemove} className="close-outline-button">

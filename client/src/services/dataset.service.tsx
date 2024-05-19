@@ -42,12 +42,13 @@ export const getAllFormsForAdmin = async (): Promise<any> => {
 
 export const updateFormById = async (
   formId: number,
-  updatedFormData: Record<string, string>
+  updatedFormData: Record<string, string>,
+  updatedMessage: string
 ): Promise<any> => {
   try {
     const response = await axios.put(
       `http://localhost:3000/datasetForms/${formId}`,
-      updatedFormData,
+      { ...updatedFormData, message: updatedMessage }, // Combine the form data and message
       {
         headers: {
           "Content-Type": "application/json", // Change content type to JSON
@@ -63,7 +64,8 @@ export const updateFormById = async (
 export const updateFormWithVideoById = async (
   formId: number,
   updatedFormData: Record<string, string>,
-  video: File
+  video: File,
+  updatedMessage: string
 ): Promise<any> => {
   try {
     const formData = new FormData();
@@ -72,6 +74,8 @@ export const updateFormWithVideoById = async (
     for (const key in updatedFormData) {
       formData.append(key, updatedFormData[key]);
     }
+    formData.append("message", updatedMessage); // Add the updated message to form data
+
     const response = await axios.put(
       `http://localhost:3000/datasetForms/avatarVideo/${formId}`,
       formData,
@@ -123,9 +127,19 @@ export const getAvatarVidById = async (formId: number): Promise<any> => {
   }
 };
 
-export const deleteFormById = async (formId: number): Promise<void> => {
+export const deleteFormById = async (
+  formId: number,
+  updatedMessage: string
+): Promise<any> => {
   try {
-    await axios.delete(`http://localhost:3000/datasetForms/${formId}`);
+    // Assuming updatedMessage needs to be sent as part of the request body
+    const response = await axios.delete(
+      `http://localhost:3000/datasetForms/${formId}`,
+      {
+        data: { message: updatedMessage },
+      }
+    );
+    return response;
   } catch (err) {
     throw err;
   }

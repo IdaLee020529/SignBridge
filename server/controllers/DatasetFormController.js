@@ -1,12 +1,12 @@
 const DatasetFormService = require("../services/DatasetFormService")
 const FirebaseService = require("../services/FirebaseService")
-
+const { sendEmail, datasetTemplate } = require("../utils/email");
+const { REQUEST } = require("../constants/DatasetEmail")
+const UserService = require("../services/UserService")
 const DatasetFormController = {
     async ProcessVideoAndSubmitFormData(req, res, next) {
         try {
-            // const { user_id, name, email, text_sentence, status_SE, status_Admin } = req.body;
-            const data = req.body;
-            data.user_id = parseInt(data.user_id);
+            const { user_id, name, email, text_sentence, status_SE_en, status_SE_bm, status_Admin_en, status_Admin_bm, updatedMessage } = req.body;
             const avatar_link = "";
             const videoInfo = req.file;
             const videoContent = await FirebaseService.uploadVideoToStorageAndGetURL(videoInfo, "demoVid", "demo");
@@ -14,8 +14,19 @@ const DatasetFormController = {
                 const video_link = videoContent.downloadURL
                 const submitted_time = videoContent.timestamp
                 const video_name = videoContent.filename
-                const result = await DatasetFormService.SubmitForm({ ...data, submitted_time, video_link, video_name, avatar_link })
-                res.status(201).json(result);
+                const result = await DatasetFormService.SubmitForm({ user_id: parseInt(user_id), name, email, text_sentence, status_SE_en, status_SE_bm, status_Admin_en, status_Admin_bm, submitted_time, video_link, video_name, avatar_link })
+                const collectionID = result.newFormId;
+                const request = REQUEST[updatedMessage]
+                if (request) {
+                    const request_details = request.type(collectionID)
+                    const mailOption = {
+                        email: request.receiver,
+                        subject: request_details.subject,
+                        message: datasetTemplate(request_details.message1, request_details.message2, request_details.message3)
+                    }
+                    await sendEmail(mailOption);
+                }
+                res.status(201).json(result.result);
             }
         } catch (error) {
             next(error)
@@ -45,7 +56,39 @@ const DatasetFormController = {
     async UpdateFormStatusById(req, res) {
         try {
             const formId = req.params.id;
-            const updatedFormData = req.body;
+            const { message, ...updatedFormData } = req.body;
+            const request = REQUEST[message]
+            if (request) {
+                if (message === "New_Request_Accepted") {
+                    const formDetail = await DatasetFormService.GetFormById(formId);
+                    const user = await UserService.getUserById(parseInt(formDetail.user_id))
+                    const request_details = request.type(user.username)
+                    const mailOption = {
+                        email: user.email,
+                        subject: request_details.subject,
+                        message: datasetTemplate(request_details.message1, request_details.message2, request_details.message3)
+                    }
+                    await sendEmail(mailOption);
+                    const message2 = "New_Request_Accepted_2"
+                    const request2 = REQUEST[message2]
+                    const request_details2 = request2.type(formId)
+                    const mailOption2 = {
+                        email: request2.receiver,
+                        subject: request_details2.subject,
+                        message: datasetTemplate(request_details2.message1, request_details2.message2, request_details2.message3)
+                    }
+                    await sendEmail(mailOption2);
+                }
+                else {
+                    const request_details = request.type(formId)
+                    const mailOption = {
+                        email: request.receiver,
+                        subject: request_details.subject,
+                        message: datasetTemplate(request_details.message1, request_details.message2, request_details.message3)
+                    }
+                    await sendEmail(mailOption);
+                }
+            }
             await DatasetFormService.UpdateFormByID(formId, updatedFormData);
             res.status(200).json({ message: "Form updated successfully" });
         } catch (error) {
@@ -57,7 +100,7 @@ const DatasetFormController = {
     async UpdateFormStatusWithVideoById(req, res) {
         try {
             const formId = req.params.id;
-            const updatedFormData = req.body;
+            const { message, ...updatedFormData } = req.body;
             const form = await DatasetFormService.GetFormById(formId)
             const avatar_link = form.avatar_link
             if (avatar_link != "") {
@@ -73,6 +116,16 @@ const DatasetFormController = {
                 updatedFormData.avatar_name = video_name;
                 await DatasetFormService.UpdateFormByID(formId, updatedFormData);
                 res.status(200).json({ message: "Form updated successfully" });
+            }
+            const request = REQUEST[message]
+            if (request) {
+                const request_details = request.type(formId)
+                const mailOption = {
+                    email: request.receiver,
+                    subject: request_details.subject,
+                    message: datasetTemplate(request_details.message1, request_details.message2, request_details.message3)
+                }
+                await sendEmail(mailOption);
             }
         } catch (error) {
             console.error("Error updating form:", error);
@@ -138,8 +191,21 @@ const DatasetFormController = {
     async DeleteFormById(req, res) {
         try {
             const formId = req.params.id;
+            const { message } = req.body;
             // Assuming you have a deleteById function that handles deletion
-            const form = DatasetFormService.GetFormById(formId);
+
+            const form = await DatasetFormService.GetFormById(formId);
+            const request = REQUEST[message]
+            if (request) {
+                const user = await UserService.getUserById(parseInt(form.user_id))
+                const request_details = request.type(user.username)
+                const mailOption = {
+                    email: user.email,
+                    subject: request_details.subject,
+                    message: datasetTemplate(request_details.message1, request_details.message2, request_details.message3)
+                }
+                await sendEmail(mailOption);
+            }
             const videoUrl = form.video_link;
             await FirebaseService.deleteVideoFromStorage(videoUrl);
             await DatasetFormService.DeleteFormByID(formId);
@@ -150,6 +216,5 @@ const DatasetFormController = {
             res.status(500).json({ error: "Internal Server Error" });
         }
     }
-
 }
 module.exports = DatasetFormController
