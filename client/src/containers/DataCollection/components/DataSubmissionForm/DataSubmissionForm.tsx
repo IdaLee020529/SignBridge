@@ -117,7 +117,7 @@ const DataSubmissionForm: React.FC<DataSubmissionFormProps> = ({
   //Validation Control
   const validateName = (value: string) => {
     if (!value.trim()) {
-      setNameError("Name is required");
+      setNameError(t("dcNameRequired"));
       return "Name is required";
     }
     setNameError("");
@@ -126,13 +126,13 @@ const DataSubmissionForm: React.FC<DataSubmissionFormProps> = ({
 
   const validateEmail = (value: string) => {
     if (!value.trim()) {
-      setEmailError("Email is required");
+      setEmailError(t("dcEmailRequired"));
       return "Email is required";
     }
     // Email format validation using regex
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     if (!emailRegex.test(value)) {
-      setEmailError("Invalid email format");
+      setEmailError(t("dcEmailInvalid"));
       return "Invalid email format";
     }
     setEmailError("");
@@ -141,7 +141,7 @@ const DataSubmissionForm: React.FC<DataSubmissionFormProps> = ({
 
   const validateText = (value: string) => {
     if (!value.trim()) {
-      setTextError("Text/Sentence is required");
+      setTextError(t("dcTextSentenceRequired"));
       return "Text/Sentence is required";
     }
     setTextError("");
@@ -186,7 +186,7 @@ const DataSubmissionForm: React.FC<DataSubmissionFormProps> = ({
     const isEmailValid = validateEmail(email);
     const isTextValid = validateText(text);
     if (!isLoggedIn) {
-      toast.error("You must login before submitting the form");
+      toast.error(t("mustLoginToFillForm"));
       return;
     }
     if (
@@ -194,7 +194,7 @@ const DataSubmissionForm: React.FC<DataSubmissionFormProps> = ({
       isEmailValid != undefined ||
       isTextValid != undefined
     ) {
-      toast.error("Please fill in the form correctly!");
+      toast.error(t("fillFormCorrect"));
       return;
     }
     if (

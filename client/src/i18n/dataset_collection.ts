@@ -44,6 +44,12 @@ const dataset_collection = {
         download_btn: "Download",
         fileUploadSuccess: "file uploaded successfully",
         fileUploadFailed: "file upload failed",
+        mustLoginToFillForm: "You must login before submitting the form",
+        fillFormCorrect: "Please fill in the form correctly!",
+        dcNameRequired: "Name is required",
+        dcEmailRequired: "Email is required",
+        dcEmailInvalid: "Invalid email format",
+        dcTextSentenceRequired: "Text/Sentence is required",
     },
     bm: {
         dataset_collection_form: "Borang Pengumpulan Dataset",
@@ -90,6 +96,12 @@ const dataset_collection = {
         download_btn: "Muat turun",
         fileUploadSuccess: "fail dimuat naik dengan berjaya",
         fileUploadFailed: "fail muat naik gagal",
+        mustLoginToFillForm: "Anda mesti log masuk sebelum menghantar borang",
+        fillFormCorrect: "Sila isi borang dengan betul!",
+        dcNameRequired: "Nama diperlukan",
+        dcEmailRequired: "Emel diperlukan",
+        dcEmailInvalid: "Format emel tidak sah",
+        dcTextSentenceRequired: "Teks/Ayat diperlukan",
     },
 };
 
