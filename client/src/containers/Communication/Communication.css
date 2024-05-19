@@ -182,11 +182,11 @@
     height: 7.5vh;
     z-index: 1;
     padding: 10px 20px;
-    border: 0.5px solid black;
+    border: 0;
     border-radius: 50%;
     cursor: pointer;
     box-shadow: 3px 3px 10px rgba(0, 0, 0, 0.2);
-    background-color: #fcc003;
+    background-color: #f8be64;
 }
 
 .communicationlog-btn:hover img {
@@ -194,10 +194,20 @@
     margin-top: -0.5vh;
     margin-left: -0.9vw;
 }
-.communicationlog-img {
-    width: 2.1vw;
+
+.communicationlog-icon {
     margin-left: -0.6vw;
-    margin-top: 0vh;
+    color: white;
+}
+
+.communicationlog-btn:hover .communicationlog-icon .communicationlog-img {
+    transform: scale(1.2); /* Adjust scale as needed */
+    transition: transform 0.1s ease-in-out; /* This line is redundant but included per your request */
+}
+
+.communicationlog-img {
+    font-size: 2rem !important; /* Adjust the size as needed */
+    color: white;
 }
 
 .communication-menu {
@@ -256,6 +266,61 @@ button:nth-child(2):hover ~ .animation {
     font-weight: bold;
     color: rgb(0, 0, 0);
     font-size: 1.5vw;
+}
+
+
+.fa {
+    margin: 0.3vw 0vw 0vw 1vw;
+    float: left;
+    font-size: 28px !important; 
+    cursor: pointer;
+}
+
+.fa:hover {
+    text-shadow: 0 4px 8px rgba(0, 0, 0, 0.5);
+}
+
+.dltLogBtn {
+    z-index: 1;
+    right: -3vw;
+    margin-bottom: 1vh;
+    bottom: 0;
+    border-radius: 100%;
+    position: fixed;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    height: 45px;
+    width: 45px;
+    color: #fff;
+    background-color: red;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+    transition: background-color 0.3s, box-shadow 0.3s;
+    cursor: pointer;
+    font-size: 20px;
+    border: none;
+    outline: none;
+    margin-right: 60px;
+}
+
+.dltLogBtn:hover {
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.4);
+}
+
+.log-bg{
+    background-color: #e7e7e7 !important;
+}
+
+.log-top{
+    background-color: #ead2ae;
+    border-radius: 0% 0% 10% 10%;
+}
+
+.logHeader{
+    margin-top: 5px;
+    font-size: 20px;
+    display: absolute;
+    text-align: center;
 }
 
 .avatar-textbox {
@@ -469,3 +534,152 @@ button:nth-child(2):hover ~ .animation {
     border-radius: 5px 0px 5px 5px;
   }
 
+
+  .dialog_overlay {
+    background-color: var(--black-a9);
+    position: fixed;
+    inset: 0;
+    animation: overlayShow 150ms cubic-bezier(0.16, 1, 0.3, 1);
+    z-index: 1000;
+}
+
+.dialog_title {
+    font-weight: 700;
+    font-size: 30px;
+    text-align: center;
+    margin-top: -20px;
+}
+
+.dialog_content {
+    background-color: white;
+    border-radius: 15px;
+    box-shadow: 0 10px 38px rgba(0, 0, 0, 0.3);
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 500px;
+    height: 410px;
+    max-width: calc(100% - 20px);
+    padding: 30px;
+    animation: contentShow 150ms cubic-bezier(0.16, 1, 0.3, 1);
+    z-index: 1000;
+}
+
+.dialog_content2 {
+    background-color: white;
+    border-radius: 15px;
+    box-shadow: 0 10px 38px rgba(0, 0, 0, 0.3);
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 500px;
+    height: 240px;
+    max-width: calc(100% - 20px);
+    padding: 30px;
+    animation: contentShow 150ms cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.dialog_description {
+    font-size: 20px;
+    margin-bottom: 15px;
+}
+
+.dialog_description2 {
+    color: black;
+    font-size: 20px;
+    margin-bottom: 15px;
+    text-align: center;
+}
+
+
+/* Yes Button */
+.yesButton {
+    appearance: none;
+    border-radius: 4px;
+    align-items: center;
+    border: none;
+    box-shadow: rgba(0, 0, 0, 0.2) 0 3px 5px -1px,
+        rgba(0, 0, 0, 0.14) 0 6px 10px 0, rgba(0, 0, 0, 0.12) 0 1px 18px 0;
+    box-sizing: border-box;
+    background-color: #2ecc71;
+    color: #172808;
+    cursor: pointer;
+    display: inline-flex;
+    fill: currentcolor;
+    font-size: 18px;
+    font-weight: 500;
+    height: 48px;
+    letter-spacing: 0.25px;
+    line-height: normal;
+    overflow: visible;
+    padding: 25px 30px;
+    text-align: center;
+    text-transform: none;
+    transition: box-shadow 280ms cubic-bezier(0.4, 0, 0.2, 1),
+        opacity 15ms linear 30ms, transform 270ms cubic-bezier(0, 0, 0.2, 1) 0ms;
+    user-select: none;
+    -webkit-user-select: none;
+    touch-action: manipulation;
+    width: auto;
+    will-change: transform, opacity;
+    z-index: 2;
+    margin-left: 15px;
+}
+
+.yesButton:not([disabled]):hover {
+    background-color: #2ecc71;
+    color: #fff;
+    box-shadow: 0 0 0.25rem rgba(0, 0, 0, 0.5),
+        -0.125rem -0.125rem 1rem rgba(50, 154, 107, 0.5),
+        0.125rem 0.125rem 1rem rgba(117, 209, 148, 0.5);
+}
+
+/* No Button */
+.noButton {
+    appearance: none;
+    border-radius: 4px;
+    align-items: center;
+    border: none;
+    box-shadow: rgba(0, 0, 0, 0.2) 0 3px 5px -1px,
+        rgba(0, 0, 0, 0.14) 0 6px 10px 0, rgba(0, 0, 0, 0.12) 0 1px 18px 0;
+    box-sizing: border-box;
+    background-color: #ff4d4d;
+    color: rgb(82, 1, 1);
+    cursor: pointer;
+    display: inline-flex;
+    fill: currentcolor;
+    font-size: 18px;
+    font-weight: 500;
+    height: 48px;
+    letter-spacing: 0.25px;
+    line-height: normal;
+    overflow: visible;
+    padding: 25px 30px;
+    text-align: center;
+    text-transform: none;
+    transition: box-shadow 280ms cubic-bezier(0.4, 0, 0.2, 1),
+        opacity 15ms linear 30ms, transform 270ms cubic-bezier(0, 0, 0.2, 1) 0ms;
+    user-select: none;
+    -webkit-user-select: none;
+    touch-action: manipulation;
+    width: auto;
+    will-change: transform, opacity;
+    z-index: 2;
+    margin-right: 15px;
+}
+
+.noButton:not([disabled]):hover {
+    background-color: #ff4d4d;
+    color: #fff;
+    box-shadow: 0 0 0.25rem rgba(0, 0, 0, 0.5),
+        -0.125rem -0.125rem 1rem rgba(299, 42, 42, 0.5),
+        0.125rem 0.125rem 1rem rgba(198, 159, 159, 0.5);
+}
+
+.buttonsConfirmation {
+    display: flex;
+    justify-content: center;
+    margin-top: 90px;
+}

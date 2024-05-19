@@ -170,7 +170,7 @@ export default function Library() {
     try {
       await createCat(data);
       toast.success("Category created successfully");
-      await fetchCat();
+      await fetchCategories();
     } catch (error) {
       toast.error("Error creating category");
     } finally {
@@ -202,7 +202,7 @@ export default function Library() {
     try {
       await updateCat(cattoupdate, data);
       toast.success("Category updated successfully");
-      await fetchCat();
+      await fetchCategories();
     } catch (error) {
       toast.error("Error updating category");
     } finally {
@@ -229,8 +229,11 @@ export default function Library() {
 
     try {
       await updateSign(signtoupdate, data);
+      if(selectedCategory)
+        {
+          handleCategoryClick(selectedCategory);
+        }
       toast.success("Sign thumbnail updated successfully");
-      await fetchCat();
     } catch (error) {
       toast.error("Error updating sign thumbnail");
     } finally {
@@ -435,12 +438,12 @@ export default function Library() {
                 <Typography variant="subtitle1" align="center" className="sign-keyword">
                   {sign.keyword}
                 </Typography>
-                <Typography variant="body2" className="sign-animations">
+                {/* <Typography variant="body2" className="sign-animations">
                   Animations: {sign.animations.join(", ")}
                 </Typography>
                 <Typography variant="body2" className="sign-contributor">
                   Contributor: {sign.contributor}
-                </Typography>
+                </Typography> */}
 
                 <Button onClick={() => {
                   setsigntoupdate(sign.signId);

@@ -30,11 +30,11 @@ const CommunicationService = {
         }
     }, 
 
-    async DeleteAllLogsByUser(id, module) {
+    async DeleteAllLogsByUser(id, data) {
         try {
             const { client, database } = await connectDB();
             const collection = database.collection(DATABASE_COLLECTIONS.COMMUNICATION_LOG);
-            const result = await collection.deleteMany({ user_id: id, module: module });
+            const result = await collection.deleteMany({ user_id: id, module: data.module });
             client.close();
             return result;
         } catch (error) {
