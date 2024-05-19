@@ -10,7 +10,7 @@ const DatasetFormService = {
             formData.form_id = newFormId;
             const result = await collection.insertOne(formData);
             client.close(); // Close the connection
-            return result
+            return { result, newFormId }
         } catch (error) {
             // Handle validation errors or database errors
             if (error.name === 'ValidationError') {

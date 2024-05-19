@@ -282,6 +282,23 @@ const UserService = {
         }
     },
 
+    async GetUserById(id) {
+        const { client, database } = await connectDB();
+        try {
+            const collection = database.collection(DATABASE_COLLECTIONS.USERS);
+            const user = await collection.findOne({
+                user_id: id
+            });
+
+            await client.close();
+            return user;
+        }
+        catch (error) {
+            console.error("Error fetching user by email:", error);
+            throw error;
+        }
+    },
+
     // update user profile
     async UpdateUserProfileById(user_id, updatedData) {
         try {
@@ -374,6 +391,19 @@ const UserService = {
             throw error;
         }
     },
+
+    async getUserById(userId) {
+        const { client, database } = await connectDB();
+        try {
+            const collection = database.collection(DATABASE_COLLECTIONS.USERS);
+            const existingUser = await collection.findOne({ user_id: userId });
+            await client.close();
+            return existingUser;
+        } catch (error) {
+            console.error("Error fetching dataset collection:", error);
+            throw error;
+        }
+    }
 };
 
 module.exports = UserService;

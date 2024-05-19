@@ -1,6 +1,6 @@
 import React from "react";
 import "./PopupModal.css";
-import image from "../../assets/tick2.png";
+import image from "/images/tick2.png";
 
 interface PopupModalProps {
   isOpen: boolean;
@@ -9,7 +9,6 @@ interface PopupModalProps {
 
 const PopupModal: React.FC<PopupModalProps> = ({ isOpen, onClose }) => {
   const handleConfirmClick = () => {
-    console.log("Confirmed:");
     onClose();
   };
 
@@ -21,8 +20,8 @@ const PopupModal: React.FC<PopupModalProps> = ({ isOpen, onClose }) => {
     >
       <img src={image} alt="" className="popup-tick img-fluid" />
       <div className="modal-content">
-        <h2 className="modal-title">Thank you for your submission</h2>
-        <p className="modal-body">An email will be sent to you</p>
+        <h2 className="modal-title">Thank You for Your Submission</h2>
+        <p className="modal-body">We will proceed with the details submitted</p>
         <button className="btn btn-success" onClick={handleConfirmClick}>
           OK
         </button>

@@ -1,0 +1,36 @@
+.popup-confirmation {
+    background: #fff;
+    border-radius: 5px;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    text-align: center;
+    box-shadow: 2px 5px 10px rgba(0, 0, 0, 0.5);
+    display: none;
+    z-index: 2;
+    width: 600px;
+}
+
+.popup-confirmation.open {
+    display: block;
+}
+
+.popup-confirmation-content-header {
+    color: #494949;
+    margin: 20px auto;
+}
+
+
+.popup-confirmation-details {
+    margin: 0 auto;
+    padding: 0px 20px 20px 20px;
+}
+
+.popup-confirmation-content-button {
+    width: 80%;
+    margin: 0 auto;
+    display: flex;
+    justify-content: space-evenly;
+    margin-bottom: 20px;
+}

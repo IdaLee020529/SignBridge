@@ -389,7 +389,14 @@ const CollapsibleForm: React.FC<CollapsibleFormProps> = ({
                                 status_Admin_en: "New",
                                 status_Admin_bm: "Baru",
                               };
-                              handleSubmit(form_id, updateData);
+                              const updatedMessage = "New_Request_Accepted";
+
+                              handleSubmit(
+                                form_id,
+                                updateData,
+                                false,
+                                updatedMessage
+                              );
                               handleSEAcceptPublicButtonClick();
                             }}
                             buttonStyle="btn--accept" // Style for accept button
@@ -402,7 +409,8 @@ const CollapsibleForm: React.FC<CollapsibleFormProps> = ({
                           <Button
                             type="button"
                             onClick={() => {
-                              handleDelete(form_id);
+                              const updatedMessage = "Request_Cancelled";
+                              handleDelete(form_id, updatedMessage);
                               handleSERejectPublicButtonClick();
                             }}
                             buttonStyle="btn--cancel" // Style for cancel button
@@ -426,7 +434,13 @@ const CollapsibleForm: React.FC<CollapsibleFormProps> = ({
                                   status_Admin_en: "Verified",
                                   status_Admin_bm: "Disahkan",
                                 };
-                                handleSubmit(form_id, updateData);
+                                const updatedMessage = "Request_Verified";
+                                handleSubmit(
+                                  form_id,
+                                  updateData,
+                                  false,
+                                  updatedMessage
+                                );
                                 handleSEAcceptAdminButtonClick();
                               }}
                               buttonStyle="btn--send"
@@ -445,7 +459,13 @@ const CollapsibleForm: React.FC<CollapsibleFormProps> = ({
                                   status_Admin_en: "Rejected",
                                   status_Admin_bm: "Ditolak",
                                 };
-                                handleSubmit(form_id, updateData);
+                                const updatedMessage = "Request_Rejected";
+                                handleSubmit(
+                                  form_id,
+                                  updateData,
+                                  false,
+                                  updatedMessage
+                                );
                                 handleSERejectAdminButtonClick();
                               }}
                               buttonStyle="btn--cancel"
@@ -470,7 +490,13 @@ const CollapsibleForm: React.FC<CollapsibleFormProps> = ({
                             status_Admin_en: "In Progress",
                             status_Admin_bm: "Dalam Proses",
                           };
-                          handleSubmit(form_id, updateData);
+                          const updatedMessage = "Request_Accepted_by_Admin";
+                          handleSubmit(
+                            form_id,
+                            updateData,
+                            false,
+                            updatedMessage
+                          );
                         }}
                         buttonStyle="btn--accept" // Style for accept button
                         buttonSize="btn--large"
@@ -490,7 +516,13 @@ const CollapsibleForm: React.FC<CollapsibleFormProps> = ({
                                 status_Admin_en: "Awaiting Verification",
                                 status_Admin_bm: "Menunggu Pengesahan",
                               };
-                              handleSubmit(form_id, updateData, videoInfo);
+                              const updatedMessage = "Request_Updated_by_Admin";
+                              handleSubmit(
+                                form_id,
+                                updateData,
+                                videoInfo,
+                                updatedMessage
+                              );
                               handleAdminButtonClick();
                             } else {
                               toast.error(t("mustUploadAvatar"));
@@ -513,7 +545,13 @@ const CollapsibleForm: React.FC<CollapsibleFormProps> = ({
                               status_Admin_en: "Awaiting Verification",
                               status_Admin_bm: "Menunggu Pengesahan",
                             };
-                            handleSubmit(form_id, updateData, videoInfo);
+                            const updatedMessage = "Request_Updated_by_Admin";
+                            handleSubmit(
+                              form_id,
+                              updateData,
+                              videoInfo,
+                              updatedMessage
+                            );
                             handleAdminButtonClick();
                           } else {
                             toast.error(t("mustUploadAvatar"));

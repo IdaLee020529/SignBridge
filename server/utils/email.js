@@ -68,4 +68,36 @@ const mailTemplate = (content, buttonUrl, buttonText) => {
   </html>`;
 };
 
-module.exports = { sendEmail, mailTemplate };
+const datasetTemplate = (message1, message2, message3) => {
+  return `<!DOCTYPE html>
+  <html>
+  
+  <body style="text-align: center; font-family: 'Verdana', serif; color: black;">
+      <div style="
+              max-width: 400px;
+              margin: 10px auto;
+              background-color: #fafafa;
+              padding: 25px;
+              border-radius: 20px;
+            ">
+          <p style="text-align: left; margin-bottom: 30px;">
+              ${message1}
+          </p>
+          <p style="text-align: left; margin-bottom: 30px;">
+              ${message2}
+          </p>
+          <p style="text-align: left; margin-bottom: 30px;">
+              ${message3}
+          </p>
+          <p style="text-align: left; margin-bottom: 30px;">
+              Thank you,<br>
+              @SignBridge2024 Management Team
+          </p>
+      </div>
+  </body>
+  
+  </html>`;
+}
+
+
+module.exports = { sendEmail, mailTemplate, datasetTemplate };
