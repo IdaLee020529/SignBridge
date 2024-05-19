@@ -5,6 +5,8 @@ import "./Communication.css";
 import { useRef, useState, useEffect, SetStateAction } from "react";
 import Cookies from "js-cookie";
 
+import { createLogsByUser} from "../../services/communication.service";
+
 // SLP Imports
 import { Canvas, useFrame } from "@react-three/fiber";
 import { OrbitControls } from "@react-three/drei";
@@ -20,7 +22,8 @@ import Experience from "../../components/SLP/Experience";
 import Man from "../../components/AvatarModels/Man";
 import Checkbox from "@mui/material/Checkbox";
 import FormControlLabel from "@mui/material/FormControlLabel";
-
+import FPSCounter from "./FPSCounter"; // Adjust the import path as necessary
+import Communicationlog from "./Communicationlog"; // Adjust the import path as necessary
 // SLR Imports
 import SLRInput from "../../components/SLRInput/SLRInput";
 import SLROutput from "../../components/SLROutput/SLROutput";
@@ -30,6 +33,7 @@ import SpeechRecognition, {
 } from "react-speech-recognition";
 import toast from "react-hot-toast";
 import { useTranslation } from "react-i18next";
+import { create } from "domain";
 
 function Communication() {
     const { t, i18n } = useTranslation();
@@ -98,7 +102,6 @@ function Communication() {
     const [customTranScript, setCustomTranscript] = useState("");
 
     useEffect(() => {
-        console.log(transcript);
         setCustomTranscript(transcript);
     }, [transcript]);
 
@@ -115,15 +118,16 @@ function Communication() {
     const [handFocus, setHandFocus] = useState(false); // State to manage hand focus mode
     const [showSkeleton, setShowSkeleton] = useState(false); // State to manage skeleton visibility
     const [currentAnimationName, setCurrentAnimationName] = useState(""); // State to hold the current animation name
+    const [currentSignFrame, setCurrentSignFrame] = useState("Sign / Frame : 0 / 90"); // State to hold the current animation name
     const [isPaused, setPaused] = useState(false); // State to manage pause/play
     const [leftHandedMode, setLeftHandedMode] = useState(false); // State to manage left-handed mode
-    const [fps, setFps] = useState("  FPS:   60"); // State to hold FPS value
     const [currentStatus, setCurrentStatus] = useState(""); // State to hold the current animation name
     // SLR states
     const [SLRResponse, setSLRResponse] = useState<string>("");
 
     //////////////////////////////////////////
     // General functions
+
     // @ts-ignore
     const handleButtonValue = (event) => {
         const { value } = event.target;
@@ -143,17 +147,19 @@ function Communication() {
 
     //////////////////////////////////////////
     // SLP functions
-    // @ts-ignore
-    const updateFPS = (newFPS) => {
-        setFps(newFPS); // Update FPS state
-    };
 
     // @ts-ignore
     const updateCurrentAnimationName = (animationName) => {
         setCurrentAnimationName(animationName);
     };
 
-    const updateStatus = (status: SetStateAction<string>) => {
+        // @ts-ignore
+    const updateCurrentSignFrame = (signFrame) => {
+        setCurrentSignFrame(signFrame);
+    };
+
+     // @ts-ignore
+    const updateStatus = (status) => {
         setCurrentStatus(status);
     };
 
@@ -202,30 +208,6 @@ function Communication() {
         return null;
     }
 
-    // // @ts-ignore
-    // function FPSCounter({ onUpdateFPS }) {
-    //   const frameRef = useRef({ lastTime: performance.now(), frameCount: 0 });
-    //   const previousFPS = useRef(0); // Store previous FPS value
-
-    //   useFrame(() => {
-    //     const now = performance.now();
-    //     const delta = now - frameRef.current.lastTime;
-    //     frameRef.current.frameCount++;
-
-    //     if (delta >= 1000) {
-    //       const newFPS = Math.round((frameRef.current.frameCount * 1000) / delta);
-    //       if (newFPS !== previousFPS.current) { // Update only if FPS changes
-    //         onUpdateFPS(newFPS); // Call the passed callback with the new FPS
-    //         previousFPS.current = newFPS; // Update previous FPS
-    //       }
-    //       frameRef.current.frameCount = 0;
-    //       frameRef.current.lastTime = now;
-    //     }
-    //   });
-
-    //   return null; // No need to return anything as DOM updates are handled by the parent
-    // }
-
     const controls = useRef();
 
     // @ts-ignore
@@ -248,7 +230,6 @@ function Communication() {
                 const data = await response.json();
                 console.log("Data: ", data);
                 console.log("Submitted text: ", submittedText);
-                console.log("Previous submitted text: ", previousSubmittedText);
 
                 if (previousSubmittedText === submittedText) {
                     // If the current submitted text is the same as the previous one, append "#" to the returned text
@@ -256,6 +237,12 @@ function Communication() {
                 } else {
                     // If they are different, update the inputText directly
                     setInputText(data["return"]);
+                    const logData = {
+                        text: data["return"],
+                        module: "SLP",
+                        user_id: Cookies.get("user_id") || "",
+                    }
+                    createLogsByUser(logData);
                 }
 
                 // Update the previousSubmittedText variable for the next comparison
@@ -275,6 +262,12 @@ function Communication() {
     // SLR functions
     const handleSLRResponse = (data: string) => {
         setSLRResponse(data);
+        const logData = {
+            text: data,
+            module: "SLR",
+            user_id: Cookies.get("user_id") || "",
+        }
+        createLogsByUser(logData);
     };
 
     return (
@@ -356,7 +349,10 @@ function Communication() {
                                         updateCurrentAnimationName={
                                             updateCurrentAnimationName
                                         }
-                                        updateCurrentStatus={
+                                        updateCurrentSignFrame={
+                                            updateCurrentSignFrame
+                                        }
+                                        updateStatus={
                                             updateStatus
                                         }
                                     />
@@ -367,16 +363,12 @@ function Communication() {
                                 {handFocus && <HandFocusMode />}
                             </Canvas>
                         </div>
-                        {/* {isLoggedIn ? (
-                            <button className="communicationlog-btn">
-                                <img
-                                    src="./images/history.png"
-                                    className="communicationlog-img"
-                                />
-                            </button>
+                        {isLoggedIn ? (
+                                                        <div>
+                           <Communicationlog userId={Cookies.get("user_id") || ""} moduleType={"SLP"} /></div>
                         ) : (
                             <a></a>
-                        )} */}
+                        )}
                         <div className="content-wrapper">
                             <div>
                                 <h1 className="communication-h1">
@@ -499,16 +491,11 @@ function Communication() {
                             <div className="bottomrow">
                                 <h1 className="communication-h1">{t("stats")}</h1>
                                 <div className="communication-bottomrow">
-                                    <input
-                                        className="fps-box"
-                                        type="text"
-                                        value={fps}
-                                        readOnly
-                                    />
+                                <FPSCounter/>
                                     <input
                                         className="frame-box"
                                         type="text"
-                                        placeholder={t("sign_frame")}
+                                        placeholder={currentSignFrame}
                                     />
                                     <input
                                         className="gloss-box"
@@ -540,6 +527,12 @@ function Communication() {
                                 onResponsiveReceived={handleSLRResponse}
                             />
                         </div>
+                        {isLoggedIn ? (
+                                                        <div>
+                           <Communicationlog userId={Cookies.get("user_id") || ""} moduleType={"SLR"} /></div>
+                        ) : (
+                            <a></a>
+                        )}
                     </>
                 )}
             </div>

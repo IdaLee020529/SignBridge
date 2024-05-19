@@ -121,7 +121,7 @@
   },
   {
     "keyword": "HIDUNG",
-    "animations": ["Hidung1", "Hidung2"],
+    "animations": ["Hidung1"],
     "category":"Medical",
     "contributor":"SARAWAK SOCIETY FOR THE DEAF (SSD)",
     "thumbnail": "./images/signImages/medical.jpg",
@@ -241,7 +241,7 @@
   },
   {
     "keyword": "MATA",
-    "animations": ["Mata1", "Mata2"],
+    "animations": ["Mata1"],
     "category":"Medical",
     "contributor":"SARAWAK SOCIETY FOR THE DEAF (SSD)",
     "thumbnail": "./images/signImages/medical.jpg",
@@ -344,7 +344,7 @@
     "frames": 65
   },
   {
-    "keyword": "SINAR-X",
+    "keyword": "SINAR - X",
     "animations": ["SinarX1", "SinarX2", "SinarX3", "SinarX4", "SinarX5", "SinarX6"],
     "category":"Medical",
     "contributor":"SARAWAK SOCIETY FOR THE DEAF (SSD)",

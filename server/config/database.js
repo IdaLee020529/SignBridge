@@ -12,6 +12,8 @@ const DATABASE_COLLECTIONS = {
   CATEGORY_COUNTER: "category_counter",
   CATEGORY_SIGN: "category_sign",
   CATEGORY_SIGN_COUNTER: "category_sign_counter",
+  COMMUNICATION_COUNTER: "communication_counter",
+  COMMUNICATION_LOG: "communication_log",
   FEEDBACKS: "feedbacks",
   FEEDBACKS_COUNTER: "feedbacks_counter",
   FAQS: "faqs",
