@@ -10,9 +10,11 @@ import ListItemIcon from '@mui/material/ListItemIcon';
 import ListItemText from '@mui/material/ListItemText';
 import { fetchLogsByUser, deleteAllLogsByUser } from "../../services/communication.service";
 import { Dialog, DialogTitle, DialogContent, DialogContentText, DialogActions } from "@mui/material"; // Import Material-UI components
-import styles from "../Library/Admin/LibraryAdmin.module.css";
+import styles from "./Communication.css";
+import HistoryIcon from '@mui/icons-material/History';
 import { toast } from "react-hot-toast";
-
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faTrash } from "@fortawesome/free-solid-svg-icons";
 type CommunicationlogProps = {
     userId: string;
     moduleType: string;
@@ -46,19 +48,20 @@ const Communicationlog: React.FC<CommunicationlogProps> = ({ userId, moduleType 
 
     return (
         <List>
-            {logs
-                .sort((a, b) => b.log_id - a.log_id) // Sort logs by descending log_id
-                .map((log) => (
-                    <ListItem key={log.log_id} disablePadding>
-                        <ListItemButton>
-                            <ListItemIcon>
-                                {log.log_id}
-                            </ListItemIcon>
-                            <ListItemText primary={log.text} secondary={log.timestamp} />
-                        </ListItemButton>
-                    </ListItem>
-                ))}
-        </List>
+    {logs
+        .sort((a, b) => b.log_id - a.log_id) // Sort logs by descending log_id
+        .map((log) => (
+            <ListItem key={log.log_id} disablePadding>
+                <ListItemButton>
+                    <ListItemIcon>
+                        {log.log_id}
+                    </ListItemIcon>
+                    <ListItemText primary={`"${log.text}"`} secondary={log.timestamp} />
+                </ListItemButton>
+            </ListItem>
+        ))}
+</List>
+
     );
 };
 
@@ -66,22 +69,20 @@ type Anchor = 'right';
 
 const AnchorTemporaryDrawer: React.FC<CommunicationlogProps> = ({ userId, moduleType }) => {
     const [openDeleteConfirm, setOpenDeleteConfirm] = useState(false); // State for delete confirmation dialog
-    const [state, setState] = React.useState({
-        right: false,
-    });
+    const [state, setState] = useState({ right: false });
 
     const confirmDeleteLogs = async () => {
         try {
             const delData = {
                 module: moduleType,
-                user_id: userId,
             }
-            await deleteAllLogsByUser(delData);
+            await deleteAllLogsByUser(userId, delData);
             toast.success("History logs cleared successfully");
         } catch (error) {
             toast.error("Error deleting logs");
         } finally {
-            setOpenDeleteConfirm(false);
+            setOpenDeleteConfirm(false); // Close the delete confirmation dialog
+            setState({ right: false }); // Close the drawer
         }
     };
 
@@ -100,33 +101,35 @@ const AnchorTemporaryDrawer: React.FC<CommunicationlogProps> = ({ userId, module
     };
 
     const list = (anchor: Anchor) => (
-        <Box
-            sx={{ width: 250 }}
-            role="presentation"
-        >
+        // @ts-ignore
+        <Box className="log-bg" sx={{ width: 250 }}role="presentation">
+            <div className="log-top">
+            <br/>
+            <button onClick={() => setOpenDeleteConfirm(true)} className="dltLogBtn"><FontAwesomeIcon className="dltLogsIcon" icon={faTrash} /></button>
+            <i className="fa fa-close" onClick={toggleDrawer(anchor, false)}></i>
 
-<button onClick={() => setOpenDeleteConfirm(true)}>Delete All</button>
-            <button onClick={toggleDrawer(anchor, false)}>Close</button>
-            <Dialog className={styles.dialog_overlay} open={openDeleteConfirm} onClose={() => setOpenDeleteConfirm(false)}>
-                <DialogContent className={styles.dialog_content2}>
-                    <DialogTitle className={styles.dialog_title}>Confirm Delete</DialogTitle>
-                    <DialogContentText className={styles.dialog_description2}>
-                        Are you sure you want to delete this Category?
+            <h3 className="logHeader">Communication Log</h3>
+            <br/>
+
+            </div>
+            <Dialog className="dialog_overlay" open={openDeleteConfirm} onClose={() => setOpenDeleteConfirm(false)}>
+                <DialogContent className="dialog_content2">
+                    <DialogTitle className="dialog_title">Confirm Clear</DialogTitle>
+                    <DialogContentText className="dialog_description2">
+                        Are you sure you want to clear all logs?
                     </DialogContentText>
                 </DialogContent>
                 <DialogActions>
-                    <div className={styles.buttonsConfirmation}>
+                    <div className="buttonsConfirmation">
                         <button
-                            className={styles.noButton}
+                            className="noButton"
                             onClick={() => setOpenDeleteConfirm(false)}>No</button>
                         <button
-                            className={styles.yesButton}
+                            className="yesButton"
                             onClick={confirmDeleteLogs}>Yes</button>
                     </div>
                 </DialogActions>
             </Dialog>
-
-            <Divider />
             <Communicationlog userId={userId} moduleType={moduleType} />
         </Box>
     );
@@ -134,11 +137,15 @@ const AnchorTemporaryDrawer: React.FC<CommunicationlogProps> = ({ userId, module
     return (
         <div>
             <React.Fragment key={'right'}>
-                <button onClick={toggleDrawer('right', true)} className="communicationlog-btn">
-                    <img
+                <button onClick={toggleDrawer('right', true)} className="communicationlog-btn" title="Communication log">
+                    {/* <img
                         src="./images/history.png"
                         className="communicationlog-img"
-                    />
+                        alt="History"
+                    /> */}
+                    <ListItemIcon className="communicationlog-icon">
+                        <HistoryIcon className="communicationlog-img" />
+                    </ListItemIcon>
                 </button>
                 <Drawer
                     anchor={'right'}

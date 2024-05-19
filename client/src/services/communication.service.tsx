@@ -14,17 +14,20 @@ export const createLogsByUser = async (data: any) => {
     }
 };
 
-export const deleteAllLogsByUser = async (data : any) => {
+export const deleteAllLogsByUser = async (userId: string, data : any) => {
     try {
         const response = await axios.delete(
-            `http://localhost:3000/logs/user/delete"`,
-            data
+            `http://localhost:3000/logs/user/${userId}`,
+            {
+                data: data
+            }
         );
         return response;
     } catch (err) {
         throw err;
     }
 };
+
 
 export const fetchLogsByUser = async (data: any) => {
     try {
