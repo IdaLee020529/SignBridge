@@ -171,6 +171,7 @@ function App() {
       sessionStorage.removeItem("doTheSignCurrentLevel");
       sessionStorage.removeItem("doTheSignScore");
       sessionStorage.removeItem("doTheSignHintUsedCount");
+      sessionStorage.removeItem("animationKeyword");
     }
   }, [location.pathname]);
 
