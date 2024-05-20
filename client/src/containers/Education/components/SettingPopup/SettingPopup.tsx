@@ -84,7 +84,7 @@ const SettingPopup: React.FC<SettingPopupProps> = ({ onClose, onVolumeChange }) 
 					<span className="close_btn-shadow"></span>
 					<span className="close_btn_edge"></span>
 					<span className="close_btn_front text">
-						<i className="fa fa-close"></i>
+						<i className="fa fa-close fa-close-btn"></i>
 					</span>
 				</button>
 				<div className="setting-details">
