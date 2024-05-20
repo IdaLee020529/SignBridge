@@ -54,11 +54,20 @@ export default function Library() {
   const [resetImage, setResetImage] = useState(false);
   const [searchKeyword, setSearchKeyword] = useState("");
 
-
   const [formData, setFormData] = useState({
     category_name: "",
-    category_thumbnail: null,
+    category_thumbnail: null as string | null,
   });
+
+  
+  const handleUpdateCategory = (category: LibraryCategories) => {
+    setFormData({
+      category_name: category.category_name,
+      category_thumbnail: category.category_thumbnail,
+    });
+    setcattoupdate(category.category_id);
+    setOpenUpdateConfirm(true);
+  };
 
   const [signformData, setSignFormData] = useState({
     thumbnail: null,
@@ -129,7 +138,7 @@ export default function Library() {
       toast.success("Category deleted successfully");
       await fetchCategories();
     } catch (error) {
-      toast.error("Error deleting FAQ");
+      toast.error("Error deleting category");
     } finally {
       setOpenDeleteConfirm(false);
       setcattodelete(null);
@@ -265,25 +274,30 @@ export default function Library() {
   );
   const renderCategories = () => (
     <>
-      <Typography variant="h4" gutterBottom>
+      <Typography className={styles.libheader} variant="h4" gutterBottom>
         Library
       </Typography>
-      <Grid container spacing={5}>
+      <div className={styles.buttonContainer}>
+      <button className={styles.addCategoryButton} onClick={() => setOpen(true)}>Add Category</button>
+      </div>
+      <Grid className={styles.grid1} container spacing={4}>
         {categories.map((category) => (
-          <Grid className={styles.grid} key={category.category_id} item xs={12} sm={6} md={4} lg={3}>
+          <Grid className={styles.grid2} key={category.category_id} item xs={24} sm={6} md={4} lg={3}>
            <Card className={styles.card} onClick={() => handleCategoryClick(category.category_name)}>
               <CardContent>
+              <div className={styles.categoryImg}>
                 <img
                   src={category.category_thumbnail}
                   alt={category.category_name}
                   style={{ maxWidth: "100%" }}
                 />
-              
+              <div className={styles.categoryText}><p>{category.category_name}</p></div>
+              </div>
               </CardContent>
             </Card>
             <div className ={styles.buttonAdmin}>
                   <button
-                  className={styles.dltFaqButton}
+                  className={styles.dltCatButton}
                     onClick={() => {
                       setcattodelete(category.category_id);
                       setOpenDeleteConfirm(true); // Open the delete confirmation dialog
@@ -291,13 +305,14 @@ export default function Library() {
                   >
                     <FontAwesomeIcon icon={faTrash} />
                   </button>
-                  <button className={styles.updateFaqButton} onClick={() => {
+                  <button className={styles.updateCatButton} onClick={() => {
+                    handleUpdateCategory(category);
                     setcattoupdate(category.category_id);
                     setOpenUpdateConfirm(true);
                   }}>
                     <FontAwesomeIcon icon={faEdit} />
                   </button>
-                </div>
+              </div>
           </Grid>
         ))}
       </Grid>
@@ -372,7 +387,6 @@ export default function Library() {
       </Dialog>
 
       <>
-        <button onClick={() => setOpen(true)}>Open Create Category Dialog</button>
         <Dialog open={open} onClose={() => setOpen(false)}>     
           <DialogContent className={styles.dialog_content}>
           <DialogTitle className={styles.dialog_title}>Create Category</DialogTitle>
@@ -429,9 +443,9 @@ export default function Library() {
         value={searchKeyword}
         onChange={(e) => setSearchKeyword(e.target.value)}
       />
-      <Grid container spacing={2}>
+      <Grid className={styles.grid1} container spacing={4}>
         {filteredSigns.map((sign, index) => (
-          <Grid key={index} item xs={12} sm={6} md={4} lg={3}>
+           <Grid className={styles.grid2} key={index} item xs={24} sm={6} md={4} lg={3}>
             <Card onClick={() => handleSignClick(index)}>
               <CardContent>
                 <img src={sign.thumbnail} alt={sign.keyword} style={{ maxWidth: "100%" }} />
@@ -445,14 +459,17 @@ export default function Library() {
                   Contributor: {sign.contributor}
                 </Typography> */}
 
-                <Button onClick={() => {
+              </CardContent>
+            </Card>
+            
+<div className ={styles.buttonAdmin}>
+                <button className={styles.dltCatButton} onClick={() => {
                   setsigntoupdate(sign.signId);
                   setOpenUpdateSignConfirm(true);
                 }}>
                   <FontAwesomeIcon icon={faImage} />
-                </Button>
-              </CardContent>
-            </Card>
+                </button>
+                </div>
             <Dialog open={openUpdateSignConfirm} onClose={() => setOpenUpdateSignConfirm(false)}>
               <DialogTitle>Update Sign Thumbnail</DialogTitle>
               <DialogContent>
@@ -485,7 +502,7 @@ export default function Library() {
   );
 
   return (
-    <div className="library">
+    <div className={styles.library}>
       {currentView === View.Categories && renderCategories()}
       {currentView === View.Signs && renderSigns()}
       {currentView === View.SignWrapper && renderSignWrapper()}

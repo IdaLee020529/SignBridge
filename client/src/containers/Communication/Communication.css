@@ -269,14 +269,14 @@ button:nth-child(2):hover ~ .animation {
 }
 
 
-.fa {
+.closeFa {
     margin: 0.3vw 0vw 0vw 1vw;
     float: left;
     font-size: 28px !important; 
     cursor: pointer;
 }
 
-.fa:hover {
+.closeFa:hover {
     text-shadow: 0 4px 8px rgba(0, 0, 0, 0.5);
 }
 
