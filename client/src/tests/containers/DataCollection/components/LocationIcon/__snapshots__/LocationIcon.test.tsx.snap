@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`Test PhoneIcon should render correctly 1`] = `
+exports[`Test LocationIcon should render correctly 1`] = `
 <svg
   fill="currentColor"
   height="2em"
