@@ -4,7 +4,7 @@ import "./InstructionPopup.css";
 import InstructionImage from "/images/InfoPopup.png";
 
 interface InstructionPopupProps {
-  showInstructionPopup: any;
+  showInstructionPopup: boolean;
   onClose: () => void;
 }
 
@@ -18,7 +18,7 @@ const InstructionPopup: React.FC<InstructionPopupProps> = ({
     >
       <div className="instruction-popup-header">
         <h1 className="instruction-title">Instructions</h1>
-        <CloseOutlined className="close-icon" onClick={onClose} />
+        <i className={`fa fa fa-close`} onClick={onClose}></i>
       </div>
       <div className="instruction-popup-details">
         <div className="instruction-popup-details-section1">

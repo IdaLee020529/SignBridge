@@ -347,11 +347,7 @@ const DataSubmissionForm: React.FC<DataSubmissionFormProps> = ({
         showInstructionPopup={showInstructionPopup}
         onClose={handleCloseInstructionPopup}
       />
-      <div
-        className={`dataForm  ${isSubmitModalOpen ? "dimmed" : ""} ${
-          showPopup ? "dimmed" : ""
-        } ${showInstructionPopup ? "dimmed" : ""}`}
-      >
+      <div className={`dataForm`}>
         <div className="dataForm-header-container">
           <div className="dataForm-header">
             <h1>{t("dataset_collection_form")}</h1>

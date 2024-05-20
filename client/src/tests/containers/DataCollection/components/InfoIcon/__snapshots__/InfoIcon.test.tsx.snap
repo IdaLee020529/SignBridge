@@ -5,6 +5,7 @@ exports[`Test InfoIcon should render correctly 1`] = `
   className="dataForm-info"
   fill="currentColor"
   height="1em"
+  onClick={[MockFunction]}
   stroke="currentColor"
   strokeWidth="0"
   style={
