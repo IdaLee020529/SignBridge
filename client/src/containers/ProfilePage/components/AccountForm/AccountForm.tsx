@@ -274,6 +274,7 @@ const AccountForm = () => {
 
             UpdateProfileInfo(formData.user_id ?? "", data);
             toast.success(t("personalSuccess"));
+            
         } else {
             toast.error(t("personalFailed"));
         }

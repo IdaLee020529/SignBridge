@@ -165,7 +165,7 @@ function Login() {
         });
 
         // SignUpUserGoogle(res.data);
-        toast.success(t('google_successful'));
+        // toast.success(t('google_successful'));
         navigate("/");
       } catch (e) {
         console.error(e);

@@ -33,7 +33,7 @@ import { useTranslation } from "react-i18next";
 type publicTableData = {
     no: number;
     text_sentence: string;
-    status_SE: string;
+    status_SE_en: string;
     submitted_time: string;
 };
 
@@ -74,23 +74,23 @@ const SignInfo = () => {
         setPublicTableData(dataset.data);
 
         setSubmittedValue(
-            dataset.data.filter((data: any) => data.status_SE).length
+            dataset.data.filter((data: any) => data.status_SE_en).length
         );
         setPendingValue(
-            dataset.data.filter((data: any) => data.status_SE === "New").length
+            dataset.data.filter((data: any) => data.status_SE_en === "New").length
         );
         setAcceptedValue(
             dataset.data.filter(
                 (data: any) =>
-                    data.status_SE === "Awaiting Accept" ||
-                    data.status_SE === "In Progress" ||
-                    data.status_SE === "Awaiting Verification" ||
-                    data.status_SE === "Rejected" ||
-                    data.status_SE === "Verified"
+                    data.status_SE_en === "Awaiting Accept" ||
+                    data.status_SE_en === "In Progress" ||
+                    data.status_SE_en === "Awaiting Verification" ||
+                    data.status_SE_en === "Rejected" ||
+                    data.status_SE_en === "Verified"
             ).length
         );
         setRejectedValue(
-            dataset.data.filter((data: any) => data.status_SE === "Cancelled")
+            dataset.data.filter((data: any) => data.status_SE_en === "Cancelled")
                 .length
         );
     }
@@ -149,7 +149,7 @@ const SignInfo = () => {
         }),
 
         // you can use different approach here
-        columnHelper.accessor((row) => row.status_SE, {
+        columnHelper.accessor((row) => row.status_SE_en, {
             sortingFn: "text",
             id: "status",
             cell: (info) => (

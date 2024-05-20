@@ -364,7 +364,7 @@ const Feedback = () => {
                             <div className={style.feedback_row}>
                                 <div className={style.feedback_input}>
                                     <label htmlFor="firstName">
-                                        {t("first_name")}
+                                        {t("first_name")} <span style={{ color: "red" }}>*</span>
                                     </label>
                                     <input
                                         type="text"
@@ -384,7 +384,7 @@ const Feedback = () => {
 
                                 <div className={style.feedback_input}>
                                     <label htmlFor="lastName">
-                                        {t("last_name")}
+                                        {t("last_name")} <span style={{ color: "red" }}>*</span>
                                     </label>
                                     <input
                                         type="text"
@@ -405,7 +405,7 @@ const Feedback = () => {
 
                             <div className={style.feedback_row}>
                                 <div className={style.feedback_input}>
-                                    <label>{t("age")}</label>
+                                    <label>{t("age")} <span style={{ color: "red" }}>*</span></label>
                                     <input
                                         type="text"
                                         id="age"
@@ -424,7 +424,7 @@ const Feedback = () => {
                                 </div>
 
                                 <div className={style.feedback_input}>
-                                    <label>{t("gender")}</label>
+                                    <label>{t("gender")} <span style={{ color: "red" }}>*</span></label>
                                     <div className={style.gender}>
                                         <input
                                             type="radio"
@@ -458,7 +458,7 @@ const Feedback = () => {
 
                             <div className={style.feedback_row}>
                                 <div className={style.feedback_input}>
-                                    <label>{t("email_address")}</label>
+                                    <label>{t("email_address")} <span style={{ color: "red" }}>*</span></label>
                                     <input
                                         type="text"
                                         name="email"
@@ -475,7 +475,7 @@ const Feedback = () => {
                                 </div>
 
                                 <div className={style.feedback_input}>
-                                    <label>{t("race")}</label>
+                                    <label>{t("race")} <span style={{ color: "red" }}>*</span></label>
                                     <input
                                         type="text"
                                         id="race"
