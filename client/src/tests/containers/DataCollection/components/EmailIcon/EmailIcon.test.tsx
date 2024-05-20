@@ -1,4 +1,4 @@
-import EmailIcon from "@root/containers/DataCollection/components/EmailIcon/EmailIcon";
+import EmailIcon from "../../../../../containers/DataCollection/components/EmailIcon/EmailIcon";
 import { create } from "react-test-renderer";
 
 describe("Test EmailIcon", () => {

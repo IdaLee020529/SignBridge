@@ -1,0 +1,112 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Test InstructionPopup should render correctly 1`] = `
+<div
+  className="instruction-popup shown "
+>
+  <div
+    className="instruction-popup-header"
+  >
+    <h1
+      className="instruction-title"
+    >
+      Instructions
+    </h1>
+    <span
+      aria-label="close"
+      className="anticon anticon-close close-icon"
+      onClick={[MockFunction]}
+      role="img"
+      tabIndex={-1}
+    >
+      <svg
+        aria-hidden="true"
+        data-icon="close"
+        fill="currentColor"
+        fillRule="evenodd"
+        focusable="false"
+        height="1em"
+        viewBox="64 64 896 896"
+        width="1em"
+      >
+        <path
+          d="M799.86 166.31c.02 0 .04.02.08.06l57.69 57.7c.04.03.05.05.06.08a.12.12 0 010 .06c0 .03-.02.05-.06.09L569.93 512l287.7 287.7c.04.04.05.06.06.09a.12.12 0 010 .07c0 .02-.02.04-.06.08l-57.7 57.69c-.03.04-.05.05-.07.06a.12.12 0 01-.07 0c-.03 0-.05-.02-.09-.06L512 569.93l-287.7 287.7c-.04.04-.06.05-.09.06a.12.12 0 01-.07 0c-.02 0-.04-.02-.08-.06l-57.69-57.7c-.04-.03-.05-.05-.06-.07a.12.12 0 010-.07c0-.03.02-.05.06-.09L454.07 512l-287.7-287.7c-.04-.04-.05-.06-.06-.09a.12.12 0 010-.07c0-.02.02-.04.06-.08l57.7-57.69c.03-.04.05-.05.07-.06a.12.12 0 01.07 0c.03 0 .05.02.09.06L512 454.07l287.7-287.7c.04-.04.06-.05.09-.06a.12.12 0 01.07 0z"
+        />
+      </svg>
+    </span>
+  </div>
+  <div
+    className="instruction-popup-details"
+  >
+    <div
+      className="instruction-popup-details-section1"
+    >
+      <p>
+        <strong>
+          1.
+        </strong>
+         Login a user account
+      </p>
+      <p>
+        <strong>
+          2.
+        </strong>
+         Fill up the details - Name, Email, Text/ Sentence
+      </p>
+      <p>
+        <strong>
+          3.
+        </strong>
+         Upload a demonstration video of the text/sentence
+      </p>
+      <p>
+        <strong>
+          4.
+        </strong>
+         Press the reset button to reset the form or the submit button to submit the form
+      </p>
+    </div>
+    <hr
+      className="line-separator"
+    />
+    <div
+      className="instruction-popup-details-section2"
+    >
+      <p>
+        Note:
+      </p>
+      <div
+        className="instruction-popup-content"
+      >
+        <ul>
+          <li>
+            The video submitted must be in mp4 format
+          </li>
+          <li>
+            The video should include either half or entire body of the presenter
+          </li>
+          <li>
+            The video will only be used for avatar preparation purpose only
+          </li>
+        </ul>
+      </div>
+    </div>
+    <div
+      className="instruction-popup-details-section3"
+    >
+      <p>
+        You can refer to the image below:
+      </p>
+      <div
+        className="instruction-popup-details-image"
+      >
+        <img
+          alt="instruction-image"
+          className="instruction-image"
+          src="default"
+        />
+      </div>
+    </div>
+  </div>
+</div>
+`;

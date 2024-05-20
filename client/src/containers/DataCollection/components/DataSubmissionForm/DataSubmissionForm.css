@@ -3,9 +3,6 @@
     width: 80%;
 }
 
-.dataForm.dimmed {
-    filter: blur(5px)
-}
 
 .dataForm-header-container {
     justify-items: center;

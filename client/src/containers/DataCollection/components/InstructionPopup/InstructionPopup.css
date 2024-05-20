@@ -4,18 +4,15 @@
     background-color: #f9f9f9;
     border: 1px solid #ccc;
     border-radius: 15px;
-    display: none;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    /* Optional: Adds a shadow for depth */
     font-size: 18px;
-    /* Font size of the content */
     color: #333;
     padding: 30px 40px 40px 40px;
-    /* Text color */
-    z-index: 3;
+    z-index: 1001;
     position: absolute;
-
+    display: none;
 }
+
 
 .instruction-popup.shown {
     display: block;

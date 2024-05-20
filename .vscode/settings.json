@@ -1,12 +1,16 @@
 {
-	"files.exclude": {
-		"**/.git": true,
-		"**/.svn": true,
-		"**/.hg": true,
-		"**/CVS": true,
-		"**/.DS_Store": true,
-		"**/Thumbs.db": true
-	},
-	"hide-files.files": [],
-	"files.autoSave": "afterDelay"
+  "files.exclude": {
+    "**/.git": true,
+    "**/.svn": true,
+    "**/.hg": true,
+    "**/CVS": true,
+    "**/.DS_Store": true,
+    "**/Thumbs.db": true
+  },
+  "files.autoSave": "afterDelay",
+  "jest.autoRun": "false",
+  "jest.runMode": {
+    "type": "on-demand",
+    "coverage": true
+  }
 }

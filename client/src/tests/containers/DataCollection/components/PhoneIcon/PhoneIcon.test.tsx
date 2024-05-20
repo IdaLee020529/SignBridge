@@ -1,4 +1,4 @@
-import PhoneIcon from "@root/containers/DataCollection/components/PhoneIcon/PhoneIcon";
+import PhoneIcon from "../../../../../containers/DataCollection/components/PhoneIcon/PhoneIcon";
 import { create } from "react-test-renderer";
 
 describe("Test PhoneIcon", () => {
