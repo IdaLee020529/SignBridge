@@ -1,6 +1,16 @@
 .library{
     width: 100% !important;
 }
+
+.libImage{
+    width: 100%;
+    height: auto;
+    -webkit-box-reflect: below 0px -webkit-gradient(linear, left top, left
+                bottom, from(transparent), color-stop(0.5, transparent), to(rgba(255, 255, 255, 0.1)));
+    position: relative;
+    z-index: 1;
+}
+
 .dialog_overlay {
     background-color: var(--black-a9);
     position: fixed;
@@ -252,6 +262,8 @@
 }
 
 .card{
+    background-color: #f3f3f3 !important;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2) !important;
     width: 20vw;
     height: 35vh;
     position: relative; /* Set position to relative */
@@ -274,6 +286,7 @@
 }
 
 .libheader{
+    margin-top: 20px !important;
     text-align: center !important;
     font-size: 30px !important;
     font-weight: 700 !important;
@@ -325,6 +338,29 @@
 }
 
 
+/* Delete Button */
+.updateSignButton {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    height: 45px;
+    width: 45px;
+    color: #fff;
+    background-color: #f8be64;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+    transition: background-color 0.3s, box-shadow 0.3s;
+    cursor: pointer;
+    font-size: 20px;
+    border: none;
+    outline: none;
+    margin-right: 60px;
+}
+
+.updateSignButton:hover {
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.4);
+}
+
+
 .card:hover img{
     transition: transform 0.3s ease-in-out;
     transform: scale(1.1);
@@ -350,7 +386,7 @@
     border-right: 0.1rem solid transparent;
     height: 20%; /* Set height to 100% to cover the whole card */
     width: 100%;
-    bottom: 10px; /* Initially positioned at the top */
+    bottom: 0; /* Initially positioned at the top */
     box-sizing: border-box; /* Include padding in width and height calculation */
 }
 
@@ -421,8 +457,9 @@
 .buttonContainer {
     display: flex;
     justify-content: center; /* Center the button horizontally */
-    align-items: center; /* Center the button vertically (if needed) */
-    margin-bottom: 20px; /* Adjust spacing below the button as needed */
+    align-items: center; /* Center the button vertically (if needed) *//* Adjust spacing below the button as needed */
 }
+
+
 
 
