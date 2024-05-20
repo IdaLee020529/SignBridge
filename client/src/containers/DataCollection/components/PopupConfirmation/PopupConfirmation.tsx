@@ -40,7 +40,7 @@ const PopupConfirmation: React.FC<PopupConfirmationProps> = ({
   return (
     <div className={`popup-confirmation ${isOpen ? "open" : ""}`}>
       <div className="popup-confirmation-content-header">
-        <h2>Are you sure?</h2>
+        <h2>{t("insAreYouSure")}</h2>
       </div>
       <div className="popup-confirmation-content">
         <div className="popup-confirmation-details">
@@ -67,7 +67,7 @@ const PopupConfirmation: React.FC<PopupConfirmationProps> = ({
                       fontFamily: `"Plus Jakarta Sans", "Plus Jakarta Sans Placeholder", sans-serif`,
                     }}
                   >
-                    <b>Name</b>
+                    <b>{t("insName")}</b>
                   </TableCell>
                   <TableCell sx={{ fontSize: "16px", wordBreak: "break-word" }}>
                     {name}
@@ -88,7 +88,7 @@ const PopupConfirmation: React.FC<PopupConfirmationProps> = ({
                       fontFamily: `"Plus Jakarta Sans", "Plus Jakarta Sans Placeholder", sans-serif`,
                     }}
                   >
-                    <b>Email</b>
+                    <b>{t("insEmail")}</b>
                   </TableCell>
                   <TableCell
                     sx={{
@@ -115,7 +115,7 @@ const PopupConfirmation: React.FC<PopupConfirmationProps> = ({
                       fontFamily: `"Plus Jakarta Sans", "Plus Jakarta Sans Placeholder", sans-serif`,
                     }}
                   >
-                    <b>Text</b>
+                    <b>{t("insText")}</b>
                   </TableCell>
                   <TableCell
                     sx={{
@@ -137,7 +137,7 @@ const PopupConfirmation: React.FC<PopupConfirmationProps> = ({
                       fontFamily: `"Plus Jakarta Sans", "Plus Jakarta Sans Placeholder", sans-serif`,
                     }}
                   >
-                    <b>Video</b>
+                    <b>{t("insVideo")}</b>
                   </TableCell>
                   <TableCell
                     sx={{
@@ -161,7 +161,7 @@ const PopupConfirmation: React.FC<PopupConfirmationProps> = ({
             buttonStyle="btn--reset"
             buttonSize="btn--large"
           >
-            Cancel
+            {t("cancel_btn")}
           </Button>
           <ButtonProcessing
             onClick={onSubmit}

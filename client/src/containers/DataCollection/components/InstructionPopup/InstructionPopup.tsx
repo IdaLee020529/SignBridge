@@ -1,72 +1,95 @@
-import React from "react";
-import { CloseOutlined } from "@ant-design/icons";
-import "./InstructionPopup.css";
+import React, { useEffect, useRef } from "react";
+import styles from "./InstructionPopup.module.css";
 import InstructionImage from "/images/InfoPopup.png";
+import { useTranslation } from "react-i18next";
 
 interface InstructionPopupProps {
-  showInstructionPopup: boolean;
-  onClose: () => void;
+    showInstructionPopup: boolean;
+    onClose: () => void;
 }
 
 const InstructionPopup: React.FC<InstructionPopupProps> = ({
-  showInstructionPopup,
-  onClose,
+    showInstructionPopup,
+    onClose,
 }) => {
-  return (
-    <div
-      className={`instruction-popup ${showInstructionPopup ? "shown" : ""} `}
-    >
-      <div className="instruction-popup-header">
-        <h1 className="instruction-title">Instructions</h1>
-        <i className={`fa fa fa-close`} onClick={onClose}></i>
-      </div>
-      <div className="instruction-popup-details">
-        <div className="instruction-popup-details-section1">
-          <p>
-            <strong>1.</strong> Login a user account
-          </p>
-          <p>
-            <strong>2.</strong> Fill up the details - Name, Email, Text/
-            Sentence
-          </p>
-          <p>
-            <strong>3.</strong> Upload a demonstration video of the
-            text/sentence
-          </p>
-          <p>
-            <strong>4.</strong> Press the reset button to reset the form or the
-            submit button to submit the form
-          </p>
+    const { t, i18n } = useTranslation();
+    const popupRef = useRef<HTMLDivElement>(null);
+
+    useEffect(() => {
+        const handleClickOutside = (event: MouseEvent) => {
+            if (
+                popupRef.current &&
+                !popupRef.current.contains(event.target as Node)
+            ) {
+                onClose();
+            }
+        };
+
+        if (showInstructionPopup) {
+            document.addEventListener("mousedown", handleClickOutside);
+            document.body.classList.add(styles.noScroll);
+        } else {
+            document.body.classList.remove(styles.noScroll);
+        }
+
+        return () => {
+            document.removeEventListener("mousedown", handleClickOutside);
+            document.body.classList.remove(styles.noScroll);
+        };
+    }, [showInstructionPopup, onClose]);
+
+    return (
+        <div
+            className={`${styles["instruction-popup"]} ${
+                showInstructionPopup ? styles["shown"] : ""
+            }`}
+            ref={popupRef}
+        >
+            <div className={styles.instruction_popup_header}>
+                <h1 className={styles.instruction_title}>
+                    {t("instructions")}
+                </h1>
+                <i className={`${styles.fa} fa fa-close`} onClick={onClose}></i>
+            </div>
+            <div className={styles.instruction_popup_details}>
+                <div className={styles.instruction_popup_details_section1}>
+                    <p>
+                        <strong>1.</strong> {t("inslogin")}
+                    </p>
+                    <p>
+                        <strong>2.</strong> {t("insFillDetails")}
+                    </p>
+                    <p>
+                        <strong>3.</strong> {t("insUploadDemoVideo")}
+                    </p>
+                    <p>
+                        <strong>4.</strong> {t("insResetBtn")}
+                    </p>
+                </div>
+                <hr className={styles.line_separator} />
+                <div className={styles.instruction_popup_details_section2}>
+                    <p>{t("insNote")}</p>
+                    <div className={styles.instruction_popup_content}>
+                        <ul>
+                            <li>{t("insVideoMp4")}</li>
+                            <li>{t("insVideoBody")}</li>
+                            <li>{t("insVideoPurpose")}</li>
+                        </ul>
+                    </div>
+                </div>
+                <div className={styles.instruction_popup_details_section3}>
+                    <p>{t("insReferImage")}</p>
+                    <div className={styles.instruction_popup_details_image}>
+                        <img
+                            src={InstructionImage}
+                            alt="instruction-image"
+                            className={styles.instruction_image}
+                        />
+                    </div>
+                </div>
+            </div>
         </div>
-        <hr className="line-separator" />
-        <div className="instruction-popup-details-section2">
-          <p>Note:</p>
-          <div className="instruction-popup-content">
-            <ul>
-              <li>The video submitted must be in mp4 format</li>
-              <li>
-                The video should include either half or entire body of the
-                presenter
-              </li>
-              <li>
-                The video will only be used for avatar preparation purpose only
-              </li>
-            </ul>
-          </div>
-        </div>
-        <div className="instruction-popup-details-section3">
-          <p>You can refer to the image below:</p>
-          <div className="instruction-popup-details-image">
-            <img
-              src={InstructionImage}
-              alt="instruction-image"
-              className="instruction-image"
-            />
-          </div>
-        </div>
-      </div>
-    </div>
-  );
+    );
 };
 
 export default InstructionPopup;

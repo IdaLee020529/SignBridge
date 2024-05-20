@@ -102,15 +102,6 @@ const DoTheSign: React.FC = () => {
         }, 1000);
     };
 
-    const stopVideoStream = () => {
-        const videoElement = document.querySelector('video');
-        if (videoElement) {
-            const stream = videoElement.srcObject as MediaStream;
-            const tracks = stream.getTracks();
-            tracks.forEach(track => track.stop());
-        }
-    };
-
     useEffect(() => {
         if (countdown === 0) {
             setLevel((prev) => prev + 1);
@@ -120,7 +111,6 @@ const DoTheSign: React.FC = () => {
             setRecordingStarted(false);
             setCountdown(5);
             setIsCameraVisible(false);
-            stopVideoStream();
             setHintUsedCount(0);
             setTimeout(() => {
                 setIsCameraVisible(true);
@@ -180,7 +170,6 @@ const DoTheSign: React.FC = () => {
         setCountdown(5);
         setIsCameraVisible(false);
         setHintUsedCount(0);
-        stopVideoStream();
         setTimeout(() => {
             setIsCameraVisible(true);
         }, 100);
@@ -271,6 +260,7 @@ const DoTheSign: React.FC = () => {
                         <div className="right-box">
                             {isCameraVisible && (
                                 <VideoRecorder
+                                    countdown={countdown}
                                     onStartRecording={startCountdown}
                                     onStopRecording={stopCountdown}
                                     onVideoData={handleVideoData}

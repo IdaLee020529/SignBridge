@@ -1,4 +1,4 @@
-import { useState, useRef } from "react";
+import { useState, useRef, useEffect } from "react";
 import styles from "./VideoRecorder.module.css";
 import buttonClickedSound from "/music/btnClicked.wav";
 
@@ -11,10 +11,12 @@ const playButtonClickedSound = () => {
 };
 
 const VideoRecorder = ({
+    countdown,
     onStartRecording,
     onStopRecording,
     onVideoData,
 }: {
+    countdown: number;
     onStartRecording: () => void;
     onStopRecording: () => void;
     onVideoData: (data: { return: string }) => void;
@@ -147,6 +149,12 @@ const VideoRecorder = ({
             console.error("No recorded video to upload");
         }
     };
+
+    useEffect(() => {
+        if (countdown === 0 && recordingStatus === "recording") {
+            stopRecording();
+        }
+    }, [countdown, recordingStatus]);
 
     return (
         <div>

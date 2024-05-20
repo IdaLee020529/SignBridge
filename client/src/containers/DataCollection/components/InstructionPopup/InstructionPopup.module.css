@@ -1,3 +1,7 @@
+.noScroll {
+    overflow: hidden;
+}
+
 .instruction-popup {
     width: 1000px;
     height: 600px;
@@ -9,27 +13,29 @@
     color: #333;
     padding: 30px 40px 40px 40px;
     z-index: 1001;
-    position: absolute;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
     display: none;
 }
-
 
 .instruction-popup.shown {
     display: block;
 }
 
-.instruction-popup-header {
+.instruction_popup_header {
     width: 100%;
     display: flex;
     justify-content: space-between;
     align-items: center;
 }
 
-.instruction-title {
+.instruction_title {
     margin: 0 auto;
 }
 
-.instruction-popup-details {
+.instruction_popup_details {
     height: 90%;
     overflow-y: auto;
     display: flex;
@@ -49,48 +55,48 @@
     }
 }
 
-.line-separator {
+.line_separator {
     width: 95%;
     height: 1px;
     background-color: #ccc;
     margin: 20px 0;
 }
 
-.instruction-popup-details {
+.instruction_popup_details {
     margin-top: 30px;
 }
 
-.instruction-popup-details-section1 p {
+.instruction_popup_details_section1 p {
     font-size: 20px;
 }
 
-.instruction-popup-details-section1 p strong {
+.instruction_popup_details_section1 p strong {
     font-size: 26px;
 }
 
 
-.instruction-popup-details-section2 p {
+.instruction_popup_details_section2 p {
     font-size: 26px;
     font-weight: bold;
 
 }
 
-.instruction-popup-content {
+.instruction_popup_content {
     padding: 10px 20px;
     /* Add padding to the content area */
 }
 
-.instruction-popup-content ul {
+.instruction_popup_content ul {
     list-style-type: disc;
     /* Use disc bullets */
 }
 
-.instruction-popup-content li {
+.instruction_popup_content li {
     margin-bottom: 5px;
     /* Add space between list items */
 }
 
-.instruction-popup-details-image {
+.instruction_popup_details_image {
     display: flex;
     justify-content: center;
     /* Horizontally center the image */
@@ -99,16 +105,17 @@
     margin: 30px auto;
 }
 
-.instruction-image {
+.instruction_image {
     width: 90%;
     height: auto;
 }
 
-.close-icon {
+.fa {
+    float: right;
+    font-size: 36px;
     cursor: pointer;
 }
 
-.close-icon:hover {
-    color: red;
-    /* Change color to red on hover */
+.fa:hover {
+    text-shadow: 0 4px 8px rgba(0, 0, 0, 0.5);
 }

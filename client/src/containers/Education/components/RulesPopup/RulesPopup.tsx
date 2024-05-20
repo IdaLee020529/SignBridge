@@ -41,7 +41,7 @@ const RulesPopup: React.FC<RulesPopupProps> = ({ onClose, title, rules }) => {
           <span className="close_btn_shadow"></span>
           <span className="close_btn_edge"></span>
           <span className="close_btn_front text">
-            <i className="fa fa-close"></i>
+            <i className="fa fa-close fa-close-btn"></i>
           </span>
         </button>
         
