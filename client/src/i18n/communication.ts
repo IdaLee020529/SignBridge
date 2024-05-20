@@ -1,3 +1,5 @@
+import { clear } from "@testing-library/user-event/dist/cjs/utility/clear.js";
+
 const communicate = {
     en: {
         slp: "Sign Language Production (SLP)",
@@ -21,6 +23,13 @@ const communicate = {
         received_output: "Received Output", 
         no_output_available: "No Output Available",
         videoSuceess: "Video uploaded successfully",
+
+        // Communication log
+        communicationLog: "Communication Log",
+        confirmClear: "Confirm Clear",
+        clearAllLogs: "Are you sure you want to clear all logs?",
+        yes_btn: "Yes",
+        no_btn: "No",
     },
     bm: {
         slp: "Pengeluaran Bahasa Isyarat (SLP)",
@@ -44,6 +53,13 @@ const communicate = {
         received_output: "Output Diterima",
         no_output_available: "Tiada Output Tersedia",
         videoSuceess: "Video berjaya dimuat naik",
+
+        // Communication log
+        communicationLog: "Log Komunikasi",
+        confirmClear: "Sahkan Padam",
+        clearAllLogs: "Adakah anda pasti ingin memadam semua log?",
+        yes_btn: "Ya",
+        no_btn: "Tidak",
     },
 };
 

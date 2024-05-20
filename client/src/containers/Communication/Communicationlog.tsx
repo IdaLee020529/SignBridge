@@ -15,6 +15,8 @@ import HistoryIcon from '@mui/icons-material/History';
 import { toast } from "react-hot-toast";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faTrash } from "@fortawesome/free-solid-svg-icons";
+import { useTranslation } from "react-i18next";
+
 type CommunicationlogProps = {
     userId: string;
     moduleType: string;
@@ -70,6 +72,7 @@ type Anchor = 'right';
 const AnchorTemporaryDrawer: React.FC<CommunicationlogProps> = ({ userId, moduleType }) => {
     const [openDeleteConfirm, setOpenDeleteConfirm] = useState(false); // State for delete confirmation dialog
     const [state, setState] = useState({ right: false });
+    const { t, i18n } = useTranslation();
 
     const confirmDeleteLogs = async () => {
         try {
@@ -108,25 +111,25 @@ const AnchorTemporaryDrawer: React.FC<CommunicationlogProps> = ({ userId, module
             <button onClick={() => setOpenDeleteConfirm(true)} className="dltLogBtn"><FontAwesomeIcon className="dltLogsIcon" icon={faTrash} /></button>
             <i className="fa fa-close closeFa" onClick={toggleDrawer(anchor, false)}></i>
 
-            <h3 className="logHeader">Communication Log</h3>
+            <h3 className="logHeader">{t("communicationLog")}</h3>
             <br/>
 
             </div>
             <Dialog className="dialog_overlay" open={openDeleteConfirm} onClose={() => setOpenDeleteConfirm(false)}>
                 <DialogContent className="dialog_content2">
-                    <DialogTitle className="dialog_title">Confirm Clear</DialogTitle>
+                    <DialogTitle className="dialog_title">{t("confirmClear")}</DialogTitle>
                     <DialogContentText className="dialog_description2">
-                        Are you sure you want to clear all logs?
+                    {t("clearAllLogs")}
                     </DialogContentText>
                 </DialogContent>
                 <DialogActions>
                     <div className="buttonsConfirmation">
                         <button
                             className="noButton"
-                            onClick={() => setOpenDeleteConfirm(false)}>No</button>
+                            onClick={() => setOpenDeleteConfirm(false)}>{t("no_btn")}</button>
                         <button
                             className="yesButton"
-                            onClick={confirmDeleteLogs}>Yes</button>
+                            onClick={confirmDeleteLogs}>{t("yes_btn")}</button>
                     </div>
                 </DialogActions>
             </Dialog>
