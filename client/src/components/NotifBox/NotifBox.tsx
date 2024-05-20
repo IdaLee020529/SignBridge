@@ -31,7 +31,7 @@ const NotifBox: React.FC<NotifBoxProps> = ({
         <Checkbox checked={checked} onChange={handleCheckboxChange} />
       </div>
       <div className={style.notifAvatar}>
-        <img src={sender_avatar} alt="avatar" />
+        <img src={sender_avatar} referrerPolicy="no-referrer" alt="avatar" />
       </div>
       <div className={style.notifContent}>
         <div className={style.notifHeader}>

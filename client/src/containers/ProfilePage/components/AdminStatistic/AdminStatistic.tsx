@@ -48,7 +48,7 @@ const AdminStatistic = () => {
             setUsersAmount(publicUsers.length);
     
             const dataAmount = await FetchAllDataset();
-            dataAmount.data = dataAmount.data.filter((data: any) => data.status_Admin !== "-");
+            dataAmount.data = dataAmount.data.filter((data: any) => data.status_Admin_en !== "-");
             setDatasetAmount(dataAmount.data.length);
 
             const feedbackAmount = await GetFeedback();
@@ -60,9 +60,9 @@ const AdminStatistic = () => {
             // Calculate status counts, if same status, increment count
             const statusData: Dataset[] = [];
             dataAmount.data.forEach((item: any) => {
-                const index = statusData.findIndex((data) => data.status === item.status_Admin);
+                const index = statusData.findIndex((data) => data.status === item.status_Admin_en);
                 if (index === -1) {
-                    statusData.push({ amount: 1, status: item.status_Admin });
+                    statusData.push({ amount: 1, status: item.status_Admin_en });
                 } else {
                     statusData[index].amount++;
                 }
