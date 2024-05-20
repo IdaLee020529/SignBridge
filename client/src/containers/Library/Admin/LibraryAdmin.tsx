@@ -252,6 +252,10 @@ export default function Library() {
 
 
   const renderSignWrapper = () => (
+<div>
+<Typography variant="h1" className="sign-animations">
+  {signs[selectedSignIndex]?.keyword || "No sign found"}
+</Typography>
     <div className="sign-wrapper">
       <Canvas camera={{ position: [0, 0, 225], fov: 55 }}>
         <directionalLight intensity={1} color="white" position={[10, 10, 10]} />
@@ -267,16 +271,24 @@ export default function Library() {
         </CharacterAnimationsProvider>
         <OrbitControls ref={controls} />
       </Canvas>
-      <Button variant="contained" onClick={handleBackButtonClick}>
+    </div>
+    <Typography variant="body2" className="sign-contributor">
+  Contributor: {signs[selectedSignIndex]?.contributor || "Unknown"}
+</Typography>
+<Button variant="contained" onClick={handleBackButtonClick}>
         Back
       </Button>
     </div>
   );
   const renderCategories = () => (
     <>
-      <Typography className={styles.libheader} variant="h4" gutterBottom>
-        Library
-      </Typography>
+        <div className={styles.imageHeader}>
+            <img
+                src="./images/lib.png"
+                alt="Library"
+                className={styles.libImage}
+            />
+            </div>
       <div className={styles.buttonContainer}>
       <button className={styles.addCategoryButton} onClick={() => setOpen(true)}>Add Category</button>
       </div>
@@ -435,7 +447,7 @@ export default function Library() {
   const renderSigns = () => (
     <div className="signs">
       <Typography variant="h4" gutterBottom>
-        Signs
+        {selectedCategory}
       </Typography>
       <input
         type="text"
@@ -446,12 +458,16 @@ export default function Library() {
       <Grid className={styles.grid1} container spacing={4}>
         {filteredSigns.map((sign, index) => (
            <Grid className={styles.grid2} key={index} item xs={24} sm={6} md={4} lg={3}>
-            <Card onClick={() => handleSignClick(index)}>
+            <Card className={styles.card} onClick={() => handleSignClick(index)}>
               <CardContent>
-                <img src={sign.thumbnail} alt={sign.keyword} style={{ maxWidth: "100%" }} />
-                <Typography variant="subtitle1" align="center" className="sign-keyword">
-                  {sign.keyword}
-                </Typography>
+              <div className={styles.categoryImg}>
+                <img
+                  src={sign.thumbnail}
+                  alt={sign.keyword}
+                  style={{ maxWidth: "100%" }}
+                />
+              <div className={styles.categoryText}><p>{sign.keyword}</p></div>
+              </div>
                 {/* <Typography variant="body2" className="sign-animations">
                   Animations: {sign.animations.join(", ")}
                 </Typography>
@@ -463,11 +479,11 @@ export default function Library() {
             </Card>
             
 <div className ={styles.buttonAdmin}>
-                <button className={styles.dltCatButton} onClick={() => {
+                <button className={styles.updateSignButton} onClick={() => {
                   setsigntoupdate(sign.signId);
                   setOpenUpdateSignConfirm(true);
                 }}>
-                  <FontAwesomeIcon icon={faImage} />
+                  <FontAwesomeIcon icon={faEdit} />
                 </button>
                 </div>
             <Dialog open={openUpdateSignConfirm} onClose={() => setOpenUpdateSignConfirm(false)}>
