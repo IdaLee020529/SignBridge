@@ -493,7 +493,7 @@ const AdminStatistic = () => {
                         />
                     ):(
                         <div className={style.NoFeedback}>
-                            <p>{t("totalFeedbacks")}</p>
+                            <p>{t("noFeedback")}</p>
                         </div>
                     )}
                 </Card>
