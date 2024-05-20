@@ -50,6 +50,30 @@ const dataset_collection = {
         dcEmailRequired: "Email is required",
         dcEmailInvalid: "Invalid email format",
         dcTextSentenceRequired: "Text/Sentence is required",
+
+        // Instruction Popup
+        instructions: "Instructions",
+        inslogin: "Login a user account",
+        insFillDetails: "Fill up the details - Name, Email, Text/ Sentence",
+        insUploadDemoVideo: "Upload a demonstration video of the text/sentence",
+        insResetBtn: "Press the reset button to reset the form or the submit button to submit the form",
+        insNote: "Note:",
+        insVideoMp4: "The video submitted must be in mp4 format",
+        insVideoBody: "The video should include either half or entire body of the presenter",
+        insVideoPurpose: "The video will only be used for avatar preparation purpose only",
+        insReferImage: "You can refer to the image below:",
+
+        // Popup Modal
+        insThankYou: "Thank You for Your Submission",
+        insProceedDetails: "We will proceed with the details submitted",
+
+        // Popup Confirmation
+        insAreYouSure: "Are you sure?",
+        insName: "Name",
+        insEmail: "Email",
+        insText: "Text",
+        insVideo: "Video",
+        cancel_btn: "Cancel",
     },
     bm: {
         dataset_collection_form: "Borang Pengumpulan Dataset",
@@ -102,6 +126,30 @@ const dataset_collection = {
         dcEmailRequired: "Emel diperlukan",
         dcEmailInvalid: "Format emel tidak sah",
         dcTextSentenceRequired: "Teks/Ayat diperlukan",
+
+        // Instruction Popup
+        instructions: "Arahan",
+        inslogin: "Log masuk akaun pengguna",
+        insFillDetails: "Isi butiran - Nama, Emel, Teks/Ayat",
+        insUploadDemoVideo: "Muat naik video demonstrasi teks/ayat",
+        insResetBtn: "Tekan butang tet reset untuk menetapkan semula borang atau butang hantar untuk menghantar borang",
+        insNote: "Nota:",
+        insVideoMp4: "Video yang dihantar mesti dalam format mp4",
+        insVideoBody: "Video harus mengandungi separuh atau seluruh badan pembentang",
+        insVideoPurpose: "Video hanya akan digunakan untuk tujuan penyediaan avatar sahaja",
+        insReferImage: "Anda boleh merujuk gambar di bawah:",
+
+        // Popup Modal
+        insThankYou: "Terima Kasih atas Penyerahan Anda",
+        insProceedDetails: "Kami akan meneruskan butiran yang dihantar",
+
+        // Popup Confirmation
+        insAreYouSure: "Adakah anda pasti?",
+        insName: "Nama",
+        insEmail: "Emel",
+        insText: "Teks",
+        insVideo: "Video",
+        cancel_btn: "Batal",
     },
 };
 

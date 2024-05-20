@@ -1,6 +1,7 @@
 import React, { useEffect, useRef } from "react";
 import styles from "./InstructionPopup.module.css";
 import InstructionImage from "/images/InfoPopup.png";
+import { useTranslation } from "react-i18next";
 
 interface InstructionPopupProps {
     showInstructionPopup: boolean;
@@ -11,11 +12,15 @@ const InstructionPopup: React.FC<InstructionPopupProps> = ({
     showInstructionPopup,
     onClose,
 }) => {
+    const { t, i18n } = useTranslation();
     const popupRef = useRef<HTMLDivElement>(null);
 
     useEffect(() => {
         const handleClickOutside = (event: MouseEvent) => {
-            if (popupRef.current && !popupRef.current.contains(event.target as Node)) {
+            if (
+                popupRef.current &&
+                !popupRef.current.contains(event.target as Node)
+            ) {
                 onClose();
             }
         };
@@ -41,46 +46,39 @@ const InstructionPopup: React.FC<InstructionPopupProps> = ({
             ref={popupRef}
         >
             <div className={styles.instruction_popup_header}>
-                <h1 className={styles.instruction_title}>Instructions</h1>
+                <h1 className={styles.instruction_title}>
+                    {t("instructions")}
+                </h1>
                 <i className={`${styles.fa} fa fa-close`} onClick={onClose}></i>
             </div>
             <div className={styles.instruction_popup_details}>
                 <div className={styles.instruction_popup_details_section1}>
                     <p>
-                        <strong>1.</strong> Login a user account
+                        <strong>1.</strong> {t("inslogin")}
                     </p>
                     <p>
-                        <strong>2.</strong> Fill up the details - Name, Email,
-                        Text/ Sentence
+                        <strong>2.</strong> {t("insFillDetails")}
                     </p>
                     <p>
-                        <strong>3.</strong> Upload a demonstration video of the
-                        text/sentence
+                        <strong>3.</strong> {t("insUploadDemoVideo")}
                     </p>
                     <p>
-                        <strong>4.</strong> Press the reset button to reset the
-                        form or the submit button to submit the form
+                        <strong>4.</strong> {t("insResetBtn")}
                     </p>
                 </div>
                 <hr className={styles.line_separator} />
                 <div className={styles.instruction_popup_details_section2}>
-                    <p>Note:</p>
+                    <p>{t("insNote")}</p>
                     <div className={styles.instruction_popup_content}>
                         <ul>
-                            <li>The video submitted must be in mp4 format</li>
-                            <li>
-                                The video should include either half or entire
-                                body of the presenter
-                            </li>
-                            <li>
-                                The video will only be used for avatar
-                                preparation purpose only
-                            </li>
+                            <li>{t("insVideoMp4")}</li>
+                            <li>{t("insVideoBody")}</li>
+                            <li>{t("insVideoPurpose")}</li>
                         </ul>
                     </div>
                 </div>
                 <div className={styles.instruction_popup_details_section3}>
-                    <p>You can refer to the image below:</p>
+                    <p>{t("insReferImage")}</p>
                     <div className={styles.instruction_popup_details_image}>
                         <img
                             src={InstructionImage}
