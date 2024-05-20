@@ -1,8 +1,6 @@
 import React from "react";
-import PopupModal from "../../../../../containers/DataCollection/components/PopupModal/PopupModal";
-import { cleanup } from "@testing-library/react";
+import DatasetReview from "@root/containers/DataCollection/components/DatasetReview/DatasetReview";
 import { create } from "react-test-renderer";
-
 jest.mock("react-i18next", () => ({
   useTranslation: () => ({
     t: (key: string) => key, // Mock the translation function to return the key
@@ -11,15 +9,9 @@ jest.mock("react-i18next", () => ({
     },
   }),
 }));
-
-describe("Test PopupModal", () => {
-  afterEach(cleanup); //Unmount all react tree after rendering
-  const props = {
-    isOpen: true,
-    onClose: jest.fn(),
-  };
+describe("Test DatasetReview", () => {
   it("should render correctly", () => {
-    const tree = create(<PopupModal {...props} />);
+    const tree = create(<DatasetReview user={"public"} />);
     expect(tree.toJSON()).toMatchSnapshot();
   });
 });

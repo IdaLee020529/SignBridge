@@ -13,6 +13,8 @@ jest.mock("react-i18next", () => ({
   }),
 }));
 
+jest.mock("js-cookie");
+
 describe("Test DataCollection", () => {
   afterEach(cleanup); //Unmount all react tree after rendering
   it("should render correctly", () => {
@@ -27,10 +29,8 @@ describe("Test DataCollection", () => {
     mockFormData.append("text_sentence", "Test sentence");
     mockFormData.append("status_SE", "New");
     mockFormData.append("status_Admin", "-");
-    // Mocking the user_id cookie
-    jest
-      .spyOn(require("js-cookie"), "get")
-      .mockImplementation(() => "mock_user_id"); //Use spyon to mock the implementation
+
+    jest.spyOn(require("js-cookie"), "get").mockReturnValueOnce("valid_token"); // Simulate logged-in user
 
     // Mocking the selected video file => For video upload
     Object.defineProperty(global, "File", {
