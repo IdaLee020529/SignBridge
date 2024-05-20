@@ -106,7 +106,7 @@ const AnchorTemporaryDrawer: React.FC<CommunicationlogProps> = ({ userId, module
             <div className="log-top">
             <br/>
             <button onClick={() => setOpenDeleteConfirm(true)} className="dltLogBtn"><FontAwesomeIcon className="dltLogsIcon" icon={faTrash} /></button>
-            <i className="fa fa-close" onClick={toggleDrawer(anchor, false)}></i>
+            <i className="fa fa-close closeFa" onClick={toggleDrawer(anchor, false)}></i>
 
             <h3 className="logHeader">Communication Log</h3>
             <br/>
