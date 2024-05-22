@@ -8,6 +8,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEdit, faTrash, faImage } from "@fortawesome/free-solid-svg-icons";
 import { toast } from "react-hot-toast";
 import { ChevronDownIcon, Cross2Icon } from "@radix-ui/react-icons";
+import KeyboardReturnIcon from '@mui/icons-material/KeyboardReturn';
 // @ts-ignore
 import { CharacterAnimationsProvider } from "../../../components/SLP/CharacterAnimations";
 // @ts-ignore
@@ -16,6 +17,8 @@ import Experience from "../../../components/SLP/Experience";
 import Man from "../../../components/AvatarModels/Man";
 import InputField from "../../../components/InputField/InputField";
 import ImageInput from "../../../components/ImageInput/ImageInput";
+import { styled } from "@mui/material/styles";
+
 
 interface LibraryCategories {
   category_name: string;
@@ -59,7 +62,15 @@ export default function Library() {
     category_thumbnail: null as string | null,
   });
 
-  
+  useEffect(() => {
+    // Scroll to the top of the page when the view changes
+    window.scrollTo(0, 0);
+  }, [currentView]); // Scroll when currentView changes
+
+    const resetSearch = () => {
+      setSearchKeyword('');
+    }
+
   const handleUpdateCategory = (category: LibraryCategories) => {
     setFormData({
       category_name: category.category_name,
@@ -252,11 +263,23 @@ export default function Library() {
 
 
   const renderSignWrapper = () => (
+    <div className={styles.signPageWrapper}>
 <div>
-<Typography variant="h1" className="sign-animations">
+  <div className={styles.titleBack}>
+<Button className={styles.backContainer} onClick={handleBackButtonClick}>
+<KeyboardReturnIcon className={styles.backButton} />
+</Button>
+<Typography variant="h1" className={styles.signHeader}>
   {signs[selectedSignIndex]?.keyword || "No sign found"}
 </Typography>
-    <div className="sign-wrapper">
+</div>
+<div className={styles.signImages}>
+<img
+                  src={signs[selectedSignIndex].thumbnail}
+                  alt={signs[selectedSignIndex].keyword}
+                  className={styles.signImage}
+                />
+    <div className={styles.sign_wrapper}>
       <Canvas camera={{ position: [0, 0, 225], fov: 55 }}>
         <directionalLight intensity={1} color="white" position={[10, 10, 10]} />
         <CharacterAnimationsProvider>
@@ -272,12 +295,29 @@ export default function Library() {
         <OrbitControls ref={controls} />
       </Canvas>
     </div>
-    <Typography variant="body2" className="sign-contributor">
+    </div>
+    <div className={styles.signInfo}>
+    <h4>
+  Animations: {signs[selectedSignIndex]?.animations ? (
+    <>
+      {"["}
+      {signs[selectedSignIndex].animations.map((animation, index) => (
+        <>
+          {index > 0 && ", "} {/* Add comma after the first animation */}
+          {animation}
+        </>
+      ))}
+      {" ]"}
+    </>
+  ) : (
+    "Unknown"
+  )}
+</h4>
+<h4 variant="body2" className="sign-contributor">
   Contributor: {signs[selectedSignIndex]?.contributor || "Unknown"}
-</Typography>
-<Button variant="contained" onClick={handleBackButtonClick}>
-        Back
-      </Button>
+</h4>
+</div>
+    </div>
     </div>
   );
   const renderCategories = () => (
@@ -292,11 +332,11 @@ export default function Library() {
       <div className={styles.buttonContainer}>
       <button className={styles.addCategoryButton} onClick={() => setOpen(true)}>Add Category</button>
       </div>
-      <Grid className={styles.grid1} container spacing={4}>
+      <Grid className={styles.grid1} container spacing={8}>
         {categories.map((category) => (
           <Grid className={styles.grid2} key={category.category_id} item xs={24} sm={6} md={4} lg={3}>
            <Card className={styles.card} onClick={() => handleCategoryClick(category.category_name)}>
-              <CardContent>
+              <CardContent className={styles.cardContent}>
               <div className={styles.categoryImg}>
                 <img
                   src={category.category_thumbnail}
@@ -393,7 +433,7 @@ export default function Library() {
  
             setOpenUpdateConfirm(false);
             resetForm(); // Reset the form details
-          }}>    <Cross2Icon className="icon"/></button>
+          }}>    <Cross2Icon className={styles.icon}/></button>
         </DialogActions>
         </DialogContent>
       </Dialog>
@@ -435,7 +475,7 @@ export default function Library() {
  
                                   setOpen(false);
             resetForm(); // Reset the form details
-          }}>    <Cross2Icon className="icon"/></button>
+          }}>    <Cross2Icon className={styles.icon}/></button>
           </DialogActions>
           </DialogContent>
         </Dialog>
@@ -446,20 +486,35 @@ export default function Library() {
 
   const renderSigns = () => (
     <div className="signs">
-      <Typography variant="h4" gutterBottom>
+          <div className={styles.signBox}>
+          <div className={styles.titleBack}>
+          <Button className={styles.backContainer} onClick={() => setCurrentView(View.Categories)}>
+<KeyboardReturnIcon className={styles.backButton} />
+</Button>
+      <Typography className={styles.signHeader} variant="h4" gutterBottom>
         {selectedCategory}
       </Typography>
+      </div>
+      <div className={styles.searchBarWrapper}>
       <input
+        className={styles.searchBar}
         type="text"
         placeholder="Search by keyword..."
         value={searchKeyword}
         onChange={(e) => setSearchKeyword(e.target.value)}
       />
-      <Grid className={styles.grid1} container spacing={4}>
+      <span className={styles.separator}>|</span>
+      <button className={styles.resetButton} aria-label="Close"
+                                      onClick={resetSearch}>    
+      <Cross2Icon className={styles.resetIcon}/>
+      </button>
+    </div>
+    </div>
+      <Grid className={styles.grid1} container spacing={8}>
         {filteredSigns.map((sign, index) => (
            <Grid className={styles.grid2} key={index} item xs={24} sm={6} md={4} lg={3}>
             <Card className={styles.card} onClick={() => handleSignClick(index)}>
-              <CardContent>
+              <CardContent className={styles.cardContent}>
               <div className={styles.categoryImg}>
                 <img
                   src={sign.thumbnail}
@@ -477,7 +532,7 @@ export default function Library() {
 
               </CardContent>
             </Card>
-            
+ 
 <div className ={styles.buttonAdmin}>
                 <button className={styles.updateSignButton} onClick={() => {
                   setsigntoupdate(sign.signId);
@@ -487,34 +542,41 @@ export default function Library() {
                 </button>
                 </div>
             <Dialog open={openUpdateSignConfirm} onClose={() => setOpenUpdateSignConfirm(false)}>
-              <DialogTitle>Update Sign Thumbnail</DialogTitle>
-              <DialogContent>
-                <DialogContentText>Please upload an image:</DialogContentText>
+            <DialogContent className={styles.dialog_content3}>
+              <DialogTitle className={styles.dialog_title}>Update Sign Thumbnail</DialogTitle>
+                <DialogContentText className={styles.dialog_description}>Please upload an image:</DialogContentText>
                 <form method="post" onSubmit={editSign}>
-                  <fieldset>
+                  <br/> <br/> <br/>
+                  <fieldset className={styles.Fieldset_thumbnail}>
                     <ImageInput reset={resetImage} onReset={handleImageReset} setImageInfo={setSignThumbnail} />
                   </fieldset>
-                  <div>
-                    <Button type="submit">Save</Button>
-                  </div>
+                  <div
+                                    style={{
+                                        display: "flex",
+                                        marginTop: 75,
+                                        justifyContent: "flex-end",
+                                    }}
+                                >
+              <button
+              className={styles.saveButton}
+              type="submit">Save changes</button>
+            </div>
                 </form>
-              </DialogContent>
               <DialogActions>
-                <Button onClick={() => {
-                  setOpenUpdateSignConfirm(false);
-                  resetForm();
-                }}>Close</Button>
+
+                          <button                                 className={styles.icon_button}
+                                aria-label="Close"
+                                onClick={() => {
+                                  setOpenUpdateSignConfirm(false);
+                                  resetForm();
+          }}>    <Cross2Icon className={styles.icon}/></button>
               </DialogActions>
+              </DialogContent>
             </Dialog>
           </Grid>
         ))}
       </Grid>
-
-      <Button variant="contained" onClick={() => setCurrentView(View.Categories)}>
-        Back
-      </Button>
     </div>
-
   );
 
   return (

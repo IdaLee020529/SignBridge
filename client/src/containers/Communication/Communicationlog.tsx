@@ -53,7 +53,7 @@ const Communicationlog: React.FC<CommunicationlogProps> = ({ userId, moduleType 
     {logs
         .sort((a, b) => b.log_id - a.log_id) // Sort logs by descending log_id
         .map((log) => (
-            <ListItem key={log.log_id} disablePadding>
+            <ListItem key={log.log_id} disablePadding className="log-item">
                 <ListItemButton>
                     <ListItemIcon>
                         {log.log_id}

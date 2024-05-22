@@ -8,7 +8,46 @@
     -webkit-box-reflect: below 0px -webkit-gradient(linear, left top, left
                 bottom, from(transparent), color-stop(0.5, transparent), to(rgba(255, 255, 255, 0.1)));
     position: relative;
-    z-index: 1;
+}
+.titleBack{
+    display: flex;
+    margin-left: -65px;
+}
+
+.backButton{
+    position: relative;
+    width: 35px !important;
+    height: 35px !important;
+    
+}
+
+.backContainer{
+    margin-top: 20px !important;
+    height: 35px !important;
+}
+/* Disable hover animation */
+.backContainer:hover {
+    background-color: initial !important; /* Remove any background color change on hover */
+    color: red !important; /* Remove any color change on hover */
+    box-shadow: none !important; /* Remove any box shadow on hover */
+    border-radius: 200%;
+  }
+
+  .backContainer:focus {
+    background-color: white !important; /* Remove any background color change on hover */
+    box-shadow: none !important; /* Remove any box shadow on hover */
+    border-radius: 200%;
+  }
+
+
+.signPageWrapper{
+    margin-left:11.5vw !important;
+}
+
+.signImages{
+    display: flex;
+    align-items: center;
+    position: relative;
 }
 
 .dialog_overlay {
@@ -52,6 +91,21 @@
     transform: translate(-50%, -50%);
     width: 500px;
     height: 240px;
+    max-width: calc(100% - 20px);
+    padding: 30px;
+    animation: contentShow 150ms cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.dialog_content3 {
+    background-color: white;
+    border-radius: 15px;
+    box-shadow: 0 10px 38px rgba(0, 0, 0, 0.3);
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 500px;
+    height: 300px;
     max-width: calc(100% - 20px);
     padding: 30px;
     animation: contentShow 150ms cubic-bezier(0.16, 1, 0.3, 1);
@@ -232,17 +286,13 @@
 }
 
 .icon{
-    height: 50px;
-    width: 50px;
+    height: 35px;
+    width: 35px;
     text-shadow: -1px -1px 0 black,
     1px -1px 0 #919191,
    -1px 1px 0 #999,
     1px 1px 0 #999;
     color: black;
-}
-
-.icon:hover {
-    background-color: var(--violet-4);
 }
 
 .icon:focus {
@@ -252,8 +302,10 @@
 /* LibraryAdmin.module.css */
 /* Adjust the styles of the buttonAdmin class */
 .grid1 {
-    width: 80% !important;
+    z-index: 1 !important;
+    width: 85% !important;
     margin: 0 auto !important;
+    padding-bottom: 50px !important;
 }
 
 
@@ -263,15 +315,25 @@
 
 .card{
     background-color: #f3f3f3 !important;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2) !important;
-    width: 20vw;
-    height: 35vh;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3) !important;
+    width: 18vw;
+    height: 30vh;
     position: relative; /* Set position to relative */
+    padding: 0 !important;
+    margin: 0 !important;
 }
 
 .card:hover{
     cursor: pointer;
 }
+
+.cardContent{
+    padding: 0px !important;
+    margin: 0px !important;
+    padding-bottom: 0px !important;
+}
+
+
 .buttonAdmin {
     position: relative; /* Change to relative positioning */
     display: flex;
@@ -292,14 +354,88 @@
     font-weight: 700 !important;
 }
 
+.sign_wrapper {
+    margin-left: auto !important;
+    margin-right: 10vw !important;
+    width: 25vw !important;
+    height: 75vh !important;
+    background-color: white;
+    box-shadow: black 0px 0px 4px 0px;
+    border-bottom: 3px solid rgba(69, 49, 36, 0.5);
+    border-top: 3px solid rgba(255, 255, 255, 0.3);
+    border-radius: 5px;
+    border: 1px solid black;
+    margin-bottom: 5vh;
+  }
+
+  .signImage {
+    margin-left: 10vw;
+    margin-top: 50px;
+    background-color: white;
+    max-width: 500px;
+    max-height: 400px;
+    align-self: flex-start; /* Align the item to the start (top) */
+  }
+  
+.signBox{
+    margin-left:11.5vw;
+}
+.searchBarWrapper {
+    display: flex;
+    align-items: center;
+    position: relative;
+  }
+  
+  .searchBar {
+    width: 100%;
+    padding-right: 80px; /* Adjust based on button and separator width */
+    box-sizing: border-box;
+  }
+  
+  .separator {
+    font-weight: 200;
+    font-size: 4.5vh;
+    position: relative;
+    right: 40px;
+    pointer-events: none;
+  }
+
+  .resetIcon{
+    width: 25px !important;
+    height: 25px !important;
+  }
+  
+  .resetButton {
+    position: relative;
+    right: 38px;
+    top: 2px;
+    background: none;
+    border: none;
+    cursor: pointer;
+  }
+  
+.searchBar{
+    height: 5vh;
+    border-radius: 5px;
+    width: 18vw;
+    font-size: 14px;
+    padding: 0px 40px 0px 0px;
+}
+
+.signHeader{
+    margin-top: 20px !important;
+    text-align: left !important;
+    font-size: 30px !important;
+    font-weight: 500 !important;
+}
   
 /* Update Button */
 .updateCatButton {
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    height: 45px;
-    width: 45px;
+    height: 35px;
+    width: 35px;
     color: #fff;
     background-color: #f8be64;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
@@ -320,8 +456,8 @@
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    height: 45px;
-    width: 45px;
+    height: 35px;
+    width: 35px;
     color: #fff;
     background-color: red;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
@@ -343,8 +479,8 @@
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    height: 45px;
-    width: 45px;
+    height: 35px;
+    width: 35px;
     color: #fff;
     background-color: #f8be64;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
@@ -358,6 +494,16 @@
 
 .updateSignButton:hover {
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.4);
+}
+
+.signInfo{
+    color: #000000 ;
+    position: absolute;
+    margin-left: 25px !important;
+    margin-top: -75px !important;
+    text-align: left !important;
+    font-size: 16px !important;
+    font-weight: bold !important;
 }
 
 
@@ -410,6 +556,7 @@
 .addCategoryButton {
     appearance: none;
     border-radius: 10px;
+    margin-top: 25px;
     border-style: none;
     align-items: center;
     box-shadow: rgba(0, 0, 0, 0.2) 0 3px 5px -1px,
