@@ -82,7 +82,7 @@ const DoTheSign: React.FC = () => {
     const [showRules, setShowRules] = useState(false);
     const [showHint, setShowHint] = useState(false);
     const [recordingStarted, setRecordingStarted] = useState(false); // State to track if recording has started
-    const [countdown, setCountdown] = useState(5);
+    const [countdown, setCountdown] = useState(20);
 
     const [isCameraVisible, setIsCameraVisible] = useState(true); // State to control camera visibility
     const timerRef = useRef<NodeJS.Timeout | null>(null);
@@ -95,7 +95,7 @@ const DoTheSign: React.FC = () => {
             setCountdown((prevCountdown) => {
                 if (prevCountdown === 0) {
                     clearInterval(timerRef.current!); 
-                    return 5; 
+                    return 20; 
                 } else {
                     return prevCountdown - 1; 
                 }
@@ -110,7 +110,7 @@ const DoTheSign: React.FC = () => {
             pickRandomKeyword(setAnimationKeyword);
             stopCountdown();
             setRecordingStarted(false);
-            setCountdown(5);
+            setCountdown(20);
             setIsCameraVisible(false);
             setHintUsedCount(0);
             setTimeout(() => {
@@ -168,7 +168,7 @@ const DoTheSign: React.FC = () => {
         pickRandomKeyword(setAnimationKeyword);
 
         // Reset the timer, camera, and hint used state
-        setCountdown(5);
+        setCountdown(20);
         setIsCameraVisible(false);
         setHintUsedCount(0);
         setTimeout(() => {
