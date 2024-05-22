@@ -15,12 +15,12 @@ exports[`Test PopupModal should render correctly 1`] = `
     <h2
       className="modal-title"
     >
-      Thank You for Your Submission
+      insThankYou
     </h2>
     <p
       className="modal-body"
     >
-      We will proceed with the details submitted
+      insProceedDetails
     </p>
     <button
       className="btn btn-success"

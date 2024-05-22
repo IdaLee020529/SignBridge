@@ -1,6 +1,5 @@
+import OrderFilter from "@root/containers/DataCollection/components/Filter/OrderFilter/OrderFilter";
 import React from "react";
-import PopupModal from "../../../../../containers/DataCollection/components/PopupModal/PopupModal";
-import { cleanup } from "@testing-library/react";
 import { create } from "react-test-renderer";
 
 jest.mock("react-i18next", () => ({
@@ -11,15 +10,13 @@ jest.mock("react-i18next", () => ({
     },
   }),
 }));
-
-describe("Test PopupModal", () => {
-  afterEach(cleanup); //Unmount all react tree after rendering
-  const props = {
-    isOpen: true,
-    onClose: jest.fn(),
-  };
+describe("Test OrderFilter", () => {
   it("should render correctly", () => {
-    const tree = create(<PopupModal {...props} />);
+    const props = {
+      sortOrder: "asc",
+      setSortOrder: jest.fn(),
+    };
+    const tree = create(<OrderFilter {...props} />);
     expect(tree.toJSON()).toMatchSnapshot();
   });
 });

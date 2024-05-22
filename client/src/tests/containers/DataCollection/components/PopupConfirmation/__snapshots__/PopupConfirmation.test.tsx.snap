@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`Test PopupModal should render correctly 1`] = `
+exports[`Test PopupConfirmation should render correctly 1`] = `
 <div
   className="popup-confirmation open"
 >
@@ -8,7 +8,7 @@ exports[`Test PopupModal should render correctly 1`] = `
     className="popup-confirmation-content-header"
   >
     <h2>
-      Are you sure?
+      insAreYouSure
     </h2>
   </div>
   <div
@@ -37,7 +37,7 @@ exports[`Test PopupModal should render correctly 1`] = `
                 className="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeMedium css-r6fuq3-MuiTableCell-root"
               >
                 <b>
-                  Name
+                  insName
                 </b>
               </td>
               <td
@@ -56,7 +56,7 @@ exports[`Test PopupModal should render correctly 1`] = `
                 className="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeMedium css-r6fuq3-MuiTableCell-root"
               >
                 <b>
-                  Email
+                  insEmail
                 </b>
               </td>
               <td
@@ -75,7 +75,7 @@ exports[`Test PopupModal should render correctly 1`] = `
                 className="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeMedium css-r6fuq3-MuiTableCell-root"
               >
                 <b>
-                  Text
+                  insText
                 </b>
               </td>
               <td
@@ -94,7 +94,7 @@ exports[`Test PopupModal should render correctly 1`] = `
                 className="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeMedium css-r6fuq3-MuiTableCell-root"
               >
                 <b>
-                  Video
+                  insVideo
                 </b>
               </td>
               <td
@@ -116,7 +116,7 @@ exports[`Test PopupModal should render correctly 1`] = `
         onClick={[MockFunction]}
         type="button"
       >
-        Cancel
+        cancel_btn
       </button>
       <button
         className="ant-btn css-dev-only-do-not-override-42nv3w ant-btn-default btn-submit btn-large"
