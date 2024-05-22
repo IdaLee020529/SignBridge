@@ -11,6 +11,9 @@ import { CharacterAnimationsProvider } from "../../components/SLP/CharacterAnima
 import Experience from "../../components/SLP/Experience";
 // @ts-ignore
 import Man from "../../components/AvatarModels/Man";
+import styles from "./Admin/LibraryAdmin.module.css";
+import KeyboardReturnIcon from '@mui/icons-material/KeyboardReturn';
+import { ChevronDownIcon, Cross2Icon } from "@radix-ui/react-icons";
 
 interface LibraryCategories {
   category_name: string;
@@ -38,10 +41,23 @@ export default function Library() {
   const [selectedSignIndex, setSelectedSignIndex] = useState<number | null>(null);
   const [currentView, setCurrentView] = useState<View>(View.Categories);
   const [previousView, setPreviousView] = useState<View | null>(null);
-
+  const [searchKeyword, setSearchKeyword] = useState("");
   useEffect(() => {
     fetchCategories();
   }, []);
+
+  useEffect(() => {
+    // Scroll to the top of the page when the view changes
+    window.scrollTo(0, 0);
+  }, [currentView]); // Scroll when currentView changes
+
+  const resetSearch = () => {
+    setSearchKeyword('');
+  }
+
+  const filteredSigns = searchKeyword.trim() === "" ? signs : signs.filter((sign) =>
+    sign.keyword.toLowerCase().includes(searchKeyword.toLowerCase())
+  );
 
   const fetchCategories = async () => {
     try {
@@ -81,7 +97,23 @@ export default function Library() {
   
 
   const renderSignWrapper = () => (
-    <div className="sign-wrapper">
+    <div className={styles.signPageWrapper}>
+<div>
+  <div className={styles.titleBack}>
+<Button className={styles.backContainer} onClick={handleBackButtonClick}>
+<KeyboardReturnIcon className={styles.backButton} />
+</Button>
+<Typography variant="h1" className={styles.signHeader}>
+  {signs[selectedSignIndex]?.keyword || "No sign found"}
+</Typography>
+</div>
+<div className={styles.signImages}>
+<img
+                  src={signs[selectedSignIndex].thumbnail}
+                  alt={signs[selectedSignIndex].keyword}
+                  className={styles.signImage}
+                />
+    <div className={styles.sign_wrapper}>
       <Canvas camera={{ position: [0, 0, 225], fov: 55 }}>
         <directionalLight intensity={1} color="white" position={[10, 10, 10]} />
         <CharacterAnimationsProvider>
@@ -96,26 +128,55 @@ export default function Library() {
         </CharacterAnimationsProvider>
         <OrbitControls ref={controls} />
       </Canvas>
-      <Button variant="contained" onClick={handleBackButtonClick}>
-        Back
-      </Button>
+    </div>
+    </div>
+    <div className={styles.signInfo}>
+    <h4>
+  Animations: {signs[selectedSignIndex]?.animations ? (
+    <>
+      {"["}
+      {signs[selectedSignIndex].animations.map((animation, index) => (
+        <>
+          {index > 0 && ", "} {/* Add comma after the first animation */}
+          {animation}
+        </>
+      ))}
+      {" ]"}
+    </>
+  ) : (
+    "Unknown"
+  )}
+</h4>
+<h4 variant="body2" className="sign-contributor">
+  Contributor: {signs[selectedSignIndex]?.contributor || "Unknown"}
+</h4>
+</div>
+    </div>
     </div>
   );
-
+  
   const renderCategories = () => (
     <>
-      <Typography variant="h4" gutterBottom>
-        Library
-      </Typography>
-      <Grid container spacing={2}>
+        <div className={styles.imageHeader}>
+            <img
+                src="./images/lib.png"
+                alt="Library"
+                className={styles.libImage}
+            />
+            </div>
+      <Grid className={styles.grid1} container spacing={8}>
         {categories.map((category) => (
-          <Grid key={category.category_id} item xs={12} sm={6} md={4} lg={3}>
-            <Card onClick={() => handleCategoryClick(category.category_name)}>
-              <CardContent>
-                <img src={category.category_thumbnail} alt={category.category_name} style={{ maxWidth: "100%" }} />
-                <Typography variant="subtitle1" align="center" className="categoryName">
-                  {category.category_name}
-                </Typography>
+          <Grid className={styles.grid2} key={category.category_id} item xs={24} sm={6} md={4} lg={3}>
+           <Card className={styles.card} onClick={() => handleCategoryClick(category.category_name)}>
+              <CardContent className={styles.cardContent}>
+              <div className={styles.categoryImg}>
+                <img
+                  src={category.category_thumbnail}
+                  alt={category.category_name}
+                  style={{ maxWidth: "100%" }}
+                />
+              <div className={styles.categoryText}><p>{category.category_name}</p></div>
+              </div>
               </CardContent>
             </Card>
           </Grid>
@@ -126,37 +187,56 @@ export default function Library() {
 
   const renderSigns = () => (
     <div className="signs">
-      <Typography variant="h4" gutterBottom>
-        Signs
+          <div className={styles.signBox}>
+          <div className={styles.titleBack}>
+          <Button className={styles.backContainer} onClick={() => setCurrentView(View.Categories)}>
+<KeyboardReturnIcon className={styles.backButton} />
+</Button>
+      <Typography className={styles.signHeader} variant="h4" gutterBottom>
+        {selectedCategory}
       </Typography>
-      <Grid container spacing={2}>
-        {signs?.map((sign, index) => (
-          <Grid key={index} item xs={12} sm={6} md={4} lg={3}>
-            <Card onClick={() => handleSignClick(index)}>
-              <CardContent>
-                <img src={sign.thumbnail} alt={sign.keyword} style={{ maxWidth: "100%" }} />
-                <Typography variant="subtitle1" align="center" className="sign-keyword">
-                  {sign.keyword}
-                </Typography>
-                <Typography variant="body2" className="sign-animations">
-                  Animations: {sign.animations.join(", ")}
-                </Typography>
-                <Typography variant="body2" className="sign-contributor">
-                  Contributor: {sign.contributor}
-                </Typography>
+      </div>
+      <div className={styles.searchBarWrapper}>
+      <input
+        className={styles.searchBar}
+        type="text"
+        placeholder="Search by keyword..."
+        value={searchKeyword}
+        onChange={(e) => setSearchKeyword(e.target.value)}
+      />
+      <span className={styles.separator}>|</span>
+      <button className={styles.resetButton} aria-label="Close"
+                                      onClick={resetSearch}>    
+      <Cross2Icon className={styles.resetIcon}/>
+      </button>
+    </div>
+    </div>
+      <Grid className={styles.grid1} container spacing={8}>
+        {filteredSigns.map((sign, index) => (
+           <Grid className={styles.grid2} key={index} item xs={24} sm={6} md={4} lg={3}>
+            <Card className={styles.card} onClick={() => handleSignClick(index)}>
+              <CardContent className={styles.cardContent}>
+              <div className={styles.categoryImg}>
+                <img
+                  src={sign.thumbnail}
+                  alt={sign.keyword}
+                  style={{ maxWidth: "100%" }}
+                />
+              <div className={styles.categoryText}><p>{sign.keyword}</p></div>
+              </div>
+
               </CardContent>
             </Card>
+ 
+
           </Grid>
         ))}
       </Grid>
-      <Button variant="contained" onClick={() => setCurrentView(View.Categories)}>
-        Back
-      </Button>
     </div>
   );
 
   return (
-    <div className="library">
+    <div className={styles.library}>
       {currentView === View.Categories && renderCategories()}
       {currentView === View.Signs && renderSigns()}
       {currentView === View.SignWrapper && renderSignWrapper()}
