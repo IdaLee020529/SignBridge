@@ -75,6 +75,7 @@ const DoTheSign: React.FC = () => {
     const [score, setScore] = useSessionStorage("doTheSignScore", 0);
     const [level, setLevel] = useSessionStorage("doTheSignCurrentLevel", 1);
     const [hintUsedCount, setHintUsedCount] = useSessionStorage("doTheSignHintUsedCount", 0);
+    const [animationKeyword, setAnimationKeyword] = useSessionStorage("animationKeyword", "");
 
     const { t, i18n } = useTranslation();
     const [isInnerSettingOpen, setIsInnerSettingOpen] = useState(false);
@@ -85,7 +86,7 @@ const DoTheSign: React.FC = () => {
 
     const [isCameraVisible, setIsCameraVisible] = useState(true); // State to control camera visibility
     const timerRef = useRef<NodeJS.Timeout | null>(null);
-    const [animationKeyword, setAnimationKeyword] = useState<string>("");
+    // const [animationKeyword, setAnimationKeyword] = useState<string>("");
 
     // Function to start countdown timer
     const startCountdown = () => {
@@ -176,10 +177,12 @@ const DoTheSign: React.FC = () => {
     };
 
     useEffect(() => {
-        pickRandomKeyword(setAnimationKeyword);
+        if (!animationKeyword) {
+            pickRandomKeyword(setAnimationKeyword);
+        }
         updateBackgroundMusicVolume(1);
     }, []);
-
+    
     return (
         <div className="do-the-sign-layout">
             <div className="do-the-sign-container">

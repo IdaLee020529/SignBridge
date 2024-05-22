@@ -128,7 +128,17 @@ const FeedbackAdmin: React.FC = () => {
             {store.modifiedData.slice(page * rowsPerPage, (page + 1) * rowsPerPage).map((data: any) => (
               <CollapsibleContainer
                 key={data.feedback_id}
-                updateStatus={() => UpdateFeedback(data.feedback_id)}
+                updateStatus={() => {
+                  UpdateFeedback(data.feedback_id).then(() => {
+                    setCollapsibleData(prevData =>
+                      prevData.map(item =>
+                        item.feedback_id === data.feedback_id
+                          ? { ...item, status_en: "Viewed", status_bm: "Dilihat" }
+                          : item
+                      )
+                    );
+                  });
+                }}
                 id={data.feedback_id}
                 name={data.firstName + " " + data.lastName}
                 age={data.age}
