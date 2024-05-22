@@ -2,7 +2,7 @@ import React from "react";
 import DataSubmissionForm from "../../../../../containers/DataCollection/components/DataSubmissionForm/DataSubmissionForm";
 import { cleanup } from "@testing-library/react";
 import { create } from "react-test-renderer";
-
+import Cookies from "js-cookie";
 jest.mock("react-i18next", () => ({
   useTranslation: () => ({
     t: (key: string) => key, // Mock the translation function to return the key
@@ -19,6 +19,7 @@ jest.mock("react-speech-recognition", () => ({
     browserSupportsSpeechRecognition: true,
   }),
 }));
+
 describe("Test DataSubmissionForm", () => {
   afterEach(cleanup); //Unmount all react tree after rendering
   const props = {
@@ -31,7 +32,16 @@ describe("Test DataSubmissionForm", () => {
     onOpenModal: jest.fn(),
   };
 
-  it("should render correctly", () => {
+  it("should render correctly with simulated logged-in user", () => {
+    jest.mock("js-cookie", () => ({
+      get: (key: string): string | undefined => {
+        const mockData: any = {
+          token: "valid_token",
+          user_id: "1",
+        };
+        return mockData[key];
+      },
+    }));
     const tree = create(<DataSubmissionForm {...props} />);
     expect(tree.toJSON()).toMatchSnapshot();
   });
