@@ -49,7 +49,7 @@ const VideoUpload: React.FC<VideoUploadProps> = ({
       {videoInfo ? (
         <Space>
           <p>
-            <span>{uploadedVideo}</span>
+            <span style={{ color: "blue" }}>{uploadedVideo}</span>
           </p>
           <span
             onClick={handleRemove}

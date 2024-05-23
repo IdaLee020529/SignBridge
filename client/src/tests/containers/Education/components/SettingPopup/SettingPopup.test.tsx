@@ -1,5 +1,4 @@
-import React from "react";
-import DatasetReview from "@root/containers/DataCollection/components/DatasetReview/DatasetReview";
+import SettingPopup from "@root/containers/Education/components/SettingPopup/SettingPopup";
 import { create } from "react-test-renderer";
 import { cleanup } from "@testing-library/react";
 jest.mock("react-i18next", () => ({
@@ -10,8 +9,7 @@ jest.mock("react-i18next", () => ({
     },
   }),
 }));
-
-describe("Test DatasetReview", () => {
+describe("Test SettingPopup", () => {
   afterEach(() => {
     // Clean up the DOM
     cleanup();
@@ -19,7 +17,11 @@ describe("Test DatasetReview", () => {
     jest.resetAllMocks();
   });
   it("should render correctly", () => {
-    const tree = create(<DatasetReview user={"public"} />);
+    const props = {
+      onClose: jest.fn(),
+      onVolumeChange: jest.fn(),
+    };
+    const tree = create(<SettingPopup {...props} />);
     expect(tree.toJSON()).toMatchSnapshot();
   });
 });

@@ -510,9 +510,11 @@ const CollapsibleForm: React.FC<CollapsibleFormProps> = ({
                     {status_en === "In Progress" &&
                       status_bm === "Dalam Proses" && (
                         <ButtonProcessing
-                          onClick={() => {
+                          onClick={async () => {
                             if (videoInfo) {
                               setIsLoading(true);
+                              console.log(`isLoading: ${isLoading}`);
+
                               const updateData = {
                                 status_SE_en: "Awaiting Verification",
                                 status_SE_bm: "Menunggu Pengesahan",
@@ -520,13 +522,23 @@ const CollapsibleForm: React.FC<CollapsibleFormProps> = ({
                                 status_Admin_bm: "Menunggu Pengesahan",
                               };
                               const updatedMessage = "Request_Updated_by_Admin";
-                              const response = handleSubmit(
-                                form_id,
-                                updateData,
-                                videoInfo,
-                                updatedMessage
-                              );
-                              if (response) {
+                              try {
+                                const response = await handleSubmit(
+                                  form_id,
+                                  updateData,
+                                  videoInfo,
+                                  updatedMessage
+                                );
+
+                                if (response) {
+                                  handleAdminButtonClick();
+                                }
+                              } catch (error) {
+                                console.error(
+                                  "Error during handleSubmit:",
+                                  error
+                                );
+                              } finally {
                                 setIsLoading(false);
                               }
                               handleAdminButtonClick();
@@ -543,11 +555,11 @@ const CollapsibleForm: React.FC<CollapsibleFormProps> = ({
                         </ButtonProcessing>
                       )}
                     {status_en === "Rejected" && status_bm === "Ditolak" && (
-                      <Button
-                        type="button"
-                        onClick={() => {
+                      <ButtonProcessing
+                        onClick={async () => {
                           if (videoInfo) {
                             setIsLoading(true);
+                            console.log(`isLoading at rejected: ${isLoading}`);
                             const updateData = {
                               status_SE_en: "Awaiting Verification",
                               status_SE_bm: "Menunggu Pengesahan",
@@ -555,25 +567,36 @@ const CollapsibleForm: React.FC<CollapsibleFormProps> = ({
                               status_Admin_bm: "Menunggu Pengesahan",
                             };
                             const updatedMessage = "Request_Updated_by_Admin";
-                            const response = handleSubmit(
-                              form_id,
-                              updateData,
-                              videoInfo,
-                              updatedMessage
-                            );
-                            if (response) {
+                            try {
+                              const response = await handleSubmit(
+                                form_id,
+                                updateData,
+                                videoInfo,
+                                updatedMessage
+                              );
+
+                              if (response) {
+                                handleAdminButtonClick();
+                              }
+                            } catch (error) {
+                              console.error(
+                                "Error during handleSubmit:",
+                                error
+                              );
+                            } finally {
                               setIsLoading(false);
                             }
-                            handleAdminButtonClick();
                           } else {
                             toast.error(t("mustUploadAvatar"));
                           }
                         }}
                         buttonStyle="btn--accept"
                         buttonSize="btn--large"
+                        isLoading={isLoading}
+                        setIsLoading={setIsLoading}
                       >
                         {t("dc_submit")}
-                      </Button>
+                      </ButtonProcessing>
                     )}
                   </>
                 )}

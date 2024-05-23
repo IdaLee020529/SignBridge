@@ -13,7 +13,12 @@ jest.mock("react-i18next", () => ({
 }));
 
 describe("Test PopupModal", () => {
-  afterEach(cleanup); //Unmount all react tree after rendering
+  afterEach(() => {
+    // Clean up the DOM
+    cleanup();
+    // Reset mocks to their initial state
+    jest.resetAllMocks();
+  });
   const props = {
     isOpen: true,
     onClose: jest.fn(),

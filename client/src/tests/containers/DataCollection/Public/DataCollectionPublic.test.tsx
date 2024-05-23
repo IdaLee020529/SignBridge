@@ -16,7 +16,12 @@ jest.mock("react-i18next", () => ({
 jest.mock("js-cookie");
 
 describe("Test DataCollection", () => {
-  afterEach(cleanup); //Unmount all react tree after rendering
+  afterEach(() => {
+    // Clean up the DOM
+    cleanup();
+    // Reset mocks to their initial state
+    jest.resetAllMocks();
+  });
   it("should render correctly", () => {
     const tree = create(<DataCollectionPublic />).toJSON();
     expect(tree).toMatchSnapshot();

@@ -1,5 +1,4 @@
-import React from "react";
-import DatasetReview from "@root/containers/DataCollection/components/DatasetReview/DatasetReview";
+import HomepageSection from "@root/containers/Home/Home";
 import { create } from "react-test-renderer";
 import { cleanup } from "@testing-library/react";
 jest.mock("react-i18next", () => ({
@@ -11,7 +10,7 @@ jest.mock("react-i18next", () => ({
   }),
 }));
 
-describe("Test DatasetReview", () => {
+describe("Test HomepageSection", () => {
   afterEach(() => {
     // Clean up the DOM
     cleanup();
@@ -19,7 +18,7 @@ describe("Test DatasetReview", () => {
     jest.resetAllMocks();
   });
   it("should render correctly", () => {
-    const tree = create(<DatasetReview user={"public"} />);
+    const tree = create(<HomepageSection />);
     expect(tree.toJSON()).toMatchSnapshot();
   });
 });

@@ -24,7 +24,12 @@ jest.mock("js-cookie");
 jest.mock("js-cookie", () => {});
 describe("Test DataCollection", () => {
   beforeAll(() => {});
-  afterEach(cleanup); //Unmount all react tree after rendering
+  afterEach(() => {
+    // Clean up the DOM
+    cleanup();
+    // Reset mocks to their initial state
+    jest.resetAllMocks();
+  });
 
   it("should render correctly", () => {
     jest.spyOn(require("js-cookie"), "get").mockReturnValueOnce("valid_token"); // Simulate logged-in user

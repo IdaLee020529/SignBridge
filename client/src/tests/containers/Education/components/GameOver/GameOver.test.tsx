@@ -1,7 +1,7 @@
-import React from "react";
-import DatasetReview from "@root/containers/DataCollection/components/DatasetReview/DatasetReview";
+import GameOverPopup from "@root/containers/Education/components/GameOver/GameOver";
 import { create } from "react-test-renderer";
 import { cleanup } from "@testing-library/react";
+
 jest.mock("react-i18next", () => ({
   useTranslation: () => ({
     t: (key: string) => key, // Mock the translation function to return the key
@@ -11,7 +11,12 @@ jest.mock("react-i18next", () => ({
   }),
 }));
 
-describe("Test DatasetReview", () => {
+jest.mock("react-router-dom", () => ({
+  ...jest.requireActual("react-router-dom"),
+  useNavigate: () => jest.fn(),
+}));
+
+describe("Test GameOverPopup", () => {
   afterEach(() => {
     // Clean up the DOM
     cleanup();
@@ -19,7 +24,11 @@ describe("Test DatasetReview", () => {
     jest.resetAllMocks();
   });
   it("should render correctly", () => {
-    const tree = create(<DatasetReview user={"public"} />);
+    const props = {
+      onClose: jest.fn(),
+      score: 2,
+    };
+    const tree = create(<GameOverPopup {...props} />);
     expect(tree.toJSON()).toMatchSnapshot();
   });
 });

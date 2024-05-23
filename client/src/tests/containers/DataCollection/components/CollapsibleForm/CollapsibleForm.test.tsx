@@ -1,7 +1,7 @@
 //Import necessary libraries -> either "@testing-library/react" or "react-test-renderer"
 import { render, fireEvent } from "@testing-library/react";
 import CollapsibleForm from "../../../../../containers/DataCollection/components/CollapsibleForm/CollapsibleForm";
-
+import { cleanup } from "@testing-library/react";
 describe("Test Collapsible Form", () => {
   beforeAll(() => {
     Object.defineProperty(window, "matchMedia", {
@@ -17,6 +17,12 @@ describe("Test Collapsible Form", () => {
         dispatchEvent: jest.fn(),
       })),
     });
+  });
+  afterEach(() => {
+    // Clean up the DOM
+    cleanup();
+    // Reset mocks to their initial state
+    jest.resetAllMocks();
   });
   const props = {
     number: "1",
