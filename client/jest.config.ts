@@ -1,24 +1,24 @@
-// jest.config.ts
 import type { Config } from "@jest/types";
+const jsdom = require("jest-environment-jsdom");
 
 const config: Config.InitialOptions = {
   preset: "ts-jest",
   collectCoverage: true,
   coveragePathIgnorePatterns: ["node_modules", "coverage"],
   collectCoverageFrom: [
-    "./src/**/*.{ts,tsx,js,jsx}", // Include all TypeScript/TSX files under src
+    "./src/**/*.{ts,tsx,js,jsx}", // Include all TypeScript/TSX and JavaScript/JSX files under src
     "!./src/tests/**", // Exclude test files
     "!**/node_modules/**", // Exclude files in node_modules,
     "!*.json",
-    "!*.{ts,tsx}",
+    "!*.{ts,tsx,js,jsx}", // Avoid double inclusion of the root files
     "!./src/services/**",
     "!./src/constants/**",
-    "./src/containers/**/components/*.{tsx,ts,js,jsx}",
+    "./src/containers/**/components/*.{tsx,ts,js,jsx}", // Include component files
   ],
   testResultsProcessor: "jest-junit",
-  testEnvironment: "jest-environment-jsdom",
+  testEnvironment: "jsdom",
   transform: {
-    "^.+\\.tsx?$": "ts-jest",
+    "^.+\\.[tj]sx?$": "ts-jest", // Transform both TypeScript and JavaScript files
   },
   transformIgnorePatterns: [
     "node_modules/(?!(some-library)/)",

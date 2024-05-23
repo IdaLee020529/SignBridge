@@ -12,7 +12,12 @@ jest.mock("react-i18next", () => ({
 }));
 
 describe("Test DatasetFiltering", () => {
-  afterEach(cleanup); //Unmount all react tree after rendering
+  afterEach(() => {
+    // Clean up the DOM
+    cleanup();
+    // Reset mocks to their initial state
+    jest.resetAllMocks();
+  });
 
   it("should render correctly", () => {
     const props = {

@@ -1,7 +1,8 @@
-import InfoIcon from "../../../../../containers/DataCollection/components/InfoIcon/InfoIcon";
+import Login from "@root/containers/Login/Login";
 import { create } from "react-test-renderer";
 import { cleanup } from "@testing-library/react";
-describe("Test InfoIcon", () => {
+
+describe("Test Login", () => {
   afterEach(() => {
     // Clean up the DOM
     cleanup();
@@ -9,7 +10,7 @@ describe("Test InfoIcon", () => {
     jest.resetAllMocks();
   });
   it("should render correctly", () => {
-    const tree = create(<InfoIcon onClick={jest.fn()} />).toJSON();
-    expect(tree).toMatchSnapshot();
+    const tree = create(<Login />);
+    expect(tree.toJSON()).toMatchSnapshot();
   });
 });

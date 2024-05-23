@@ -1,7 +1,13 @@
 import { create } from "react-test-renderer";
-import { render, fireEvent, cleanup, screen, waitFor } from "@testing-library/react";
+import {
+  render,
+  fireEvent,
+  cleanup,
+  screen,
+  waitFor,
+} from "@testing-library/react";
 import Feedback from "../,./../../../containers/Feedback/Feedback";
-import {userEvent} from '@testing-library/user-event';
+import { userEvent } from "@testing-library/user-event";
 
 const mockedUsedNavigate = jest.fn();
 jest.mock("react-router-dom", () => ({
@@ -18,6 +24,12 @@ jest.mock("react-i18next", () => ({
   }),
 }));
 describe("Test Feedback", () => {
+  afterEach(() => {
+    // Clean up the DOM
+    cleanup();
+    // Reset mocks to their initial state
+    jest.resetAllMocks();
+  });
   it("should render correctly", () => {
     const tree = create(<Feedback />).toJSON();
     expect(tree).toMatchSnapshot();
@@ -37,5 +49,4 @@ describe("Test Feedback", () => {
     fireEvent.click(screen.getByTestId("test_submit"));
     expect(asFragment).toMatchSnapshot();
   });
-
 });

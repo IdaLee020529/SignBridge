@@ -4,7 +4,12 @@ import { cleanup } from "@testing-library/react";
 import { create } from "react-test-renderer";
 
 describe("Test InstructionPopup", () => {
-  afterEach(cleanup); //Unmount all react tree after rendering
+  afterEach(() => {
+    // Clean up the DOM
+    cleanup();
+    // Reset mocks to their initial state
+    jest.resetAllMocks();
+  });
   const props = {
     showInstructionPopup: true,
     onClose: jest.fn(),
