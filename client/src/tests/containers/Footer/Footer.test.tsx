@@ -19,11 +19,6 @@ describe("Test Footer", () => {
     cleanup();
     // Reset mocks to their initial state
     jest.resetAllMocks();
-    // Optional: Reset document.cookie to avoid contamination between tests
-    Object.defineProperty(document, "cookie", {
-      writable: true,
-      value: "",
-    });
   });
 
   it("should render correctly", () => {

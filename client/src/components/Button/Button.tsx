@@ -35,6 +35,7 @@ export const Button = ({
       className={`btn ${checkButtonStyle} ${checkButtonSize}`}
       onClick={onClick}
       type={type as "submit" | "reset" | "button" | undefined}
+      data-testid={`button-${buttonStyle}`}
     >
       {children}
     </button>

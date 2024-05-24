@@ -1,8 +1,15 @@
 import { create } from "react-test-renderer";
-import { render, fireEvent, cleanup, screen } from "@testing-library/react";
+import {
+  render,
+  fireEvent,
+  cleanup,
+  screen,
+  waitFor,
+} from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import "@testing-library/jest-dom"; //For extra validation => toBeInTheDocument()
 import DataCollectionPublic from "../../../../containers/DataCollection/Public/DataCollectionPublic";
+import { act } from "react-dom/test-utils";
 
 jest.mock("react-i18next", () => ({
   useTranslation: () => ({
@@ -13,9 +20,18 @@ jest.mock("react-i18next", () => ({
   }),
 }));
 
+// Mock the useSpeechRecognition hook
+jest.mock("react-speech-recognition", () => ({
+  useSpeechRecognition: () => ({
+    transcript: "Hello, World!",
+    resetTranscript: jest.fn(),
+    browserSupportsSpeechRecognition: true,
+  }),
+}));
+
 jest.mock("js-cookie");
 
-describe("Test DataCollection", () => {
+describe("Test DataCollectionPublic", () => {
   afterEach(() => {
     // Clean up the DOM
     cleanup();
@@ -26,15 +42,7 @@ describe("Test DataCollection", () => {
     const tree = create(<DataCollectionPublic />).toJSON();
     expect(tree).toMatchSnapshot();
   });
-  it("should be able to submit", async () => {
-    const mockFormData = new FormData();
-    mockFormData.append("user_id", "mock_user_id");
-    mockFormData.append("name", "John Doe");
-    mockFormData.append("email", "john@example.com");
-    mockFormData.append("text_sentence", "Test sentence");
-    mockFormData.append("status_SE", "New");
-    mockFormData.append("status_Admin", "-");
-
+   it("should be able to submit", async () => {
     jest.spyOn(require("js-cookie"), "get").mockReturnValueOnce("valid_token"); // Simulate logged-in user
 
     // Mocking the selected video file => For video upload
@@ -51,13 +59,13 @@ describe("Test DataCollection", () => {
       },
     });
 
-    //Use asFragment to render toMatchSnapshot
+    // Use asFragment to render toMatchSnapshot
     const { asFragment } = render(<DataCollectionPublic />);
 
     // Fill in the form fields
-    userEvent.type(screen.getByTestId("name"), "John Doe"); //If u go to my code u will find that i have put up testid for it its easier to use
-    userEvent.type(screen.getByTestId("email"), "john@example.com");
-    userEvent.type(screen.getByTestId("text"), "Test sentence");
+    await userEvent.type(screen.getByTestId("name"), "John Doe"); // If you go to my code you will find that I have put up testid for it, it's easier to use
+    await userEvent.type(screen.getByTestId("email"), "john@example.com");
+    await userEvent.type(screen.getByTestId("text"), "Test sentence");
 
     // Mock the Upload component behavior
     jest.mock("antd", () => ({
@@ -65,17 +73,15 @@ describe("Test DataCollection", () => {
         <div data-testid="upload-mock">{children}</div>
       ),
     }));
-    // const uploadButton = await screen.findByTestId("UploadVideo"); // Wait for the button to be available
 
-    // fireEvent.click(uploadButton); // Click the button
+    // Click the submit button
+    await act(async () => {
+      fireEvent.click(screen.getByTestId("click-close-btn"));
+      fireEvent.click(screen.getByTestId("submit_btn2"));
+    });
 
-    // Mock the customRequest function to simulate file upload
-    fireEvent.click(screen.getByText("submit_btn"));
-
-    //Using snapshot as temporary solution
+    // Using snapshot as temporary solution
     expect(asFragment()).toMatchSnapshot();
-    // expect(submitForm).toHaveBeenCalledWith(mockFormData);
-    //Originally my expected output: But i have implemented the modal
-    // expect(screen.getByTestId("modal")).toBeInTheDocument();
+    expect(screen.getByText("OK")).toBeTruthy();
   });
 });

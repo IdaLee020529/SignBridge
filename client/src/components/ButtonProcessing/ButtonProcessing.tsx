@@ -43,6 +43,7 @@ const ButtonProcessing: React.FC<ButtonProcessingProps> = ({
       type={type}
       loading={isLoading}
       style={{ height: "auto", fontSize: "20px", position: "relative" }}
+      data-testid="submit_btn2"
     >
       {isLoading}
       {children}

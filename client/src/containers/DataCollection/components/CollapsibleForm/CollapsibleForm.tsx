@@ -160,7 +160,7 @@ const CollapsibleForm: React.FC<CollapsibleFormProps> = ({
   ];
 
   // For notification
-  const getemail = Cookies.get("email");
+  const getemail = Cookies?.get("email");
   const [userIds, setUserIds] = useState("");
 
   useEffect(() => {
@@ -307,6 +307,7 @@ const CollapsibleForm: React.FC<CollapsibleFormProps> = ({
       <div
         className={`collapsible-content ${isOpen ? "opened" : "not-opened"}`}
         onClick={closeForm}
+        data-testid={`collapsible-content_${form_id}`}
       >
         <div
           className={`collapsible-content-header ${user}`}

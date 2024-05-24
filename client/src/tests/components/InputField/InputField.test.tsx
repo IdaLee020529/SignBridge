@@ -1,30 +1,16 @@
-// import { render } from "@testing-library/react";
-// import InputField from "../../../components/InputField/InputField";
-// import ReactTestRenderer from "react-test-renderer";
+import React from "react";
+import InputField from "@root/components/InputField/InputField";
+import { create } from "react-test-renderer";
 
-// describe("InputField component", () => {
-//   const onChange = jest.fn();
-//   test("renders input field correctly", () => {
-//     const tree = ReactTestRenderer.create(
-//       <InputField
-//         label="Test Label"
-//         name="testName"
-//         value=""
-//         onChange={onChange}
-//       />
-//     ).toJSON();
-//     expect(tree).toMatchSnapshot();
-//   });
-
-//   test("renders textarea correctly", () => {
-//     const tree = render(
-//       <InputField
-//         label="Test Label"
-//         name="testName"
-//         value=""
-//         onChange={onChange}
-//       />
-//     );
-//     expect(tree).toMatchSnapshot();
-//   });
-// });
+describe("Test InputField", () => {
+  it("should render correctly", () => {
+    const props = {
+      label: "Test Label",
+      name: "test",
+      onChange: jest.fn(), // Mocking the onChange function
+      error: "Test Error Message",
+    };
+    const tree = create(<InputField {...props} />);
+    expect(tree.toJSON()).toMatchSnapshot();
+  });
+});

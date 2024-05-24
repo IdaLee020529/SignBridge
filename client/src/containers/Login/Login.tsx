@@ -25,7 +25,7 @@ function Login() {
 
   // Detect cookies, if yes, redirect user to homepage
   useEffect(() => {
-    const token = Cookies.get("token");
+    const token = Cookies?.get("token");
     if (token) {
       navigate("/");
     }
@@ -59,11 +59,11 @@ function Login() {
     let error = "";
     const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
     if (!value.trim()) {
-      error = t('email_required');
-      setEmailError(t('email_required'));
+      error = t("email_required");
+      setEmailError(t("email_required"));
       return error;
     } else if (!emailRegex.test(value)) {
-      setEmailError(t('email_invalid'));
+      setEmailError(t("email_invalid"));
       return error;
     }
     setEmailError("");
@@ -73,12 +73,12 @@ function Login() {
   const validatePassword = (value: string) => {
     let error = "";
     if (!value.trim()) {
-      error = t('password_required');
-      setPasswordError(t('password_required'));
+      error = t("password_required");
+      setPasswordError(t("password_required"));
       return error;
     } else if (password.length < 5) {
-      error = t('password_length');
-      setPasswordError(t('password_length'));
+      error = t("password_length");
+      setPasswordError(t("password_length"));
       return error;
     }
     setPasswordError("");
@@ -128,7 +128,7 @@ function Login() {
         console.error("Error Login user:", error);
       }
     } else {
-      toast.error(t('form_validation_failed') + errorMessage);
+      toast.error(t("form_validation_failed") + errorMessage);
     }
   };
 
@@ -169,12 +169,12 @@ function Login() {
         navigate("/");
       } catch (e) {
         console.error(e);
-        toast.error(t('google_failed'));
+        toast.error(t("google_failed"));
       }
     },
     onError: () => {
       console.log("Login failed");
-      toast.error(t('google_failed'));
+      toast.error(t("google_failed"));
     },
   });
 

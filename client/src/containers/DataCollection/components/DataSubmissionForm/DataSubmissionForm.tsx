@@ -187,18 +187,23 @@ const DataSubmissionForm: React.FC<DataSubmissionFormProps> = ({
   };
 
   const isUserLoggedIn = () => {
-    return Cookies.get("token") ? true : false;
+    return Cookies?.get("token") ? true : false;
   };
   const isLoggedIn = isUserLoggedIn();
 
   const handleShowPopup = () => {
-    const isNameValid = validateName(name);
-    const isEmailValid = validateEmail(email);
-    const isTextValid = validateText(text);
     if (!isLoggedIn) {
       toast.error(t("mustLoginToFillForm"));
       return;
     }
+    if (videoInfo == null) {
+      toast.error(t("mustUploadVideo"));
+      return;
+    }
+    const isNameValid = validateName(name);
+    const isEmailValid = validateEmail(email);
+    const isTextValid = validateText(text);
+
     if (
       isNameValid != undefined ||
       isEmailValid != undefined ||
@@ -237,12 +242,8 @@ const DataSubmissionForm: React.FC<DataSubmissionFormProps> = ({
   const handleSubmit = async (
     e: React.FormEvent<HTMLFormElement>
   ): Promise<any> => {
-    if (videoInfo == null) {
-      toast.error(t("mustUploadVideo"));
-      return;
-    }
     setIsLoading(true);
-    const user_id = Cookies.get("user_id");
+    const user_id = Cookies?.get("user_id");
 
     const formData = new FormData();
     let status_SE_en = "";
@@ -429,6 +430,7 @@ const DataSubmissionForm: React.FC<DataSubmissionFormProps> = ({
                     onClick={handleShowPopup}
                     buttonStyle="btn--submit"
                     buttonSize="btn--large"
+                    data-testid="submit-btn"
                   >
                     {t("submit_btn")}
                   </Button>
