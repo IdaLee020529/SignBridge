@@ -2,107 +2,78 @@
 
 exports[`Test InstructionPopup should render correctly 1`] = `
 <div
-  className="instruction-popup shown "
+  className="undefined undefined"
 >
-  <div
-    className="instruction-popup-header"
-  >
-    <h1
-      className="instruction-title"
-    >
-      Instructions
+  <div>
+    <h1>
+      instructions
     </h1>
-    <span
-      aria-label="close"
-      className="anticon anticon-close close-icon"
+    <i
+      className="undefined fa fa-close"
+      data-testid="click-close-btn"
       onClick={[MockFunction]}
-      role="img"
-      tabIndex={-1}
-    >
-      <svg
-        aria-hidden="true"
-        data-icon="close"
-        fill="currentColor"
-        fillRule="evenodd"
-        focusable="false"
-        height="1em"
-        viewBox="64 64 896 896"
-        width="1em"
-      >
-        <path
-          d="M799.86 166.31c.02 0 .04.02.08.06l57.69 57.7c.04.03.05.05.06.08a.12.12 0 010 .06c0 .03-.02.05-.06.09L569.93 512l287.7 287.7c.04.04.05.06.06.09a.12.12 0 010 .07c0 .02-.02.04-.06.08l-57.7 57.69c-.03.04-.05.05-.07.06a.12.12 0 01-.07 0c-.03 0-.05-.02-.09-.06L512 569.93l-287.7 287.7c-.04.04-.06.05-.09.06a.12.12 0 01-.07 0c-.02 0-.04-.02-.08-.06l-57.69-57.7c-.04-.03-.05-.05-.06-.07a.12.12 0 010-.07c0-.03.02-.05.06-.09L454.07 512l-287.7-287.7c-.04-.04-.05-.06-.06-.09a.12.12 0 010-.07c0-.02.02-.04.06-.08l57.7-57.69c.03-.04.05-.05.07-.06a.12.12 0 01.07 0c.03 0 .05.02.09.06L512 454.07l287.7-287.7c.04-.04.06-.05.09-.06a.12.12 0 01.07 0z"
-        />
-      </svg>
-    </span>
+    />
   </div>
-  <div
-    className="instruction-popup-details"
-  >
-    <div
-      className="instruction-popup-details-section1"
-    >
+  <div>
+    <div>
       <p>
         <strong>
           1.
         </strong>
-         Login a user account
+         
+        inslogin
       </p>
       <p>
         <strong>
           2.
         </strong>
-         Fill up the details - Name, Email, Text/ Sentence
+         
+        insFillDetails
       </p>
       <p>
         <strong>
           3.
         </strong>
-         Upload a demonstration video of the text/sentence
+         
+        insUploadDemoVideo
       </p>
       <p>
         <strong>
           4.
         </strong>
-         Press the reset button to reset the form or the submit button to submit the form
+         
+        insResetBtn
       </p>
     </div>
-    <hr
-      className="line-separator"
-    />
-    <div
-      className="instruction-popup-details-section2"
-    >
+    <hr />
+    <div>
       <p>
-        Note:
+        insNote
       </p>
-      <div
-        className="instruction-popup-content"
-      >
+      <div>
         <ul>
           <li>
-            The video submitted must be in mp4 format
+            insVideoBg
           </li>
           <li>
-            The video should include either half or entire body of the presenter
+            insVideoMp4
           </li>
           <li>
-            The video will only be used for avatar preparation purpose only
+            insVideoBody
+          </li>
+          <li>
+            insVideoPurpose
           </li>
         </ul>
       </div>
     </div>
-    <div
-      className="instruction-popup-details-section3"
-    >
+    <div>
       <p>
-        You can refer to the image below:
+        insReferImage
       </p>
-      <div
-        className="instruction-popup-details-image"
-      >
+      <div>
         <img
           alt="instruction-image"
-          className="instruction-image"
           src="default"
         />
       </div>

@@ -47,7 +47,11 @@ const InstructionPopup: React.FC<InstructionPopupProps> = ({
     >
       <div className={styles.instruction_popup_header}>
         <h1 className={styles.instruction_title}>{t("instructions")}</h1>
-        <i className={`${styles.fa} fa fa-close`} onClick={onClose}></i>
+        <i
+          className={`${styles.fa} fa fa-close`}
+          data-testid="click-close-btn"
+          onClick={onClose}
+        ></i>
       </div>
       <div className={styles.instruction_popup_details}>
         <div className={styles.instruction_popup_details_section1}>

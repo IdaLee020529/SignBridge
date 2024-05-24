@@ -3,6 +3,7 @@
 exports[`Test Button Component renders correctly 1`] = `
 <button
   className="btn btn--outline btn--large"
+  data-testid="button-btn--outline"
   onClick={[MockFunction]}
   type="button"
 >

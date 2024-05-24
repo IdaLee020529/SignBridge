@@ -1,4 +1,5 @@
 import type { Config } from "@jest/types";
+
 const jsdom = require("jest-environment-jsdom");
 
 const config: Config.InitialOptions = {
@@ -13,6 +14,8 @@ const config: Config.InitialOptions = {
     "!*.{ts,tsx,js,jsx}", // Avoid double inclusion of the root files
     "!./src/services/**",
     "!./src/constants/**",
+    "!./src/store",
+    "!./src/i8n",
     "./src/containers/**/components/*.{tsx,ts,js,jsx}", // Include component files
   ],
   testResultsProcessor: "jest-junit",
@@ -33,6 +36,10 @@ const config: Config.InitialOptions = {
   coverageReporters: ["lcov", "cobertura", "html"],
   coverageDirectory: "<rootDir>/coverage",
   moduleFileExtensions: ["ts", "tsx", "js", "jsx", "json", "node"],
+  testMatch: [
+    "**/__tests__/**/*.js", // Look for JavaScript test files
+    "**/?(*.)+(spec|test).[tj]s?(x)", // Look for both TypeScript and JavaScript test files
+  ],
 };
 
 export default config;

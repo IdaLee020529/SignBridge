@@ -20,8 +20,6 @@ jest.mock("react-speech-recognition", () => ({
   }),
 }));
 
-jest.mock("js-cookie");
-jest.mock("js-cookie", () => {});
 describe("Test DataCollection", () => {
   beforeAll(() => {});
   afterEach(() => {
@@ -32,8 +30,6 @@ describe("Test DataCollection", () => {
   });
 
   it("should render correctly", () => {
-    jest.spyOn(require("js-cookie"), "get").mockReturnValueOnce("valid_token"); // Simulate logged-in user
-
     const tree = create(<DataCollection user="public" />);
     expect(tree.toJSON()).toMatchSnapshot();
   });

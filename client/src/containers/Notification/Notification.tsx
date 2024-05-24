@@ -4,21 +4,28 @@ import NotifBox from "../../components/NotifBox/NotifBox";
 import NotifFilter from "../../components/NotifFilter/NotifFilter";
 import { useNotificationFilterStore } from "../../store/notificationFilter";
 import Cookies from "js-cookie";
-import Checkbox from '@mui/material/Checkbox';
-import Button from '@mui/material/Button';
-import Tooltip from '@mui/material/Tooltip';
+import Checkbox from "@mui/material/Checkbox";
+import Button from "@mui/material/Button";
+import Tooltip from "@mui/material/Tooltip";
 import { toast } from "react-hot-toast";
-import { CreateNotification, GetUserIdByEmail, GetNotificationsById, GetSenderInfoBySenderId, DeleteNotification, UpdateNotificationStatus } from "../../services/notification.service";
+import {
+  CreateNotification,
+  GetUserIdByEmail,
+  GetNotificationsById,
+  GetSenderInfoBySenderId,
+  DeleteNotification,
+  UpdateNotificationStatus,
+} from "../../services/notification.service";
 import { useTranslation } from "react-i18next";
 
-let isUndoing = false
+let isUndoing = false;
 
 const Notification: React.FC = () => {
   const { t, i18n } = useTranslation();
   const currentSelectedLanguage = localStorage.getItem("i18nextLng");
 
   // const roleAccess = Cookies.get("role_access");
-  const email = Cookies.get("email");
+  const email = Cookies?.get("email");
   const [userIds, setUserIds] = useState("");
   const useFilterStore = useNotificationFilterStore();
 
@@ -39,7 +46,7 @@ const Notification: React.FC = () => {
   const filterData = () => {
     let newData: any[] = [];
 
-    if (useFilterStore.filter.includes("newtask")){
+    if (useFilterStore.filter.includes("newtask")) {
       // add the data that has newtask value
       for (let i = 0; i < useFilterStore.data.length; i++) {
         if (useFilterStore.data[i].type_value === "newtask") {
@@ -57,17 +64,16 @@ const Notification: React.FC = () => {
       }
     }
 
-    if (useFilterStore.filter.includes("rejected")){
+    if (useFilterStore.filter.includes("rejected")) {
       // add the data that has rejected value, it should be added to the new data instead of replacing it
       for (let i = 0; i < useFilterStore.data.length; i++) {
         if (useFilterStore.data[i].type_value === "rejected") {
           newData.push(useFilterStore.data[i]);
-          
         }
       }
     }
 
-    if (useFilterStore.filter.includes("newtext")){
+    if (useFilterStore.filter.includes("newtext")) {
       // add the data that has newtext value
       for (let i = 0; i < useFilterStore.data.length; i++) {
         if (useFilterStore.data[i].type_value === "newtext") {
@@ -76,7 +82,7 @@ const Notification: React.FC = () => {
       }
     }
 
-    if (useFilterStore.filter.includes("waitingforverification")){
+    if (useFilterStore.filter.includes("waitingforverification")) {
       // add the data that has waitingforverification value
       for (let i = 0; i < useFilterStore.data.length; i++) {
         if (useFilterStore.data[i].type_value === "waitingforverification") {
@@ -85,20 +91,27 @@ const Notification: React.FC = () => {
       }
     }
 
-    newData = newData.sort((a, b) => new Date(b.created_at).getTime() - new Date(a.created_at).getTime());
+    newData = newData.sort(
+      (a, b) =>
+        new Date(b.created_at).getTime() - new Date(a.created_at).getTime()
+    );
     useFilterStore.setModifiedData(newData);
-  }
+  };
 
-  const [selectedNotifications, setSelectedNotifications] = useState<number[]>([]);
+  const [selectedNotifications, setSelectedNotifications] = useState<number[]>(
+    []
+  );
   let timerId: NodeJS.Timeout | null = null;
 
   // get user_id by email (for sending notification sender_id)
   useEffect(() => {
     const getUserId = async () => {
-      const res = await GetUserIdByEmail(email);
-      setUserIds(res.data);
-      setNotification(prev => ({...prev, sender_id: parseInt(res.data)}));
-      console.log(userIds);
+      if (email !== undefined) {
+        const res = await GetUserIdByEmail(email);
+        setUserIds(res.data);
+        setNotification((prev) => ({ ...prev, sender_id: parseInt(res.data) }));
+        console.log(userIds);
+      }
     };
     getUserId();
   }, []);
@@ -113,30 +126,41 @@ const Notification: React.FC = () => {
 
       try {
         const userIdResponse = await GetUserIdByEmail(email);
-        const notificationsResponse = await GetNotificationsById(parseInt(userIdResponse.data));
+        const notificationsResponse = await GetNotificationsById(
+          parseInt(userIdResponse.data)
+        );
         const notificationsWithUsernames = await Promise.all(
           notificationsResponse.data.map(async (notification: any) => {
-            const senderInfo = await GetSenderInfoBySenderId(notification.sender_id);
-            return { ...notification, sender_username: senderInfo.data.username, sender_avatar: senderInfo.data.picture};
+            const senderInfo = await GetSenderInfoBySenderId(
+              notification.sender_id
+            );
+            return {
+              ...notification,
+              sender_username: senderInfo.data.username,
+              sender_avatar: senderInfo.data.picture,
+            };
           })
         );
         // Sort the notifications by the 'created_at' field in descending order
-        let data = notificationsWithUsernames.sort((a, b) => new Date(b.created_at).getTime() - new Date(a.created_at).getTime());
+        let data = notificationsWithUsernames.sort(
+          (a, b) =>
+            new Date(b.created_at).getTime() - new Date(a.created_at).getTime()
+        );
         useFilterStore.setData(data);
       } catch (error) {
-        console.error('Error fetching data:', error);
+        console.error("Error fetching data:", error);
       }
     };
 
     fetchData();
-    const interval = setInterval(fetchData, 5000); 
+    const interval = setInterval(fetchData, 5000);
 
     return () => clearInterval(interval);
   }, []);
 
   useEffect(() => {
     filterData();
-  }, [useFilterStore.data])
+  }, [useFilterStore.data]);
 
   const formatDate = (date: string) => {
     const today = new Date();
@@ -305,7 +329,9 @@ const Notification: React.FC = () => {
   const handleSelectAll = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.checked) {
       // Select all notifications
-      const allNotificationIds = useFilterStore.modifiedData.map((notification) => notification.notification_id);
+      const allNotificationIds = useFilterStore.modifiedData.map(
+        (notification) => notification.notification_id
+      );
       setSelectedNotifications(allNotificationIds);
       console.log("allNotificationIds", allNotificationIds);
     } else {
@@ -320,25 +346,29 @@ const Notification: React.FC = () => {
     handleDelete(notificationIds);
     try {
       const originalData = [...useFilterStore.modifiedData];
-      const updatedData = useFilterStore.modifiedData.filter(notification => !notificationIds.includes(notification.notification_id));
+      const updatedData = useFilterStore.modifiedData.filter(
+        (notification) =>
+          !notificationIds.includes(notification.notification_id)
+      );
       useFilterStore.setModifiedData(updatedData);
 
       toast.success((s) => (
         <span>
-          {t('notifDeleteSuccess')}
-          <Button onClick={() => {
-            useFilterStore.setModifiedData(originalData);
-            handleUndo();
-            toast.dismiss(s.id);
-          }}>
+          {t("notifDeleteSuccess")}
+          <Button
+            onClick={() => {
+              useFilterStore.setModifiedData(originalData);
+              handleUndo();
+              toast.dismiss(s.id);
+            }}
+          >
             UNDO
           </Button>
         </span>
       ));
-      
     } catch (error) {
       console.error("Error deleting notification:", error);
-      toast.error(t('notifDeleteFailed'));
+      toast.error(t("notifDeleteFailed"));
     }
   };
 
@@ -365,10 +395,10 @@ const Notification: React.FC = () => {
   const handleMakeAsRead = async (notificationIds: number[]) => {
     try {
       await UpdateNotificationStatus(notificationIds, 1);
-      toast.success(t('notifReadSuccess'));
+      toast.success(t("notifReadSuccess"));
     } catch (error) {
       console.error("Error updating notification status:", error);
-      toast.error(t('notifReadFailed'));
+      toast.error(t("notifReadFailed"));
     }
   };
 
@@ -399,26 +429,42 @@ const Notification: React.FC = () => {
           <h1 className={style.notifocationHeaderText}>{t("notification")}</h1>
         </div>
         <div className={style.notifocationWholeContainer}>
-          <NotifFilter/>
+          <NotifFilter />
           <div className={style.notificationContainer}>
             {/* Tools container */}
             <div className={style.toolsContainer}>
               <div className={style.toolsItem}>
                 <Tooltip title={t("selectAll")} arrow followCursor>
                   <Checkbox
-                    checked={selectedNotifications.length === useFilterStore.modifiedData.length && useFilterStore.modifiedData.length > 0}
-                    indeterminate={selectedNotifications.length > 0 && selectedNotifications.length < useFilterStore.modifiedData.length}
+                    checked={
+                      selectedNotifications.length ===
+                        useFilterStore.modifiedData.length &&
+                      useFilterStore.modifiedData.length > 0
+                    }
+                    indeterminate={
+                      selectedNotifications.length > 0 &&
+                      selectedNotifications.length <
+                        useFilterStore.modifiedData.length
+                    }
                     onChange={handleSelectAll}
                   />
                 </Tooltip>
                 <div className={style.toolsIcon}>
                   <Tooltip title={t("delete")} arrow followCursor>
-                    <i className="fa-regular fa-trash-can" onClick={() => handleDeleteNotification(selectedNotifications)}></i>
+                    <i
+                      className="fa-regular fa-trash-can"
+                      onClick={() =>
+                        handleDeleteNotification(selectedNotifications)
+                      }
+                    ></i>
                   </Tooltip>
                 </div>
                 <div className={style.toolsIcon}>
                   <Tooltip title={t("markAsRead")} arrow followCursor>
-                    <i className="fa-regular fa-envelope-open" onClick={() => handleMakeAsRead(selectedNotifications)}></i>
+                    <i
+                      className="fa-regular fa-envelope-open"
+                      onClick={() => handleMakeAsRead(selectedNotifications)}
+                    ></i>
                   </Tooltip>
                 </div>
               </div>
@@ -429,16 +475,29 @@ const Notification: React.FC = () => {
                   key={index}
                   sender_username={notification.sender_username}
                   sender_avatar={notification.sender_avatar}
-                  message={currentSelectedLanguage === "en" ? notification.message_en : notification.message_bm}
+                  message={
+                    currentSelectedLanguage === "en"
+                      ? notification.message_en
+                      : notification.message_bm
+                  }
                   created_at={formatDate(notification.created_at)}
                   sign_text={notification.sign_text}
                   status={notification.status}
-                  checked={selectedNotifications.includes(notification.notification_id)}
+                  checked={selectedNotifications.includes(
+                    notification.notification_id
+                  )}
                   handleCheckboxChange={(e) => {
                     if (e.target.checked) {
-                      setSelectedNotifications([...selectedNotifications, notification.notification_id]);
+                      setSelectedNotifications([
+                        ...selectedNotifications,
+                        notification.notification_id,
+                      ]);
                     } else {
-                      setSelectedNotifications(selectedNotifications.filter((id) => id !== notification.notification_id));
+                      setSelectedNotifications(
+                        selectedNotifications.filter(
+                          (id) => id !== notification.notification_id
+                        )
+                      );
                     }
                   }}
                 />
@@ -453,6 +512,6 @@ const Notification: React.FC = () => {
       </div>
     </>
   );
-}
+};
 
 export default Notification;
