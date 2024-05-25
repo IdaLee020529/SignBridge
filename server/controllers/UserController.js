@@ -162,9 +162,9 @@ const UserController = {
     async ForgetPassword(req, res) {
         try {
             const { email } = req.body;
-            const user = await UserService.ForgetPassword({ email });
-
-            if (user) {
+            const emailSent = await UserService.ForgetPassword({ email });
+    
+            if (emailSent) {
                 res.status(200).json({ message: "Password reset email sent" });
             } else {
                 res.status(404).json({ error: "User not found" });

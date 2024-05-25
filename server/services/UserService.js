@@ -152,13 +152,13 @@ const UserService = {
             const { client, database } = await connectDB();
             const collection = database.collection(DATABASE_COLLECTIONS.USERS);
             const user = await collection.findOne({ email: userData.email });
-
+    
             if (!user) {
-                return res.status(404).json({ error: "User not found" });
+                return false;
             }
-
+    
             const token = jwt.sign({ email: userData.email }, process.env.JWT_SECRET, { expiresIn: "1h" });
-
+    
             const mailOption = {
                 email: userData.email,
                 subject: "Reset Password",
@@ -169,28 +169,26 @@ const UserService = {
                 ),
             };
             await sendEmail(mailOption);
-
+    
             const a = await collection.updateOne(
                 { email: userData.email },
                 { $set: { reset_password_token: token } }
             );
-
-            // console.log(a);
-
+    
             client.close();
-
+    
             if (a.modifiedCount === 1) {
-                return { message: "Password reset email sent" };
+                return true; 
             } else {
-                return { message: "Failed to send password reset email" };
+                return false;
             }
-
+    
         } catch (error) {
             console.error("Error forgetting password:", error);
             throw new Error("Failed to forget password");
         }
     },
-
+    
     async ResetPassword(userData) {
         try {
             const decodedToken = jwt.verify(userData.token, process.env.JWT_SECRET);
