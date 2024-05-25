@@ -124,7 +124,15 @@ const PRESET_DATA = [
 					"Kuching",
 					"Limbang",
 					"Miri",
-					"Bau"
+					"Bau",
+					"Samarahan",
+					"Sarikei",
+					"Sibu",
+					"Simanggang",
+					"Serian",
+					"Mukah",
+					"Kota Samarahan",
+					"Lundu",
 				]
 			},
 			{
