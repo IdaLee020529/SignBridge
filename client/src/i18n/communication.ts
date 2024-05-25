@@ -17,6 +17,9 @@ const communicate = {
         sign_frame: "Sign / Frame:  0 / 15",
         gloss: "Gloss: None",
         status_row: "Status:  Playing Sign",
+        avatar_idle: "Status: Avatar Idle",
+        avatar_pause: "Status: Paused",
+        avatar_playing: "Status: Playing Animation",
 
         video_preview: "Video Preview",
         slr_model_output: "SLR Model Output",
@@ -47,6 +50,9 @@ const communicate = {
         sign_frame: "Isyarat / Bingkai:  0 / 15",
         gloss: "Glosari: Tiada",
         status_row: "Status:  Memainkan Isyarat",
+        avatar_idle: "Status: Avatar Idle",
+        avatar_pause: "Status: Jeda",
+        avatar_playing: "Status: Memainkan Animasi",
 
         video_preview: "Pratonton Video",
         slr_model_output: "Output Model SLR",

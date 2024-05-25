@@ -2,6 +2,7 @@ import React, { useEffect, useRef, useState } from "react";
 import { useGLTF, useAnimations } from "@react-three/drei";
 import * as THREE from "three";
 import glosses from "../../../public/glosses/gloss.json";
+import { useTranslation } from "react-i18next";
 
 const Man = ({
   props,
@@ -14,6 +15,7 @@ const Man = ({
   updateCurrentSignFrame = () => {},
   updateStatus = () => {},
 }) => {
+  const { t, i18n } = useTranslation();
   const group = useRef();
   const skeletonHelperRef = useRef(null);
   const { nodes, materials, animations } = useGLTF("../../../public/models/man.glb");
@@ -66,11 +68,11 @@ const Man = ({
 
   useEffect(() => {
     if (animationQueue.length === 0) {
-      updateStatus("Status: Avatar Idle");
+      updateStatus(t("avatar_idle"));
     } else if (isPaused) {
-      updateStatus("Status: Paused");
+      updateStatus(t("avatar_pause"));
     } else if (animationQueue.length > 0) {
-      updateStatus("Status: Playing animation");
+      updateStatus(t("avatar_playing"));
     }
   }, [animationQueue, isPaused, updateStatus]);
 

@@ -10,6 +10,7 @@ import faqTransaction from "./faq";
 import notificationTransaction from "./notification";
 import profileTransaction from "./profile";
 import communicationTransaction from "./communication";
+import libraryTransaction from "./library";
 
 const resources = {
     en: {
@@ -26,6 +27,7 @@ const resources = {
             ...notificationTransaction.en,
             ...profileTransaction.en,
             ...communicationTransaction.en,
+            ...libraryTransaction.en,
         },
     },
     bm: {
@@ -42,6 +44,7 @@ const resources = {
             ...notificationTransaction.bm,
             ...profileTransaction.bm,
             ...communicationTransaction.bm,
+            ...libraryTransaction.bm,
         },
     },
 };
