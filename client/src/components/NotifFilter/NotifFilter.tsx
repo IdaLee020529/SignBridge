@@ -176,117 +176,125 @@ const NotifFilter: React.FC = () => {
   }, [useStore.filter]);
 
   const renderFilterOptions = () => {
-    switch (roleAccess) {
+    const role = roleAccess !== undefined ? roleAccess : "";
+
+    const renderAdminOptions = () => (
+      <>
+        <FormControlLabel
+          label={t("newTask")}
+          control={
+            <Checkbox
+              value="newtask"
+              checked={newTaskChecked}
+              onChange={handleNewTaskChange}
+            />
+          }
+        />
+        <FormControlLabel
+          label={t("taskConfirmation")}
+          control={
+            <Checkbox
+              checked={checked[0] && checked[1]}
+              indeterminate={checked[0] !== checked[1]}
+              onChange={handleChange1}
+            />
+          }
+        />
+        {/* @ts-ignore */}
+        <Box sx={{ display: "flex", flexDirection: "column", ml: 3 }}>
+          <FormControlLabel
+            label={t("accepted")}
+            control={
+              <Checkbox
+                checked={checked[0]}
+                value="accepted"
+                onChange={handleChange2}
+              />
+            }
+          />
+          <FormControlLabel
+            label={t("rejected")}
+            control={
+              <Checkbox
+                checked={checked[1]}
+                value="rejected"
+                onChange={handleChange3}
+              />
+            }
+          />
+        </Box>
+      </>
+    );
+
+    const renderSignExpertOptions = () => (
+      <>
+        <FormControlLabel
+          label={t("newText")}
+          control={
+            <Checkbox
+              value="newtext"
+              checked={newTaskChecked}
+              onChange={handleNewTaskChange}
+            />
+          }
+        />
+        <FormControlLabel
+          label={t("waitingForVerification")}
+          control={
+            <Checkbox
+              value="waitingforverification"
+              checked={waitingForVerificationChecked}
+              onChange={handleWaitingForVerificationChange}
+            />
+          }
+        />
+      </>
+    );
+
+    const renderPublicOptions = () => (
+      <>
+        <FormControlLabel
+          label={t("textVerification")}
+          control={
+            <Checkbox
+              checked={checked[0] && checked[1]}
+              indeterminate={checked[0] !== checked[1]}
+              onChange={handleChange1}
+            />
+          }
+        />
+        <Box sx={{ display: "flex", flexDirection: "column", ml: 3 }}>
+          <FormControlLabel
+            label={t("accepted")}
+            control={
+              <Checkbox
+                checked={checked[0]}
+                value="accepted"
+                onChange={handleChange2}
+              />
+            }
+          />
+          <FormControlLabel
+            label={t("rejected")}
+            control={
+              <Checkbox
+                checked={checked[1]}
+                value="rejected"
+                onChange={handleChange3}
+              />
+            }
+          />
+        </Box>
+      </>
+    );
+
+    switch (role) {
       case "admin":
-        return (
-          <>
-            <FormControlLabel
-              label={t("newTask")}
-              control={
-                <Checkbox
-                  value="newtask"
-                  checked={newTaskChecked}
-                  onChange={handleNewTaskChange}
-                />
-              }
-            />
-            <FormControlLabel
-              label={t("taskConfirmation")}
-              control={
-                <Checkbox
-                  checked={checked[0] && checked[1]}
-                  indeterminate={checked[0] !== checked[1]}
-                  onChange={handleChange1}
-                />
-              }
-            />
-            {/* @ts-ignore */}
-            <Box sx={{ display: "flex", flexDirection: "column", ml: 3 }}>
-              <FormControlLabel
-                label={t("accepted")}
-                control={
-                  <Checkbox
-                    checked={checked[0]}
-                    value="accepted"
-                    onChange={handleChange2}
-                  />
-                }
-              />
-              <FormControlLabel
-                label={t("rejected")}
-                control={
-                  <Checkbox
-                    checked={checked[1]}
-                    value="rejected"
-                    onChange={handleChange3}
-                  />
-                }
-              />
-            </Box>
-          </>
-        );
+        return renderAdminOptions();
       case "signexpert":
-        return (
-          <>
-            <FormControlLabel
-              label={t("newText")}
-              control={
-                <Checkbox
-                  value="newtext"
-                  checked={newTaskChecked}
-                  onChange={handleNewTaskChange}
-                />
-              }
-            />
-            <FormControlLabel
-              label={t("waitingForVerification")}
-              control={
-                <Checkbox
-                  value="waitingforverification"
-                  checked={waitingForVerificationChecked}
-                  onChange={handleWaitingForVerificationChange}
-                />
-              }
-            />
-          </>
-        );
+        return renderSignExpertOptions();
       case "public":
-        return (
-          <>
-            <FormControlLabel
-              label={t("textVerification")}
-              control={
-                <Checkbox
-                  checked={checked[0] && checked[1]}
-                  indeterminate={checked[0] !== checked[1]}
-                  onChange={handleChange1}
-                />
-              }
-            />
-            <Box sx={{ display: "flex", flexDirection: "column", ml: 3 }}>
-              <FormControlLabel
-                label={t("accepted")}
-                control={
-                  <Checkbox
-                    checked={checked[0]}
-                    value="accepted"
-                    onChange={handleChange2}
-                  />
-                }
-              />
-              <FormControlLabel
-                label={t("rejected")}
-                control={
-                  <Checkbox
-                    checked={checked[1]}
-                    value="rejected"
-                    onChange={handleChange3}
-                  />
-                }
-              />
-            </Box>
-          </>
-        );
+        return renderPublicOptions();
       default:
         return null;
     }

@@ -26,7 +26,7 @@ function Login() {
   // Detect cookies, if yes, redirect user to homepage
   useEffect(() => {
     const token = Cookies?.get("token");
-    if (token) {
+    if (token !== undefined) {
       navigate("/");
     }
   }, [navigate]);
