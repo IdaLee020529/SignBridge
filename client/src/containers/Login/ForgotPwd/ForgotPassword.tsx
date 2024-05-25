@@ -20,7 +20,7 @@ const ForgotPassword: React.FC = () => {
   // get token from cookies, if exist, redirect to home
   useEffect(() => {
     const token = Cookies?.get("token");
-    if (token) {
+    if (token !== undefined) {
       navigate("/");
     }
   }, [navigate]);

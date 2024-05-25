@@ -71,27 +71,29 @@ const AccountForm = () => {
   }
 
   async function fetchUser() {
-    const user = await GetUserByEmail(email ?? "");
+    if (email !== undefined){
+      const user = await GetUserByEmail(email ?? "");
 
-    setFormData((prevFormData) => ({
-      ...prevFormData,
-      user_id: user.data.user_id,
-      username: user.data.username,
-      picture: user.data.picture,
-      firstName: user.data.firstName,
-      lastName: user.data.lastName,
-      age: user.data.age,
-      gender: user.data.gender,
-      race: user.data.race,
-      country: user.data.country,
-      city: user.data.city,
-      state: user.data.state,
-    }));
-    setImage(user.data.picture);
-    setCustomKey(1);
-    setSelectedCountryOption(user.data.country ?? "");
-    setSelectedStateOption(user.data.state ?? "");
-    setSelectedCityOption(user.data.city ?? "");
+      setFormData((prevFormData) => ({
+        ...prevFormData,
+        user_id: user.data.user_id,
+        username: user.data.username,
+        picture: user.data.picture,
+        firstName: user.data.firstName,
+        lastName: user.data.lastName,
+        age: user.data.age,
+        gender: user.data.gender,
+        race: user.data.race,
+        country: user.data.country,
+        city: user.data.city,
+        state: user.data.state,
+      }));
+      setImage(user.data.picture);
+      setCustomKey(1);
+      setSelectedCountryOption(user.data.country ?? "");
+      setSelectedStateOption(user.data.state ?? "");
+      setSelectedCityOption(user.data.city ?? "");
+    }
   }
 
   useEffect(() => {
