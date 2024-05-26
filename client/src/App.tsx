@@ -33,6 +33,7 @@ import FeedbackSuccess from "./containers/Feedback/FeedbackSuccess";
 import FaqAdmin from "./containers/Faq/Admin/FaqAdmin";
 import ProfilePage from "./containers/ProfilePage/ProfilePage";
 import LibraryAdmin from "./containers/Library/Admin/LibraryAdmin";
+import References from "./containers/References/References";
 import Cookies from "js-cookie";
 import i18n from "i18next";
 import { initReactI18next } from "react-i18next";
@@ -197,6 +198,7 @@ function App() {
           <Route path="/guess-the-word" element={<GuessTheWord />} />
           <Route path="/do-the-sign" element={<DoTheSign />} />
           <Route path="/profile" element={<ProfilePage />} />
+          <Route path="/references" element={<References />} />
         </Route>
         <Route element={<ForgotResetPasswordLayout />}>
           <Route path="/forgot-password" element={<ForgotPassword />} />

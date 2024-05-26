@@ -26,6 +26,7 @@ function Footer() {
             <Link to='/'>{t('careers')}</Link>
             <Link to='/'>{t('investors')}</Link>
             <Link to='/'>{t('terms_of_service')}</Link>
+            <Link to='/references'>{t('references')}</Link>
           </div>
           <div className='footer-link-items'>
             <h2>{t('contact_us')}</h2>
