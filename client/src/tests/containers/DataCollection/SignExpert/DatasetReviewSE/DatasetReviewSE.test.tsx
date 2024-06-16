@@ -108,7 +108,6 @@ describe("Test DataCollectionPublic", () => {
     });
     expect(asFragment).toMatchSnapshot();
   });
-
   it("should be able to update dataset collection form status", async () => {
     const handleSubmit = jest.fn();
     const props = {
@@ -129,26 +128,28 @@ describe("Test DataCollectionPublic", () => {
       handleSubmit: handleSubmit,
       handleDelete: jest.fn(),
     };
-    const { getByText } = render(<CollapsibleForm {...props} />);
+
+    render(<CollapsibleForm {...props} />);
     fireEvent.click(screen.getByTestId("collapsible-content_1"));
 
-    await act(async () => {
+    await waitFor(() => {
       // Assert that form details are rendered correctly
-      expect(getByText(/John Doe/i)).toBeInTheDocument();
-      expect(getByText(/New/i)).toBeInTheDocument(); // English status
-
-      // Press the accept button
-      fireEvent.click(getByText(/Accept/i)); // Assuming accept button text is "Accept"
+      expect(screen.getByText(/John Doe/i)).toBeInTheDocument();
+      expect(screen.getByText(/New/i)).toBeInTheDocument(); // English status
     });
-    expect(handleSubmit.mock.calls.length).toEqual(1);
+
+    // Press the accept button
+    fireEvent.click(screen.getByText(/Accept/i)); // Assuming accept button text is "Accept"
+
+    expect(handleSubmit).toHaveBeenCalledTimes(1);
   });
 
-  it("should be able to update dataset collection form status", async () => {
+  it("should be able to delete dataset collection form status", async () => {
     const handleSubmit = jest.fn();
     const handleDelete = jest.fn();
     const props = {
-      number: "1",
-      form_id: 1,
+      number: "2",
+      form_id: 2,
       dateTime: "2024-05-24T10:30:00Z",
       status_en: "New",
       status_bm: "Baru",
@@ -164,17 +165,19 @@ describe("Test DataCollectionPublic", () => {
       handleSubmit: handleSubmit,
       handleDelete: handleDelete,
     };
-    const { getByText } = render(<CollapsibleForm {...props} />);
-    fireEvent.click(screen.getByTestId("collapsible-content_1"));
 
-    await act(async () => {
+    render(<CollapsibleForm {...props} />);
+    fireEvent.click(screen.getByTestId("collapsible-content_2"));
+
+    await waitFor(() => {
       // Assert that form details are rendered correctly
-      expect(getByText(/John Doe/i)).toBeInTheDocument();
-      expect(getByText(/New/i)).toBeInTheDocument(); // English status
-
-      // Press the accept button
-      fireEvent.click(getByText(/Cancel/i)); // Assuming accept button text is "Accept"
+      expect(screen.getByText(/John Doe/i)).toBeInTheDocument();
+      expect(screen.getByText(/New/i)).toBeInTheDocument(); // English status
     });
-    expect(handleDelete.mock.calls.length).toEqual(1);
+
+    // Press the cancel button
+    fireEvent.click(screen.getByText(/Cancel/i)); // Assuming cancel button text is "Cancel"
+
+    expect(handleDelete).toHaveBeenCalledTimes(1);
   });
 });

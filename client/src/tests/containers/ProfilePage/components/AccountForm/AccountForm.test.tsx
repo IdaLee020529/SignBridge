@@ -30,7 +30,6 @@ describe("Test AccountForm", () => {
 
   it("should render correctly", () => {
     // call the set method of Cookies
-    Cookies?.get.mockReturnValue("testing@gmail.com");
     const tree = create(<AccountForm />);
     expect(tree.toJSON()).toMatchSnapshot();
   });

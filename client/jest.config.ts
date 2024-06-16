@@ -14,8 +14,8 @@ const config: Config.InitialOptions = {
     "!*.{ts,tsx,js,jsx}", // Avoid double inclusion of the root files
     "!./src/services/**",
     "!./src/constants/**",
-    "!./src/store",
-    "!./src/i8n",
+    "!./src/store/**",
+    "!./src/i18n/**",
     "./src/containers/**/components/*.{tsx,ts,js,jsx}", // Include component files
   ],
   testResultsProcessor: "jest-junit",
@@ -33,7 +33,7 @@ const config: Config.InitialOptions = {
     "\\.(css)$": "identity-obj-proxy",
     "^@root/(.*)$": "<rootDir>/src/$1",
   },
-  coverageReporters: ["lcov", "cobertura", "html"],
+  coverageReporters: ["lcov", "clover", "html"],
   coverageDirectory: "<rootDir>/coverage",
   moduleFileExtensions: ["ts", "tsx", "js", "jsx", "json", "node"],
   testMatch: [

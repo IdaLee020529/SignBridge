@@ -2,6 +2,20 @@
 import { render, fireEvent } from "@testing-library/react";
 import CollapsibleForm from "../../../../../containers/DataCollection/components/CollapsibleForm/CollapsibleForm";
 import { cleanup } from "@testing-library/react";
+jest.mock("react-i18next", () => ({
+  useTranslation: () => ({
+    t: (key: string) => key, // Mock the translation function to return the key
+    i18n: {
+      changeLanguage: jest.fn(), // Mock the changeLanguage function
+    },
+  }),
+}));
+jest.mock("moment", () => ({
+  __esModule: true,
+  default: jest.fn(() => ({
+    format: jest.fn(() => "2024-05-24 12:00:00"), // Mock the format method
+  })),
+}));
 describe("Test Collapsible Form", () => {
   beforeAll(() => {
     Object.defineProperty(window, "matchMedia", {
@@ -28,7 +42,8 @@ describe("Test Collapsible Form", () => {
     number: "1",
     form_id: 1,
     dateTime: "2023-11-11",
-    status: "New",
+    status_en: "New",
+    status_bm: "Baru",
     name: "Luffy Lee",
     email: "luffynika@example.com",
     text: "Aku mahu makan nasi",

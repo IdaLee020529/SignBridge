@@ -206,7 +206,7 @@ const DatasetReview: React.FC<DatasetReviewProps> = ({ user }) => {
     setPage(0);
   };
 
-  const paginationCount = formData.length; // Use formData instead of store.modifiedData
+  const paginationCount = formData?.length; // Use formData instead of store.modifiedData
   const FormDataRenderer: React.FC<{
     formData: any[];
     user: string;
