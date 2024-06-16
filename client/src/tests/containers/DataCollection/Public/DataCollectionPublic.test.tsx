@@ -42,9 +42,7 @@ describe("Test DataCollectionPublic", () => {
     const tree = create(<DataCollectionPublic />).toJSON();
     expect(tree).toMatchSnapshot();
   });
-   it("should be able to submit", async () => {
-    jest.spyOn(require("js-cookie"), "get").mockReturnValueOnce("valid_token"); // Simulate logged-in user
-
+  it("should be able to submit", async () => {
     // Mocking the selected video file => For video upload
     Object.defineProperty(global, "File", {
       value: class extends Blob {
@@ -63,9 +61,9 @@ describe("Test DataCollectionPublic", () => {
     const { asFragment } = render(<DataCollectionPublic />);
 
     // Fill in the form fields
-    await userEvent.type(screen.getByTestId("name"), "John Doe"); // If you go to my code you will find that I have put up testid for it, it's easier to use
-    await userEvent.type(screen.getByTestId("email"), "john@example.com");
-    await userEvent.type(screen.getByTestId("text"), "Test sentence");
+    userEvent.type(screen.getByTestId("name"), "John Doe"); // If you go to my code you will find that I have put up testid for it, it's easier to use
+    userEvent.type(screen.getByTestId("email"), "john@example.com");
+    userEvent.type(screen.getByTestId("text"), "Test sentence");
 
     // Mock the Upload component behavior
     jest.mock("antd", () => ({

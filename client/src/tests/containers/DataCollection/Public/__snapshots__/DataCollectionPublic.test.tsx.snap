@@ -44,9 +44,7 @@ exports[`Test DataCollectionPublic should be able to submit 1`] = `
                       </td>
                       <td
                         class="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeMedium css-3urw24-MuiTableCell-root"
-                      >
-                        John Doe
-                      </td>
+                      />
                     </tr>
                     <tr
                       class="MuiTableRow-root css-2qi3sl-MuiTableRow-root"
@@ -60,9 +58,7 @@ exports[`Test DataCollectionPublic should be able to submit 1`] = `
                       </td>
                       <td
                         class="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeMedium css-1vhc2pi-MuiTableCell-root"
-                      >
-                        john@example.com
-                      </td>
+                      />
                     </tr>
                     <tr
                       class="MuiTableRow-root css-ys9ggv-MuiTableRow-root"
@@ -77,7 +73,7 @@ exports[`Test DataCollectionPublic should be able to submit 1`] = `
                       <td
                         class="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeMedium css-1vhc2pi-MuiTableCell-root"
                       >
-                        Hello, World!Test sentence
+                        Hello, World!
                       </td>
                     </tr>
                     <tr
@@ -367,7 +363,7 @@ exports[`Test DataCollectionPublic should be able to submit 1`] = `
                       name="name"
                       placeholder=" "
                       type="text"
-                      value="John Doe"
+                      value=""
                     />
                     <label
                       class="input-label "
@@ -387,7 +383,7 @@ exports[`Test DataCollectionPublic should be able to submit 1`] = `
                       name="email"
                       placeholder=" "
                       type="email"
-                      value="john@example.com"
+                      value=""
                     />
                     <label
                       class="input-label "
@@ -410,7 +406,7 @@ exports[`Test DataCollectionPublic should be able to submit 1`] = `
                         name="text"
                         placeholder=" "
                       >
-                        Hello, World!Test sentence
+                        Hello, World!
                       </textarea>
                       <label
                         class="input-label multiple_label"

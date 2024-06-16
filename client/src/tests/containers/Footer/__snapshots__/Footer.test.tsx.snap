@@ -51,6 +51,12 @@ exports[`Test Footer should render correctly 1`] = `
         >
           terms_of_service
         </a>
+        <a
+          href="/references"
+          onClick={[Function]}
+        >
+          references
+        </a>
       </div>
       <div
         className="footer-link-items"
